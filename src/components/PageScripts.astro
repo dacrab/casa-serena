@@ -33,10 +33,10 @@ gsap.set('.quote-attribution',{ y: 16, opacity: 0 });
 gsap.set('.quote-stat',       { y: 30, opacity: 0 });
 gsap.set('.location-content', { y: 40, opacity: 0 });
 gsap.set('.enquire-title',    { y: 60, opacity: 0 });
-gsap.set('.enquire-line',     { scaleX: 0, transformOrigin: 'center' });
-gsap.set('.enquire-meta',     { y: 16, opacity: 0 });
+gsap.set('.enquire-rule',     { scaleX: 0, transformOrigin: 'left center' });
+gsap.set('.enquire-eyebrow',  { y: 16, opacity: 0 });
 gsap.set('.enquire-contact',  { y: 20, opacity: 0 });
-gsap.set('.enquire-form',     { y: 20, opacity: 0 });
+gsap.set('.enquire-right',    { y: 24, opacity: 0 });
 gsap.set('.enquire-social',   { y: 16, opacity: 0 });
 
 /* ─────────────────────────────────────────
@@ -378,10 +378,10 @@ ScrollTrigger.create({
   onEnter: () => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
     tl.to('.enquire-title',   { y: 0, opacity: 1, duration: 1.1 })
-      .to('.enquire-line',    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-      .to('.enquire-meta',    { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
+      .to('.enquire-rule',    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+      .to('.enquire-eyebrow', { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
       .to('.enquire-contact', { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
-      .to('.enquire-form',    { y: 0, opacity: 1, duration: 0.7 }, '-=0.5')
+      .to('.enquire-right',   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
       .to('.enquire-social',  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4');
   },
 });
@@ -521,8 +521,8 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     '.hero-eyebrow .ec', '.hero-line', '.hero-title', '.hero-meta', '.hero-scroll',
     '.intro-text', '.intro-right p', '.about-image-wrapper', '.about-text p',
     '.about-stats .stat', '.amenity-row', '.quote-text', '.quote-attribution',
-    '.quote-stat', '.location-content', '.enquire-title', '.enquire-line',
-    '.enquire-meta', '.enquire-contact', '.enquire-form', '.enquire-social',
+    '.quote-stat', '.location-content', '.enquire-title', '.enquire-rule',
+    '.enquire-eyebrow', '.enquire-contact', '.enquire-right',
     '#load-screen',
   ], { clearProps: 'all' });
   if (loadScreen) loadScreen.style.display = 'none';

@@ -1,126 +1,160 @@
 ---
 const year = new Date().getFullYear();
+
+const socials = [
+  { label: 'Instagram', href: 'https://instagram.com' },
+  { label: 'Airbnb',    href: 'https://airbnb.com' },
+  { label: 'Facebook',  href: 'https://facebook.com' },
+];
 ---
 
 <section class="enquire" id="enquire">
-  <div class="enquire-content">
-    <h2 class="enquire-title">Stay.</h2>
-    <div class="enquire-line"></div>
-    <p class="enquire-meta">Malibu, California · Private Estate</p>
-    <div class="enquire-contact">
-      <a href="mailto:info@casaserena.com" class="enquire-email">info@casaserena.com</a>
-      <a href="tel:+1-310-000-0000" class="enquire-phone">+1 (310) 000-0000</a>
+  <div class="enquire-inner">
+
+    <div class="enquire-left">
+      <p class="enquire-eyebrow">Private Estate · Malibu</p>
+      <h2 class="enquire-title">Stay.</h2>
+      <div class="enquire-rule"></div>
+      <div class="enquire-contact">
+        <a href="mailto:info@casaserena.com" class="enquire-link">info@casaserena.com</a>
+        <a href="tel:+1-310-000-0000" class="enquire-link">+1 (310) 000-0000</a>
+      </div>
+      <div class="enquire-social">
+        {socials.map((s, i, arr) => (
+          <>
+            <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
+            {i < arr.length - 1 && <span aria-hidden="true">·</span>}
+          </>
+        ))}
+      </div>
     </div>
-    <form class="enquire-form" novalidate>
-      <div class="form-group">
-        <label for="enquire-name" class="form-label">Name</label>
-        <input id="enquire-name" type="text" name="name" class="form-input" autocomplete="name" required aria-required="true" />
-      </div>
-      <div class="form-group">
-        <label for="enquire-email" class="form-label">Email</label>
-        <input id="enquire-email" type="email" name="email" class="form-input" autocomplete="email" required aria-required="true" />
-      </div>
-      <div class="form-group">
-        <label for="enquire-message" class="form-label">Message <span class="form-optional">(optional)</span></label>
-        <textarea id="enquire-message" name="message" class="form-input form-textarea" rows="3"></textarea>
-      </div>
-      <button type="submit" class="form-submit">
-        <span>Send Enquiry</span>
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="2" y1="8" x2="14" y2="8"/><path d="M9 3l5 5-5 5"/></svg>
-      </button>
-    </form>
-    <div class="enquire-social">
-      {[
-        { label: 'Instagram', href: 'https://instagram.com' },
-        { label: 'Airbnb',    href: 'https://airbnb.com' },
-        { label: 'Facebook',  href: 'https://facebook.com' },
-      ].map((s, i, arr) => (
-        <>
-          <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
-          {i < arr.length - 1 && <span>·</span>}
-        </>
-      ))}
+
+    <div class="enquire-right">
+      <form class="enquire-form" novalidate>
+        <div class="form-group">
+          <label for="enquire-name" class="form-label">Name</label>
+          <input id="enquire-name" type="text" name="name" class="form-input" autocomplete="name" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="enquire-email" class="form-label">Email</label>
+          <input id="enquire-email" type="email" name="email" class="form-input" autocomplete="email" required aria-required="true" />
+        </div>
+        <div class="form-group">
+          <label for="enquire-message" class="form-label">
+            Message <span class="form-optional">(optional)</span>
+          </label>
+          <textarea id="enquire-message" name="message" class="form-input form-textarea" rows="4"></textarea>
+        </div>
+        <button type="submit" class="form-submit">
+          <span>Send Enquiry</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="2" y1="8" x2="14" y2="8"/>
+            <path d="M9 3l5 5-5 5"/>
+          </svg>
+        </button>
+      </form>
     </div>
+
   </div>
 </section>
 
 <footer class="footer">
-  <div class="footer-logo">CASA SERENA</div>
-  <div class="footer-copyright">© {year}</div>
-  <div class="footer-location">Malibu, California</div>
+  <span class="footer-logo">CASA SERENA</span>
+  <span class="footer-copy">© {year} · Malibu, California</span>
 </footer>
 
 <style>
 .enquire {
-  background: linear-gradient(to bottom, var(--warm-white) 52%, var(--charcoal) 52%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(4rem, 8vw, 8rem) 4vw 3rem;
+  background: var(--charcoal);
+  padding: clamp(5rem, 10vw, 9rem) 4vw;
 }
 
-.enquire-content {
-  text-align: center;
-  max-width: 600px;
+.enquire-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8vw;
+  max-width: 1100px;
+  margin-inline: auto;
+  align-items: start;
+}
+
+/* ── Left col ── */
+.enquire-left {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 2rem;
 }
 
+.enquire-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--driftwood);
+}
+
 .enquire-title {
-  font-size: clamp(6rem, 10vw, 12rem);
+  font-size: clamp(5rem, 9vw, 11rem);
   font-style: italic;
   font-weight: 300;
-  color: var(--charcoal);
+  color: var(--cream);
   line-height: 0.9;
 }
 
-.enquire-line {
-  width: 60px;
+.enquire-rule {
+  width: 48px;
   height: 1px;
   background: var(--terracotta);
-}
-
-.enquire-meta {
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--driftwood);
 }
 
 .enquire-contact {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
-.enquire-email,
-.enquire-phone {
-  font-size: 1.8rem;
-  color: var(--charcoal);
+.enquire-link {
+  font-size: 1rem;
+  color: var(--cream);
   transition: color 0.3s;
 }
 
-.enquire-email:hover,
-.enquire-phone:hover {
+.enquire-link:hover {
   color: var(--terracotta);
+}
+
+.enquire-social {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--driftwood);
+}
+
+.enquire-social a {
+  color: var(--driftwood);
+  transition: color 0.3s;
+}
+
+.enquire-social a:hover {
+  color: var(--cream);
+}
+
+/* ── Right col / form ── */
+.enquire-right {
+  padding-top: 1rem;
 }
 
 .enquire-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  max-width: 480px;
+  gap: 1.5rem;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  text-align: left;
+  gap: 0.5rem;
 }
 
 .form-label {
@@ -138,17 +172,17 @@ const year = new Date().getFullYear();
 }
 
 .form-input {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
   background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.15);
   font-size: 1rem;
   color: var(--cream);
   padding: 0.6rem 0;
-  outline: none; /* focus handled by border-bottom-color on :focus */
+  outline: none;
   transition: border-color 0.3s;
   appearance: none;
   border-radius: 0;
+  width: 100%;
 }
 
 .form-input:focus {
@@ -164,64 +198,21 @@ const year = new Date().getFullYear();
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  border: 1px solid rgba(255,255,255,0.25);
+  align-self: flex-start;
+  padding: 0.85rem 2rem;
+  border: 1px solid rgba(245, 240, 232, 0.2);
   background: transparent;
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--cream);
   cursor: pointer;
-  padding: 0.85rem 1.8rem;
   transition: background 0.3s, border-color 0.3s;
-  align-self: flex-start;
 }
 
 .form-submit:hover {
   background: var(--terracotta);
   border-color: var(--terracotta);
-}
-
-.enquire-social {
-  font-size: 0.8rem;
-  color: var(--driftwood);
-}
-
-.enquire-social a {
-  color: var(--driftwood);
-  transition: color 0.3s;
-}
-
-.enquire-social a:hover {
-  color: var(--terracotta);
-}
-
-.enquire-social span {
-  margin: 0 0.5rem;
-}
-
-.footer {
-  border-top: 1px solid var(--terracotta);
-  background: var(--charcoal);
-  padding: 1.5rem 4vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-logo {
-  font-size: 0.9rem;
-  letter-spacing: 0.2em;
-  color: var(--cream);
-}
-
-.footer-copyright,
-.footer-location {
-  font-size: 0.7rem;
-  color: var(--driftwood);
-}
-
-.footer-location {
-  text-align: right;
 }
 
 .form-success {
@@ -230,18 +221,46 @@ const year = new Date().getFullYear();
   font-size: 1.1rem;
 }
 
+/* ── Footer ── */
+.footer {
+  background: var(--charcoal);
+  border-top: 1px solid rgba(245, 240, 232, 0.08);
+  padding: 1.2rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--cream);
+}
+
+.footer-copy {
+  font-size: 0.68rem;
+  color: var(--driftwood);
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
+  .enquire-inner {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
   .enquire-title {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(4rem, 12vw, 7rem);
   }
 
   .form-submit {
     width: 100%;
+    justify-content: center;
   }
 
   .footer {
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.6rem;
     text-align: center;
   }
 }
