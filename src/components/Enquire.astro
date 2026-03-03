@@ -3,12 +3,10 @@ const year = new Date().getFullYear();
 ---
 
 <section class="enquire" id="enquire">
-  <div class="enquire-top">
+  <div class="enquire-content">
     <h2 class="enquire-title">Stay.</h2>
     <div class="enquire-line"></div>
     <p class="enquire-meta">Malibu, California · Private Estate</p>
-  </div>
-  <div class="enquire-bottom">
     <div class="enquire-contact">
       <a href="mailto:info@casaserena.com" class="enquire-email">info@casaserena.com</a>
       <a href="tel:+1-310-000-0000" class="enquire-phone">+1 (310) 000-0000</a>
@@ -54,38 +52,21 @@ const year = new Date().getFullYear();
 
 <style>
 .enquire {
-  background: var(--warm-white);
+  background: linear-gradient(to bottom, var(--warm-white) 40%, var(--charcoal) 40%);
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr;
-  padding: 0;
-}
-
-.enquire-top {
-  background: var(--warm-white);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  padding: clamp(4rem, 8vw, 8rem) 4vw 3rem;
-  gap: 1.2rem;
+  justify-content: center;
+  padding: 4vw;
 }
 
-.enquire-bottom {
-  background: var(--charcoal);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.enquire-content {
   text-align: center;
-  padding: 3rem 4vw clamp(4rem, 8vw, 8rem);
-  gap: 2.5rem;
-}
-
-.enquire-top,
-.enquire-bottom {
   max-width: 600px;
-  margin-inline: auto;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
 .enquire-title {
@@ -252,11 +233,6 @@ const year = new Date().getFullYear();
 @media (max-width: 768px) {
   .enquire-title {
     font-size: clamp(3rem, 8vw, 6rem);
-  }
-
-  .enquire-top,
-  .enquire-bottom {
-    padding-inline: 6vw;
   }
 
   .form-submit {
