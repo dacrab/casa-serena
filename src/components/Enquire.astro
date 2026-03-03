@@ -53,11 +53,11 @@ const year = new Date().getFullYear();
 <style>
 .enquire {
   background: linear-gradient(to bottom, var(--warm-white) 40%, var(--charcoal) 40%);
-  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4vw;
+  padding: clamp(4rem, 8vw, 8rem) 4vw 3rem;
 }
 
 .enquire-content {
