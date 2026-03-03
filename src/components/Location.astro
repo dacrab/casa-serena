@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+
+const distances = [
+  { dest: 'Santa Monica',        miles: '18 miles' },
+  { dest: 'Los Angeles Airport', miles: '45 miles' },
+  { dest: 'Downtown Los Angeles',miles: '60 miles' },
+  { dest: 'Ventura Beaches',     miles: '35 miles' },
+];
+---
+
+<section class="location" id="location">
+  <div class="location-image">
+    <Image src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1400&q=85" alt="Malibu coastline aerial view" width={1400} height={788} format="webp" quality={85} loading="lazy" />
+  </div>
+  <div class="location-content">
+    <div class="location-left">
+      <h3 class="location-address">12847 Pacific Coast Hwy</h3>
+      <p class="location-city">Malibu, California 90265</p>
+      <p class="location-desc">Perched on a private bluff with unobstructed views of the Pacific, Casa Serena sits where the Santa Monica Mountains meet the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the energy of Malibu and beyond.</p>
+    </div>
+    <div class="location-right">
+      {distances.map(d => (
+        <div class="location-distance">
+          <span class="location-dest">{d.dest}</span>
+          <span class="location-miles">{d.miles}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.location {
+  background: var(--warm-white);
+}
+
+.location-image {
+  width: 100vw;
+  margin-inline: -4vw;
+  height: 55vh;
+  overflow: hidden;
+}
+
+.location-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.location-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6vw;
+  padding: 10vh 4vw;
+}
+
+.location-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.location-address {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--charcoal);
+  margin-bottom: 0.5rem;
+}
+
+.location-city {
+  font-size: 0.9rem;
+  color: var(--driftwood);
+  margin-bottom: 1.5rem;
+}
+
+.location-desc {
+  font-size: 1rem;
+  color: var(--charcoal);
+  line-height: 1.8;
+}
+
+.location-right {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.location-distance {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(107, 79, 58, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.location-dest {
+  font-weight: 600;
+  color: var(--charcoal);
+}
+
+.location-miles {
+  font-size: 0.9rem;
+  color: var(--terracotta);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .location-content {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+</style>

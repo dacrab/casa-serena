@@ -1,46 +1,63 @@
-# Astro Starter Kit: Basics
+# Casa Serena
+
+Luxury beachfront estate website. Built with [Astro](https://astro.build), styled with scoped CSS, animated with [GSAP](https://gsap.com).
+
+## Stack
+
+- **Framework** — Astro 5 (static output)
+- **Animations** — GSAP + ScrollTrigger
+- **Fonts** — Cormorant Garamond, DM Sans (Google Fonts)
+- **Images** — Astro Image (optimized WebP via Unsplash)
+- **SEO** — Open Graph, Twitter Card, JSON-LD structured data, sitemap
+
+## Structure
+
+```
+src/
+├── components/
+│   ├── Nav.astro          # Fixed navbar + mobile overlay
+│   ├── Hero.astro         # Hero, marquee strip, intro section
+│   ├── About.astro        # About section + stat counters
+│   ├── Gallery.astro      # Horizontal scroll gallery + lightbox
+│   ├── Amenities.astro    # Amenity list (data-driven)
+│   ├── Quote.astro        # Pull quote + animated stat counters
+│   ├── Location.astro     # Location map context + distances
+│   ├── Enquire.astro      # Contact form + footer
+│   └── PageScripts.astro  # All GSAP / ScrollTrigger logic
+├── layouts/
+│   └── Layout.astro       # HTML shell, global styles, SEO meta
+└── pages/
+    ├── index.astro        # Page orchestrator (~50 lines)
+    └── 404.astro
+public/
+├── favicon.svg            # Brand CS monogram (SVG, preferred)
+└── favicon.ico            # Brand CS monogram (ICO, fallback)
+```
+
+## Commands
+
+| Command           | Action                                |
+| :---------------- | :------------------------------------ |
+| `bun install`     | Install dependencies                  |
+| `bun dev`         | Start dev server at `localhost:4321`  |
+| `bun build`       | Build production site to `./dist/`   |
+| `bun preview`     | Preview production build locally      |
+| `bun astro check` | Type-check all `.astro` files         |
+
+## Development
 
 ```sh
-bun create astro@latest -- --template basics
+bun install
+bun dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The dev server supports HMR. GSAP animations are disabled for users with `prefers-reduced-motion`.
 
-## 🚀 Project Structure
+## Deployment
 
-Inside of your Astro project, you'll see the following folders and files:
+The site builds to a static `dist/` directory — deploy to any static host (Netlify, Vercel, Cloudflare Pages, etc).
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```sh
+bun build
+# upload dist/ to your host
 ```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

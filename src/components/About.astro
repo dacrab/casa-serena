@@ -1,0 +1,134 @@
+---
+import { Image } from 'astro:assets';
+
+const stats = [
+  { value: '8',    label: 'Acres' },
+  { value: '180°', label: 'View' },
+  { value: '4',    label: 'Suites' },
+];
+---
+
+<section class="about" id="about">
+  <div class="about-sidebar">SERENA</div>
+  <div class="about-image-wrapper">
+    <Image src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85" alt="Casa Serena living room interior" width={900} height={506} format="webp" quality={85} loading="lazy" />
+  </div>
+  <div class="about-text">
+    <p>Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. The architecture whispers rather than shouts. Floor-to-ceiling glass dissolves the boundary between interior and ocean. At sunrise, the living room becomes a platform for light.</p>
+    <div class="about-stats">
+      {stats.map(s => (
+        <div class="stat">
+          <div class="stat-number">{s.value}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.about {
+  background: var(--warm-white);
+  padding: 8vh 4vw;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  grid-template-rows: auto auto;
+  gap: 0 4vw;
+}
+
+.about-sidebar {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  font-size: 5rem;
+  letter-spacing: 0.3em;
+  color: var(--terracotta);
+  opacity: 0.12;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  position: sticky;
+  top: 40vh;
+  height: fit-content;
+}
+
+.about-image-wrapper {
+  grid-column: 2;
+  grid-row: 1;
+  width: calc(100% + 4vw);
+  margin-right: calc(-1 * 4vw);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.about-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-text {
+  grid-column: 2;
+  grid-row: 2;
+  padding-left: 2rem;
+  margin-top: 4rem;
+  max-width: 580px;
+}
+
+.about-text p {
+  font-size: 1rem;
+  color: var(--charcoal);
+  line-height: 1.8;
+  margin-bottom: 3rem;
+}
+
+.about-stats {
+  display: flex;
+  gap: 4rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat-number {
+  font-size: 2.8rem;
+  font-weight: 300;
+  color: var(--terracotta);
+}
+
+.stat-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--driftwood);
+}
+
+@media (max-width: 768px) {
+  .about {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-sidebar {
+    display: none;
+  }
+
+  .about-image-wrapper {
+    grid-column: 1;
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .about-text {
+    grid-column: 1;
+    padding-left: 0;
+  }
+
+  .about-stats {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+</style>

@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Page Not Found — Casa Serena">
+  <div class="not-found">
+    <div class="nf-inner">
+      <p class="nf-code">404</p>
+      <div class="nf-line"></div>
+      <h1 class="nf-title">Lost at sea.</h1>
+      <p class="nf-sub">This page doesn't exist — but the estate does.</p>
+      <a href="/" class="nf-link">Return to Casa Serena</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .not-found {
+    min-height: 100svh;
+    background: var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+  }
+  .nf-inner {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .nf-code {
+    font-family: var(--font-serif);
+    font-size: clamp(5rem, 15vw, 12rem);
+    font-weight: 300;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .nf-line {
+    width: 48px;
+    height: 1px;
+    background: var(--terracotta);
+  }
+  .nf-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .nf-sub {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--driftwood);
+    letter-spacing: 0.05em;
+  }
+  .nf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 0.85rem 2rem;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .nf-link:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+  }
+</style>

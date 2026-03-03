@@ -1,11 +1,50 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Gallery from '../components/Gallery.astro';
+import Amenities from '../components/Amenities.astro';
+import Quote from '../components/Quote.astro';
+import Location from '../components/Location.astro';
+import Enquire from '../components/Enquire.astro';
+import PageScripts from '../components/PageScripts.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Casa Serena | Luxury Beachfront Estate in Malibu">
+
+  <!-- Load screen -->
+  <div id="load-screen" aria-hidden="true">
+    <div class="ls-logo">Casa Serena</div>
+    <div class="ls-line"></div>
+    <div class="ls-sub">Malibu, California</div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <button id="lightbox-close" aria-label="Close lightbox">&#215;</button>
+    <img id="lightbox-img" src="" alt="" width="1200" height="800" />
+    <div id="lightbox-caption"></div>
+  </div>
+
+  <!-- Back to top -->
+  <button id="back-to-top" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M8 13V3M3 8l5-5 5 5"/>
+    </svg>
+  </button>
+
+  <div id="cursor" aria-hidden="true"></div>
+
+  <Nav />
+  <Hero />
+  <About />
+  <Gallery />
+  <Amenities />
+  <Quote />
+  <Location />
+  <Enquire />
+
+  <PageScripts />
+
 </Layout>

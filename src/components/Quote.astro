@@ -1,0 +1,137 @@
+---
+import { Image } from 'astro:assets';
+
+const stats = [
+  { value: 280, label: 'Days of sun' },
+  { value: 15,  label: 'Min to Santa Monica' },
+  { value: 45,  label: 'Feet above sea' },
+];
+---
+
+<section class="quote-section">
+  <div class="quote-bg">
+    <Image src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=85" alt="Casa Serena pool at sunset" width={800} height={600} format="webp" quality={85} loading="lazy" />
+  </div>
+  <div class="quote-overlay"></div>
+  <div class="quote-content">
+    <div class="quote-text">"The Pacific has a way of resetting everything."</div>
+    <div class="quote-attribution">— Private Guest, 2023</div>
+  </div>
+  <div class="quote-stats">
+    {stats.map(s => (
+      <div class="quote-stat">
+        <div class="quote-stat-number">{s.value}</div>
+        <div class="quote-stat-sep"></div>
+        <div class="quote-stat-label">{s.label}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+.quote-section {
+  position: relative;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  align-items: center;
+  overflow: hidden;
+}
+
+.quote-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.quote-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quote-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(42, 35, 32, 0.5);
+  z-index: 1;
+}
+
+.quote-content {
+  grid-column: 1;
+  z-index: 2;
+  padding: 0 4vw;
+  color: var(--cream);
+}
+
+.quote-text {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+
+.quote-attribution {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.quote-stats {
+  grid-column: 2;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 0 4vw;
+}
+
+.quote-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  color: var(--cream);
+}
+
+.quote-stat-number {
+  font-size: 2.2rem;
+  font-weight: 300;
+}
+
+.quote-stat-sep {
+  width: 40px;
+  height: 1px;
+  background: var(--terracotta);
+}
+
+.quote-stat-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 768px) {
+  .quote-section {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 80vh;
+  }
+
+  .quote-content {
+    grid-column: 1;
+    padding: 4rem 4vw 2rem;
+  }
+
+  .quote-stats {
+    grid-column: 1;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem 4vw 4rem;
+  }
+
+  .quote-stat {
+    gap: 0.5rem;
+  }
+}
+</style>

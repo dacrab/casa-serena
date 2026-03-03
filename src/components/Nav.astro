@@ -1,0 +1,100 @@
+---
+---
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-logo">CASA SERENA</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#location">Location</a>
+    <a href="#enquire">Enquire</a>
+  </div>
+  <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-overlay">
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<style>
+.nav {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  padding: 1.8rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.nav-logo {
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: var(--cream);
+  transition: color 0.5s;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.8);
+  text-decoration: none;
+  transition: color 0.5s;
+}
+
+.nav-links a.active {
+  color: var(--terracotta);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.nav-toggle span {
+  width: 22px;
+  height: 1.5px;
+  background: var(--cream);
+  transition: all 0.5s;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+}
+</style>
+
+<style is:global>
+.nav.scrolled {
+  background: rgba(253, 250, 245, 0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.nav.scrolled .nav-logo,
+.nav.scrolled .nav-links a {
+  color: var(--charcoal);
+}
+
+.nav.scrolled .nav-toggle span {
+  background: var(--charcoal);
+}
+</style>

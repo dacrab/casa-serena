@@ -1,0 +1,500 @@
+---
+---
+
+<script>
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+/* ─────────────────────────────────────────
+   GSAP defaults — luxury easing globally
+───────────────────────────────────────── */
+gsap.defaults({ ease: 'power3.out', overwrite: 'auto' });
+
+/* ─────────────────────────────────────────
+   SET initial hidden states BEFORE paint
+   Prevents FOUC on animated elements
+───────────────────────────────────────── */
+gsap.set('.hero-eyebrow .ec', { y: 22, opacity: 0 });
+gsap.set('.hero-line',        { scaleX: 0, transformOrigin: 'left center' });
+gsap.set('.hero-title',       { y: 70, opacity: 0 });
+gsap.set('.hero-meta',        { y: 16, opacity: 0 });
+gsap.set('.hero-scroll',      { opacity: 0 });
+gsap.set('.intro-text',       { x: '55vw', opacity: 0 });
+gsap.set('.intro-right p',    { y: 24, opacity: 0 });
+gsap.set('.about-image-wrapper', { opacity: 0, x: 40 });
+gsap.set('.about-text p',     { y: 32, opacity: 0 });
+gsap.set('.about-stats .stat',{ y: 24, opacity: 0 });
+gsap.set('.amenity-row',      { x: -28, opacity: 0 });
+gsap.set('.quote-text',       { y: 40, opacity: 0 });
+gsap.set('.quote-attribution',{ y: 16, opacity: 0 });
+gsap.set('.quote-stat',       { y: 30, opacity: 0 });
+gsap.set('.location-content', { y: 40, opacity: 0 });
+gsap.set('.enquire-title',    { y: 60, opacity: 0 });
+gsap.set('.enquire-line',     { scaleX: 0, transformOrigin: 'center' });
+gsap.set('.enquire-meta',     { y: 16, opacity: 0 });
+gsap.set('.enquire-contact',  { y: 20, opacity: 0 });
+gsap.set('.enquire-form',     { y: 20, opacity: 0 });
+gsap.set('.enquire-social',   { y: 16, opacity: 0 });
+
+/* ─────────────────────────────────────────
+   CURSOR — smooth follow with quickTo
+───────────────────────────────────────── */
+const cursor = document.getElementById('cursor');
+if (cursor && window.matchMedia('(pointer: fine)').matches) {
+  const moveX = gsap.quickTo(cursor, 'left', { duration: 0.45, ease: 'power2' });
+  const moveY = gsap.quickTo(cursor, 'top',  { duration: 0.45, ease: 'power2' });
+  window.addEventListener('mousemove', e => {
+    moveX(e.clientX - 6);
+    moveY(e.clientY - 6);
+  });
+  document.querySelectorAll('a, button, .gallery-panel, .amenity-row').forEach(el => {
+    el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 2.8, duration: 0.25, ease: 'power2.out' }));
+    el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1.0, duration: 0.4, ease: 'power3.out' }));
+  });
+}
+
+/* ─────────────────────────────────────────
+   NAVBAR — ScrollTrigger toggle
+───────────────────────────────────────── */
+const nav = document.querySelector('.nav');
+ScrollTrigger.create({
+  start: 'top -60',
+  onEnter:     () => nav.classList.add('scrolled'),
+  onLeaveBack: () => nav.classList.remove('scrolled'),
+});
+
+/* ─────────────────────────────────────────
+   MOBILE MENU — full-screen GSAP overlay
+───────────────────────────────────────── */
+const navToggle = document.querySelector('.nav-toggle');
+let mobileMenuOpen = false;
+
+const mobileOverlay = document.createElement('div');
+mobileOverlay.innerHTML = `<ul>${
+  [...document.querySelectorAll('.nav-links a')]
+    .map(a => `<li><a href="${a.getAttribute('href')}">${a.textContent}</a></li>`)
+    .join('')
+}</ul>`;
+Object.assign(mobileOverlay.style, {
+  position:'fixed', inset:'0', background:'var(--charcoal)', zIndex:'998',
+  display:'flex', alignItems:'center', justifyContent:'center',
+  opacity:'0', pointerEvents:'none',
+});
+const ul = mobileOverlay.querySelector('ul');
+Object.assign(ul.style, { listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem' });
+mobileOverlay.querySelectorAll('a').forEach(a =>
+  Object.assign(a.style, { fontFamily:'var(--font-serif)', fontSize:'clamp(2.2rem,7vw,3.8rem)', color:'var(--cream)', textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.5rem 0' })
+);
+document.body.appendChild(mobileOverlay);
+
+const [sp1, sp2] = navToggle ? [...navToggle.querySelectorAll('span')] : [];
+const menuTl = gsap.timeline({ paused: true, defaults: { duration: 0.38, ease: 'power2.inOut' } })
+  .to(mobileOverlay, { opacity: 1, pointerEvents: 'all', duration: 0.3, ease: 'power2.out' }, 0)
+  .to(sp1, { rotation: 45,  y: 4  }, 0)
+  .to(sp2, { rotation: -45, y: -4 }, 0)
+  .fromTo(mobileOverlay.querySelectorAll('li'),
+    { y: 28, opacity: 0 },
+    { y: 0, opacity: 1, stagger: 0.07, duration: 0.45, ease: 'power3.out' }, 0.15
+  );
+
+navToggle?.addEventListener('click', () => {
+  mobileMenuOpen = !mobileMenuOpen;
+  mobileMenuOpen ? menuTl.play() : menuTl.reverse();
+});
+mobileOverlay.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => { mobileMenuOpen = false; menuTl.reverse(); })
+);
+
+/* ─────────────────────────────────────────
+   HERO ENTRANCE — orchestrated timeline
+───────────────────────────────────────── */
+const heroTl = gsap.timeline({ delay: 0.15, defaults: { ease: 'power4.out' } });
+heroTl
+  .to('.hero-eyebrow .ec', {
+    y: 0, opacity: 1,
+    stagger: { each: 0.028, from: 'start' },
+    duration: 0.9,
+  })
+  .to('.hero-line', {
+    scaleX: 1,
+    duration: 0.7,
+    ease: 'power2.out',
+  }, '-=0.4')
+  .to('.hero-title', {
+    y: 0, opacity: 1,
+    duration: 1.1,
+  }, '-=0.5')
+  .to('.hero-meta', {
+    y: 0, opacity: 1,
+    duration: 0.7,
+  }, '-=0.6')
+  .to('.hero-scroll', {
+    opacity: 1,
+    duration: 0.6,
+    ease: 'power1.out',
+  }, '-=0.4');
+
+/* ─────────────────────────────────────────
+   HERO BG PARALLAX — img inside wrapper
+───────────────────────────────────────── */
+gsap.to('.hero-bg img', {
+  yPercent: 18,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.hero',
+    start: 'top top',
+    end: 'bottom top',
+    scrub: true,
+  },
+});
+
+/* ─────────────────────────────────────────
+   INTRO — scroll-scrubbed text slide-in
+   + one-shot right-column reveal
+───────────────────────────────────────── */
+gsap.to('.intro-text', {
+  x: 0, opacity: 1,
+  ease: 'power2.out',
+  scrollTrigger: {
+    trigger: '.intro',
+    start: 'top 78%',
+    end: 'center 38%',
+    scrub: 1.4,
+  },
+});
+
+gsap.to('.intro-right p', {
+  y: 0, opacity: 1,
+  duration: 0.9,
+  scrollTrigger: {
+    trigger: '.intro-right',
+    start: 'top 82%',
+    toggleActions: 'play none none none',
+  },
+});
+
+/* ─────────────────────────────────────────
+   ABOUT — image reveal + text stagger
+───────────────────────────────────────── */
+gsap.to('.about-image-wrapper', {
+  opacity: 1, x: 0,
+  duration: 1.1,
+  scrollTrigger: {
+    trigger: '.about',
+    start: 'top 72%',
+    toggleActions: 'play none none none',
+  },
+});
+
+gsap.to('.about-text p', {
+  y: 0, opacity: 1,
+  duration: 0.95,
+  scrollTrigger: {
+    trigger: '.about-text',
+    start: 'top 78%',
+    toggleActions: 'play none none none',
+  },
+});
+
+gsap.to('.about-stats .stat', {
+  y: 0, opacity: 1,
+  stagger: 0.12,
+  duration: 0.8,
+  scrollTrigger: {
+    trigger: '.about-stats',
+    start: 'top 82%',
+    toggleActions: 'play none none none',
+  },
+});
+
+/* ─────────────────────────────────────────
+   AMENITIES — stagger rows one-shot
+───────────────────────────────────────── */
+gsap.to('.amenity-row', {
+  x: 0, opacity: 1,
+  stagger: 0.08,
+  duration: 0.75,
+  ease: 'power3.out',
+  scrollTrigger: {
+    trigger: '.amenities-right',
+    start: 'top 78%',
+    toggleActions: 'play none none none',
+  },
+});
+
+/* ─────────────────────────────────────────
+   GALLERY — horizontal scroll pin
+   Uses scrollWidth after paint for accuracy
+───────────────────────────────────────── */
+const gallery  = document.querySelector('.gallery');
+const track    = document.querySelector('.gallery-track');
+const panels   = gsap.utils.toArray('.gallery-panel');
+const counter  = document.querySelector('.gallery-counter');
+
+if (track && panels.length && window.innerWidth > 768) {
+  // Let browser paint first, then measure
+  ScrollTrigger.refresh();
+  const totalWidth = track.scrollWidth - window.innerWidth;
+
+  gsap.to(track, {
+    x: () => -totalWidth,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: gallery,
+      start: 'top top',
+      end: () => `+=${totalWidth}`,
+      scrub: 1.0,
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: self => {
+        const idx = Math.min(
+          Math.round(self.progress * (panels.length - 1)),
+          panels.length - 1
+        );
+        if (counter) {
+          counter.textContent =
+            `${String(idx + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+        }
+      },
+    },
+  });
+}
+
+/* ─────────────────────────────────────────
+   QUOTE — parallax on img (not wrapper)
+   + content reveals + stat counters
+───────────────────────────────────────── */
+gsap.to('.quote-bg img', {
+  yPercent: 12,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.quote-section',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+  },
+});
+
+gsap.to(['.quote-text', '.quote-attribution'], {
+  y: 0, opacity: 1,
+  stagger: 0.18,
+  duration: 1.0,
+  scrollTrigger: {
+    trigger: '.quote-content',
+    start: 'top 72%',
+    toggleActions: 'play none none none',
+  },
+});
+
+gsap.to('.quote-stat', {
+  y: 0, opacity: 1,
+  stagger: 0.14,
+  duration: 0.85,
+  scrollTrigger: {
+    trigger: '.quote-stats',
+    start: 'top 78%',
+    toggleActions: 'play none none none',
+  },
+});
+
+// Stat counters — fire once on enter
+const statEls     = document.querySelectorAll('.quote-stat-number');
+const statTargets = [280, 15, 45];
+statEls.forEach((el, i) => {
+  const obj = { val: 0 };
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 82%',
+    once: true,
+    onEnter: () => gsap.to(obj, {
+      val: statTargets[i],
+      duration: 2.0,
+      ease: 'power2.out',
+      onUpdate: () => { el.textContent = Math.round(obj.val); },
+    }),
+  });
+});
+
+/* ─────────────────────────────────────────
+   LOCATION — image parallax on img element
+   + content fade-up
+───────────────────────────────────────── */
+gsap.to('.location-image img', {
+  yPercent: 8,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '.location-image',
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+  },
+});
+
+gsap.to('.location-content', {
+  y: 0, opacity: 1,
+  duration: 1.0,
+  scrollTrigger: {
+    trigger: '.location-content',
+    start: 'top 78%',
+    toggleActions: 'play none none none',
+  },
+});
+
+/* ─────────────────────────────────────────
+   ENQUIRE — orchestrated reveal timeline
+───────────────────────────────────────── */
+ScrollTrigger.create({
+  trigger: '.enquire',
+  start: 'top 65%',
+  once: true,
+  onEnter: () => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.to('.enquire-title',   { y: 0, opacity: 1, duration: 1.1 })
+      .to('.enquire-line',    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+      .to('.enquire-meta',    { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
+      .to('.enquire-contact', { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
+      .to('.enquire-form',    { y: 0, opacity: 1, duration: 0.7 }, '-=0.5')
+      .to('.enquire-social',  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4');
+  },
+});
+
+/* ─────────────────────────────────────────
+   FORM SUBMISSION — success state
+─────────────────────────────────────── */
+const form = document.querySelector('.enquire-form');
+form?.addEventListener('submit', e => {
+  e.preventDefault();
+  gsap.to(form, {
+    opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
+    onComplete: () => {
+      form.innerHTML = '<p style="font-family:var(--font-serif);font-style:italic;color:var(--terracotta);font-size:1.1rem;">Thank you. We\'ll be in touch.</p>';
+      gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
+    },
+  });
+});
+
+/* ─────────────────────────────────────────
+   LOAD SCREEN — branded intro, then reveal
+─────────────────────────────────────── */
+const loadScreen = document.getElementById('load-screen');
+if (loadScreen) {
+  const lsTl = gsap.timeline({
+    onComplete: () => {
+      loadScreen.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
+  document.body.style.overflow = 'hidden';
+  lsTl
+    .to('.ls-logo',  { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }, 0.2)
+    .to('.ls-line',  { width: 60, duration: 0.6, ease: 'power2.out' }, 0.75)
+    .to('.ls-sub',   { opacity: 1, duration: 0.5, ease: 'power2.out' }, 1.0)
+    .to(loadScreen,  { opacity: 0, duration: 0.7, ease: 'power2.inOut' }, 1.8);
+}
+
+/* ─────────────────────────────────────────
+   LIGHTBOX — open on gallery panel click
+─────────────────────────────────────── */
+const lightbox    = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxCap = document.getElementById('lightbox-caption');
+const lightboxClose = document.getElementById('lightbox-close');
+
+const openLightbox = (src, alt, caption) => {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt;
+  lightboxCap.textContent = caption;
+  lightbox.classList.add('open');
+  gsap.fromTo(lightbox,     { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+  gsap.fromTo(lightboxImg,  { scale: 0.92 }, { scale: 1, duration: 0.5, ease: 'power3.out' });
+  document.body.style.overflow = 'hidden';
+  lightboxClose.focus();
+};
+
+const closeLightbox = () => {
+  gsap.to(lightbox, {
+    opacity: 0, duration: 0.3, ease: 'power2.in',
+    onComplete: () => {
+      lightbox.classList.remove('open');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    }
+  });
+};
+
+document.querySelectorAll('.gallery-panel').forEach(panel => {
+  panel.style.cursor = 'zoom-in';
+  panel.addEventListener('click', () => {
+    const img     = panel.querySelector('img');
+    const caption = panel.querySelector('.gallery-title')?.textContent ?? '';
+    if (img) openLightbox(img.src, img.alt, caption);
+  });
+});
+
+lightboxClose?.addEventListener('click', closeLightbox);
+lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+
+/* ─────────────────────────────────────────
+   BACK TO TOP
+─────────────────────────────────────── */
+const backToTop = document.getElementById('back-to-top');
+ScrollTrigger.create({
+  start: 'top -400',
+  onEnter:     () => backToTop.classList.add('visible'),
+  onLeaveBack: () => backToTop.classList.remove('visible'),
+});
+backToTop?.addEventListener('click', () => {
+  gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
+});
+
+/* ─────────────────────────────────────────
+   ACTIVE NAV — highlight current section
+─────────────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+sections.forEach(section => {
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top 55%',
+    end: 'bottom 55%',
+    onEnter: () => setActive(section.id),
+    onEnterBack: () => setActive(section.id),
+  });
+});
+
+function setActive(id) {
+  navLinks.forEach(link => {
+    link.removeAttribute('aria-current');
+    link.classList.remove('active');
+  });
+  const active = document.querySelector(`.nav-links a[href="#${id}"]`);
+  if (active) {
+    active.setAttribute('aria-current', 'page');
+    active.classList.add('active');
+  }
+}
+
+/* ─────────────────────────────────────────
+   REDUCED MOTION — disable all animations
+─────────────────────────────────────── */
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  gsap.globalTimeline.timeScale(0);
+  // Immediately show all elements that GSAP would animate
+  gsap.set([
+    '.hero-eyebrow .ec', '.hero-line', '.hero-title', '.hero-meta', '.hero-scroll',
+    '.intro-text', '.intro-right p', '.about-image-wrapper', '.about-text p',
+    '.about-stats .stat', '.amenity-row', '.quote-text', '.quote-attribution',
+    '.quote-stat', '.location-content', '.enquire-title', '.enquire-line',
+    '.enquire-meta', '.enquire-contact', '.enquire-form', '.enquire-social',
+    '#load-screen',
+  ], { clearProps: 'all' });
+  if (loadScreen) loadScreen.style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>

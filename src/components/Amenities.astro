@@ -1,0 +1,105 @@
+---
+const amenities = [
+  { name: 'Infinity Pool',        desc: 'Saltwater heated year-round' },
+  { name: 'Private Beach Access', desc: 'Direct pathway to sand' },
+  { name: "Chef's Kitchen",       desc: 'Gaggenau appliances, island seating' },
+  { name: 'Spa & Steam Suite',    desc: 'Marble sauna and treatment rooms' },
+  { name: 'Wine Cellar',          desc: '2,000 bottle capacity, climate controlled' },
+  { name: 'Media Room',           desc: 'Dolby Atmos, projection system' },
+  { name: 'Tennis Court',         desc: 'Professional grade, night lighting' },
+  { name: 'Guest House',          desc: 'Independent 2-bedroom residence' },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="amenities">
+  <div class="amenities-left">
+    <div class="amenities-number">{pad(amenities.length)}</div>
+  </div>
+  <div class="amenities-right">
+    {amenities.map((a, i) => (
+      <div class="amenity-row">
+        <div class="amenity-info">
+          <div class="amenity-name">{a.name}</div>
+          <div class="amenity-desc">{a.desc}</div>
+        </div>
+        <div class="amenity-counter">{pad(i + 1)}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+.amenities {
+  background: var(--cream);
+  padding: 8vh 4vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6vw;
+  align-items: start;
+}
+
+.amenities-left {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.amenities-number {
+  font-size: clamp(8rem, 18vw, 22rem);
+  font-weight: 300;
+  color: var(--sand);
+  line-height: 1;
+}
+
+.amenities-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.amenity-row {
+  padding: 1.6rem 0;
+  border-top: 1px solid rgba(107, 79, 58, 0.2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.amenity-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.amenity-name {
+  font-size: 1.3rem;
+  color: var(--charcoal);
+}
+
+.amenity-desc {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--driftwood);
+}
+
+.amenity-counter {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+
+@media (max-width: 768px) {
+  .amenities {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .amenities-number {
+    font-size: clamp(4rem, 15vw, 8rem);
+  }
+}
+</style>

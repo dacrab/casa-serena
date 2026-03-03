@@ -1,0 +1,169 @@
+---
+import { Image } from 'astro:assets';
+
+const panels = [
+  { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85', alt: 'Casa Serena exterior at golden hour',  width: 1800, height: 1080, title: 'Golden Hour' },
+  { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85',  alt: 'Casa Serena living room',              width: 900,  height: 1080, title: 'Light & Space' },
+  { src: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=85',  alt: 'Casa Serena beachfront pool',          width: 900,  height: 1080, title: 'Infinity Pool' },
+  { src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85', alt: 'Casa Serena wide exterior view',       width: 1200, height: 1080, title: 'Perspective' },
+  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',     alt: 'Casa Serena chef kitchen',             width: 800,  height: 1080, title: "Chef's Kitchen" },
+  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=85',  alt: 'Casa Serena master suite bedroom',     width: 800,  height: 1080, title: 'Master Suite' },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="gallery" id="gallery">
+  <div class="gallery-label">The Property</div>
+  <div class="gallery-counter">{pad(1)} / {pad(panels.length)}</div>
+  <div class="gallery-scroll-hint">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M10 2v12M15 10l-5 5-5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>scroll</span>
+  </div>
+  <div class="gallery-track">
+    {panels.map((p, i) => (
+      <div class="gallery-panel">
+        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy" />
+        <div class="gallery-caption">
+          <span class="gallery-number">{pad(i + 1)}</span>
+          <span class="gallery-title">{p.title}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+.gallery {
+  height: 100vh;
+  overflow: hidden;
+  background: #1a1410;
+  position: relative;
+}
+
+.gallery-label {
+  position: absolute;
+  top: 2rem;
+  left: 4vw;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.4);
+  z-index: 10;
+}
+
+.gallery-counter {
+  position: absolute;
+  top: 2rem;
+  right: 4vw;
+  font-size: 0.9rem;
+  color: var(--cream);
+  z-index: 10;
+}
+
+.gallery-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cream);
+  z-index: 10;
+  animation: fadeOutScroll 3s ease forwards;
+  pointer-events: none;
+}
+
+.gallery-scroll-hint svg {
+  animation: bounce 2s infinite;
+}
+
+.gallery-scroll-hint span {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@keyframes fadeOutScroll {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.gallery-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.gallery-panel {
+  flex-shrink: 0;
+  width: 75vw;
+  height: 100%;
+  position: relative;
+  border-right: 1px solid var(--terracotta);
+}
+
+.gallery-panel:first-child {
+  width: 100vw;
+}
+
+.gallery-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem 4vw;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--cream);
+}
+
+.gallery-number {
+  font-style: italic;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.gallery-title {
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .gallery-panel {
+    width: 90vw;
+  }
+
+  .gallery-panel:first-child {
+    width: 100vw;
+  }
+}
+</style>
