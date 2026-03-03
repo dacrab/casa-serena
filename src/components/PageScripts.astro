@@ -107,22 +107,25 @@ Object.assign(mobileOverlay.style, {
   display:'flex', alignItems:'center', justifyContent:'center',
   opacity:'0', pointerEvents:'none',
 });
-const ul = mobileOverlay.querySelector('ul');
-Object.assign(ul.style, { listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem' });
+const ul = mobileOverlay.querySelector('ul') as HTMLElement | null;
+if (ul) Object.assign(ul.style, { listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem' });
 mobileOverlay.querySelectorAll('a').forEach(a =>
-  Object.assign(a.style, { fontFamily:'var(--font-serif)', fontSize:'clamp(2.2rem,7vw,3.8rem)', color:'var(--cream)', textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.5rem 0' })
+  Object.assign((a as HTMLElement).style, { fontFamily:'var(--font-serif)', fontSize:'clamp(2.2rem,7vw,3.8rem)', color:'var(--cream)', textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.5rem 0' })
 );
 document.body.appendChild(mobileOverlay);
 
-const [sp1, sp2] = navToggle ? [...navToggle.querySelectorAll('span')] : [];
+const spans = navToggle ? ([...navToggle.querySelectorAll('span')] as HTMLElement[]) : [];
 const menuTl = gsap.timeline({ paused: true, defaults: { duration: 0.38, ease: 'power2.inOut' } })
   .to(mobileOverlay, { opacity: 1, pointerEvents: 'all', duration: 0.3, ease: 'power2.out' }, 0)
-  .to(sp1, { rotation: 45,  y: 4  }, 0)
-  .to(sp2, { rotation: -45, y: -4 }, 0)
   .fromTo(mobileOverlay.querySelectorAll('li'),
     { y: 28, opacity: 0 },
     { y: 0, opacity: 1, stagger: 0.07, duration: 0.45, ease: 'power3.out' }, 0.15
   );
+
+if (spans.length >= 2) {
+  menuTl.to(spans[0]!, { rotation: 45,  y: 4  }, 0);
+  menuTl.to(spans[1]!, { rotation: -45, y: -4 }, 0);
+}
 
 navToggle?.addEventListener('click', () => {
   mobileMenuOpen = !mobileMenuOpen;
@@ -162,9 +165,9 @@ heroTl
   }, '-=0.4');
 
 /* ─────────────────────────────────────────
-   HERO BG PARALLAX — img inside wrapper
+   HERO BG PARALLAX — video inside wrapper
 ───────────────────────────────────────── */
-gsap.to('.hero-bg img', {
+gsap.to('.hero-video', {
   yPercent: 18,
   ease: 'none',
   scrollTrigger: {
@@ -428,30 +431,32 @@ const lightboxImg = document.getElementById('lightbox-img');
 const lightboxCap = document.getElementById('lightbox-caption');
 const lightboxClose = document.getElementById('lightbox-close');
 
-const openLightbox = (src, alt, caption) => {
-  lightboxImg.src = src;
-  lightboxImg.alt = alt;
+const openLightbox = (src: string, alt: string, caption: string) => {
+  if (!lightbox || !lightboxImg || !lightboxCap || !lightboxClose) return;
+  (lightboxImg as HTMLImageElement).src = src;
+  (lightboxImg as HTMLImageElement).alt = alt;
   lightboxCap.textContent = caption;
   lightbox.classList.add('open');
-  gsap.fromTo(lightbox,     { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
-  gsap.fromTo(lightboxImg,  { scale: 0.92 }, { scale: 1, duration: 0.5, ease: 'power3.out' });
+  gsap.fromTo(lightbox,    { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+  gsap.fromTo(lightboxImg, { scale: 0.92 }, { scale: 1, duration: 0.5, ease: 'power3.out' });
   document.body.style.overflow = 'hidden';
-  lightboxClose.focus();
+  (lightboxClose as HTMLElement).focus();
 };
 
 const closeLightbox = () => {
+  if (!lightbox || !lightboxImg) return;
   gsap.to(lightbox, {
     opacity: 0, duration: 0.3, ease: 'power2.in',
     onComplete: () => {
-      lightbox.classList.remove('open');
-      lightboxImg.src = '';
+      lightbox!.classList.remove('open');
+      (lightboxImg as HTMLImageElement).src = '';
       document.body.style.overflow = '';
     }
   });
 };
 
 document.querySelectorAll('.gallery-panel').forEach(panel => {
-  panel.style.cursor = 'zoom-in';
+  (panel as HTMLElement).style.cursor = 'zoom-in';
   panel.addEventListener('click', () => {
     const img     = panel.querySelector('img');
     const caption = panel.querySelector('.gallery-title')?.textContent ?? '';
@@ -461,7 +466,7 @@ document.querySelectorAll('.gallery-panel').forEach(panel => {
 
 lightboxClose?.addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox(); });
 
 /* ─────────────────────────────────────────
    BACK TO TOP
@@ -499,7 +504,7 @@ sections.forEach(section => {
   });
 });
 
-function setActive(id) {
+function setActive(id: string) {
   navLinks.forEach(link => {
     link.removeAttribute('aria-current');
     link.classList.remove('active');
