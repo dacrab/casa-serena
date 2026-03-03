@@ -465,14 +465,21 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox.c
    BACK TO TOP
 ─────────────────────────────────────── */
 const backToTop = document.getElementById('back-to-top');
-ScrollTrigger.create({
-  start: 'top -400',
-  onEnter:     () => backToTop.classList.add('visible'),
-  onLeaveBack: () => backToTop.classList.remove('visible'),
-});
-backToTop?.addEventListener('click', () => {
-  gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
-});
+if (backToTop) {
+  const showBtn  = () => gsap.to(backToTop, { opacity: 1, pointerEvents: 'all', duration: 0.4, ease: 'power2.out' });
+  const hideBtn  = () => gsap.to(backToTop, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
+
+  ScrollTrigger.create({
+    trigger: '.hero',
+    start: 'bottom top',   // fires when hero bottom crosses viewport top
+    onEnter:     showBtn,
+    onLeaveBack: hideBtn,
+  });
+
+  backToTop.addEventListener('click', () => {
+    gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
+  });
+}
 
 /* ─────────────────────────────────────────
    ACTIVE NAV — highlight current section

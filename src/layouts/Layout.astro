@@ -313,18 +313,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
+		/* hidden state — GSAP drives opacity + pointer-events */
 		opacity: 0;
 		pointer-events: none;
 		transition: border-color 0.3s, background 0.3s;
-	}
-	#back-to-top.visible {
-		opacity: 1;
-		pointer-events: all;
 	}
 	#back-to-top:hover {
 		background: var(--terracotta);
 		border-color: var(--terracotta);
 	}
+	#back-to-top svg {
+		stroke: var(--charcoal);
+		transition: stroke 0.3s;
+	}
 	#back-to-top:hover svg { stroke: var(--warm-white); }
-	#back-to-top svg { stroke: var(--charcoal); transition: stroke 0.3s; }
 </style>
