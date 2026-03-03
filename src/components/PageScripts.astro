@@ -46,8 +46,8 @@ gsap.set('.enquire-social',   { y: 16, opacity: 0 });
 ───────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 if (cursor && window.matchMedia('(pointer: fine)').matches) {
-  // Offset by half the cursor size (6px) to centre on pointer
-  const half = 6;
+  // Offset by half the native cursor size (48px/2) to centre on pointer
+  const half = 24;
   const moveX = gsap.quickTo(cursor, 'x', { duration: 0.45, ease: 'power2' });
   const moveY = gsap.quickTo(cursor, 'y', { duration: 0.45, ease: 'power2' });
   window.addEventListener('mousemove', e => {
@@ -58,12 +58,12 @@ if (cursor && window.matchMedia('(pointer: fine)').matches) {
   // Use event delegation — catches dynamic elements (mobile overlay, lightbox)
   document.addEventListener('mouseover', e => {
     if ((e.target as Element).closest('a, button, .gallery-panel, .amenity-row')) {
-      gsap.to(cursor, { scale: 2.8, duration: 0.25, ease: 'power2.out' });
+      gsap.to(cursor, { scale: 0.75, duration: 0.25, ease: 'power2.out' });
     }
   });
   document.addEventListener('mouseout', e => {
     if ((e.target as Element).closest('a, button, .gallery-panel, .amenity-row')) {
-      gsap.to(cursor, { scale: 1, duration: 0.4, ease: 'power3.out' });
+      gsap.to(cursor, { scale: 0.25, duration: 0.4, ease: 'power3.out' });
     }
   });
 }
