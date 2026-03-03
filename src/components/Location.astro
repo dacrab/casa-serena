@@ -2,22 +2,22 @@
 import { Image } from 'astro:assets';
 
 const distances = [
-  { dest: 'Santa Monica',        miles: '18 miles' },
-  { dest: 'Los Angeles Airport', miles: '45 miles' },
-  { dest: 'Downtown Los Angeles',miles: '60 miles' },
-  { dest: 'Ventura Beaches',     miles: '35 miles' },
+  { dest: 'Fira',               miles: '12 km' },
+  { dest: 'Santorini Airport',  miles: '8 km' },
+  { dest: 'Heraklion, Crete',   miles: '130 km' },
+  { dest: 'Athens',             miles: '280 km' },
 ];
 ---
 
 <section class="location" id="location">
   <div class="location-image">
-    <Image src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=1400&q=85" alt="Malibu coastline aerial view" width={1400} height={788} format="webp" quality={85} loading="lazy" />
+    <Image src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1400&q=85" alt="Santorini caldera aerial view" width={1400} height={788} format="webp" quality={85} loading="lazy" />
   </div>
   <div class="location-content">
     <div class="location-left">
-      <h3 class="location-address">12847 Pacific Coast Hwy</h3>
-      <p class="location-city">Malibu, California 90265</p>
-      <p class="location-desc">Perched on a private bluff with unobstructed views of the Pacific, Casa Serena sits where the Santa Monica Mountains meet the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the energy of Malibu and beyond.</p>
+      <h3 class="location-address">Oia, Santorini 847 02</h3>
+      <p class="location-city">Santorini, Greece</p>
+      <p class="location-desc">Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.</p>
     </div>
     <div class="location-right">
       {distances.map(d => (

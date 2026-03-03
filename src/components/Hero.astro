@@ -1,10 +1,19 @@
 ---
-import { Image } from 'astro:assets';
 ---
 
 <section class="hero">
   <div class="hero-bg">
-    <Image src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85" alt="Casa Serena exterior at golden hour" width={1800} height={1200} format="webp" quality={85} loading="eager" fetchpriority="high" />
+    <video
+      class="hero-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      aria-hidden="true"
+      poster="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1800&q=85"
+    >
+      <source src="https://videos.pexels.com/video-files/1093662/1093662-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+    </video>
   </div>
   <div class="hero-overlay-dark"></div>
   <div class="hero-overlay-grain"></div>
@@ -15,7 +24,7 @@ import { Image } from 'astro:assets';
     </div>
     <div class="hero-line"></div>
     <h1 class="hero-title">Serena</h1>
-    <div class="hero-meta">Malibu CA · 4 Suites · 8 Acres · Beachfront</div>
+    <div class="hero-meta">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</div>
   </div>
 
   <div class="hero-scroll">
@@ -26,8 +35,8 @@ import { Image } from 'astro:assets';
 
 <div class="marquee-strip">
   <div class="marquee-container">
-    <span class="marquee-text">PRIVATE ESTATE · MALIBU CALIFORNIA · BEACHFRONT · 4 SUITES · INFINITY POOL · </span>
-    <span class="marquee-text">PRIVATE ESTATE · MALIBU CALIFORNIA · BEACHFRONT · 4 SUITES · INFINITY POOL · </span>
+    <span class="marquee-text">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+    <span class="marquee-text">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>
 
@@ -48,6 +57,14 @@ import { Image } from 'astro:assets';
 .hero-bg {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+}
+
+.hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-bg img {

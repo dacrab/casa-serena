@@ -5,8 +5,8 @@ interface Props {
   ogImage?: string;
 }
 const {
-  title = 'Casa Serena | Beachfront Estate · Malibu, California',
-  description = 'A private beachfront estate on the shores of Malibu. Four suites, infinity pool, direct beach access. The Pacific, at your doorstep.',
+  title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
+  description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access. Greece, at your doorstep.',
   ogImage = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85',
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casaserena.com');
@@ -52,18 +52,18 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 			"@context": "https://schema.org",
 			"@type": "LodgingBusiness",
 			"name": "Casa Serena",
-			"description": "A private beachfront estate on the shores of Malibu. Four suites, infinity pool, direct beach access.",
+			"description": "A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.",
 			"url": "https://casaserena.com",
-			"telephone": "+1-310-000-0000",
+			"telephone": "+30-22860-00000",
 			"email": "info@casaserena.com",
 			"image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
 			"address": {
 				"@type": "PostalAddress",
-				"streetAddress": "12847 Pacific Coast Hwy",
-				"addressLocality": "Malibu",
-				"addressRegion": "CA",
-				"postalCode": "90265",
-				"addressCountry": "US"
+				"streetAddress": "Oia",
+				"addressLocality": "Santorini",
+				"addressRegion": "Cyclades",
+				"postalCode": "847 02",
+				"addressCountry": "GR"
 			},
 			"geo": {
 				"@type": "GeoCoordinates",
