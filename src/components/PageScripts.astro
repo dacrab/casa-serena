@@ -41,18 +41,30 @@ gsap.set('.enquire-social',   { y: 16, opacity: 0 });
 
 /* ─────────────────────────────────────────
    CURSOR — smooth follow with quickTo
+   Uses x/y (transform) not left/top —
+   composited, no layout/paint per frame.
 ───────────────────────────────────────── */
 const cursor = document.getElementById('cursor');
 if (cursor && window.matchMedia('(pointer: fine)').matches) {
-  const moveX = gsap.quickTo(cursor, 'left', { duration: 0.45, ease: 'power2' });
-  const moveY = gsap.quickTo(cursor, 'top',  { duration: 0.45, ease: 'power2' });
+  // Offset by half the cursor size (6px) to centre on pointer
+  const half = 6;
+  const moveX = gsap.quickTo(cursor, 'x', { duration: 0.45, ease: 'power2' });
+  const moveY = gsap.quickTo(cursor, 'y', { duration: 0.45, ease: 'power2' });
   window.addEventListener('mousemove', e => {
-    moveX(e.clientX - 6);
-    moveY(e.clientY - 6);
+    moveX(e.clientX - half);
+    moveY(e.clientY - half);
+  }, { passive: true });
+
+  // Use event delegation — catches dynamic elements (mobile overlay, lightbox)
+  document.addEventListener('mouseover', e => {
+    if ((e.target as Element).closest('a, button, .gallery-panel, .amenity-row')) {
+      gsap.to(cursor, { scale: 2.8, duration: 0.25, ease: 'power2.out' });
+    }
   });
-  document.querySelectorAll('a, button, .gallery-panel, .amenity-row').forEach(el => {
-    el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 2.8, duration: 0.25, ease: 'power2.out' }));
-    el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1.0, duration: 0.4, ease: 'power3.out' }));
+  document.addEventListener('mouseout', e => {
+    if ((e.target as Element).closest('a, button, .gallery-panel, .amenity-row')) {
+      gsap.to(cursor, { scale: 1, duration: 0.4, ease: 'power3.out' });
+    }
   });
 }
 

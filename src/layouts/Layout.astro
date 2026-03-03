@@ -188,10 +188,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 			background: var(--terracotta);
 			pointer-events: none;
 			z-index: 9999;
-			mix-blend-mode: multiply;
-			top: -20px;
-			left: -20px;
-			will-change: transform, left, top;
+			mix-blend-mode: exclusion;
+			/* start offscreen; JS drives x/y via transform */
+			top: 0;
+			left: 0;
+			transform: translate(-100vw, -100vh);
+			will-change: transform;
 		}
 	}
 
