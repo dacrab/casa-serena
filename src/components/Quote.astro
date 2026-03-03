@@ -12,7 +12,6 @@ const stats = [
   <div class="quote-bg">
     <Image src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=85" alt="Casa Serena pool at sunset" width={800} height={600} format="webp" quality={85} loading="lazy" />
   </div>
-  <div class="quote-overlay"></div>
   <div class="quote-content">
     <div class="quote-text">"The Pacific has a way of resetting everything."</div>
     <div class="quote-attribution">— Private Guest, 2023</div>
@@ -50,7 +49,8 @@ const stats = [
   object-fit: cover;
 }
 
-.quote-overlay {
+.quote-section::before {
+  content: '';
   position: absolute;
   inset: 0;
   background: rgba(42, 35, 32, 0.5);

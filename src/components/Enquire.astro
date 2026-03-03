@@ -103,7 +103,6 @@ const year = new Date().getFullYear();
 .enquire-phone {
   font-size: 1.8rem;
   color: var(--cream);
-  text-decoration: none;
   transition: color 0.3s;
 }
 
@@ -150,9 +149,9 @@ const year = new Date().getFullYear();
   font-size: 1rem;
   color: var(--cream);
   padding: 0.6rem 0;
-  outline: none;
+  outline: none; /* focus handled by border-bottom-color on :focus */
   transition: border-color 0.3s;
-  -webkit-appearance: none;
+  appearance: none;
   border-radius: 0;
 }
 
@@ -227,6 +226,12 @@ const year = new Date().getFullYear();
 
 .footer-location {
   text-align: right;
+}
+
+.form-success {
+  font-style: italic;
+  color: var(--terracotta);
+  font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {

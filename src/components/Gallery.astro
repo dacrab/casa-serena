@@ -88,25 +88,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
 }
 
 @keyframes fadeOutScroll {
-  0% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    pointer-events: none;
-  }
+  0%, 80% { opacity: 1; }
+  100%     { opacity: 0; }
 }
 
 @keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(8px); }
 }
 
 .gallery-track {

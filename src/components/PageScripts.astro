@@ -82,11 +82,13 @@ if (cursor && window.matchMedia('(pointer: fine)').matches) {
    NAVBAR — ScrollTrigger toggle
 ───────────────────────────────────────── */
 const nav = document.querySelector('.nav');
-ScrollTrigger.create({
-  start: 'top -60',
-  onEnter:     () => nav.classList.add('scrolled'),
-  onLeaveBack: () => nav.classList.remove('scrolled'),
-});
+if (nav) {
+  ScrollTrigger.create({
+    start: 'top -60',
+    onEnter:     () => nav.classList.add('scrolled'),
+    onLeaveBack: () => nav.classList.remove('scrolled'),
+  });
+}
 
 /* ─────────────────────────────────────────
    MOBILE MENU — full-screen GSAP overlay
@@ -323,20 +325,20 @@ gsap.to('.quote-stat', {
   },
 });
 
-// Stat counters — fire once on enter
-const statEls     = document.querySelectorAll('.quote-stat-number');
-const statTargets = [280, 15, 45];
-statEls.forEach((el, i) => {
+// Stat counters — fire once on enter; target read from DOM (single source of truth)
+const statEls = document.querySelectorAll('.quote-stat-number');
+statEls.forEach(el => {
+  const target = parseFloat(el.textContent ?? '0');
   const obj = { val: 0 };
   ScrollTrigger.create({
     trigger: el,
     start: 'top 82%',
     once: true,
     onEnter: () => gsap.to(obj, {
-      val: statTargets[i],
+      val: target,
       duration: 2.0,
       ease: 'power2.out',
-      onUpdate: () => { el.textContent = Math.round(obj.val); },
+      onUpdate: () => { el.textContent = String(Math.round(obj.val)); },
     }),
   });
 });
@@ -393,7 +395,7 @@ form?.addEventListener('submit', e => {
   gsap.to(form, {
     opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
     onComplete: () => {
-      form.innerHTML = '<p style="font-family:var(--font-serif);font-style:italic;color:var(--terracotta);font-size:1.1rem;">Thank you. We\'ll be in touch.</p>';
+      form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>';
       gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
     },
   });

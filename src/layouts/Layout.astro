@@ -107,18 +107,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		--cream:     #F5F0E8;
 		--sand:      #E8DCC8;
 		--terracotta:#C4714A;
-		--terra-dark:#A05A38;
-		--bark:      #6B4F3A;
 		--driftwood: #9C8468;
 		--charcoal:  #2A2320;
 		--warm-white:#FDFAF5;
-		--ocean:     #4A7C8E;
 
 		--font-serif: 'Cormorant Garamond', Georgia, serif;
 		--font-sans:  'DM Sans', system-ui, sans-serif;
 
-		--section-pad: clamp(5rem, 10vw, 9rem);
-		--container:   min(90rem, 92vw);
 	}
 
 	html {
@@ -198,17 +193,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		}
 	}
 
-	/* Utility */
-	.container {
-		width: var(--container);
-		margin-inline: auto;
-	}
-
-	.reveal {
-		opacity: 0;
-		transform: translateY(40px);
-	}
-
 	/* ── Load screen ── */
 	#load-screen {
 		position: fixed;
@@ -216,9 +200,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		z-index: 10000;
 		background: var(--charcoal);
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
 		gap: 1.2rem;
 		pointer-events: none;
 	}
@@ -266,8 +250,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		max-width: 92vw;
 		max-height: 90vh;
 		object-fit: contain;
-		display: block;
-		border: none;
 	}
 	#lightbox-close {
 		position: absolute;
@@ -294,7 +276,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		font-family: var(--font-serif);
 		font-style: italic;
 		font-size: 1rem;
-		color: rgba(255,255,255,0.5);
+		color: rgba(245, 240, 232, 0.5);
 		letter-spacing: 0.05em;
 		white-space: nowrap;
 	}
