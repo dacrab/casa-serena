@@ -45,13 +45,8 @@
   font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.8);
-  text-decoration: none;
+  /* color managed globally to avoid scoped specificity fighting is:global */
   transition: color 0.5s;
-}
-
-.nav-links a.active {
-  color: var(--terracotta);
 }
 
 .nav-toggle {
@@ -83,6 +78,15 @@
 </style>
 
 <style is:global>
+/* All nav link colors here — avoids scoped vs global specificity conflict */
+.nav-links a {
+  color: rgba(245, 240, 232, 0.8);
+}
+
+.nav-links a.active {
+  color: var(--terracotta);
+}
+
 .nav.scrolled {
   background: rgba(253, 250, 245, 0.96);
   backdrop-filter: blur(20px);
@@ -97,8 +101,7 @@
   color: rgba(42, 35, 32, 0.65);
 }
 
-.nav.scrolled .nav-links a.active,
-.nav-links a.active {
+.nav.scrolled .nav-links a.active {
   color: var(--terracotta);
 }
 
