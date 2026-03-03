@@ -25,7 +25,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: background 0.5s, border-color 0.5s, backdrop-filter 0.5s;
 }
 
 .nav-logo {
@@ -89,14 +89,16 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-.nav.scrolled .nav-logo,
-.nav.scrolled .nav-links a {
+.nav.scrolled .nav-logo {
   color: var(--charcoal);
 }
 
-/* Active link stays terracotta in both scrolled and unscrolled states */
-.nav-links a.active,
-.nav.scrolled .nav-links a.active {
+.nav.scrolled .nav-links a {
+  color: rgba(42, 35, 32, 0.65);
+}
+
+.nav.scrolled .nav-links a.active,
+.nav-links a.active {
   color: var(--terracotta);
 }
 

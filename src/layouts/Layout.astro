@@ -182,19 +182,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casasere
 		#cursor {
 			display: block;
 			position: fixed;
-			/* Large native size so scaling up stays crisp */
-			width: 48px;
-			height: 48px;
-			border-radius: 50%;
-			background: var(--terracotta);
-			pointer-events: none;
-			z-index: 9999;
-			mix-blend-mode: exclusion;
-			/* Start visually small via scale; offscreen via translate */
 			top: 0;
 			left: 0;
-			transform: translate(-200px, -200px) scale(0.25);
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			border: 1.5px solid var(--terracotta);
+			background: transparent;
+			pointer-events: none;
+			z-index: 9999;
+			/* start offscreen */
+			transform: translate(-200px, -200px);
 			will-change: transform;
+			transition: border-color 0.3s;
 		}
 	}
 
