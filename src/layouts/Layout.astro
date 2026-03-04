@@ -54,7 +54,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 			"@type": "LodgingBusiness",
 			"name": "Casa Serena",
 			"description": "A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.",
-			"url": "https://casaserena.com",
+			"url": "https://casa-serena.vercel.app",
 			"telephone": "+30-22860-00000",
 			"email": "info@casaserena.com",
 			"image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
@@ -68,8 +68,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 			},
 			"geo": {
 				"@type": "GeoCoordinates",
-				"latitude": 34.0259,
-				"longitude": -118.7798
+				"latitude": 36.4618,
+				"longitude": 25.3753
 			},
 			"amenityFeature": [
 				{"@type": "LocationFeatureSpecification", "name": "Infinity Pool", "value": true},
@@ -121,7 +121,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 	}
 
 	html {
-		scroll-behavior: smooth;
+		scroll-behavior: auto;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
@@ -299,18 +299,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
-		/* hidden state — GSAP drives opacity + pointer-events */
 		opacity: 0;
 		pointer-events: none;
-		transition: border-color 0.3s, background 0.3s;
 	}
-	#back-to-top:hover {
-		background: var(--terracotta);
-		border-color: var(--terracotta);
-	}
-	#back-to-top svg {
-		stroke: var(--charcoal);
-		transition: stroke 0.3s;
-	}
+	#back-to-top:hover { background: var(--terracotta); border-color: var(--terracotta); }
+	#back-to-top svg { stroke: var(--charcoal); }
 	#back-to-top:hover svg { stroke: var(--warm-white); }
 </style>
