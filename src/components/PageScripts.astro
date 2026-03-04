@@ -22,6 +22,7 @@ gsap.set('.hero-line',        { scaleX: 0, transformOrigin: 'left center' });
 gsap.set('.hero-title',       { y: 70, opacity: 0 });
 gsap.set('.hero-meta',        { y: 16, opacity: 0 });
 gsap.set('.hero-scroll',      { opacity: 0 });
+gsap.set('.scroll-line',      { height: 0, opacity: 1 });
 gsap.set('.intro-text',       { x: '55vw', opacity: 0 });
 gsap.set('.intro-right p',    { y: 24, opacity: 0 });
 gsap.set('.about-image-wrapper', { opacity: 0, x: 40 });
@@ -38,6 +39,7 @@ gsap.set('.enquire-eyebrow',  { y: 16, opacity: 0 });
 gsap.set('.enquire-contact',  { y: 20, opacity: 0 });
 gsap.set('.enquire-right',    { y: 24, opacity: 0 });
 gsap.set('.enquire-social',   { y: 16, opacity: 0 });
+gsap.set('.gallery-scroll-hint', { opacity: 1 });
 
 /* ─────────────────────────────────────────
    CURSOR — ring follow, contracts on hover
@@ -136,9 +138,11 @@ mobileOverlay.querySelectorAll('a').forEach(a =>
 );
 
 /* ─────────────────────────────────────────
-   HERO ENTRANCE — orchestrated timeline
+   HERO ENTRANCE — fires after load screen
+   Load screen fades at t=1.8 (duration 0.7)
+   so hero starts at t=2.2 for clean handoff
 ───────────────────────────────────────── */
-const heroTl = gsap.timeline({ delay: 0.15, defaults: { ease: 'power4.out' } });
+const heroTl = gsap.timeline({ delay: 2.2, defaults: { ease: 'power4.out' } });
 heroTl
   .to('.hero-eyebrow .ec', {
     y: 0, opacity: 1,
@@ -162,7 +166,23 @@ heroTl
     opacity: 1,
     duration: 0.6,
     ease: 'power1.out',
-  }, '-=0.4');
+  }, '-=0.4')
+  // scroll-line pulse loop — starts once hero-scroll fades in
+  .call(() => {
+    gsap.timeline({ repeat: -1, repeatDelay: 0.4 })
+      .to('.scroll-line', { height: 40, opacity: 1, duration: 0.55, ease: 'power2.out' })
+      .to('.scroll-line', { opacity: 0,             duration: 0.4,  ease: 'power1.in' })
+      .set('.scroll-line', { height: 0, opacity: 1 });
+  })
+  // marquee infinite scroll — starts in sync with hero reveal
+  .call(() => {
+    gsap.to('.marquee-container', {
+      x: '-50%',
+      duration: 20,
+      ease: 'none',
+      repeat: -1,
+    });
+  }, undefined, '-=0.6');
 
 /* ─────────────────────────────────────────
    HERO BG PARALLAX — video inside wrapper
@@ -180,7 +200,7 @@ gsap.to('.hero-video', {
 
 /* ─────────────────────────────────────────
    INTRO — scroll-scrubbed text slide-in
-   + one-shot right-column reveal
+   + staggered right-column reveal
 ───────────────────────────────────────── */
 gsap.to('.intro-text', {
   x: 0, opacity: 1,
@@ -195,6 +215,7 @@ gsap.to('.intro-text', {
 
 gsap.to('.intro-right p', {
   y: 0, opacity: 1,
+  stagger: 0.14,
   duration: 0.9,
   scrollTrigger: {
     trigger: '.intro-right',
@@ -251,6 +272,30 @@ gsap.to('.amenity-row', {
     toggleActions: 'play none none none',
   },
 });
+
+/* ─────────────────────────────────────────
+   GALLERY SCROLL HINT — bounce + fade out
+───────────────────────────────────────── */
+const scrollHint = document.querySelector('.gallery-scroll-hint');
+const scrollHintSvg = document.querySelector('.gallery-scroll-hint svg');
+if (scrollHint && scrollHintSvg) {
+  // Bounce loop on the SVG icon
+  gsap.to(scrollHintSvg, {
+    y: 8,
+    duration: 0.65,
+    ease: 'power1.inOut',
+    yoyo: true,
+    repeat: -1,
+  });
+  // Fade out hint after 3s
+  gsap.to(scrollHint, {
+    opacity: 0,
+    duration: 0.6,
+    ease: 'power2.in',
+    delay: 3,
+    pointerEvents: 'none',
+  });
+}
 
 /* ─────────────────────────────────────────
    GALLERY — horizontal scroll pin
@@ -406,21 +451,25 @@ form?.addEventListener('submit', e => {
 
 /* ─────────────────────────────────────────
    LOAD SCREEN — branded intro, then reveal
+   Timeline: logo(0.2) → line(0.75) → sub(1.0) → fade(1.8→2.5)
+   heroTl delay of 2.2 overlaps cleanly with fade end
 ─────────────────────────────────────── */
 const loadScreen = document.getElementById('load-screen');
 if (loadScreen) {
-  const lsTl = gsap.timeline({
+  document.body.style.overflow = 'hidden';
+  gsap.timeline({
     onComplete: () => {
       loadScreen.style.display = 'none';
       document.body.style.overflow = '';
     }
-  });
-  document.body.style.overflow = 'hidden';
-  lsTl
+  })
     .to('.ls-logo',  { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }, 0.2)
     .to('.ls-line',  { width: 60, duration: 0.6, ease: 'power2.out' }, 0.75)
     .to('.ls-sub',   { opacity: 1, duration: 0.5, ease: 'power2.out' }, 1.0)
     .to(loadScreen,  { opacity: 0, duration: 0.7, ease: 'power2.inOut' }, 1.8);
+} else {
+  // No load screen (e.g. dev HMR) — fire hero immediately
+  heroTl.delay(0.15);
 }
 
 /* ─────────────────────────────────────────
@@ -518,16 +567,18 @@ function setActive(id: string) {
 
 /* ─────────────────────────────────────────
    REDUCED MOTION — disable all animations
-─────────────────────────────────────── */
+───────────────────────────────────────── */
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   gsap.globalTimeline.timeScale(0);
   // Immediately show all elements that GSAP would animate
   gsap.set([
     '.hero-eyebrow .ec', '.hero-line', '.hero-title', '.hero-meta', '.hero-scroll',
+    '.scroll-line', '.marquee-container',
     '.intro-text', '.intro-right p', '.about-image-wrapper', '.about-text p',
     '.about-stats .stat', '.amenity-row', '.quote-text', '.quote-attribution',
     '.quote-stat', '.location-content', '.enquire-title', '.enquire-rule',
-    '.enquire-eyebrow', '.enquire-contact', '.enquire-right',
+    '.enquire-eyebrow', '.enquire-contact', '.enquire-right', '.enquire-social',
+    '.gallery-scroll-hint',
     '#load-screen',
   ], { clearProps: 'all' });
   if (loadScreen) loadScreen.style.display = 'none';

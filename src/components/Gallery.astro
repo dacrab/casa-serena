@@ -73,28 +73,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
   gap: 0.5rem;
   color: var(--cream);
   z-index: 10;
-  animation: fadeOutScroll 3s ease forwards;
   pointer-events: none;
-}
-
-.gallery-scroll-hint svg {
-  animation: bounce 2s infinite;
 }
 
 .gallery-scroll-hint span {
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-
-@keyframes fadeOutScroll {
-  0%, 80% { opacity: 1; }
-  100%     { opacity: 0; }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(8px); }
 }
 
 .gallery-track {
