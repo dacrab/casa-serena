@@ -1,5 +1,7 @@
 # Casa Serena
 
+> **Casa Serena** — Spanish/Italian for *"Serene House"* or *"Peaceful Home"*. A name that captures the stillness of waking up to the sea, where luxury and calm exist in perfect balance.
+
 Luxury beachfront estate website. Built with [Astro](https://astro.build), styled with scoped CSS, animated with [GSAP](https://gsap.com).
 
 ## Stack
