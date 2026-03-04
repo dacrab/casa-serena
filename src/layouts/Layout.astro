@@ -89,7 +89,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 
 		<!-- Fonts: preconnect + swap -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
 		<!-- Vercel Web Analytics -->
@@ -117,7 +117,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 
 		--font-serif: 'Cormorant Garamond', Georgia, serif;
 		--font-sans:  'DM Sans', system-ui, sans-serif;
-
 	}
 
 	html {
@@ -193,7 +192,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 			/* start offscreen */
 			transform: translate(-200px, -200px);
 			will-change: transform;
-			transition: border-color 0.3s;
 		}
 	}
 
