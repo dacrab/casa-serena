@@ -92,7 +92,7 @@ gsap.timeline({ delay: 2.5 })
 
 document.querySelectorAll('.nav-links a').forEach(link => {
   const el   = link as HTMLElement;
-  const line = Object.assign(document.createElement('span'), {});
+  const line = document.createElement('span');
   Object.assign(line.style, {
     position: 'absolute', bottom: '-2px', left: '0',
     width: '100%', height: '1px', display: 'block',
@@ -121,8 +121,8 @@ Object.assign(mobileOverlay.style, {
   display:'flex', alignItems:'center', justifyContent:'center',
   opacity:'0', pointerEvents:'none',
 });
-const ul = mobileOverlay.querySelector('ul') as HTMLElement | null;
-if (ul) Object.assign(ul.style, { listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem' });
+const ul = mobileOverlay.querySelector('ul') as HTMLElement;
+Object.assign(ul.style, { listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem' });
 mobileOverlay.querySelectorAll('a').forEach(a =>
   Object.assign((a as HTMLElement).style, { fontFamily:'var(--font-serif)', fontSize:'clamp(2.2rem,7vw,3.8rem)', color:'var(--cream)', textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.5rem 0' })
 );
@@ -150,19 +150,21 @@ mobileOverlay.querySelectorAll('a').forEach(a =>
 );
 
 /* ── hero ── */
+// scroll-line + marquee are fire-and-forget loops — live outside the entrance timeline
+gsap.timeline({ repeat: -1, repeatDelay: 0.4, delay: 3.0 })
+  .to('.scroll-line', { height: 40, duration: 0.55, ease: 'power2.out' })
+  .to('.scroll-line', { opacity: 0, duration: 0.4,  ease: 'power1.in' })
+  .set('.scroll-line', { height: 0, opacity: 1 });
+
+gsap.to('.marquee-container', { x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8 });
+
 const heroTl = gsap.timeline({ delay: 2.2, defaults: { ease: 'power4.out' } });
 heroTl
   .to('.hero-eyebrow .ec', { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
   .to('.hero-line',  { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
   .to('.hero-title', { y: 0, opacity: 1, duration: 1.1 }, '-=0.5')
   .to('.hero-meta',  { y: 0, opacity: 1, duration: 0.7 }, '-=0.6')
-  .to('.hero-scroll',{ opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4')
-  .add(() => gsap.timeline({ repeat: -1, repeatDelay: 0.4 })
-    .to('.scroll-line', { height: 40, duration: 0.55, ease: 'power2.out' })
-    .to('.scroll-line', { opacity: 0, duration: 0.4, ease: 'power1.in' })
-    .set('.scroll-line', { height: 0, opacity: 1 })
-  )
-  .add(() => gsap.to('.marquee-container', { x: '-50%', duration: 20, ease: 'none', repeat: -1 }), '-=0.6');
+  .to('.hero-scroll',{ opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4');
 
 gsap.fromTo('.hero-video', { scale: 1.06 }, { scale: 1, duration: 2.4, ease: 'power2.out', delay: 0.1 });
 
@@ -375,11 +377,7 @@ form?.addEventListener('submit', e => {
   });
 });
 
-/* ─────────────────────────────────────────
-   LOAD SCREEN — branded intro, then reveal
-   Timeline: logo(0.2) → line(0.75) → sub(1.0) → fade(1.8→2.5)
-   heroTl delay of 2.2 overlaps cleanly with fade end
-─────────────────────────────────────── */
+/* ── load screen — fades at t=1.8, heroTl starts at t=2.2 for clean overlap ── */
 const loadScreen = document.getElementById('load-screen');
 if (loadScreen) {
   document.body.style.overflow = 'hidden';
@@ -448,8 +446,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.
 ─────────────────────────────────────── */
 const backToTop = document.getElementById('back-to-top');
 if (backToTop) {
-  const showBtn  = () => gsap.to(backToTop, { opacity: 1, pointerEvents: 'all', duration: 0.4, ease: 'power2.out' });
-  const hideBtn  = () => gsap.to(backToTop, { opacity: 0, pointerEvents: 'none', duration: 0.3, ease: 'power2.in' });
+  const showBtn = () => { backToTop.style.pointerEvents = 'all';  gsap.to(backToTop, { opacity: 1, duration: 0.4, ease: 'power2.out' }); };
+  const hideBtn = () => { backToTop.style.pointerEvents = 'none'; gsap.to(backToTop, { opacity: 0, duration: 0.3, ease: 'power2.in'  }); };
 
   ScrollTrigger.create({
     trigger: '.hero',
@@ -479,17 +477,12 @@ sections.forEach(section => {
   });
 });
 
-function setActive(id: string) {
-  navLinks.forEach(link => {
-    link.removeAttribute('aria-current');
-    link.classList.remove('active');
-  });
+const setActive = (id: string) => {
+  navLinks.forEach(link => { link.removeAttribute('aria-current'); link.classList.remove('active'); });
   const active = document.querySelector(`.nav-links a[href="#${id}"]`);
-  if (active) {
-    active.setAttribute('aria-current', 'page');
-    active.classList.add('active');
-  }
-}
+  active?.setAttribute('aria-current', 'page');
+  active?.classList.add('active');
+};
 
 /* ── reduced motion ── */
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
