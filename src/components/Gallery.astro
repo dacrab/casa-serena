@@ -14,7 +14,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <!-- ── Desktop: horizontal pinned gallery ── -->
 <section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
-  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] text-[0.65rem] tracking-[0.15em] uppercase text-cream-40 z-10">
+  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] text-[0.65rem] tracking-[0.15em] uppercase z-10" style="color:var(--color-cream-40)">
     The Property
   </div>
   <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] text-[0.9rem] text-cream z-10">
@@ -46,7 +46,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 <!-- ── Mobile: vertical stacked gallery ── -->
 <section id="gallery" class="md:hidden bg-gallery-bg">
   <div class="flex justify-between items-center px-5 pt-5 pb-2">
-    <div class="text-[0.65rem] tracking-[0.15em] uppercase text-cream-40">The Property</div>
+    <div class="text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--color-cream-40)">The Property</div>
     <div class="text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
   </div>
   <div class="flex flex-col">

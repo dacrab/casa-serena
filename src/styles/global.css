@@ -10,7 +10,11 @@
   --color-warm-white: #FDFAF5;
   --color-gallery-bg: #1a1410;
 
-  /* ── Alpha tokens ── */
+  /* ── Typography ── */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+
+  /* ── Alpha tokens as CSS custom properties (used inline, not as utilities) ── */
   --color-border-warm:   rgba(107, 79, 58, 0.2);
   --color-border-light:  rgba(245, 240, 232, 0.15);
   --color-border-faint:  rgba(245, 240, 232, 0.08);
@@ -21,10 +25,6 @@
   --color-overlay-dark:  rgba(30, 20, 15, 0.96);
   --color-overlay-scrim: rgba(42, 35, 32, 0.5);
   --color-nav-scrolled:  rgba(253, 250, 245, 0.96);
-
-  /* ── Typography ── */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans:  'DM Sans', system-ui, sans-serif;
 }
 
 /* ── Base resets ── */
@@ -38,15 +38,24 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  font-family: 'DM Sans', system-ui, sans-serif;
 }
 
 body {
   background-color: var(--color-warm-white);
   color: var(--color-charcoal);
-  font-family: var(--font-sans);
+  font-family: 'DM Sans', system-ui, sans-serif;
   font-weight: 300;
   overflow-x: clip;
   width: 100%;
+}
+
+/* ensure Tailwind's font-serif utility maps correctly */
+.font-serif {
+  font-family: 'Cormorant Garamond', Georgia, serif !important;
+}
+.font-sans {
+  font-family: 'DM Sans', system-ui, sans-serif !important;
 }
 
 img {
@@ -198,23 +207,28 @@ a {
 
 /* ── Nav global states (JS-toggled) ── */
 .nav-scrolled {
-  background: var(--color-nav-scrolled);
+  background: var(--color-nav-scrolled) !important;
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
-.nav-scrolled [data-nav="logo"]  { color: var(--color-charcoal); }
-.nav-scrolled [data-nav="link"]  { color: var(--color-charcoal-65); }
-.nav-scrolled [data-nav="link"].active { color: var(--color-terracotta); }
-.nav-scrolled [data-nav="bar"]   { background: var(--color-charcoal); }
+.nav-scrolled [data-nav="logo"]  { color: var(--color-charcoal) !important; }
+.nav-scrolled [data-nav="link"]  { color: var(--color-charcoal-65) !important; }
+.nav-scrolled [data-nav="link"].active { color: var(--color-terracotta) !important; }
+.nav-scrolled [data-nav="bar"]   { background: var(--color-charcoal) !important; }
 
 [data-nav="link"].active { color: var(--color-terracotta); }
 
 /* ── Gallery pin (desktop GSAP) — needs overflow hidden on section ── */
 .gallery-pinned { overflow: hidden; }
 
+/* ── Form inputs — focus border ── */
+.form-input-styled:focus {
+  border-bottom-color: var(--color-terracotta) !important;
+}
+
 /* ── Form success ── */
 .form-success {
-  font-family: var(--font-serif);
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-size: 1.2rem;
   color: var(--color-cream);

@@ -37,7 +37,7 @@ const stats = [
         <div class="flex gap-16" data-anim="about-stats">
           {stats.map(s => (
             <div class="flex flex-col gap-2">
-              <div data-anim="stat-number" class="font-serif text-[2.8rem] font-light text-terracotta">{s.value}</div>
+              <div data-anim="stat-number" class="font-serif text-[2.8rem] font-light text-terracotta leading-none">{s.value}</div>
               <div data-anim="stat-label" class="text-[0.68rem] tracking-[0.15em] uppercase text-driftwood">{s.label}</div>
             </div>
           ))}

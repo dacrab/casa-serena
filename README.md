@@ -2,11 +2,12 @@
 
 > **Casa Serena** — Spanish/Italian for *"Serene House"* or *"Peaceful Home"*. A name that captures the stillness of waking up to the sea, where luxury and calm exist in perfect balance.
 
-Luxury beachfront estate website. Built with [Astro](https://astro.build), styled with scoped CSS, animated with [GSAP](https://gsap.com).
+Luxury beachfront estate website. Built with [Astro](https://astro.build), styled with [Tailwind CSS v4](https://tailwindcss.com), animated with [GSAP](https://gsap.com).
 
 ## Stack
 
 - **Framework** — Astro 5 (static output)
+- **Styling** — Tailwind CSS v4 (CSS-first config via `@theme` in `src/styles/global.css`)
 - **Animations** — GSAP + ScrollTrigger
 - **Fonts** — Cormorant Garamond, DM Sans (Google Fonts)
 - **Images** — Astro Image (optimized WebP via Unsplash)
@@ -26,8 +27,10 @@ src/
 │   ├── Location.astro     # Location map context + distances
 │   ├── Enquire.astro      # Contact form + footer
 │   └── PageScripts.astro  # All GSAP / ScrollTrigger logic
+├── styles/
+│   └── global.css         # Tailwind v4 @theme tokens + base styles
 ├── layouts/
-│   └── Layout.astro       # HTML shell, global styles, SEO meta
+│   └── Layout.astro       # HTML shell, SEO meta
 └── pages/
     ├── index.astro        # Page orchestrator (~50 lines)
     └── 404.astro

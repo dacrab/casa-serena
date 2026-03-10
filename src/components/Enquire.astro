@@ -17,8 +17,8 @@ const socials = [
       <h2 data-anim="enquire-title" class="font-serif text-[clamp(3.5rem,15vw,11rem)] italic font-light text-cream leading-[0.9]">Stay.</h2>
       <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta"></div>
       <div data-anim="enquire-contact" class="flex flex-col gap-1">
-        <a href="mailto:info@casaserena.com" data-anim="enquire-link" class="font-serif text-base md:text-[1rem] text-cream transition-colors duration-300 hover:text-terracotta break-all">info@casaserena.com</a>
-        <a href="tel:+30-22860-00000"        data-anim="enquire-link" class="font-serif text-base md:text-[1rem] text-cream transition-colors duration-300 hover:text-terracotta">+30 22860 00000</a>
+        <a href="mailto:info@casaserena.com" data-anim="enquire-link" class="font-serif italic text-base md:text-[1.1rem] text-cream transition-colors duration-300 hover:text-terracotta break-all">info@casaserena.com</a>
+        <a href="tel:+30-22860-00000"        data-anim="enquire-link" class="font-serif italic text-base md:text-[1.1rem] text-cream transition-colors duration-300 hover:text-terracotta">+30 22860 00000</a>
       </div>
       <div data-anim="enquire-social" class="flex flex-wrap items-center gap-3 text-[0.75rem] tracking-[0.08em] text-driftwood">
         {socials.map((s, i, arr) => (
@@ -36,22 +36,22 @@ const socials = [
         <div data-anim="form-group" class="flex flex-col gap-2">
           <label for="enquire-name" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Name</label>
           <input id="enquire-name" type="text" name="name" autocomplete="name" required aria-required="true"
-            class="bg-transparent border-0 border-b border-border-light text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none transition-colors duration-300 focus:border-b-terracotta appearance-none rounded-none w-full" />
+            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
           <label for="enquire-email" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Email</label>
           <input id="enquire-email" type="email" name="email" autocomplete="email" required aria-required="true"
-            class="bg-transparent border-0 border-b border-border-light text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none transition-colors duration-300 focus:border-b-terracotta appearance-none rounded-none w-full" />
+            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
           <label for="enquire-message" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">
             Message <span class="opacity-60 italic normal-case tracking-normal">(optional)</span>
           </label>
           <textarea id="enquire-message" name="message" rows={4}
-            class="bg-transparent border-0 border-b border-border-light text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none transition-colors duration-300 focus:border-b-terracotta appearance-none rounded-none w-full resize-none leading-[1.6]"></textarea>
+            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full resize-none leading-[1.6] transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)"></textarea>
         </div>
         <button type="submit" data-anim="form-submit"
-          class="enquire-submit inline-flex items-center justify-center md:justify-start gap-[0.6rem] w-full md:w-auto self-start px-8 py-[0.85rem] border border-border-light bg-transparent text-[0.72rem] tracking-[0.14em] uppercase text-cream cursor-pointer transition-[background,border-color] duration-300 hover:bg-terracotta hover:border-terracotta">
+          class="enquire-submit inline-flex items-center justify-center md:justify-start gap-[0.6rem] w-full md:w-auto self-start px-8 py-[0.85rem] bg-transparent text-[0.72rem] tracking-[0.14em] uppercase text-cream cursor-pointer transition-[background,border-color] duration-300 hover:bg-terracotta hover:border-terracotta" style="border:1px solid var(--color-border-light)">
           <span>Send Enquiry</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="2" y1="8" x2="14" y2="8"/>
@@ -64,7 +64,7 @@ const socials = [
 </section>
 
 <!-- Footer -->
-<footer class="bg-charcoal border-t border-border-faint px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left">
+<footer class="bg-charcoal px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left" style="border-top:1px solid var(--color-border-faint)">
   <span data-anim="footer-logo" class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
   <span data-anim="footer-copy" class="text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
 </footer>

@@ -25,7 +25,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     {amenities.map((a, i) => (
       <div
         data-anim="amenity-row"
-        class="py-5 md:py-[1.6rem] border-t border-border-warm grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer"
+        class="py-5 md:py-[1.6rem] grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer" style="border-top:1px solid var(--color-border-warm)"
       >
         <div class="flex flex-col gap-1">
           <div data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</div>
