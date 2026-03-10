@@ -14,24 +14,27 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 gsap.defaults({ ease: 'power3.out', overwrite: 'auto' });
 
 /* ── initial hidden states (prevents FOUC) ── */
-gsap.set('.hero-eyebrow .ec',  { y: 22, opacity: 0 });
-gsap.set('.hero-title',        { y: 70,  opacity: 0 });
-gsap.set('.hero-scroll',       { opacity: 0 });
-gsap.set('.scroll-line',       { height: 0 });
-gsap.set('.intro-text',        { x: '55vw', opacity: 0 });
-gsap.set('.about-image-wrapper', { x: 40, opacity: 0 });
-gsap.set('.amenity-row',       { x: -28, opacity: 0 });
-gsap.set('.enquire-title',     { y: 60, opacity: 0 });
-gsap.set('.location-miles',    { x: 10, opacity: 0 });
-gsap.set(['.hero-meta', '.enquire-eyebrow', '.enquire-social', '.quote-attribution', '.location-city'], { y: 16, opacity: 0 });
-gsap.set(['.intro-right p', '.about-text p', '.gallery-caption', '.enquire-right', '.location-desc'],   { y: 24, opacity: 0 });
-gsap.set(['.quote-text', '.location-address'],                                                           { y: 40, opacity: 0 });
-gsap.set(['.quote-stat', '.amenities-number', '.footer-logo', '.footer-copy', '.form-submit'],          { y: 30, opacity: 0 });
-gsap.set(['.enquire-contact', '.form-group'],                                                            { y: 20, opacity: 0 });
-gsap.set(['.about-stats .stat', '.stat-label', '.nav-links a'],                                         { y: 10, opacity: 0 });
-gsap.set(['.enquire-rule', '.quote-stat-sep'], { scaleX: 0, transformOrigin: 'left center' });
-gsap.set(['.location-distance', '.gallery-label'], { x: 20, opacity: 0 });
-gsap.set(['.about-sidebar', '.quote-stat-label', '.nav-logo'], { opacity: 0 });
+const sel = (s: string) => `[data-anim="${s}"]`;
+const selAll = (s: string) => `[data-anim="${s}"]`;
+
+gsap.set(selAll('ec'),                { y: 22, opacity: 0 });
+gsap.set(sel('hero-title'),           { y: 70, opacity: 0 });
+gsap.set(sel('hero-scroll'),          { opacity: 0 });
+gsap.set(sel('scroll-line'),          { height: 0 });
+gsap.set(sel('intro-text'),           { x: 60, opacity: 0 });
+gsap.set(sel('about-image-wrapper'),  { x: 40, opacity: 0 });
+gsap.set(selAll('amenity-row'),       { x: -28, opacity: 0 });
+gsap.set(sel('enquire-title'),        { y: 60, opacity: 0 });
+gsap.set(selAll('location-miles'),    { x: 10, opacity: 0 });
+gsap.set([sel('hero-meta'), sel('enquire-eyebrow'), sel('enquire-social'), sel('quote-attribution'), sel('location-city')], { y: 16, opacity: 0 });
+gsap.set([sel('intro-right-p'), sel('about-text-p'), selAll('gallery-caption'), sel('enquire-right'), sel('location-desc')], { y: 24, opacity: 0 });
+gsap.set([sel('quote-text'), sel('location-address')],                                                    { y: 40, opacity: 0 });
+gsap.set([selAll('quote-stat'), sel('amenities-number'), sel('footer-logo'), sel('footer-copy'), sel('form-submit')], { y: 30, opacity: 0 });
+gsap.set([sel('enquire-contact'), selAll('form-group')],                                                   { y: 20, opacity: 0 });
+gsap.set([selAll('stat-label'), selAll('nav-link')],                                                       { y: 10, opacity: 0 });
+gsap.set([sel('enquire-rule'), selAll('quote-stat-sep')], { scaleX: 0, transformOrigin: 'left center' });
+gsap.set([selAll('location-distance'), sel('gallery-label')], { x: 20, opacity: 0 });
+gsap.set([sel('about-sidebar'), selAll('quote-stat-label'), sel('nav-logo')], { opacity: 0 });
 
 /* ── cursor ── */
 const cursor = document.getElementById('cursor');
@@ -39,10 +42,10 @@ if (cursor && window.matchMedia('(pointer: fine)').matches) {
   const moveX = gsap.quickTo(cursor, 'x', { duration: 0.55, ease: 'power3' });
   const moveY = gsap.quickTo(cursor, 'y', { duration: 0.55, ease: 'power3' });
   window.addEventListener('mousemove', e => { moveX(e.clientX - 18); moveY(e.clientY - 18); }, { passive: true });
-  const interactive = 'a, button, .gallery-panel, .amenity-row';
+  const interactive = `a, button, ${sel('gallery-panel')}, ${sel('amenity-row')}`;
   document.addEventListener('mouseover', e => {
     if ((e.target as Element).closest(interactive))
-      gsap.to(cursor, { scale: 0.4, background: 'var(--terracotta)', duration: 0.2, ease: 'power2.out' });
+      gsap.to(cursor, { scale: 0.4, background: 'var(--color-terracotta)', duration: 0.2, ease: 'power2.out' });
   });
   document.addEventListener('mouseout', e => {
     if ((e.target as Element).closest(interactive))
@@ -51,26 +54,26 @@ if (cursor && window.matchMedia('(pointer: fine)').matches) {
 }
 
 /* ── navbar ── */
-const nav = document.querySelector('.nav');
+const nav = document.querySelector('[data-nav="root"]');
 if (nav) {
   ScrollTrigger.create({
     start: 'top -60',
-    onEnter:     () => nav.classList.add('scrolled'),
-    onLeaveBack: () => nav.classList.remove('scrolled'),
+    onEnter:     () => nav.classList.add('nav-scrolled'),
+    onLeaveBack: () => nav.classList.remove('nav-scrolled'),
   });
 }
 
 gsap.timeline({ delay: 2.5 })
-  .to('.nav-logo',   { opacity: 1, y: 0, duration: 0.7 })
-  .to('.nav-links a', { opacity: 1, y: 0, stagger: 0.07, duration: 0.55 }, '-=0.35');
+  .to(sel('nav-logo'),      { opacity: 1, y: 0, duration: 0.7 })
+  .to('[data-nav="link"]',  { opacity: 1, y: 0, stagger: 0.07, duration: 0.55 }, '-=0.35');
 
-document.querySelectorAll('.nav-links a').forEach(link => {
+document.querySelectorAll('[data-nav="link"]').forEach(link => {
   const el   = link as HTMLElement;
   const line = document.createElement('span');
   Object.assign(line.style, {
     position: 'absolute', bottom: '-2px', left: '0',
     width: '100%', height: '1px', display: 'block',
-    background: 'var(--terracotta)', transformOrigin: 'left center', transform: 'scaleX(0)',
+    background: 'var(--color-terracotta)', transformOrigin: 'left center', transform: 'scaleX(0)',
   });
   el.style.position = 'relative';
   el.appendChild(line);
@@ -79,30 +82,32 @@ document.querySelectorAll('.nav-links a').forEach(link => {
 });
 
 /* ── mobile menu ── */
-const navToggle    = document.querySelector('.nav-toggle');
+const navToggle    = document.querySelector('[data-nav="toggle"]');
 const mobileOverlay = document.createElement('div');
 mobileOverlay.innerHTML = `<ul>${
-  [...document.querySelectorAll('.nav-links a')]
+  [...document.querySelectorAll('[data-nav="link"]')]
     .map(a => `<li><a href="${a.getAttribute('href')}">${a.textContent}</a></li>`)
     .join('')
 }</ul>`;
 Object.assign(mobileOverlay.style, {
-  position:'fixed', inset:'0', background:'var(--charcoal)', zIndex:'998',
+  position:'fixed', inset:'0', background:'var(--color-charcoal)', zIndex:'998',
   display:'flex', alignItems:'center', justifyContent:'center',
   opacity:'0', pointerEvents:'none',
 });
 Object.assign((mobileOverlay.querySelector('ul') as HTMLElement).style, {
-  listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.25rem',
+  listStyle:'none', textAlign:'center', display:'flex', flexDirection:'column', gap:'0.5rem',
+  padding: '0 1.25rem', width: '100%',
 });
 mobileOverlay.querySelectorAll('a').forEach(a =>
   Object.assign((a as HTMLElement).style, {
-    fontFamily:'var(--font-serif)', fontSize:'clamp(2.2rem,7vw,3.8rem)', color:'var(--cream)',
-    textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.5rem 0',
+    fontFamily:'var(--font-serif)', fontSize:'clamp(2rem,9vw,3.5rem)', color:'var(--color-cream)',
+    textDecoration:'none', fontStyle:'italic', fontWeight:'300', display:'block', padding:'0.6rem 0',
+    WebkitTapHighlightColor:'transparent',
   })
 );
 document.body.appendChild(mobileOverlay);
 
-const spans  = navToggle ? ([...navToggle.querySelectorAll('span')] as HTMLElement[]) : [];
+const spans  = navToggle ? ([...navToggle.querySelectorAll('[data-nav="bar"]')] as HTMLElement[]) : [];
 const menuTl = gsap.timeline({ paused: true, defaults: { duration: 0.38, ease: 'power2.inOut' } })
   .to(mobileOverlay, { opacity: 1, pointerEvents: 'all', duration: 0.3, ease: 'power2.out' }, 0)
   .fromTo(mobileOverlay.querySelectorAll('li'), { y: 28, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.07, duration: 0.45, ease: 'power3.out' }, 0.15);
@@ -116,25 +121,24 @@ navToggle?.addEventListener('click', () => menuTl.reversed() ? menuTl.play() : m
 mobileOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menuTl.reverse()));
 
 /* ── hero ── */
-// scroll-line + marquee are fire-and-forget loops — live outside the entrance timeline
 gsap.timeline({ repeat: -1, repeatDelay: 0.4, delay: 3.0 })
-  .to('.scroll-line', { height: 40, duration: 0.55, ease: 'power2.out' })
-  .to('.scroll-line', { opacity: 0, duration: 0.4,  ease: 'power1.in' })
-  .set('.scroll-line', { height: 0, opacity: 1 });
+  .to(sel('scroll-line'), { height: 40, duration: 0.55, ease: 'power2.out' })
+  .to(sel('scroll-line'), { opacity: 0, duration: 0.4,  ease: 'power1.in' })
+  .set(sel('scroll-line'), { height: 0, opacity: 1 });
 
-gsap.to('.marquee-container', { x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8 });
+gsap.to(sel('marquee-container'), { x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8 });
 
 const heroTl = gsap.timeline({ delay: 2.2, defaults: { ease: 'power4.out' } });
 heroTl
-  .to('.hero-eyebrow .ec', { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
-  .to('.hero-line',  { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-  .to('.hero-title', { y: 0, opacity: 1, duration: 1.1 }, '-=0.5')
-  .to('.hero-meta',  { y: 0, opacity: 1, duration: 0.7 }, '-=0.6')
-  .to('.hero-scroll',{ opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4');
+  .to(selAll('ec'),        { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
+  .to(sel('hero-line'),    { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+  .to(sel('hero-title'),   { y: 0, opacity: 1, duration: 1.1 }, '-=0.5')
+  .to(sel('hero-meta'),    { y: 0, opacity: 1, duration: 0.7 }, '-=0.6')
+  .to(sel('hero-scroll'),  { opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4');
 
-gsap.fromTo('.hero-video', { scale: 1.06 }, { scale: 1, duration: 2.4, ease: 'power2.out', delay: 0.1 });
+gsap.fromTo(sel('hero-video'), { scale: 1.06 }, { scale: 1, duration: 2.4, ease: 'power2.out', delay: 0.1 });
 
-const heroTitle = document.querySelector('.hero-title') as HTMLElement | null;
+const heroTitle = document.querySelector(sel('hero-title')) as HTMLElement | null;
 if (heroTitle) {
   heroTitle.addEventListener('mousemove', (e: MouseEvent) => {
     const { left, top, width, height } = heroTitle.getBoundingClientRect();
@@ -149,77 +153,76 @@ if (heroTitle) {
   );
 }
 
-// hero-meta letter-spacing + video parallax share same trigger
-gsap.to('.hero-meta',  { letterSpacing: '0.28em', ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5 } });
-gsap.to('.hero-video', { yPercent: 18,            ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+gsap.to(sel('hero-meta'),  { letterSpacing: '0.28em', ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 } });
+gsap.to(sel('hero-video'), { yPercent: 18,            ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true } });
 
 /* ── intro ── */
-gsap.to('.intro-text',   { x: 0, opacity: 1, ease: 'power2.out', scrollTrigger: { trigger: '.intro', start: 'top 78%', end: 'center 38%', scrub: 1.4 } });
-gsap.to('.intro-right p',{ y: 0, opacity: 1, stagger: 0.14, duration: 0.9, scrollTrigger: { trigger: '.intro-right', start: 'top 82%', toggleActions: 'play none none none' } });
+gsap.to(sel('intro-text'),    { x: 0, opacity: 1, ease: 'power2.out', duration: 1.0, scrollTrigger: { trigger: sel('intro-text'), start: 'top 80%', toggleActions: 'play none none none' } });
+gsap.to(sel('intro-right-p'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.9, scrollTrigger: { trigger: sel('intro-right-p'), start: 'top 82%', toggleActions: 'play none none none' } });
 
 /* ── about ── */
-gsap.to('.about-image-wrapper', { opacity: 1, x: 0, duration: 1.1, scrollTrigger: { trigger: '.about', start: 'top 72%', toggleActions: 'play none none none' } });
-gsap.fromTo('.about-image-wrapper img', { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
-gsap.to('.about-sidebar', { opacity: 1, duration: 1.4, scrollTrigger: { trigger: '.about', start: 'top 80%', toggleActions: 'play none none none' } });
-gsap.to('.about-sidebar', { y: -30, ease: 'none', scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
-gsap.to('.about-text p',  { y: 0, opacity: 1, duration: 0.95, scrollTrigger: { trigger: '.about-text', start: 'top 78%', toggleActions: 'play none none none' } });
-gsap.to('.about-stats .stat', { y: 0, opacity: 1, stagger: 0.12, duration: 0.8, scrollTrigger: { trigger: '.about-stats', start: 'top 82%', toggleActions: 'play none none none' } });
-gsap.to('.stat-label',    { y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3, scrollTrigger: { trigger: '.about-stats', start: 'top 82%', toggleActions: 'play none none none' } });
+gsap.to(sel('about-image-wrapper'), { opacity: 1, x: 0, duration: 1.1, scrollTrigger: { trigger: '#about', start: 'top 72%', toggleActions: 'play none none none' } });
+gsap.fromTo(`${sel('about-image-wrapper')} img`, { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
+gsap.to(sel('about-sidebar'), { opacity: 1, duration: 1.4, scrollTrigger: { trigger: '#about', start: 'top 80%', toggleActions: 'play none none none' } });
+gsap.to(sel('about-sidebar'), { y: -30, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
+gsap.to(sel('about-text-p'),  { y: 0, opacity: 1, duration: 0.95, scrollTrigger: { trigger: sel('about-text-p'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('about-stats'),   { y: 0, opacity: 1, stagger: 0.12, duration: 0.8, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
+gsap.to(selAll('stat-label'), { y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
 
-document.querySelectorAll('.stat-number').forEach(el => {
+document.querySelectorAll(sel('stat-number')).forEach(el => {
   el.addEventListener('mouseenter', () => gsap.to(el, { scale: 1.08, duration: 0.25, ease: 'power2.out' }));
   el.addEventListener('mouseleave', () => gsap.to(el, { scale: 1,    duration: 0.35, ease: 'elastic.out(1,0.5)' }));
 });
 
 /* ── amenities ── */
-gsap.to('.amenities-number', { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: '.amenities', start: 'top 80%', toggleActions: 'play none none none' } });
-gsap.to('.amenities-number', { y: -50, ease: 'none', scrollTrigger: { trigger: '.amenities', start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
-gsap.to('.amenity-row',      { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: '.amenities-right', start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('amenities-number'), { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' } });
+gsap.to(sel('amenities-number'), { y: -50, ease: 'none', scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+gsap.to(selAll('amenity-row'),   { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: selAll('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
 
-document.querySelectorAll('.amenity-row').forEach(row => {
-  const name    = row.querySelector('.amenity-name')    as HTMLElement | null;
-  const counter = row.querySelector('.amenity-counter') as HTMLElement | null;
+document.querySelectorAll(selAll('amenity-row')).forEach(row => {
+  const name    = row.querySelector(sel('amenity-name'))    as HTMLElement | null;
+  const counter = row.querySelector(sel('amenity-counter')) as HTMLElement | null;
   row.addEventListener('mouseenter', () => {
-    if (name)    gsap.to(name,    { x: 8, color: 'var(--terracotta)', duration: 0.25, ease: 'power2.out' });
+    if (name)    gsap.to(name,    { x: 8, color: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' });
     if (counter) gsap.to(counter, { scale: 1.3, duration: 0.25, ease: 'back.out(2)' });
   });
   row.addEventListener('mouseleave', () => {
-    if (name)    gsap.to(name,    { x: 0, color: 'var(--charcoal)', duration: 0.3 });
+    if (name)    gsap.to(name,    { x: 0, color: 'var(--color-charcoal)', duration: 0.3 });
     if (counter) gsap.to(counter, { scale: 1, duration: 0.3 });
   });
 });
 
 /* ── gallery ── */
-gsap.to('.gallery-label',   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '.gallery', start: 'top 90%', toggleActions: 'play none none none' } });
-gsap.to('.gallery-caption', { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '.gallery', start: 'top 85%', toggleActions: 'play none none none' } });
+gsap.to(sel('gallery-label'),   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' } });
+gsap.to(selAll('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
 
-document.querySelectorAll('.gallery-panel').forEach(panel => {
+document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
   const img = panel.querySelector('img') as HTMLElement | null;
   if (!img) return;
   panel.addEventListener('mouseenter', () => gsap.to(img, { scale: 1.04, duration: 0.6, ease: 'power2.out' }));
   panel.addEventListener('mouseleave', () => gsap.to(img, { scale: 1,    duration: 0.7, ease: 'power2.out' }));
 });
 
-const scrollHint    = document.querySelector('.gallery-scroll-hint');
-const scrollHintSvg = document.querySelector('.gallery-scroll-hint svg');
+const scrollHint    = document.querySelector(sel('gallery-scroll-hint'));
+const scrollHintSvg = scrollHint?.querySelector('svg');
 if (scrollHint && scrollHintSvg) {
   gsap.to(scrollHintSvg, { x: 6, duration: 0.65, ease: 'power1.inOut', yoyo: true, repeat: -1 });
   gsap.to(scrollHint,    { opacity: 0, duration: 0.6, ease: 'power2.in', delay: 3 });
 }
 
 /* ── gallery pin ── */
-const track   = document.querySelector('.gallery-track');
-const panels  = gsap.utils.toArray('.gallery-panel');
-const counter = document.querySelector('.gallery-counter');
+const track   = document.querySelector(sel('gallery-track'));
+const panels  = gsap.utils.toArray(sel('gallery-panel'));
+const counter = document.querySelector(sel('gallery-counter'));
 
 if (track && panels.length && window.innerWidth > 768) {
   ScrollTrigger.refresh();
-  const totalWidth = track.scrollWidth - window.innerWidth;
+  const totalWidth = (track as HTMLElement).scrollWidth - window.innerWidth;
   gsap.to(track, {
     x: () => -totalWidth,
     ease: 'none',
     scrollTrigger: {
-      trigger: '.gallery',
+      trigger: '#gallery',
       start: 'top top',
       end: () => `+=${totalWidth}`,
       scrub: 1.0, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
@@ -234,14 +237,14 @@ if (track && panels.length && window.innerWidth > 768) {
 }
 
 /* ── quote ── */
-gsap.fromTo('.quote-bg img', { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.quote-section', start: 'top bottom', end: 'center center', scrub: 1.5 } });
-gsap.to('.quote-bg img',                       { yPercent: 12, ease: 'none', scrollTrigger: { trigger: '.quote-section', start: 'top bottom', end: 'bottom top', scrub: true } });
-gsap.to(['.quote-text', '.quote-attribution'], { y: 0, opacity: 1, stagger: 0.18, duration: 1.0, scrollTrigger: { trigger: '.quote-content', start: 'top 72%', toggleActions: 'play none none none' } });
-gsap.to('.quote-stat',       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: { trigger: '.quote-stats', start: 'top 78%', toggleActions: 'play none none none' } });
-gsap.to('.quote-stat-sep',   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: '.quote-stats', start: 'top 78%', toggleActions: 'play none none none' } });
-gsap.to('.quote-stat-label', { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: { trigger: '.quote-stats', start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.fromTo(sel('quote-bg-img'), { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'center center', scrub: 1.5 } });
+gsap.to(sel('quote-bg-img'),     { yPercent: 12, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'bottom top', scrub: true } });
+gsap.to([sel('quote-text'), sel('quote-attribution')], { y: 0, opacity: 1, stagger: 0.18, duration: 1.0, scrollTrigger: { trigger: sel('quote-text'), start: 'top 72%', toggleActions: 'play none none none' } });
+gsap.to(selAll('quote-stat'),       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(selAll('quote-stat-sep'),   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(selAll('quote-stat-label'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
 
-document.querySelectorAll('.quote-stat-number').forEach(el => {
+document.querySelectorAll(sel('quote-stat-number')).forEach(el => {
   const target = parseFloat(el.textContent ?? '0');
   const obj    = { val: 0 };
   ScrollTrigger.create({
@@ -251,21 +254,21 @@ document.querySelectorAll('.quote-stat-number').forEach(el => {
 });
 
 /* ── location ── */
-gsap.to('.location-image img', { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.location-image', start: 'top bottom', end: 'bottom top', scrub: true } });
+gsap.to(`${sel('location-image')} img`, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: sel('location-image'), start: 'top bottom', end: 'bottom top', scrub: true } });
 
 ScrollTrigger.create({
-  trigger: '.location-content', start: 'top 78%', once: true,
+  trigger: '#location', start: 'top 78%', once: true,
   onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .to('.location-address',  { y: 0, opacity: 1, duration: 1.0 })
-    .to('.location-city',     { y: 0, opacity: 1, duration: 0.6 }, '-=0.5')
-    .to('.location-desc',     { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
-    .to('.location-distance', { x: 0, opacity: 1, stagger: 0.1, duration: 0.6 }, '-=0.5')
-    .to('.location-miles',    { x: 0, opacity: 1, stagger: 0.1, duration: 0.5 }, '-=0.5'),
+    .to(sel('location-address'),  { y: 0, opacity: 1, duration: 1.0 })
+    .to(sel('location-city'),     { y: 0, opacity: 1, duration: 0.6 }, '-=0.5')
+    .to(sel('location-desc'),     { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
+    .to(selAll('location-distance'), { x: 0, opacity: 1, stagger: 0.1, duration: 0.6 }, '-=0.5')
+    .to(selAll('location-miles'),    { x: 0, opacity: 1, stagger: 0.1, duration: 0.5 }, '-=0.5'),
 });
 
-document.querySelectorAll('.location-distance').forEach(row => {
+document.querySelectorAll(sel('location-distance')).forEach(row => {
   const dest  = row.querySelector('.location-dest')  as HTMLElement | null;
-  const miles = row.querySelector('.location-miles') as HTMLElement | null;
+  const miles = row.querySelector(sel('location-miles')) as HTMLElement | null;
   row.addEventListener('mouseenter', () => {
     if (dest)  gsap.to(dest,  { x: 6, duration: 0.2, ease: 'power2.out' });
     if (miles) gsap.to(miles, { scale: 1.1, duration: 0.2, ease: 'back.out(2)' });
@@ -278,19 +281,19 @@ document.querySelectorAll('.location-distance').forEach(row => {
 
 /* ── enquire ── */
 ScrollTrigger.create({
-  trigger: '.enquire', start: 'top 65%', once: true,
+  trigger: '#enquire', start: 'top 65%', once: true,
   onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .to('.enquire-title',   { y: 0, opacity: 1, duration: 1.1 })
-    .to('.enquire-rule',    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-    .to('.enquire-eyebrow', { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
-    .to('.enquire-contact', { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
-    .to('.enquire-right',   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
-    .to('.enquire-social',  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
-    .to('.form-group',      { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
-    .to('.form-submit',     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
+    .to(sel('enquire-title'),   { y: 0, opacity: 1, duration: 1.1 })
+    .to(sel('enquire-rule'),    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+    .to(sel('enquire-eyebrow'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
+    .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
+    .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
+    .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
+    .to(selAll('form-group'),   { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
+    .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
 });
 
-const submitBtn = document.querySelector('.form-submit') as HTMLElement | null;
+const submitBtn = document.querySelector(sel('form-submit')) as HTMLElement | null;
 if (submitBtn) {
   const arrow = submitBtn.querySelector('svg') as HTMLElement | null;
   submitBtn.addEventListener('mouseenter', () => {
@@ -303,17 +306,17 @@ if (submitBtn) {
   });
 }
 
-document.querySelectorAll('.enquire-link').forEach(link => {
+document.querySelectorAll(sel('enquire-link')).forEach(link => {
   link.addEventListener('mouseenter', () => gsap.to(link, { x: 6, duration: 0.2, ease: 'power2.out' }));
   link.addEventListener('mouseleave', () => gsap.to(link, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.5)' }));
 });
 
 /* ── footer ── */
 gsap.timeline({
-  scrollTrigger: { trigger: '.footer', start: 'top 95%', toggleActions: 'play none none none' },
+  scrollTrigger: { trigger: sel('footer-logo'), start: 'top 95%', toggleActions: 'play none none none' },
 })
-  .to('.footer-logo', { y: 0, opacity: 1, duration: 0.6 })
-  .to('.footer-copy', { y: 0, opacity: 1, duration: 0.5 }, '-=0.3');
+  .to(sel('footer-logo'), { y: 0, opacity: 1, duration: 0.6 })
+  .to(sel('footer-copy'), { y: 0, opacity: 1, duration: 0.5 }, '-=0.3');
 
 /* ─────────────────────────────────────────
    FORM SUBMISSION — success state
@@ -324,7 +327,7 @@ form?.addEventListener('submit', e => {
   gsap.to(form, {
     opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
     onComplete: () => {
-      form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>';
+      form.innerHTML = '<p class="form-success" style="font-family:var(--font-serif);font-style:italic;font-size:1.2rem;color:var(--color-cream)">Thank you. We\'ll be in touch.</p>';
       gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
     },
   });
@@ -397,10 +400,10 @@ if (backToTop) {
 }
 
 /* ── active nav ── */
-const navLinks = document.querySelectorAll('.nav-links a');
+const navLinks = document.querySelectorAll('[data-nav="link"]');
 const setActive = (id: string) => {
   navLinks.forEach(link => { link.removeAttribute('aria-current'); link.classList.remove('active'); });
-  const active = document.querySelector(`.nav-links a[href="#${id}"]`);
+  const active = document.querySelector(`[data-nav="link"][href="#${id}"]`);
   active?.setAttribute('aria-current', 'page');
   active?.classList.add('active');
 };
@@ -417,16 +420,16 @@ document.querySelectorAll('section[id]').forEach(section => {
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   gsap.globalTimeline.timeScale(0);
   gsap.set([
-    '.hero-eyebrow .ec', '.hero-line', '.hero-title', '.hero-meta', '.hero-scroll',
-    '.scroll-line', '.marquee-container', '.hero-video', '.nav-logo', '.nav-links a',
-    '.intro-text', '.intro-right p', '.about-image-wrapper', '.about-image-wrapper img',
-    '.about-sidebar', '.about-text p', '.about-stats .stat', '.stat-label',
-    '.amenities-number', '.amenity-row', '.gallery-label', '.gallery-caption',
-    '.gallery-scroll-hint', '.quote-text', '.quote-attribution', '.quote-stat',
-    '.quote-stat-sep', '.quote-stat-label', '.location-address', '.location-city',
-    '.location-desc', '.location-distance', '.location-miles', '.enquire-title',
-    '.enquire-rule', '.enquire-eyebrow', '.enquire-contact', '.enquire-right',
-    '.enquire-social', '.form-group', '.form-submit', '.footer-logo', '.footer-copy',
+    selAll('ec'), sel('hero-line'), sel('hero-title'), sel('hero-meta'), sel('hero-scroll'),
+    sel('scroll-line'), sel('marquee-container'), sel('hero-video'), sel('nav-logo'), '[data-nav="link"]',
+    sel('intro-text'), sel('intro-right-p'), sel('about-image-wrapper'),
+    sel('about-sidebar'), sel('about-text-p'), sel('about-stats'), selAll('stat-label'),
+    sel('amenities-number'), selAll('amenity-row'), sel('gallery-label'), selAll('gallery-caption'),
+    sel('gallery-scroll-hint'), sel('quote-text'), sel('quote-attribution'), selAll('quote-stat'),
+    selAll('quote-stat-sep'), selAll('quote-stat-label'), sel('location-address'), sel('location-city'),
+    sel('location-desc'), selAll('location-distance'), selAll('location-miles'), sel('enquire-title'),
+    sel('enquire-rule'), sel('enquire-eyebrow'), sel('enquire-contact'), sel('enquire-right'),
+    sel('enquire-social'), selAll('form-group'), sel('form-submit'), sel('footer-logo'), sel('footer-copy'),
     '#load-screen',
   ], { clearProps: 'all' });
   if (loadScreen) loadScreen.style.display = 'none';

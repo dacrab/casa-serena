@@ -2,111 +2,43 @@
 import { Image } from 'astro:assets';
 
 const distances = [
-  { dest: 'Fira',               miles: '12 km' },
-  { dest: 'Santorini Airport',  miles: '8 km' },
-  { dest: 'Heraklion, Crete',   miles: '130 km' },
-  { dest: 'Athens',             miles: '280 km' },
+  { dest: 'Fira',              miles: '12 km' },
+  { dest: 'Santorini Airport', miles: '8 km' },
+  { dest: 'Heraklion, Crete', miles: '130 km' },
+  { dest: 'Athens',           miles: '280 km' },
 ];
 ---
 
-<section class="location" id="location">
-  <div class="location-image">
-    <Image src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1400&q=85" alt="Santorini caldera aerial view" width={1400} height={788} format="webp" quality={85} loading="lazy" />
+<section id="location" class="bg-warm-white">
+  <!-- Full-bleed image — desktop uses negative margin trick, mobile is just full width -->
+  <div class="w-full h-[45vw] min-h-[200px] md:h-[55vh] overflow-hidden" data-anim="location-image">
+    <Image
+      src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1400&q=85"
+      alt="Santorini caldera aerial view"
+      width={1400} height={788} format="webp" quality={85} loading="lazy"
+      class="w-full h-full object-cover"
+    />
   </div>
-  <div class="location-content">
-    <div class="location-left">
-      <h3 class="location-address">Oia, Santorini 847 02</h3>
-      <p class="location-city">Santorini, Greece</p>
-      <p class="location-desc">Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.</p>
+
+  <!-- Content -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[6vw] px-5 md:px-[4vw] py-[10vh]">
+    <!-- Left -->
+    <div class="flex flex-col gap-4">
+      <h3 data-anim="location-address" class="font-serif text-[1.8rem] md:text-[2.5rem] font-light text-charcoal">Oia, Santorini 847 02</h3>
+      <p data-anim="location-city" class="text-[0.9rem] text-driftwood">Santorini, Greece</p>
+      <p data-anim="location-desc" class="text-base text-charcoal leading-[1.8]">
+        Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.
+      </p>
     </div>
-    <div class="location-right">
+
+    <!-- Right: distances -->
+    <div class="flex flex-col gap-0">
       {distances.map(d => (
-        <div class="location-distance">
-          <span class="location-dest">{d.dest}</span>
-          <span class="location-miles">{d.miles}</span>
+        <div data-anim="location-distance" class="flex justify-between items-baseline pt-8 border-t border-border-warm">
+          <span class="font-semibold text-charcoal">{d.dest}</span>
+          <span data-anim="location-miles" class="text-[0.9rem] text-terracotta font-medium">{d.miles}</span>
         </div>
       ))}
     </div>
   </div>
 </section>
-
-<style>
-.location {
-  background: var(--warm-white);
-}
-
-.location-image {
-  width: 100vw;
-  margin-inline: -4vw;
-  height: 55vh;
-  overflow: hidden;
-}
-
-.location-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.location-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6vw;
-  padding: 10vh 4vw;
-}
-
-.location-left {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.location-address {
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--charcoal);
-}
-
-.location-city {
-  font-size: 0.9rem;
-  color: var(--driftwood);
-}
-
-.location-desc {
-  font-size: 1rem;
-  color: var(--charcoal);
-  line-height: 1.8;
-}
-
-.location-right {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.location-distance {
-  padding-top: 2rem;
-  border-top: 1px solid rgba(107, 79, 58, 0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-.location-dest {
-  font-weight: 600;
-  color: var(--charcoal);
-}
-
-.location-miles {
-  font-size: 0.9rem;
-  color: var(--terracotta);
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .location-content {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-}
-</style>

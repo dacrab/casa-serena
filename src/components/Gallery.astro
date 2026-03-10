@@ -12,131 +12,53 @@ const panels = [
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<section class="gallery" id="gallery">
-  <div class="gallery-label">The Property</div>
-  <div class="gallery-counter">{pad(1)} / {pad(panels.length)}</div>
-  <div class="gallery-scroll-hint">
+<!-- ── Desktop: horizontal pinned gallery ── -->
+<section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
+  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] text-[0.65rem] tracking-[0.15em] uppercase text-cream-40 z-10">
+    The Property
+  </div>
+  <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] text-[0.9rem] text-cream z-10">
+    {pad(1)} / {pad(panels.length)}
+  </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cream z-10 pointer-events-none" data-anim="gallery-scroll-hint">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M2 10h12M10 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span>scroll</span>
+    <span class="text-[0.65rem] tracking-[0.1em] uppercase">scroll</span>
   </div>
-  <div class="gallery-track">
+  <div data-anim="gallery-track" class="flex h-full will-change-transform">
     {panels.map((p, i) => (
-      <div class="gallery-panel">
-        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy" />
-        <div class="gallery-caption">
-          <span class="gallery-number">{pad(i + 1)}</span>
-          <span class="gallery-title">{p.title}</span>
+      <div
+        data-anim="gallery-panel"
+        class={`shrink-0 h-full relative border-r border-terracotta cursor-zoom-in ${i === 0 ? 'w-screen' : 'w-[75vw]'}`}
+      >
+        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy"
+          class="w-full h-full object-cover" />
+        <div data-anim="gallery-caption" class="absolute bottom-0 left-0 right-0 px-[4vw] py-8 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-center text-cream">
+          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
+          <span class="text-[0.95rem] tracking-[0.1em]">{p.title}</span>
         </div>
       </div>
     ))}
   </div>
 </section>
 
-<style>
-.gallery {
-  height: 100vh;
-  overflow: hidden;
-  background: #1a1410;
-  position: relative;
-}
-
-.gallery-label {
-  position: absolute;
-  top: 2rem;
-  left: 4vw;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.4);
-  z-index: 10;
-}
-
-.gallery-counter {
-  position: absolute;
-  top: 2rem;
-  right: 4vw;
-  font-size: 0.9rem;
-  color: var(--cream);
-  z-index: 10;
-}
-
-.gallery-scroll-hint {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--cream);
-  z-index: 10;
-  pointer-events: none;
-}
-
-.gallery-scroll-hint span {
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.gallery-track {
-  display: flex;
-  height: 100%;
-  will-change: transform;
-}
-
-.gallery-panel {
-  flex-shrink: 0;
-  width: 75vw;
-  height: 100%;
-  position: relative;
-  border-right: 1px solid var(--terracotta);
-}
-
-.gallery-panel:first-child {
-  width: 100vw;
-}
-
-.gallery-panel img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem 4vw;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--cream);
-}
-
-.gallery-number {
-  font-style: italic;
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-}
-
-.gallery-title {
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
-}
-
-@media (max-width: 768px) {
-  .gallery-panel {
-    width: 90vw;
-  }
-
-  .gallery-panel:first-child {
-    width: 100vw;
-  }
-}
-</style>
+<!-- ── Mobile: vertical stacked gallery ── -->
+<section id="gallery" class="md:hidden bg-gallery-bg">
+  <div class="flex justify-between items-center px-5 pt-5 pb-2">
+    <div class="text-[0.65rem] tracking-[0.15em] uppercase text-cream-40">The Property</div>
+    <div class="text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
+  </div>
+  <div class="flex flex-col">
+    {panels.map((p, i) => (
+      <div class={`relative w-full overflow-hidden border-b border-terracotta ${i === 0 ? 'h-[70vw]' : 'h-[60vw]'} min-h-[220px]`}>
+        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy"
+          class="w-full h-full object-cover" />
+        <div class="absolute bottom-0 left-0 right-0 px-5 py-5 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-center text-cream">
+          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
+          <span class="text-[0.95rem] tracking-[0.1em]">{p.title}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

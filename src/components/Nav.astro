@@ -1,109 +1,31 @@
 ---
 ---
 
-<nav class="nav" role="navigation" aria-label="Main navigation">
-  <div class="nav-logo">CASA SERENA</div>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#location">Location</a>
-    <a href="#enquire">Enquire</a>
+<nav
+  data-nav="root"
+  class="fixed top-0 inset-x-0 z-[1000] flex justify-between items-center px-5 md:px-[4vw] py-5 transition-[background,border-color,backdrop-filter] duration-500"
+>
+  <div
+    data-nav="logo"
+    class="font-serif text-base tracking-[0.2em] text-cream transition-colors duration-500"
+  >
+    CASA SERENA
   </div>
-  <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-overlay">
-    <span></span>
-    <span></span>
+
+  <div data-nav="links" class="hidden md:flex gap-8">
+    <a data-nav="link" href="#about"    class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">About</a>
+    <a data-nav="link" href="#gallery"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Gallery</a>
+    <a data-nav="link" href="#location" class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Location</a>
+    <a data-nav="link" href="#enquire"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Enquire</a>
+  </div>
+
+  <button
+    data-nav="toggle"
+    aria-label="Toggle navigation menu"
+    aria-expanded="false"
+    class="md:hidden flex flex-col gap-[6px] cursor-pointer bg-transparent border-none p-2 -mr-2 [touch-action:manipulation]"
+  >
+    <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>
+    <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>
   </button>
 </nav>
-
-<style>
-.nav {
-  position: fixed;
-  inset-block-start: 0;
-  inset-inline: 0;
-  padding: 1.8rem 4vw;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
-  transition: background 0.5s, border-color 0.5s, backdrop-filter 0.5s;
-}
-
-.nav-logo {
-  font-size: 1rem;
-  letter-spacing: 0.2em;
-  color: var(--cream);
-  transition: color 0.5s;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-}
-
-.nav-links a {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.nav-toggle {
-  display: none;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0;
-}
-
-.nav-toggle span {
-  width: 22px;
-  height: 1.5px;
-  background: var(--cream);
-  transition: background 0.5s;
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .nav-toggle {
-    display: flex;
-  }
-}
-</style>
-
-<style is:global>
-/* All nav link colors here — avoids scoped vs global specificity conflict */
-.nav-links a {
-  color: rgba(245, 240, 232, 0.8);
-}
-
-.nav-links a.active {
-  color: var(--terracotta);
-}
-
-.nav.scrolled {
-  background: rgba(253, 250, 245, 0.96);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.nav.scrolled .nav-logo {
-  color: var(--charcoal);
-}
-
-.nav.scrolled .nav-links a {
-  color: rgba(42, 35, 32, 0.65);
-}
-
-.nav.scrolled .nav-links a.active {
-  color: var(--terracotta);
-}
-
-.nav.scrolled .nav-toggle span {
-  background: var(--charcoal);
-}
-</style>

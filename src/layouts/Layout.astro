@@ -1,5 +1,7 @@
 ---
 import Analytics from '@vercel/analytics/astro';
+import '../styles/global.css';
+
 interface Props {
   title?: string;
   description?: string;
@@ -14,293 +16,111 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 ---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="canonical" href={canonicalURL} />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonicalURL} />
 
-		<!-- Favicon -->
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
 
-		<!-- Primary SEO -->
-		<title>{title}</title>
-		<meta name="description" content={description} />
-		<meta name="robots" content="index, follow" />
-		<meta name="theme-color" content="#C4714A" />
+    <!-- Primary SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#C4714A" />
 
-		<!-- Open Graph -->
-		<meta property="og:type"        content="website" />
-		<meta property="og:url"         content={canonicalURL} />
-		<meta property="og:title"       content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image"       content={ogImage} />
-		<meta property="og:image:width"  content="1200" />
-		<meta property="og:image:height" content="800" />
-		<meta property="og:locale"      content="en_US" />
-		<meta property="og:site_name"   content="Casa Serena" />
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={canonicalURL} />
+    <meta property="og:title"       content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={ogImage} />
+    <meta property="og:image:width"  content="1200" />
+    <meta property="og:image:height" content="800" />
+    <meta property="og:locale"      content="en_US" />
+    <meta property="og:site_name"   content="Casa Serena" />
 
-		<!-- Twitter Card -->
-		<meta name="twitter:card"        content="summary_large_image" />
-		<meta name="twitter:title"       content={title} />
-		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image"       content={ogImage} />
+    <!-- Twitter Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={ogImage} />
 
-		<!-- Schema.org Structured Data -->
-		<script type="application/ld+json" is:inline>
-		{
-			"@context": "https://schema.org",
-			"@type": "LodgingBusiness",
-			"name": "Casa Serena",
-			"description": "A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.",
-			"url": "https://casa-serena.vercel.app",
-			"telephone": "+30-22860-00000",
-			"email": "info@casaserena.com",
-			"image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
-			"address": {
-				"@type": "PostalAddress",
-				"streetAddress": "Oia",
-				"addressLocality": "Santorini",
-				"addressRegion": "Cyclades",
-				"postalCode": "847 02",
-				"addressCountry": "GR"
-			},
-			"geo": {
-				"@type": "GeoCoordinates",
-				"latitude": 36.4618,
-				"longitude": 25.3753
-			},
-			"amenityFeature": [
-				{"@type": "LocationFeatureSpecification", "name": "Infinity Pool", "value": true},
-				{"@type": "LocationFeatureSpecification", "name": "Beach Access", "value": true},
-				{"@type": "LocationFeatureSpecification", "name": "Chef's Kitchen", "value": true},
-				{"@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true}
-			],
-			"numberOfRooms": 4,
-			"petsAllowed": false
-		}
-		</script>
+    <!-- Schema.org -->
+    <script type="application/ld+json" is:inline>
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": "Casa Serena",
+      "description": "A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.",
+      "url": "https://casa-serena.vercel.app",
+      "telephone": "+30-22860-00000",
+      "email": "info@casaserena.com",
+      "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Oia",
+        "addressLocality": "Santorini",
+        "addressRegion": "Cyclades",
+        "postalCode": "847 02",
+        "addressCountry": "GR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 36.4618,
+        "longitude": 25.3753
+      },
+      "amenityFeature": [
+        {"@type": "LocationFeatureSpecification", "name": "Infinity Pool", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Beach Access", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Chef's Kitchen", "value": true},
+        {"@type": "LocationFeatureSpecification", "name": "Free WiFi", "value": true}
+      ],
+      "numberOfRooms": 4,
+      "petsAllowed": false
+    }
+    </script>
 
-		<!-- Preload hero image — LCP element -->
-		<link rel="preload" as="image"
-			href="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85"
-			fetchpriority="high" />
+    <!-- Preload hero poster — LCP element -->
+    <link rel="preload" as="image"
+      href="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1800&q=85"
+      fetchpriority="high" />
 
-		<!-- Fonts: preconnect + swap -->
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
-		<!-- Vercel Web Analytics -->
-		<Analytics />
-	</head>
-	<body>
-		<slot />
-	</body>
+    <Analytics />
+  </head>
+  <body>
+    <!-- Custom cursor -->
+    <div id="cursor" aria-hidden="true"></div>
+
+    <!-- Load screen -->
+    <div id="load-screen" aria-hidden="true">
+      <div class="ls-logo">Casa Serena</div>
+      <div class="ls-line"></div>
+      <div class="ls-sub">Santorini · Greece</div>
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+      <button id="lightbox-close" aria-label="Close lightbox">✕</button>
+      <img id="lightbox-img" src="" alt="" />
+      <div id="lightbox-caption"></div>
+    </div>
+
+    <!-- Back to top -->
+    <button id="back-to-top" aria-label="Back to top">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 14V2M3 7l5-5 5 5"/>
+      </svg>
+    </button>
+
+    <slot />
+  </body>
 </html>
-
-<style is:global>
-	*, *::before, *::after {
-		box-sizing: border-box;
-		margin: 0;
-		padding: 0;
-	}
-
-	:root {
-		--cream:     #F5F0E8;
-		--sand:      #E8DCC8;
-		--terracotta:#C4714A;
-		--driftwood: #9C8468;
-		--charcoal:  #2A2320;
-		--warm-white:#FDFAF5;
-
-		--font-serif: 'Cormorant Garamond', Georgia, serif;
-		--font-sans:  'DM Sans', system-ui, sans-serif;
-	}
-
-	html {
-		scroll-behavior: auto;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
-
-	body {
-		background: var(--warm-white);
-		color: var(--charcoal);
-		font-family: var(--font-sans);
-		font-weight: 300;
-		overflow-x: hidden;
-	}
-
-	/* Base typography — components don't need to repeat font-family on every rule */
-	:is(h1, h2, h3, h4, blockquote, .font-serif),
-	.hero-title, .hero-eyebrow, .intro-text,
-	.about-sidebar, .stat-number,
-	.amenities-number, .amenity-name,
-	.quote-text, .quote-stat-number,
-	.location-address,
-	.enquire-title, .enquire-link,
-	.footer-logo, .gallery-number, .nav-logo {
-		font-family: var(--font-serif);
-	}
-
-	img {
-		display: block;
-		max-width: 100%;
-	}
-
-	a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	/* Focus visible — keyboard nav */
-	:focus-visible {
-		outline: 2px solid var(--terracotta);
-		outline-offset: 3px;
-		border-radius: 1px;
-	}
-
-	/* Reduced motion — disable all GSAP + CSS animations */
-	@media (prefers-reduced-motion: reduce) {
-		*, *::before, *::after {
-			animation-duration: 0.01ms !important;
-			animation-iteration-count: 1 !important;
-			transition-duration: 0.01ms !important;
-		}
-		html { scroll-behavior: auto; }
-	}
-
-	/* Custom cursor — only on fine pointer devices */
-	#cursor {
-		display: none;
-	}
-	@media (pointer: fine) {
-		#cursor {
-			display: block;
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 36px;
-			height: 36px;
-			border-radius: 50%;
-			border: 1.5px solid var(--terracotta);
-			background: transparent;
-			pointer-events: none;
-			z-index: 9999;
-			/* start offscreen */
-			transform: translate(-200px, -200px);
-			will-change: transform;
-		}
-	}
-
-	/* ── Load screen ── */
-	#load-screen {
-		position: fixed;
-		inset: 0;
-		z-index: 10000;
-		background: var(--charcoal);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 1.2rem;
-		pointer-events: none;
-	}
-	#load-screen .ls-logo {
-		font-family: var(--font-serif);
-		font-size: clamp(1.8rem, 4vw, 3rem);
-		font-style: italic;
-		font-weight: 300;
-		color: var(--cream);
-		letter-spacing: 0.08em;
-		opacity: 0;
-		transform: translateY(16px);
-	}
-	#load-screen .ls-line {
-		width: 0;
-		height: 1px;
-		background: var(--terracotta);
-	}
-	#load-screen .ls-sub {
-		font-family: var(--font-sans);
-		font-size: 0.65rem;
-		letter-spacing: 0.25em;
-		text-transform: uppercase;
-		color: var(--driftwood);
-		opacity: 0;
-	}
-
-	/* ── Lightbox ── */
-	#lightbox {
-		position: fixed;
-		inset: 0;
-		z-index: 9000;
-		background: rgba(30, 20, 15, 0.96);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		pointer-events: none;
-		cursor: zoom-out;
-	}
-	#lightbox.open {
-		pointer-events: all;
-	}
-	#lightbox img {
-		max-width: 92vw;
-		max-height: 90vh;
-		object-fit: contain;
-	}
-	#lightbox-close {
-		position: absolute;
-		top: 1.5rem;
-		right: 2rem;
-		background: none;
-		border: none;
-		color: var(--cream);
-		font-size: 1.6rem;
-		cursor: pointer;
-		font-family: var(--font-sans);
-		font-weight: 300;
-		line-height: 1;
-		opacity: 0.6;
-		transition: opacity 0.2s;
-		padding: 0.5rem;
-	}
-	#lightbox-close:hover { opacity: 1; }
-	#lightbox-caption {
-		position: absolute;
-		bottom: 2rem;
-		left: 50%;
-		transform: translateX(-50%);
-		font-family: var(--font-serif);
-		font-style: italic;
-		font-size: 1rem;
-		color: rgba(245, 240, 232, 0.5);
-		letter-spacing: 0.05em;
-		white-space: nowrap;
-	}
-
-	/* ── Back to top ── */
-	#back-to-top {
-		position: fixed;
-		bottom: 2rem;
-		right: 2rem;
-		z-index: 500;
-		width: 44px;
-		height: 44px;
-		border: 1px solid rgba(42,35,32,0.2);
-		background: var(--warm-white);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		opacity: 0;
-		pointer-events: none;
-	}
-	#back-to-top:hover { background: var(--terracotta); border-color: var(--terracotta); }
-	#back-to-top svg { stroke: var(--charcoal); }
-	#back-to-top:hover svg { stroke: var(--warm-white); }
-</style>

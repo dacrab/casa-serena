@@ -1,235 +1,63 @@
 ---
 ---
 
-<section class="hero">
-  <div class="hero-bg">
+<section class="relative h-svh overflow-hidden" id="hero">
+  <!-- Video background -->
+  <div class="absolute inset-0 overflow-hidden">
     <video
-      class="hero-video"
-      autoplay
-      loop
-      muted
-      playsinline
-      aria-hidden="true"
+      data-anim="hero-video"
+      class="w-full h-full object-cover"
+      autoplay loop muted playsinline aria-hidden="true"
       poster="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1800&q=85"
     >
-      <source src="https://videos.pexels.com/video-files/1093662/1093662-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      <source src="https://videos.pexels.com/video-files/3045163/3045163-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+      <source src="https://videos.pexels.com/video-files/1093662/1093662-sd_960_540_24fps.mp4" type="video/mp4" />
     </video>
   </div>
-  <div class="hero-overlay-dark"></div>
-  <div class="hero-overlay-grain"></div>
-  
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      {'BEACHFRONT ESTATE'.split('').map(c => <span class="ec">{c}</span>)}
-    </div>
-    <div class="hero-line"></div>
-    <h1 class="hero-title">Serena</h1>
-    <div class="hero-meta">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</div>
+
+  <!-- Overlays -->
+  <div class="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,0,0,0.3),rgba(0,0,0,0.7))] pointer-events-none"></div>
+  <div class="absolute inset-0 z-[3] opacity-40 pointer-events-none"
+    style="background-image:url(\"data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")">
   </div>
 
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <div class="scroll-text">SCROLL</div>
+  <!-- Hero content -->
+  <div class="absolute bottom-8 left-5 right-5 z-[4] md:left-[4vw] md:right-auto md:max-w-[600px]">
+    <div data-anim="hero-eyebrow" class="font-serif text-[0.65rem] tracking-[0.25em] uppercase text-cream mb-6 flex flex-wrap">
+      {'BEACHFRONT ESTATE'.split('').map(c => <span data-anim="ec" class="inline-block">{c}</span>)}
+    </div>
+    <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8"></div>
+    <h1 data-anim="hero-title" class="font-serif text-[clamp(3.5rem,18vw,14rem)] md:text-[clamp(5rem,13vw,14rem)] italic font-light text-cream leading-[0.85] mb-6">
+      Serena
+    </h1>
+    <div data-anim="hero-meta" class="text-[0.65rem] tracking-[0.15em] uppercase text-cream-70">
+      Santorini, Greece · 4 Suites · 8 Acres · Caldera View
+    </div>
+  </div>
+
+  <!-- Scroll indicator — hidden on mobile -->
+  <div data-anim="hero-scroll" class="hidden md:flex absolute bottom-[4vw] right-[4vw] z-[4] flex-col items-center gap-2">
+    <div data-anim="scroll-line" class="w-px h-0 bg-terracotta"></div>
+    <div class="text-[0.65rem] tracking-[0.15em] uppercase text-cream [writing-mode:vertical-rl] [text-orientation:mixed] rotate-180">SCROLL</div>
   </div>
 </section>
 
-<div class="marquee-strip">
-  <div class="marquee-container">
-    <span class="marquee-text">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
-    <span class="marquee-text">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+<!-- Marquee -->
+<div class="w-full h-9 md:h-11 bg-terracotta overflow-x-hidden flex items-center">
+  <div data-anim="marquee-container" class="flex whitespace-nowrap will-change-transform">
+    <span class="text-[0.7rem] tracking-[0.2em] uppercase text-cream shrink-0 pr-8">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+    <span class="text-[0.7rem] tracking-[0.2em] uppercase text-cream shrink-0 pr-8">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>
 
-<section class="intro">
-  <h2 class="intro-text">A house that breathes.</h2>
-  <div class="intro-right">
-    <p>Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts. Light becomes material here.</p>
+<!-- Intro -->
+<section class="bg-warm-white py-[12vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 md:gap-[4vw] items-center overflow-hidden">
+  <h2 data-anim="intro-text" class="font-serif text-[clamp(2.2rem,10vw,10rem)] italic font-light text-charcoal leading-[1.1]">
+    A house that breathes.
+  </h2>
+  <div class="flex flex-col gap-4 pl-5 md:pl-8 border-l border-terracotta">
+    <p data-anim="intro-right-p" class="text-[0.9rem] md:text-[0.95rem] text-driftwood leading-[1.7]">
+      Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts. Light becomes material here.
+    </p>
   </div>
 </section>
-
-<style>
-.hero {
-  position: relative;
-  height: 100svh;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero-overlay-dark {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at bottom left, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-  z-index: 2;
-  pointer-events: none;
-}
-
-.hero-overlay-grain {
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  z-index: 3;
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.hero-content {
-  position: absolute;
-  bottom: 4vw;
-  left: 4vw;
-  z-index: 4;
-  max-width: 600px;
-}
-
-.hero-eyebrow {
-  font-size: 0.65rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--cream);
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.hero-eyebrow .ec {
-  display: inline-block;
-}
-
-.hero-line {
-  width: 64px;
-  height: 1px;
-  background: var(--terracotta);
-  margin-bottom: 2rem;
-  transform-origin: left;
-}
-
-.hero-title {
-  font-size: clamp(5rem, 13vw, 14rem);
-  font-style: italic;
-  font-weight: 300;
-  color: var(--cream);
-  line-height: 0.85;
-  margin-bottom: 1.5rem;
-}
-
-.hero-meta {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.7);
-}
-
-.hero-scroll {
-  position: absolute;
-  bottom: 4vw;
-  right: 4vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 4;
-}
-
-.scroll-text {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--cream);
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transform: rotate(180deg);
-}
-
-.scroll-line {
-  width: 1px;
-  height: 0;
-  background: var(--terracotta);
-}
-
-.marquee-strip {
-  width: 100%;
-  height: 44px;
-  background: var(--terracotta);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-.marquee-container {
-  display: flex;
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.marquee-text {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--cream);
-  flex-shrink: 0;
-  padding-right: 2rem;
-}
-
-.intro {
-  background: var(--warm-white);
-  padding: 12vh 4vw;
-  display: grid;
-  grid-template-columns: 7fr 3fr;
-  gap: 4vw;
-  align-items: center;
-}
-
-.intro-text {
-  font-size: clamp(3.5rem, 9vw, 10rem);
-  font-style: italic;
-  font-weight: 300;
-  color: var(--charcoal);
-  line-height: 1.1;
-}
-
-.intro-right {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-left: 2rem;
-  border-left: 1px solid var(--terracotta);
-}
-
-.intro-right p {
-  font-size: 0.95rem;
-  color: var(--driftwood);
-  text-align: right;
-  line-height: 1.7;
-}
-
-@media (max-width: 768px) {
-  .intro {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .intro-text {
-    font-size: clamp(2rem, 7vw, 3.5rem);
-  }
-
-  .intro-right {
-    padding-left: 1.5rem;
-  }
-
-  .intro-right p {
-    text-align: left;
-    font-size: 0.9rem;
-  }
-}
-</style>
