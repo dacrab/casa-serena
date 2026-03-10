@@ -442,6 +442,12 @@ if (backToTop) {
   backToTop.addEventListener('click', () => gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' }));
 }
 
+/* ── logo scroll to top ── */
+document.querySelector('[data-nav="logo"]')?.addEventListener('click', e => {
+  e.preventDefault();
+  gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
+});
+
 /* ── active nav ── */
 const navLinks = document.querySelectorAll('[data-nav="link"]');
 const setActive = (id: string) => {
