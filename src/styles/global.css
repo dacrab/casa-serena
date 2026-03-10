@@ -51,7 +51,7 @@
   }
 
   body {
-    background-color: theme(colors.warm-white);
+    background-color: theme(colors.charcoal);
     color: theme(colors.charcoal);
     font-weight: 300;
     overflow-x: clip;
