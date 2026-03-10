@@ -234,8 +234,9 @@
 .form-input:focus { border-bottom-color: theme(colors.terracotta); }
 
 .enquire-submit {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  width: 100%;
   gap: 0.6rem;
   padding: 0.85rem 2rem;
   border: 1px solid var(--border-light);
