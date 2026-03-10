@@ -15,26 +15,25 @@ gsap.defaults({ ease: 'power3.out', overwrite: 'auto' });
 
 /* ── initial hidden states (prevents FOUC) ── */
 const sel = (s: string) => `[data-anim="${s}"]`;
-const selAll = (s: string) => `[data-anim="${s}"]`;
 
-gsap.set(selAll('ec'),                { y: 22, opacity: 0 });
-gsap.set(sel('hero-title'),           { y: 70, opacity: 0 });
-gsap.set(sel('hero-scroll'),          { opacity: 0 });
-gsap.set(sel('scroll-line'),          { height: 0 });
-gsap.set(sel('intro-text'),           { x: 60, opacity: 0 });
-gsap.set(sel('about-image-wrapper'),  { x: 40, opacity: 0 });
-gsap.set(selAll('amenity-row'),       { x: -28, opacity: 0 });
-gsap.set(sel('enquire-title'),        { y: 60, opacity: 0 });
-gsap.set(selAll('location-miles'),    { x: 10, opacity: 0 });
+gsap.set(sel('ec'),                { y: 22, opacity: 0 });
+gsap.set(sel('hero-title'),        { y: 70, opacity: 0 });
+gsap.set(sel('hero-scroll'),       { opacity: 0 });
+gsap.set(sel('scroll-line'),       { height: 0 });
+gsap.set(sel('intro-text'),        { x: 60, opacity: 0 });
+gsap.set(sel('about-image-wrapper'), { x: 40, opacity: 0 });
+gsap.set(sel('amenity-row'),       { x: -28, opacity: 0 });
+gsap.set(sel('enquire-title'),     { y: 60, opacity: 0 });
+gsap.set(sel('location-miles'),    { x: 10, opacity: 0 });
 gsap.set([sel('hero-meta'), sel('enquire-eyebrow'), sel('enquire-social'), sel('quote-attribution'), sel('location-city')], { y: 16, opacity: 0 });
-gsap.set([sel('intro-right-p'), sel('about-text-p'), selAll('gallery-caption'), sel('enquire-right'), sel('location-desc')], { y: 24, opacity: 0 });
-gsap.set([sel('quote-text'), sel('location-address')],                                                    { y: 40, opacity: 0 });
-gsap.set([selAll('quote-stat'), sel('amenities-number'), sel('footer-logo'), sel('footer-copy'), sel('form-submit')], { y: 30, opacity: 0 });
-gsap.set([sel('enquire-contact'), selAll('form-group')],                                                   { y: 20, opacity: 0 });
-gsap.set([selAll('stat-label'), selAll('nav-link')],                                                       { y: 10, opacity: 0 });
-gsap.set([sel('enquire-rule'), selAll('quote-stat-sep')], { scaleX: 0, transformOrigin: 'left center' });
-gsap.set([selAll('location-distance'), sel('gallery-label')], { x: 20, opacity: 0 });
-gsap.set([sel('about-sidebar'), selAll('quote-stat-label'), sel('nav-logo')], { opacity: 0 });
+gsap.set([sel('intro-right-p'), sel('about-text-p'), sel('gallery-caption'), sel('enquire-right'), sel('location-desc')],   { y: 24, opacity: 0 });
+gsap.set([sel('quote-text'), sel('location-address')],                                                                       { y: 40, opacity: 0 });
+gsap.set([sel('quote-stat'), sel('amenities-number'), sel('footer-logo'), sel('footer-copy'), sel('form-submit')],           { y: 30, opacity: 0 });
+gsap.set([sel('enquire-contact'), sel('form-group')],                                                                        { y: 20, opacity: 0 });
+gsap.set([sel('stat-label'), sel('nav-link')],                                                                               { y: 10, opacity: 0 });
+gsap.set([sel('enquire-rule'), sel('quote-stat-sep')], { scaleX: 0, transformOrigin: 'left center' });
+gsap.set([sel('location-distance'), sel('gallery-label')],                                                                   { x: 20, opacity: 0 });
+gsap.set([sel('about-sidebar'), sel('quote-stat-label'), sel('nav-logo')],                                                   { opacity: 0 });
 
 /* ── cursor ── */
 const cursor = document.getElementById('cursor');
@@ -58,14 +57,14 @@ const nav = document.querySelector('[data-nav="root"]');
 if (nav) {
   ScrollTrigger.create({
     start: 'top -60',
-    onEnter:     () => nav.classList.add('nav-scrolled'),
-    onLeaveBack: () => nav.classList.remove('nav-scrolled'),
+    onEnter:      () => nav.classList.add('nav-scrolled'),
+    onLeaveBack:  () => nav.classList.remove('nav-scrolled'),
   });
 }
 
 gsap.timeline({ delay: 2.5 })
-  .to(sel('nav-logo'),      { opacity: 1, y: 0, duration: 0.7 })
-  .to('[data-nav="link"]',  { opacity: 1, y: 0, stagger: 0.07, duration: 0.55 }, '-=0.35');
+  .to(sel('nav-logo'),         { opacity: 1, y: 0, duration: 0.7 })
+  .to('[data-nav="link"]', { opacity: 1, y: 0, stagger: 0.07, duration: 0.55 }, '-=0.35');
 
 document.querySelectorAll('[data-nav="link"]').forEach(link => {
   const el   = link as HTMLElement;
@@ -130,7 +129,7 @@ gsap.to(sel('marquee-container'), { x: '-50%', duration: 20, ease: 'none', repea
 
 const heroTl = gsap.timeline({ delay: 2.2, defaults: { ease: 'power4.out' } });
 heroTl
-  .to(selAll('ec'),        { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
+  .to(sel('ec'),           { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
   .to(sel('hero-line'),    { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
   .to(sel('hero-title'),   { y: 0, opacity: 1, duration: 1.1 }, '-=0.5')
   .to(sel('hero-meta'),    { y: 0, opacity: 1, duration: 0.7 }, '-=0.6')
@@ -167,7 +166,7 @@ gsap.to(sel('about-sidebar'), { opacity: 1, duration: 1.4, scrollTrigger: { trig
 gsap.to(sel('about-sidebar'), { y: -30, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
 gsap.to(sel('about-text-p'),  { y: 0, opacity: 1, duration: 0.95, scrollTrigger: { trigger: sel('about-text-p'), start: 'top 78%', toggleActions: 'play none none none' } });
 gsap.to(sel('about-stats'),   { y: 0, opacity: 1, stagger: 0.12, duration: 0.8, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
-gsap.to(selAll('stat-label'), { y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
+gsap.to(sel('stat-label'), { y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
 
 document.querySelectorAll(sel('stat-number')).forEach(el => {
   el.addEventListener('mouseenter', () => gsap.to(el, { scale: 1.08, duration: 0.25, ease: 'power2.out' }));
@@ -177,9 +176,9 @@ document.querySelectorAll(sel('stat-number')).forEach(el => {
 /* ── amenities ── */
 gsap.to(sel('amenities-number'), { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' } });
 gsap.to(sel('amenities-number'), { y: -50, ease: 'none', scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
-gsap.to(selAll('amenity-row'),   { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: selAll('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('amenity-row'),      { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: sel('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
 
-document.querySelectorAll(selAll('amenity-row')).forEach(row => {
+document.querySelectorAll(sel('amenity-row')).forEach(row => {
   const name    = row.querySelector(sel('amenity-name'))    as HTMLElement | null;
   const counter = row.querySelector(sel('amenity-counter')) as HTMLElement | null;
   row.addEventListener('mouseenter', () => {
@@ -194,7 +193,7 @@ document.querySelectorAll(selAll('amenity-row')).forEach(row => {
 
 /* ── gallery ── */
 gsap.to(sel('gallery-label'),   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' } });
-gsap.to(selAll('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
+gsap.to(sel('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
 
 document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
   const img = panel.querySelector('img') as HTMLElement | null;
@@ -240,9 +239,9 @@ if (track && panels.length && window.innerWidth > 768) {
 gsap.fromTo(sel('quote-bg-img'), { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'center center', scrub: 1.5 } });
 gsap.to(sel('quote-bg-img'),     { yPercent: 12, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'bottom top', scrub: true } });
 gsap.to([sel('quote-text'), sel('quote-attribution')], { y: 0, opacity: 1, stagger: 0.18, duration: 1.0, scrollTrigger: { trigger: sel('quote-text'), start: 'top 72%', toggleActions: 'play none none none' } });
-gsap.to(selAll('quote-stat'),       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
-gsap.to(selAll('quote-stat-sep'),   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
-gsap.to(selAll('quote-stat-label'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: { trigger: selAll('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat'),       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat-sep'),   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat-label'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
 
 document.querySelectorAll(sel('quote-stat-number')).forEach(el => {
   const target = parseFloat(el.textContent ?? '0');
@@ -262,19 +261,16 @@ ScrollTrigger.create({
     .to(sel('location-address'),  { y: 0, opacity: 1, duration: 1.0 })
     .to(sel('location-city'),     { y: 0, opacity: 1, duration: 0.6 }, '-=0.5')
     .to(sel('location-desc'),     { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
-    .to(selAll('location-distance'), { x: 0, opacity: 1, stagger: 0.1, duration: 0.6 }, '-=0.5')
-    .to(selAll('location-miles'),    { x: 0, opacity: 1, stagger: 0.1, duration: 0.5 }, '-=0.5'),
+    .to(sel('location-distance'), { x: 0, opacity: 1, stagger: 0.1, duration: 0.6 }, '-=0.5')
+    .to(sel('location-miles'),    { x: 0, opacity: 1, stagger: 0.1, duration: 0.5 }, '-=0.5'),
 });
 
 document.querySelectorAll(sel('location-distance')).forEach(row => {
-  const dest  = row.querySelector('.location-dest')  as HTMLElement | null;
   const miles = row.querySelector(sel('location-miles')) as HTMLElement | null;
   row.addEventListener('mouseenter', () => {
-    if (dest)  gsap.to(dest,  { x: 6, duration: 0.2, ease: 'power2.out' });
     if (miles) gsap.to(miles, { scale: 1.1, duration: 0.2, ease: 'back.out(2)' });
   });
   row.addEventListener('mouseleave', () => {
-    if (dest)  gsap.to(dest,  { x: 0, duration: 0.25 });
     if (miles) gsap.to(miles, { scale: 1, duration: 0.25 });
   });
 });
@@ -289,7 +285,7 @@ ScrollTrigger.create({
     .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
     .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
     .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
-    .to(selAll('form-group'),   { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
+    .to(sel('form-group'),   { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
     .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
 });
 
@@ -327,7 +323,7 @@ form?.addEventListener('submit', e => {
   gsap.to(form, {
     opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
     onComplete: () => {
-      form.innerHTML = '<p class="form-success" style="font-family:var(--font-serif);font-style:italic;font-size:1.2rem;color:var(--color-cream)">Thank you. We\'ll be in touch.</p>';
+      form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>';
       gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
     },
   });
@@ -378,11 +374,10 @@ const closeLightbox = () => {
   });
 };
 
-document.querySelectorAll('.gallery-panel').forEach(panel => {
-  (panel as HTMLElement).style.cursor = 'zoom-in';
+document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
   panel.addEventListener('click', () => {
     const img = panel.querySelector('img');
-    if (img) openLightbox(img.src, img.alt, panel.querySelector('.gallery-title')?.textContent ?? '');
+    if (img) openLightbox(img.src, img.alt, (panel.querySelector(sel('panel-title')) as HTMLElement)?.textContent?.trim() ?? '');
   });
 });
 
@@ -420,16 +415,16 @@ document.querySelectorAll('section[id]').forEach(section => {
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   gsap.globalTimeline.timeScale(0);
   gsap.set([
-    selAll('ec'), sel('hero-line'), sel('hero-title'), sel('hero-meta'), sel('hero-scroll'),
+    sel('ec'), sel('hero-line'), sel('hero-title'), sel('hero-meta'), sel('hero-scroll'),
     sel('scroll-line'), sel('marquee-container'), sel('hero-video'), sel('nav-logo'), '[data-nav="link"]',
     sel('intro-text'), sel('intro-right-p'), sel('about-image-wrapper'),
-    sel('about-sidebar'), sel('about-text-p'), sel('about-stats'), selAll('stat-label'),
-    sel('amenities-number'), selAll('amenity-row'), sel('gallery-label'), selAll('gallery-caption'),
-    sel('gallery-scroll-hint'), sel('quote-text'), sel('quote-attribution'), selAll('quote-stat'),
-    selAll('quote-stat-sep'), selAll('quote-stat-label'), sel('location-address'), sel('location-city'),
-    sel('location-desc'), selAll('location-distance'), selAll('location-miles'), sel('enquire-title'),
+    sel('about-sidebar'), sel('about-text-p'), sel('about-stats'), sel('stat-label'),
+    sel('amenities-number'), sel('amenity-row'), sel('gallery-label'), sel('gallery-caption'),
+    sel('gallery-scroll-hint'), sel('quote-text'), sel('quote-attribution'), sel('quote-stat'),
+    sel('quote-stat-sep'), sel('quote-stat-label'), sel('location-address'), sel('location-city'),
+    sel('location-desc'), sel('location-distance'), sel('location-miles'), sel('enquire-title'),
     sel('enquire-rule'), sel('enquire-eyebrow'), sel('enquire-contact'), sel('enquire-right'),
-    sel('enquire-social'), selAll('form-group'), sel('form-submit'), sel('footer-logo'), sel('footer-copy'),
+    sel('enquire-social'), sel('form-group'), sel('form-submit'), sel('footer-logo'), sel('footer-copy'),
     '#load-screen',
   ], { clearProps: 'all' });
   if (loadScreen) loadScreen.style.display = 'none';

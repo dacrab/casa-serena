@@ -33,7 +33,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
         <div data-anim="gallery-caption" class="absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream"
           style="background:linear-gradient(to top,rgba(0,0,0,0.8),transparent)">
           <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
-          <span class="font-sans text-[0.95rem] tracking-[0.08em]">{p.title}</span>
+          <span data-anim="panel-title" class="font-sans text-[0.95rem] tracking-[0.08em]">{p.title}</span>
         </div>
       </div>
     ))}
