@@ -1,22 +1,20 @@
 ---
 import { Image } from 'astro:assets';
-
 const stats = [
   { value: '8',    label: 'Acres' },
-  { value: '180°', label: 'View' },
+  { value: '180°', label: 'Caldera View' },
   { value: '4',    label: 'Suites' },
 ];
 ---
-
 <section id="about" class="bg-warm-white py-[8vh] px-5 md:px-[4vw] overflow-hidden">
-  <!-- Sidebar label — desktop only -->
-  <div class="hidden md:grid md:grid-cols-[80px_1fr] md:gap-[4vw]">
+
+  <!-- Desktop layout -->
+  <div class="hidden md:grid md:grid-cols-[80px_1fr] md:gap-x-[4vw]">
+    <!-- Sidebar -->
     <div
       data-anim="about-sidebar"
-      class="font-serif text-[5rem] tracking-[0.3em] text-terracotta opacity-[0.12] [writing-mode:vertical-rl] [text-orientation:mixed] rotate-180 sticky top-[40vh] h-fit row-span-2"
-    >
-      SERENA
-    </div>
+      class="font-serif text-[5rem] tracking-[0.3em] text-terracotta opacity-[0.12] [writing-mode:vertical-rl] rotate-180 sticky top-[40vh] h-fit row-span-2 select-none"
+    >SERENA</div>
 
     <div class="flex flex-col gap-0">
       <!-- Image -->
@@ -28,17 +26,16 @@ const stats = [
           class="w-full h-full object-cover"
         />
       </div>
-
       <!-- Text -->
       <div class="pl-8 mt-16 max-w-[580px]">
-        <p data-anim="about-text-p" class="text-base text-charcoal leading-[1.8] mb-12">
+        <p data-anim="about-text-p" class="font-sans text-base text-charcoal leading-[1.8] mb-12">
           Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. The architecture whispers rather than shouts. Floor-to-ceiling glass dissolves the boundary between interior and ocean. At sunrise, the living room becomes a platform for light.
         </p>
-        <div class="flex gap-16" data-anim="about-stats">
+        <div data-anim="about-stats" class="flex gap-16">
           {stats.map(s => (
             <div class="flex flex-col gap-2">
               <div data-anim="stat-number" class="font-serif text-[2.8rem] font-light text-terracotta leading-none">{s.value}</div>
-              <div data-anim="stat-label" class="text-[0.68rem] tracking-[0.15em] uppercase text-driftwood">{s.label}</div>
+              <div data-anim="stat-label"  class="font-sans text-[0.68rem] tracking-[0.15em] uppercase text-driftwood">{s.label}</div>
             </div>
           ))}
         </div>
@@ -48,7 +45,7 @@ const stats = [
 
   <!-- Mobile layout -->
   <div class="md:hidden flex flex-col gap-8">
-    <div class="w-full aspect-video overflow-hidden rounded-sm">
+    <div class="w-full aspect-video overflow-hidden">
       <Image
         src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85"
         alt="Casa Serena living space with Aegean view"
@@ -56,14 +53,14 @@ const stats = [
         class="w-full h-full object-cover"
       />
     </div>
-    <p class="text-[0.95rem] text-charcoal leading-[1.8]">
-      Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. The architecture whispers rather than shouts. Floor-to-ceiling glass dissolves the boundary between interior and ocean. At sunrise, the living room becomes a platform for light.
+    <p class="font-sans text-[0.95rem] text-charcoal leading-[1.8]">
+      Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. Floor-to-ceiling glass dissolves the boundary between interior and ocean.
     </p>
     <div class="flex flex-wrap gap-8">
       {stats.map(s => (
         <div class="flex flex-col gap-2">
-          <div class="font-serif text-[2.4rem] font-light text-terracotta">{s.value}</div>
-          <div class="text-[0.68rem] tracking-[0.15em] uppercase text-driftwood">{s.label}</div>
+          <div class="font-serif text-[2.4rem] font-light text-terracotta leading-none">{s.value}</div>
+          <div class="font-sans text-[0.68rem] tracking-[0.15em] uppercase text-driftwood">{s.label}</div>
         </div>
       ))}
     </div>

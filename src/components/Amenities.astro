@@ -11,27 +11,27 @@ const amenities = [
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
-
 <section class="bg-cream py-[8vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
-  <!-- Left: big number -->
-  <div class="flex items-start justify-start md:justify-center">
-    <div data-anim="amenities-number" class="font-serif text-[clamp(4rem,20vw,22rem)] font-light text-sand leading-none">
+  <!-- Big number -->
+  <div class="flex items-start">
+    <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:clamp(6rem,20vw,22rem)">
       {pad(amenities.length)}
     </div>
   </div>
 
-  <!-- Right: list -->
+  <!-- List -->
   <div class="flex flex-col">
     {amenities.map((a, i) => (
       <div
         data-anim="amenity-row"
-        class="py-5 md:py-[1.6rem] grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer" style="border-top:1px solid var(--color-border-warm)"
+        class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer"
+        style="border-top:1px solid var(--border-warm)"
       >
         <div class="flex flex-col gap-1">
           <div data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</div>
-          <div class="text-[0.8rem] italic text-driftwood">{a.desc}</div>
+          <div class="font-sans text-[0.8rem] italic text-driftwood">{a.desc}</div>
         </div>
-        <div data-anim="amenity-counter" class="text-[0.65rem] tracking-[0.15em] uppercase text-terracotta">{pad(i + 1)}</div>
+        <div data-anim="amenity-counter" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-terracotta">{pad(i + 1)}</div>
       </div>
     ))}
   </div>

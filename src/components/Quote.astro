@@ -1,15 +1,13 @@
 ---
 import { Image } from 'astro:assets';
-
 const stats = [
   { value: 280, label: 'Days of sun' },
   { value: 12,  label: 'Min to Fira' },
   { value: 45,  label: 'Feet above sea' },
 ];
 ---
-
-<section class="relative overflow-hidden grid grid-cols-1 md:grid-cols-[60%_40%] min-h-svh md:h-[80vh] md:min-h-0 items-center">
-  <!-- Background image -->
+<section class="relative overflow-hidden grid grid-cols-1 md:grid-cols-[60%_40%] min-h-svh md:h-[80vh] md:min-h-0">
+  <!-- BG image -->
   <div class="absolute inset-0 z-0">
     <Image
       src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=85"
@@ -20,23 +18,23 @@ const stats = [
     />
   </div>
   <!-- Scrim -->
-  <div class="absolute inset-0 z-[1]" style="background:var(--color-overlay-scrim)"></div>
+  <div class="absolute inset-0 z-[1]" style="background:var(--overlay-scrim)"></div>
 
   <!-- Quote -->
-  <div class="relative z-[2] col-span-1 px-5 md:px-[4vw] pt-20 pb-8 md:py-0 text-cream">
-    <div data-anim="quote-text" class="font-serif text-[clamp(1.6rem,5vw,3.5rem)] italic font-light leading-[1.3] mb-6">
+  <div class="relative z-[2] px-5 md:px-[4vw] pt-20 pb-8 md:py-0 flex flex-col justify-center text-cream">
+    <div data-anim="quote-text" class="font-serif italic font-light leading-[1.3] mb-6" style="font-size:clamp(1.6rem,4vw,3.5rem)">
       &ldquo;The Aegean has a way of resetting everything.&rdquo;
     </div>
-    <div data-anim="quote-attribution" class="text-[0.8rem] tracking-[0.1em] text-cream/80">— Private Guest, 2023</div>
+    <div data-anim="quote-attribution" class="font-sans text-[0.8rem] tracking-[0.1em]" style="color:var(--cream-70)">— Private Guest, 2023</div>
   </div>
 
   <!-- Stats -->
-  <div class="relative z-[2] col-span-1 px-5 md:px-[4vw] pb-12 md:py-0 flex flex-col gap-6 text-cream">
+  <div class="relative z-[2] px-5 md:px-[4vw] pb-12 md:py-0 flex flex-col justify-center gap-8 text-cream">
     {stats.map(s => (
-      <div data-anim="quote-stat" class="flex md:flex-col items-center md:items-start gap-4 md:gap-3">
-        <div data-anim="quote-stat-number" class="font-serif text-[2.2rem] font-light">{s.value}</div>
-        <div class="w-px h-8 md:w-10 md:h-px bg-terracotta" data-anim="quote-stat-sep"></div>
-        <div data-anim="quote-stat-label" class="text-[0.7rem] tracking-[0.1em] uppercase">{s.label}</div>
+      <div data-anim="quote-stat" class="flex md:flex-col items-center md:items-start gap-4 md:gap-2">
+        <div data-anim="quote-stat-number" class="font-serif text-[2.4rem] font-light leading-none">{s.value}</div>
+        <div data-anim="quote-stat-sep" class="w-px h-8 md:w-10 md:h-px bg-terracotta" style="transform-origin:left center"></div>
+        <div data-anim="quote-stat-label" class="font-sans text-[0.7rem] tracking-[0.1em] uppercase" style="color:var(--cream-70)">{s.label}</div>
       </div>
     ))}
   </div>

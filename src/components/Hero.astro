@@ -1,8 +1,7 @@
 ---
 ---
-
-<section class="relative h-svh overflow-hidden" id="hero">
-  <!-- Video background -->
+<section id="hero" class="relative h-svh overflow-hidden">
+  <!-- Video -->
   <div class="absolute inset-0 overflow-hidden">
     <video
       data-anim="hero-video"
@@ -15,48 +14,45 @@
     </video>
   </div>
 
-  <!-- Overlays -->
-  <div class="absolute inset-0 z-[2] bg-[radial-gradient(ellipse_at_bottom_left,rgba(0,0,0,0.3),rgba(0,0,0,0.7))] pointer-events-none"></div>
-  <div class="absolute inset-0 z-[3] opacity-40 pointer-events-none"
-    style="background-image:url(\"data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' seed='2' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E\")">
-  </div>
+  <!-- Gradient overlay -->
+  <div class="absolute inset-0 z-[2] pointer-events-none" style="background:radial-gradient(ellipse at bottom left,rgba(0,0,0,0.3),rgba(0,0,0,0.7))"></div>
 
   <!-- Hero content -->
   <div class="absolute bottom-8 left-5 right-5 z-[4] md:left-[4vw] md:right-auto md:max-w-[600px]">
-    <div data-anim="hero-eyebrow" class="font-serif text-[0.65rem] tracking-[0.25em] uppercase text-cream mb-6 flex flex-wrap">
+    <div data-anim="hero-eyebrow" class="font-sans text-[0.65rem] tracking-[0.25em] uppercase text-cream mb-6 flex flex-wrap">
       {'BEACHFRONT ESTATE'.split('').map(c => <span data-anim="ec" class="inline-block">{c}</span>)}
     </div>
-    <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8"></div>
-    <h1 data-anim="hero-title" class="font-serif text-[clamp(3.5rem,18vw,14rem)] md:text-[clamp(5rem,13vw,14rem)] italic font-light text-cream leading-[0.85] mb-6">
+    <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8" style="transform-origin:left"></div>
+    <h1 data-anim="hero-title" class="font-serif italic font-light text-cream leading-[0.85] mb-6" style="font-size:clamp(3.5rem,13vw,14rem)">
       Serena
     </h1>
-    <div data-anim="hero-meta" class="text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--color-cream-70)">
+    <div data-anim="hero-meta" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--cream-70)">
       Santorini, Greece · 4 Suites · 8 Acres · Caldera View
     </div>
   </div>
 
-  <!-- Scroll indicator — hidden on mobile -->
+  <!-- Scroll indicator — desktop only -->
   <div data-anim="hero-scroll" class="hidden md:flex absolute bottom-[4vw] right-[4vw] z-[4] flex-col items-center gap-2">
-    <div data-anim="scroll-line" class="w-px h-0 bg-terracotta"></div>
-    <div class="text-[0.65rem] tracking-[0.15em] uppercase text-cream [writing-mode:vertical-rl] [text-orientation:mixed] rotate-180">SCROLL</div>
+    <div data-anim="scroll-line" class="w-px bg-terracotta" style="height:0"></div>
+    <div class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-cream [writing-mode:vertical-rl] rotate-180">SCROLL</div>
   </div>
 </section>
 
 <!-- Marquee -->
-<div class="w-full h-9 md:h-11 bg-terracotta overflow-x-hidden flex items-center">
-  <div data-anim="marquee-container" class="flex whitespace-nowrap will-change-transform">
-    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream shrink-0 pr-8">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
-    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream shrink-0 pr-8">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+<div class="w-full h-10 bg-terracotta overflow-x-hidden flex items-center">
+  <div data-anim="marquee-container" class="flex whitespace-nowrap will-change-transform shrink-0">
+    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>
 
 <!-- Intro -->
 <section class="bg-warm-white py-[12vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 md:gap-[4vw] items-center overflow-hidden">
-  <h2 data-anim="intro-text" class="font-serif text-[clamp(2.2rem,10vw,10rem)] italic font-light text-charcoal leading-[1.1]">
+  <h2 data-anim="intro-text" class="font-serif italic font-light text-charcoal leading-[1.1]" style="font-size:clamp(2.2rem,8vw,8rem)">
     A house that breathes.
   </h2>
   <div class="flex flex-col gap-4 pl-5 md:pl-8 border-l border-terracotta">
-    <p data-anim="intro-right-p" class="text-[0.9rem] md:text-[0.95rem] text-driftwood leading-[1.7]">
+    <p data-anim="intro-right-p" class="font-sans text-[0.9rem] md:text-[0.95rem] text-driftwood leading-[1.7]">
       Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts. Light becomes material here.
     </p>
   </div>

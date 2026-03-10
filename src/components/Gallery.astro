@@ -1,62 +1,60 @@
 ---
 import { Image } from 'astro:assets';
-
 const panels = [
-  { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85', alt: 'Casa Serena exterior at golden hour',  width: 1800, height: 1080, title: 'Golden Hour' },
-  { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85',  alt: 'Casa Serena living room',              width: 900,  height: 1080, title: 'Light & Space' },
-  { src: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=85',  alt: 'Casa Serena beachfront pool',          width: 900,  height: 1080, title: 'Infinity Pool' },
-  { src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85', alt: 'Casa Serena wide exterior view',       width: 1200, height: 1080, title: 'Perspective' },
-  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',     alt: 'Casa Serena chef kitchen',             width: 800,  height: 1080, title: "Chef's Kitchen" },
-  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=85',  alt: 'Casa Serena master suite bedroom',     width: 800,  height: 1080, title: 'Master Suite' },
+  { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85', alt: 'Casa Serena exterior at golden hour',  w: 1800, h: 1080, title: 'Golden Hour',    wide: true  },
+  { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85',  alt: 'Casa Serena living room',              w: 900,  h: 1080, title: 'Light & Space', wide: false },
+  { src: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=85',  alt: 'Casa Serena beachfront pool',          w: 900,  h: 1080, title: 'Infinity Pool', wide: false },
+  { src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85', alt: 'Casa Serena wide exterior view',       w: 1200, h: 1080, title: 'Perspective',   wide: false },
+  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',     alt: 'Casa Serena chef kitchen',             w: 800,  h: 1080, title: "Chef's Kitchen",wide: false },
+  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=85',  alt: 'Casa Serena master suite bedroom',     w: 800,  h: 1080, title: 'Master Suite',  wide: false },
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<!-- ── Desktop: horizontal pinned gallery ── -->
+<!-- Desktop: horizontal pinned scroll -->
 <section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
-  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] text-[0.65rem] tracking-[0.15em] uppercase z-10" style="color:var(--color-cream-40)">
-    The Property
-  </div>
-  <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] text-[0.9rem] text-cream z-10">
-    {pad(1)} / {pad(panels.length)}
-  </div>
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cream z-10 pointer-events-none" data-anim="gallery-scroll-hint">
+  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] font-sans text-[0.65rem] tracking-[0.15em] uppercase z-10" style="color:var(--cream-40)">The Property</div>
+  <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] font-sans text-[0.9rem] text-cream z-10">{pad(1)} / {pad(panels.length)}</div>
+  <div data-anim="gallery-scroll-hint" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cream z-10 pointer-events-none">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M2 10h12M10 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="text-[0.65rem] tracking-[0.1em] uppercase">scroll</span>
+    <span class="font-sans text-[0.65rem] tracking-[0.1em] uppercase">scroll</span>
   </div>
   <div data-anim="gallery-track" class="flex h-full will-change-transform">
     {panels.map((p, i) => (
       <div
         data-anim="gallery-panel"
-        class={`shrink-0 h-full relative border-r border-terracotta cursor-zoom-in ${i === 0 ? 'w-screen' : 'w-[75vw]'}`}
+        class="shrink-0 h-full relative border-r border-terracotta/40 cursor-zoom-in overflow-hidden"
+        style={`width:${p.wide ? '100vw' : '75vw'}`}
       >
-        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy"
+        <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
           class="w-full h-full object-cover" />
-        <div data-anim="gallery-caption" class="absolute bottom-0 left-0 right-0 px-[4vw] py-8 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-center text-cream">
+        <div data-anim="gallery-caption" class="absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream"
+          style="background:linear-gradient(to top,rgba(0,0,0,0.8),transparent)">
           <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
-          <span class="text-[0.95rem] tracking-[0.1em]">{p.title}</span>
+          <span class="font-sans text-[0.95rem] tracking-[0.08em]">{p.title}</span>
         </div>
       </div>
     ))}
   </div>
 </section>
 
-<!-- ── Mobile: vertical stacked gallery ── -->
+<!-- Mobile: vertical stacked -->
 <section id="gallery" class="md:hidden bg-gallery-bg">
-  <div class="flex justify-between items-center px-5 pt-5 pb-2">
-    <div class="text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--color-cream-40)">The Property</div>
-    <div class="text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
+  <div class="flex justify-between items-center px-5 pt-6 pb-3">
+    <div class="font-sans text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--cream-40)">The Property</div>
+    <div class="font-sans text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
   </div>
   <div class="flex flex-col">
     {panels.map((p, i) => (
-      <div class={`relative w-full overflow-hidden border-b border-terracotta ${i === 0 ? 'h-[70vw]' : 'h-[60vw]'} min-h-[220px]`}>
-        <Image src={p.src} alt={p.alt} width={p.width} height={p.height} format="webp" quality={85} loading="lazy"
+      <div class="relative w-full overflow-hidden border-b border-terracotta/40" style={`height:${i === 0 ? '70vw' : '60vw'};min-height:220px`}>
+        <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
           class="w-full h-full object-cover" />
-        <div class="absolute bottom-0 left-0 right-0 px-5 py-5 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-center text-cream">
+        <div class="absolute bottom-0 left-0 right-0 px-5 py-4 flex justify-between items-end text-cream"
+          style="background:linear-gradient(to top,rgba(0,0,0,0.8),transparent)">
           <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
-          <span class="text-[0.95rem] tracking-[0.1em]">{p.title}</span>
+          <span class="font-sans text-[0.9rem] tracking-[0.08em]">{p.title}</span>
         </div>
       </div>
     ))}

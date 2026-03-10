@@ -1,29 +1,32 @@
 ---
 ---
-
 <nav
   data-nav="root"
   class="fixed top-0 inset-x-0 z-[1000] flex justify-between items-center px-5 md:px-[4vw] py-5 transition-[background,border-color,backdrop-filter] duration-500"
 >
-  <div
+  <a
     data-nav="logo"
+    data-anim="nav-logo"
+    href="/"
     class="font-serif text-base tracking-[0.2em] text-cream transition-colors duration-500"
   >
     CASA SERENA
+  </a>
+
+  <!-- Desktop links -->
+  <div class="hidden md:flex gap-8">
+    <a data-nav="link" href="#about"    class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">About</a>
+    <a data-nav="link" href="#gallery"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Gallery</a>
+    <a data-nav="link" href="#location" class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Location</a>
+    <a data-nav="link" href="#enquire"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Enquire</a>
   </div>
 
-  <div data-nav="links" class="hidden md:flex gap-8">
-    <a data-nav="link" href="#about"    class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">About</a>
-    <a data-nav="link" href="#gallery"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Gallery</a>
-    <a data-nav="link" href="#location" class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Location</a>
-    <a data-nav="link" href="#enquire"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative">Enquire</a>
-  </div>
-
+  <!-- Mobile hamburger -->
   <button
     data-nav="toggle"
     aria-label="Toggle navigation menu"
     aria-expanded="false"
-    class="md:hidden flex flex-col gap-[6px] cursor-pointer bg-transparent border-none p-2 -mr-2 [touch-action:manipulation]"
+    class="md:hidden flex flex-col gap-[6px] cursor-pointer bg-transparent border-none p-2 -mr-2 touch-manipulation"
   >
     <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>
     <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>

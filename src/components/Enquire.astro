@@ -1,29 +1,30 @@
 ---
 const year = new Date().getFullYear();
-
 const socials = [
   { label: 'Instagram',   href: 'https://instagram.com' },
   { label: 'Casa Serena', href: 'https://casa-serena.vercel.app' },
   { label: 'Facebook',    href: 'https://facebook.com' },
 ];
 ---
-
 <section id="enquire" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] px-5 md:px-[4vw]">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[8vw] max-w-[1100px] mx-auto items-start">
 
     <!-- Left -->
     <div class="flex flex-col gap-8">
-      <p data-anim="enquire-eyebrow" class="text-[0.65rem] tracking-[0.2em] uppercase text-driftwood">Private Estate · Santorini</p>
-      <h2 data-anim="enquire-title" class="font-serif text-[clamp(3.5rem,15vw,11rem)] italic font-light text-cream leading-[0.9]">Stay.</h2>
-      <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta"></div>
-      <div data-anim="enquire-contact" class="flex flex-col gap-1">
-        <a href="mailto:info@casaserena.com" data-anim="enquire-link" class="font-serif italic text-base md:text-[1.1rem] text-cream transition-colors duration-300 hover:text-terracotta break-all">info@casaserena.com</a>
-        <a href="tel:+30-22860-00000"        data-anim="enquire-link" class="font-serif italic text-base md:text-[1.1rem] text-cream transition-colors duration-300 hover:text-terracotta">+30 22860 00000</a>
+      <p data-anim="enquire-eyebrow" class="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-driftwood">Private Estate · Santorini</p>
+      <h2 data-anim="enquire-title" class="font-serif italic font-light text-cream leading-[0.9]" style="font-size:clamp(3.5rem,12vw,11rem)">Stay.</h2>
+      <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta" style="transform-origin:left center"></div>
+      <div data-anim="enquire-contact" class="flex flex-col gap-2">
+        <a href="mailto:info@casaserena.com" data-anim="enquire-link"
+           class="font-serif italic text-[1.05rem] text-cream hover:text-terracotta transition-colors duration-300 break-all">info@casaserena.com</a>
+        <a href="tel:+30-22860-00000" data-anim="enquire-link"
+           class="font-serif italic text-[1.05rem] text-cream hover:text-terracotta transition-colors duration-300">+30 22860 00000</a>
       </div>
-      <div data-anim="enquire-social" class="flex flex-wrap items-center gap-3 text-[0.75rem] tracking-[0.08em] text-driftwood">
+      <div data-anim="enquire-social" class="flex flex-wrap items-center gap-3 font-sans text-[0.75rem] tracking-[0.08em] text-driftwood">
         {socials.map((s, i, arr) => (
           <>
-            <a href={s.href} target="_blank" rel="noopener noreferrer" class="transition-colors duration-300 hover:text-cream">{s.label}</a>
+            <a href={s.href} target="_blank" rel="noopener noreferrer"
+               class="hover:text-cream transition-colors duration-300">{s.label}</a>
             {i < arr.length - 1 && <span aria-hidden="true">·</span>}
           </>
         ))}
@@ -34,28 +35,23 @@ const socials = [
     <div data-anim="enquire-right" class="pt-0 md:pt-4">
       <form class="enquire-form flex flex-col gap-6" novalidate>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-name" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Name</label>
-          <input id="enquire-name" type="text" name="name" autocomplete="name" required aria-required="true"
-            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)" />
+          <label for="enquire-name" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Name</label>
+          <input id="enquire-name" type="text" name="name" autocomplete="name" required aria-required="true" class="form-input" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-email" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Email</label>
-          <input id="enquire-email" type="email" name="email" autocomplete="email" required aria-required="true"
-            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)" />
+          <label for="enquire-email" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Email</label>
+          <input id="enquire-email" type="email" name="email" autocomplete="email" required aria-required="true" class="form-input" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-message" class="text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">
+          <label for="enquire-message" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">
             Message <span class="opacity-60 italic normal-case tracking-normal">(optional)</span>
           </label>
-          <textarea id="enquire-message" name="message" rows={4}
-            class="bg-transparent border-0 border-b text-[0.95rem] md:text-base text-cream py-[0.6rem] outline-none appearance-none rounded-none w-full resize-none leading-[1.6] transition-colors duration-300 form-input-styled" style="border-bottom-color:var(--color-border-light)"></textarea>
+          <textarea id="enquire-message" name="message" rows={4} class="form-input resize-none leading-[1.6]"></textarea>
         </div>
-        <button type="submit" data-anim="form-submit"
-          class="enquire-submit inline-flex items-center justify-center md:justify-start gap-[0.6rem] w-full md:w-auto self-start px-8 py-[0.85rem] bg-transparent text-[0.72rem] tracking-[0.14em] uppercase text-cream cursor-pointer transition-[background,border-color] duration-300 hover:bg-terracotta hover:border-terracotta" style="border:1px solid var(--color-border-light)">
+        <button type="submit" data-anim="form-submit" class="enquire-submit w-full md:w-auto self-start">
           <span>Send Enquiry</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="2" y1="8" x2="14" y2="8"/>
-            <path d="M9 3l5 5-5 5"/>
+            <line x1="2" y1="8" x2="14" y2="8"/><path d="M9 3l5 5-5 5"/>
           </svg>
         </button>
       </form>
@@ -64,7 +60,7 @@ const socials = [
 </section>
 
 <!-- Footer -->
-<footer class="bg-charcoal px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left" style="border-top:1px solid var(--color-border-faint)">
+<footer class="bg-charcoal px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left" style="border-top:1px solid var(--border-faint)">
   <span data-anim="footer-logo" class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
-  <span data-anim="footer-copy" class="text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
+  <span data-anim="footer-copy" class="font-sans text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
 </footer>

@@ -1,17 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-
 const distances = [
-  { dest: 'Fira',              miles: '12 km' },
-  { dest: 'Santorini Airport', miles: '8 km' },
-  { dest: 'Heraklion, Crete', miles: '130 km' },
-  { dest: 'Athens',           miles: '280 km' },
+  { dest: 'Fira',               miles: '12 km' },
+  { dest: 'Santorini Airport',  miles: '8 km'  },
+  { dest: 'Heraklion, Crete',   miles: '130 km'},
+  { dest: 'Athens',             miles: '280 km'},
 ];
 ---
-
 <section id="location" class="bg-warm-white">
-  <!-- Full-bleed image — desktop uses negative margin trick, mobile is just full width -->
-  <div class="w-full h-[45vw] min-h-[200px] md:h-[55vh] overflow-hidden" data-anim="location-image">
+  <!-- Full-width image -->
+  <div data-anim="location-image" class="w-full overflow-hidden" style="height:clamp(200px,45vw,55vh)">
     <Image
       src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1400&q=85"
       alt="Santorini caldera aerial view"
@@ -24,19 +22,19 @@ const distances = [
   <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[6vw] px-5 md:px-[4vw] py-[10vh]">
     <!-- Left -->
     <div class="flex flex-col gap-4">
-      <h3 data-anim="location-address" class="font-serif text-[1.8rem] md:text-[2.5rem] font-light text-charcoal">Oia, Santorini 847 02</h3>
-      <p data-anim="location-city" class="text-[0.9rem] text-driftwood">Santorini, Greece</p>
-      <p data-anim="location-desc" class="text-base text-charcoal leading-[1.8]">
+      <h3 data-anim="location-address" class="font-serif font-light text-charcoal" style="font-size:clamp(1.8rem,4vw,2.8rem)">Oia, Santorini 847 02</h3>
+      <p data-anim="location-city" class="font-sans text-[0.9rem] text-driftwood">Santorini, Greece</p>
+      <p data-anim="location-desc" class="font-sans text-base text-charcoal leading-[1.8]">
         Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.
       </p>
     </div>
 
     <!-- Right: distances -->
-    <div class="flex flex-col gap-0">
+    <div class="flex flex-col">
       {distances.map(d => (
-        <div data-anim="location-distance" class="flex justify-between items-baseline pt-8" style="border-top:1px solid var(--color-border-warm)">
-          <span class="font-semibold text-charcoal">{d.dest}</span>
-          <span data-anim="location-miles" class="text-[0.9rem] text-terracotta font-medium">{d.miles}</span>
+        <div data-anim="location-distance" class="flex justify-between items-baseline py-5" style="border-top:1px solid var(--border-warm)">
+          <span class="font-sans font-medium text-charcoal">{d.dest}</span>
+          <span data-anim="location-miles" class="font-sans text-[0.9rem] text-terracotta font-medium">{d.miles}</span>
         </div>
       ))}
     </div>
