@@ -28,7 +28,7 @@ gsap.set(sel('location-miles'),    { x: 10, opacity: 0 });
 gsap.set([sel('hero-meta'), sel('enquire-eyebrow'), sel('enquire-social'), sel('quote-attribution'), sel('location-city')], { y: 16, opacity: 0 });
 gsap.set([sel('intro-right-p'), sel('about-text-p'), sel('gallery-caption'), sel('enquire-right'), sel('location-desc')],   { y: 24, opacity: 0 });
 gsap.set([sel('quote-text'), sel('location-address')],                                                                       { y: 40, opacity: 0 });
-gsap.set([sel('quote-stat'), sel('amenities-number'), sel('footer-logo'), sel('footer-copy'), sel('form-submit')],           { y: 30, opacity: 0 });
+gsap.set([sel('quote-stat'), sel('amenities-number'), sel('form-submit')],           { y: 30, opacity: 0 });
 gsap.set([sel('enquire-contact'), sel('form-group')],                                                                        { y: 20, opacity: 0 });
 gsap.set([sel('stat-label'), sel('nav-link')],                                                                               { y: 10, opacity: 0 });
 gsap.set([sel('enquire-rule'), sel('quote-stat-sep')], { scaleX: 0, transformOrigin: 'left center' });
@@ -355,12 +355,11 @@ if (window.matchMedia('(pointer: fine)').matches) {
   });
 }
 
-/* ── footer ── */
-gsap.timeline({
-  scrollTrigger: { trigger: sel('footer-logo'), start: 'top 95%', toggleActions: 'play none none none' },
-})
-  .to(sel('footer-logo'), { y: 0, opacity: 1, duration: 0.6 })
-  .to(sel('footer-copy'), { y: 0, opacity: 1, duration: 0.5 }, '-=0.3');
+/* ── footer — always visible, simple fade on scroll ── */
+gsap.fromTo('footer', { opacity: 0 }, {
+  opacity: 1, duration: 0.6,
+  scrollTrigger: { trigger: 'footer', start: 'top 100%', once: true },
+});
 
 /* ─────────────────────────────────────────
    FORM SUBMISSION — success state
@@ -478,7 +477,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     sel('quote-stat-sep'), sel('quote-stat-label'), sel('location-address'), sel('location-city'),
     sel('location-desc'), sel('location-distance'), sel('location-miles'), sel('enquire-title'),
     sel('enquire-rule'), sel('enquire-eyebrow'), sel('enquire-contact'), sel('enquire-right'),
-    sel('enquire-social'), sel('form-group'), sel('form-submit'), sel('footer-logo'), sel('footer-copy'),
+    sel('enquire-social'), sel('form-group'), sel('form-submit'),
     '#load-screen',
   ], { clearProps: 'all' });
   if (loadScreen) loadScreen.style.display = 'none';
