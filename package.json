@@ -13,7 +13,7 @@
     "@astrojs/sitemap": "3.7.1",
     "@tailwindcss/vite": "^4.2.1",
     "@vercel/analytics": "^2.0.1",
-    "astro": "6.0.0",
+    "astro": "6.0.4",
     "gsap": "^3.14.2",
     "tailwindcss": "^4"
   },
