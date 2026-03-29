@@ -24,3 +24,6 @@ bun-debug.log*
 # jetbrains setting folder
 .idea/
 .vercel
+# IDE
+.vscode/
+
