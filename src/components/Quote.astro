@@ -6,21 +6,53 @@ const stats = [
   { value: 45,  label: 'Feet above sea' },
 ];
 ---
+<script>
+import { gsap, ScrollTrigger, sel, isMobile } from '../lib/gsap';
+
+/* ── initial states ── */
+gsap.set([sel('quote-text'), sel('quote-attribution')], { y: 40, opacity: 0 });
+gsap.set(sel('quote-stat'),       { y: 30, opacity: 0 });
+gsap.set(sel('quote-stat-sep'),   { scaleX: 0, transformOrigin: 'left center' });
+gsap.set(sel('quote-stat-label'), { opacity: 0, y: 8 });
+
+/* ── parallax — desktop only ── */
+if (!isMobile) {
+  gsap.fromTo(sel('quote-bg-img'), { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'center center', scrub: 1.5 } });
+  gsap.to(sel('quote-bg-img'),     { yPercent: 12, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'bottom top', scrub: true } });
+}
+
+/* ── entrance ── */
+gsap.to([sel('quote-text'), sel('quote-attribution')], { y: 0, opacity: 1, stagger: 0.18, duration: 1.0, scrollTrigger: { trigger: sel('quote-text'), start: 'top 72%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat'),       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat-sep'),   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', transformOrigin: 'left center', scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('quote-stat-label'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' } });
+
+/* ── animated counters ── */
+document.querySelectorAll(sel('quote-stat-number')).forEach(el => {
+  const target = parseFloat(el.textContent ?? '0');
+  const obj    = { val: 0 };
+  ScrollTrigger.create({
+    trigger: el, start: 'top 82%', once: true,
+    onEnter: () => gsap.to(obj, {
+      val: target, duration: 2.0, ease: 'power2.out',
+      onUpdate: () => { el.textContent = String(Math.round(obj.val)); },
+    }),
+  });
+});
+</script>
+
 <section class="relative overflow-hidden grid grid-cols-1 md:grid-cols-[60%_40%] min-h-svh md:h-[80vh] md:min-h-0">
-  <!-- BG image -->
   <div class="absolute inset-0 z-0">
     <Image
-      src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=85"
+      src="/images/quote.jpg"
       alt="Casa Serena pool at sunset"
       width={800} height={600} format="webp" quality={85} loading="lazy"
       data-anim="quote-bg-img"
       class="w-full h-full object-cover"
     />
   </div>
-  <!-- Scrim -->
   <div class="absolute inset-0 z-[1]" style="background:var(--overlay-scrim)"></div>
 
-  <!-- Quote -->
   <div class="relative z-[2] px-5 md:px-[4vw] pt-20 pb-8 md:py-0 flex flex-col justify-center text-cream">
     <div data-anim="quote-text" class="font-serif italic font-light leading-[1.3] mb-6" style="font-size:clamp(1.6rem,4vw,3.5rem)">
       &ldquo;The Aegean has a way of resetting everything.&rdquo;
@@ -28,7 +60,6 @@ const stats = [
     <div data-anim="quote-attribution" class="font-sans text-[0.8rem] tracking-[0.1em]" style="color:var(--cream-70)">— Private Guest, 2023</div>
   </div>
 
-  <!-- Stats -->
   <div class="relative z-[2] px-5 md:px-[4vw] pb-12 md:py-0 flex flex-col justify-center gap-8 text-cream">
     {stats.map(s => (
       <div data-anim="quote-stat" class="flex md:flex-col items-center md:items-start gap-4 md:gap-2">

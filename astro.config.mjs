@@ -7,9 +7,7 @@ export default defineConfig({
   site: 'https://casa-serena.vercel.app',
   output: 'static',
   integrations: [sitemap()],
-  image: {
-    domains: ['images.unsplash.com'],
-  },
+  devToolbar: { enabled: false },
   vite: {
     plugins: [tailwindcss()],
   },

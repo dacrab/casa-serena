@@ -11,15 +11,43 @@ const amenities = [
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
+<script>
+import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
+
+/* ── initial states ── */
+gsap.set(sel('amenities-number'), { y: 30, opacity: 0 });
+gsap.set(sel('amenity-row'),      { x: -28, opacity: 0 });
+
+/* ── animations ── */
+gsap.to(sel('amenities-number'), { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' } });
+if (!isMobile) {
+  gsap.to(sel('amenities-number'), { y: -50, ease: 'none', scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+}
+gsap.to(sel('amenity-row'), { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: sel('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
+
+if (isPointer) {
+  document.querySelectorAll(sel('amenity-row')).forEach(row => {
+    const name    = row.querySelector(sel('amenity-name'))    as HTMLElement | null;
+    const counter = row.querySelector(sel('amenity-counter')) as HTMLElement | null;
+    row.addEventListener('mouseenter', () => {
+      if (name)    gsap.to(name,    { x: 8, color: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' });
+      if (counter) gsap.to(counter, { scale: 1.3, duration: 0.25, ease: 'back.out(2)' });
+    });
+    row.addEventListener('mouseleave', () => {
+      if (name)    gsap.to(name,    { x: 0, color: 'var(--color-charcoal)', duration: 0.3 });
+      if (counter) gsap.to(counter, { scale: 1, duration: 0.3 });
+    });
+  });
+}
+</script>
+
 <section class="bg-cream py-[8vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
-  <!-- Big number -->
   <div class="flex items-start">
     <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:clamp(6rem,20vw,22rem)">
       {pad(amenities.length)}
     </div>
   </div>
 
-  <!-- List -->
   <div class="flex flex-col">
     {amenities.map((a, i) => (
       <div
@@ -31,7 +59,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
           <div data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</div>
           <div class="font-sans text-[0.8rem] italic text-driftwood">{a.desc}</div>
         </div>
-        <div data-anim="amenity-counter" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-terracotta">{pad(i + 1)}</div>
+        <div data-anim="amenity-counter" class="label-xs text-terracotta">{pad(i + 1)}</div>
       </div>
     ))}
   </div>

@@ -1,34 +1,131 @@
 ---
 ---
-<nav
-  data-nav="root"
-  class="fixed top-0 inset-x-0 z-[1000] flex justify-between items-center px-5 md:px-[4vw] py-5 transition-[background,border-color,backdrop-filter] duration-500"
->
-  <a
-    data-nav="logo"
-    data-anim="nav-logo"
-    href="#hero"
-    class="font-serif text-base tracking-[0.2em] text-cream transition-colors duration-500"
-  >
-    CASA SERENA
-  </a>
+<script>
+import { gsap, ScrollTrigger, sel, isPointer } from '../lib/gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+gsap.registerPlugin(ScrollToPlugin);
 
-  <!-- Desktop links -->
-  <div class="hidden md:flex gap-8">
-    <a data-nav="link" href="#about"    class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">About</a>
-    <a data-nav="link" href="#gallery"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Gallery</a>
-    <a data-nav="link" href="#location" class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Location</a>
-    <a data-nav="link" href="#enquire"  class="text-[0.72rem] tracking-[0.15em] uppercase text-cream/80 transition-colors duration-300 relative hover:text-cream">Enquire</a>
-  </div>
+/* ── initial states ── */
+gsap.set(sel('nav-logo'),     { opacity: 0, y: -8 });
+gsap.set('[data-nav="link"]', { opacity: 0, y: -8 });
 
-  <!-- Mobile hamburger -->
-  <button
-    data-nav="toggle"
-    aria-label="Toggle navigation menu"
-    aria-expanded="false"
-    class="md:hidden flex flex-col gap-[6px] cursor-pointer bg-transparent border-none p-2 -mr-2 touch-manipulation"
-  >
-    <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>
-    <span data-nav="bar" class="block w-[22px] h-[1.5px] bg-cream transition-colors duration-500"></span>
-  </button>
-</nav>
+/* ── scroll state ── */
+const nav = document.querySelector('[data-nav="root"]') as HTMLElement | null;
+ScrollTrigger.create({
+  start: 'top -60',
+  onEnter:     () => nav?.classList.add('nav-scrolled'),
+  onLeaveBack: () => nav?.classList.remove('nav-scrolled'),
+});
+
+/* ── entrance ── */
+document.addEventListener('casa:loaded', () => {
+  gsap.timeline()
+    .to(sel('nav-logo'),     { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+    .to('[data-nav="link"]', { opacity: 1, y: 0, stagger: 0.07, duration: 0.55, ease: 'power3.out' }, '-=0.35');
+}, { once: true });
+
+/* ── link underline hover ── */
+if (isPointer) {
+  document.querySelectorAll('[data-nav="link"]').forEach(link => {
+    const el   = link as HTMLElement;
+    const line = document.createElement('span');
+    Object.assign(line.style, {
+      position: 'absolute', bottom: '-2px', left: '0',
+      width: '100%', height: '1px',
+      background: 'var(--color-terracotta)',
+      transformOrigin: 'left center', transform: 'scaleX(0)', display: 'block',
+    });
+    el.appendChild(line);
+    el.addEventListener('mouseenter', () => gsap.to(line, { scaleX: 1, duration: 0.3, ease: 'power2.out' }));
+    el.addEventListener('mouseleave', () => gsap.to(line, { scaleX: 0, duration: 0.25, ease: 'power2.in', transformOrigin: 'right center' }));
+  });
+}
+
+/* ── mobile menu ── */
+const toggle  = document.querySelector('[data-nav="toggle"]') as HTMLElement | null;
+const overlay = document.querySelector('[data-nav="overlay"]') as HTMLElement | null;
+const bars    = [...document.querySelectorAll('[data-nav="bar"]')] as HTMLElement[];
+let open      = false;
+
+const openMenu = () => {
+  open = true;
+  toggle?.setAttribute('aria-expanded', 'true');
+  if (overlay) { overlay.style.display = 'flex'; }
+  gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+  gsap.fromTo(overlay?.querySelectorAll('li') ?? [], { y: 24, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.07, duration: 0.4, ease: 'power3.out', delay: 0.1 });
+  if (bars[0]) gsap.to(bars[0], { rotation: 45,  y: 4,  duration: 0.3, ease: 'power2.inOut' });
+  if (bars[1]) gsap.to(bars[1], { rotation: -45, y: -4, duration: 0.3, ease: 'power2.inOut' });
+};
+
+const closeMenu = (cb?: () => void) => {
+  open = false;
+  toggle?.setAttribute('aria-expanded', 'false');
+  if (bars[0]) gsap.to(bars[0], { rotation: 0, y: 0, duration: 0.25, ease: 'power2.inOut' });
+  if (bars[1]) gsap.to(bars[1], { rotation: 0, y: 0, duration: 0.25, ease: 'power2.inOut' });
+  gsap.to(overlay, { opacity: 0, duration: 0.25, ease: 'power2.in', onComplete: () => {
+    if (overlay) overlay.style.display = 'none';
+    cb?.();
+  }});
+};
+
+toggle?.addEventListener('click', () => open ? closeMenu() : openMenu());
+
+overlay?.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const href = (a as HTMLAnchorElement).getAttribute('href') ?? '';
+    closeMenu(() => {
+      const id   = (href === '#gallery' && window.innerWidth <= 768) ? '#gallery-mobile' : href;
+      const el   = document.querySelector(id);
+      if (el) gsap.to(window, { scrollTo: { y: el, offsetY: 0 }, duration: 0.8, ease: 'power3.inOut' });
+    });
+  });
+});
+
+/* ── logo → scroll to top ── */
+document.querySelector('[data-nav="logo"]')?.addEventListener('click', e => {
+  e.preventDefault();
+  gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' });
+});
+
+/* ── active link tracking ── */
+const links = [...document.querySelectorAll('[data-nav="link"]')];
+const setActive = (id: string) => {
+  links.forEach(l => { l.removeAttribute('aria-current'); l.classList.remove('active'); });
+  document.querySelector(`[data-nav="link"][href="#${id}"]`)?.setAttribute('aria-current', 'page');
+};
+document.querySelectorAll('section[id]').forEach(s => {
+  ScrollTrigger.create({
+    trigger: s, start: 'top 55%', end: 'bottom 55%',
+    onEnter: () => setActive(s.id), onEnterBack: () => setActive(s.id),
+  });
+});
+</script>
+
+<header class="nav-header">
+  <nav data-nav="root" class="nav-bar">
+    <a data-nav="logo" data-anim="nav-logo" href="#hero" class="nav-logo">CASA SERENA</a>
+
+    <div class="nav-links">
+      <a data-nav="link" href="#about"    class="nav-link">About</a>
+      <a data-nav="link" href="#gallery"  class="nav-link">Gallery</a>
+      <a data-nav="link" href="#location" class="nav-link">Location</a>
+      <a data-nav="link" href="#enquire"  class="nav-link">Enquire</a>
+    </div>
+
+    <button data-nav="toggle" aria-label="Open menu" aria-expanded="false" class="nav-toggle">
+      <span data-nav="bar"></span>
+      <span data-nav="bar"></span>
+    </button>
+  </nav>
+</header>
+
+<!-- Mobile overlay — hidden by default -->
+<div data-nav="overlay" class="nav-overlay" style="display:none">
+  <ul class="nav-overlay-list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#enquire">Enquire</a></li>
+  </ul>
+</div>

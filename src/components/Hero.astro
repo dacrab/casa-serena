@@ -1,59 +1,106 @@
 ---
 ---
-<section id="hero" class="relative h-svh overflow-hidden">
-  <!-- Video -->
-  <div class="absolute inset-0 overflow-hidden">
-    <video
-      data-anim="hero-video"
-      class="w-full h-full object-cover"
-      autoplay loop muted playsinline aria-hidden="true"
-      poster="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1800&q=85"
-    >
-      <source src="https://videos.pexels.com/video-files/3045163/3045163-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-      <source src="https://videos.pexels.com/video-files/1093662/1093662-sd_960_540_24fps.mp4" type="video/mp4" />
-    </video>
-  </div>
+<script>
+import { gsap, ScrollTrigger, sel, isPointer, isMobile } from '../lib/gsap';
 
-  <!-- Gradient overlay -->
-  <div class="absolute inset-0 z-[2] pointer-events-none" style="background:radial-gradient(ellipse at bottom left,rgba(0,0,0,0.3),rgba(0,0,0,0.7))"></div>
+/* ── initial states ── */
+gsap.set(sel('ec'),            { y: 22, opacity: 0 });
+gsap.set(sel('hero-title'),    { y: 70, opacity: 0 });
+gsap.set(sel('hero-scroll'),   { opacity: 0 });
+gsap.set(sel('scroll-line'),   { height: 0 });
+gsap.set(sel('hero-meta'),     { y: 16, opacity: 0 });
+gsap.set(sel('intro-text'),    { x: 60, opacity: 0 });
+gsap.set(sel('intro-right-p'), { y: 24, opacity: 0 });
+gsap.set(sel('hero-line'),     { scaleX: 0, transformOrigin: 'left center' });
 
-  <!-- Hero content -->
-  <div class="absolute bottom-8 left-5 right-5 z-[4] md:left-[4vw] md:right-auto md:max-w-[600px]">
-    <div data-anim="hero-eyebrow" class="font-sans text-[0.65rem] tracking-[0.25em] uppercase text-cream mb-6 flex flex-wrap">
+/* ── marquee ── */
+gsap.to(sel('marquee-container'), { x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8 });
+
+/* ── scroll indicator loop ── */
+gsap.timeline({ repeat: -1, repeatDelay: 0.4, delay: 3.0 })
+  .to(sel('scroll-line'), { height: 40, duration: 0.55, ease: 'power2.out' })
+  .to(sel('scroll-line'), { opacity: 0, duration: 0.4,  ease: 'power1.in' })
+  .set(sel('scroll-line'), { height: 0, opacity: 1 });
+
+/* ── entrance timeline ── */
+const tl = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
+  .to(sel('ec'),         { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
+  .to(sel('hero-line'),  { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+  .to(sel('hero-title'), { y: 0, opacity: 1, duration: 1.1 }, '-=0.5')
+  .to(sel('hero-meta'),  { y: 0, opacity: 1, duration: 0.7 }, '-=0.6')
+  .to(sel('hero-scroll'),{ opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4');
+
+document.addEventListener('casa:loaded', () => tl.play(), { once: true });
+
+/* ── force video play ── */
+const video = document.querySelector('#hero video') as HTMLVideoElement | null;
+video?.play().catch(() => {});
+
+/* ── 3D tilt — desktop ── */
+if (isPointer) {
+  const title = document.querySelector(sel('hero-title')) as HTMLElement | null;
+  if (title) {
+    title.addEventListener('mousemove', (e: MouseEvent) => {
+      const { left, top, width, height } = title.getBoundingClientRect();
+      gsap.to(title, { rotationX: ((e.clientY - top) / height - 0.5) * -6, rotationY: ((e.clientX - left) / width - 0.5) * 8, transformPerspective: 800, duration: 0.4, ease: 'power2.out' });
+    });
+    title.addEventListener('mouseleave', () => gsap.to(title, { rotationX: 0, rotationY: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }));
+  }
+}
+
+/* ── parallax scrubs — desktop ── */
+if (!isMobile) {
+  gsap.to(sel('hero-meta'), { letterSpacing: '0.28em', ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 } });
+}
+
+/* ── intro ── */
+gsap.to(sel('intro-text'),    { x: 0, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: sel('intro-text'),    start: 'top 80%', toggleActions: 'play none none none' } });
+gsap.to(sel('intro-right-p'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.9,      scrollTrigger: { trigger: sel('intro-right-p'), start: 'top 82%', toggleActions: 'play none none none' } });
+
+/* ── back to top ── */
+const btn = document.getElementById('back-to-top') as HTMLElement | null;
+if (btn) {
+  const svg = btn.querySelector('svg') as HTMLElement | null;
+  ScrollTrigger.create({
+    trigger: '#hero', start: 'bottom top',
+    onEnter:     () => { btn.style.pointerEvents = 'all';  gsap.to(btn, { opacity: 1, duration: 0.4, ease: 'power2.out' }); },
+    onLeaveBack: () => { btn.style.pointerEvents = 'none'; gsap.to(btn, { opacity: 0, duration: 0.3, ease: 'power2.in' }); },
+  });
+  btn.addEventListener('click', () => gsap.to(window, { scrollTo: 0, duration: 1.2, ease: 'power3.inOut' }));
+  if (isPointer) {
+    btn.addEventListener('mouseenter', () => { gsap.to(btn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', duration: 0.25 }); if (svg) gsap.to(svg, { stroke: '#fff', duration: 0.25 }); });
+    btn.addEventListener('mouseleave', () => { gsap.to(btn, { backgroundColor: 'var(--color-warm-white)', borderColor: 'var(--border-warm)', duration: 0.3 }); if (svg) gsap.to(svg, { stroke: 'var(--color-charcoal)', duration: 0.3 }); });
+  }
+}
+</script>
+
+<section id="hero">
+  <video autoplay loop muted playsinline aria-hidden="true">
+    <source src="/images/hero.mp4"      type="video/mp4; codecs=hvc1" />
+    <source src="/images/hero-h264.mp4" type="video/mp4; codecs=avc1.42E01E" />
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="label-xs text-cream mb-6 flex flex-wrap" style="letter-spacing:0.25em">
       {'BEACHFRONT ESTATE'.split('').map(c => <span data-anim="ec" class="inline-block">{c}</span>)}
     </div>
-    <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8" style="transform-origin:left"></div>
+    <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8"></div>
     <h1 data-anim="hero-title" class="font-serif italic font-light text-cream leading-[0.85] mb-6" style="font-size:clamp(3.5rem,13vw,14rem)">
       Serena
     </h1>
-    <div data-anim="hero-meta" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--cream-70)">
+    <p data-anim="hero-meta" class="label-xs" style="color:var(--cream-70)">
       Santorini, Greece · 4 Suites · 8 Acres · Caldera View
-    </div>
-  </div>
-
-  <!-- Scroll indicator — desktop only -->
-  <div data-anim="hero-scroll" class="hidden md:flex absolute bottom-[4vw] right-[4vw] z-[4] flex-col items-center gap-2">
-    <div data-anim="scroll-line" class="w-px bg-terracotta" style="height:0"></div>
-    <div class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-cream [writing-mode:vertical-rl] rotate-180">SCROLL</div>
-  </div>
-</section>
-
-<!-- Marquee -->
-<div class="w-full h-10 bg-terracotta overflow-x-hidden flex items-center">
-  <div data-anim="marquee-container" class="flex whitespace-nowrap will-change-transform shrink-0">
-    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
-    <span class="font-sans text-[0.7rem] tracking-[0.2em] uppercase text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
-  </div>
-</div>
-
-<!-- Intro -->
-<section class="bg-warm-white py-[12vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 md:gap-[4vw] items-center overflow-hidden">
-  <h2 data-anim="intro-text" class="font-serif italic font-light text-charcoal leading-[1.1]" style="font-size:clamp(2.2rem,8vw,8rem)">
-    A house that breathes.
-  </h2>
-  <div class="flex flex-col gap-4 pl-5 md:pl-8 border-l border-terracotta">
-    <p data-anim="intro-right-p" class="font-sans text-[0.9rem] md:text-[0.95rem] text-driftwood leading-[1.7]">
-      Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts. Light becomes material here.
     </p>
   </div>
+  <div data-anim="hero-scroll" class="hero-scroll">
+    <div data-anim="scroll-line" class="w-px bg-terracotta"></div>
+    <span class="label-xs text-cream" style="writing-mode:vertical-rl;transform:rotate(180deg)">SCROLL</span>
+  </div>
 </section>
+
+<div class="marquee-strip">
+  <div data-anim="marquee-container" class="marquee-inner">
+    <span>PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+    <span>PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+  </div>
+</div>

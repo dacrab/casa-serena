@@ -6,12 +6,84 @@ const socials = [
   { label: 'Facebook',    href: 'https://facebook.com' },
 ];
 ---
+<script>
+import { gsap, ScrollTrigger, sel, isPointer } from '../lib/gsap';
+
+/* ── initial states ── */
+gsap.set(sel('enquire-title'),   { y: 60, opacity: 0 });
+gsap.set(sel('enquire-eyebrow'), { y: 16, opacity: 0 });
+gsap.set(sel('enquire-social'),  { y: 16, opacity: 0 });
+gsap.set(sel('enquire-contact'), { y: 20, opacity: 0 });
+gsap.set(sel('enquire-right'),   { y: 24, opacity: 0 });
+gsap.set(sel('enquire-rule'),    { scaleX: 0, transformOrigin: 'left center' });
+gsap.set(sel('form-group'),      { y: 20, opacity: 0 });
+gsap.set(sel('form-submit'),     { y: 30, opacity: 0 });
+
+/* ── entrance ── */
+ScrollTrigger.create({
+  trigger: '#enquire', start: 'top 65%', once: true,
+  onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
+    .to(sel('enquire-title'),   { y: 0, opacity: 1, duration: 1.1 })
+    .to(sel('enquire-rule'),    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+    .to(sel('enquire-eyebrow'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
+    .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
+    .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
+    .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
+    .to(sel('form-group'),      { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
+    .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
+});
+
+/* ── form input GSAP focus ── */
+document.querySelectorAll('.form-input').forEach(input => {
+  input.addEventListener('focus', () => gsap.to(input, { borderColor: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' }));
+  input.addEventListener('blur',  () => gsap.to(input, { borderColor: 'var(--border-light)',     duration: 0.3,  ease: 'power2.out' }));
+});
+
+/* ── hover — desktop only ── */
+if (isPointer) {
+  const submitBtn = document.querySelector(sel('form-submit')) as HTMLElement | null;
+  if (submitBtn) {
+    const arrow = submitBtn.querySelector('svg') as HTMLElement | null;
+    submitBtn.addEventListener('mouseenter', () => {
+      gsap.to(submitBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', letterSpacing: '0.2em', duration: 0.3, ease: 'power2.out' });
+      if (arrow) gsap.to(arrow, { x: 5, duration: 0.25, ease: 'power2.out' });
+    });
+    submitBtn.addEventListener('mouseleave', () => {
+      gsap.to(submitBtn, { backgroundColor: 'transparent', borderColor: 'var(--border-light)', letterSpacing: '0.14em', duration: 0.3, ease: 'power2.out' });
+      if (arrow) gsap.to(arrow, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.5)' });
+    });
+  }
+  document.querySelectorAll(sel('enquire-link')).forEach(link => {
+    link.addEventListener('mouseenter', () => gsap.to(link, { x: 6, color: 'var(--color-terracotta)', duration: 0.2, ease: 'power2.out' }));
+    link.addEventListener('mouseleave', () => gsap.to(link, { x: 0, color: 'var(--color-cream)', duration: 0.3, ease: 'elastic.out(1,0.5)' }));
+  });
+}
+
+/* ── form submit ── */
+const form = document.querySelector('.enquire-form');
+form?.addEventListener('submit', e => {
+  e.preventDefault();
+  gsap.to(form, {
+    opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
+    onComplete: () => {
+      form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>';
+      gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
+    },
+  });
+});
+
+/* ── footer fade ── */
+gsap.fromTo('footer', { opacity: 0 }, {
+  opacity: 1, duration: 0.6,
+  scrollTrigger: { trigger: 'footer', start: 'top 100%', once: true },
+});
+</script>
+
 <section id="enquire" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] px-5 md:px-[4vw]">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[8vw] max-w-[1100px] mx-auto items-start">
 
-    <!-- Left -->
     <div class="flex flex-col gap-8">
-      <p data-anim="enquire-eyebrow" class="font-sans text-[0.65rem] tracking-[0.2em] uppercase text-driftwood">Private Estate · Santorini</p>
+      <p data-anim="enquire-eyebrow" class="label-xs text-driftwood" style="letter-spacing:0.2em">Private Estate · Santorini</p>
       <h2 data-anim="enquire-title" class="font-serif italic font-light text-cream leading-[0.9]" style="font-size:clamp(3.5rem,12vw,11rem)">Stay.</h2>
       <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta" style="transform-origin:left center"></div>
       <div data-anim="enquire-contact" class="flex flex-col gap-2">
@@ -31,24 +103,26 @@ const socials = [
       </div>
     </div>
 
-    <!-- Right: form -->
     <div data-anim="enquire-right" class="pt-0 md:pt-4">
       <form class="enquire-form flex flex-col gap-6" novalidate>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-name" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Name</label>
+          <label for="enquire-name" class="label-xs text-driftwood">Name</label>
           <input id="enquire-name" type="text" name="name" autocomplete="name" required aria-required="true" class="form-input" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-email" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">Email</label>
+          <label for="enquire-email" class="label-xs text-driftwood">Email</label>
           <input id="enquire-email" type="email" name="email" autocomplete="email" required aria-required="true" class="form-input" />
         </div>
         <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-message" class="font-sans text-[0.65rem] tracking-[0.15em] uppercase text-driftwood">
+          <label for="enquire-message" class="label-xs text-driftwood">
             Message <span class="opacity-60 italic normal-case tracking-normal">(optional)</span>
           </label>
           <textarea id="enquire-message" name="message" rows={4} class="form-input resize-none leading-[1.6]"></textarea>
         </div>
-        <button type="submit" data-anim="form-submit" class="enquire-submit w-full justify-center">
+        <button type="submit" data-anim="form-submit"
+          class="w-full flex items-center justify-center gap-3 px-8 py-[0.85rem] label-xs text-cream cursor-pointer"
+          style="border:1px solid var(--border-light);background:transparent"
+        >
           <span>Send Enquiry</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="2" y1="8" x2="14" y2="8"/><path d="M9 3l5 5-5 5"/>
@@ -59,8 +133,7 @@ const socials = [
   </div>
 </section>
 
-<!-- Footer -->
 <footer class="bg-charcoal px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left" style="border-top:1px solid var(--border-faint)">
-  <span data-anim="footer-logo" class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
-  <span data-anim="footer-copy" class="font-sans text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
+  <span class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
+  <span class="font-sans text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
 </footer>

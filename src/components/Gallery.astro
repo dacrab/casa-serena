@@ -1,19 +1,119 @@
 ---
 import { Image } from 'astro:assets';
 const panels = [
-  { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&q=85', alt: 'Casa Serena exterior at golden hour',  w: 1800, h: 1080, title: 'Golden Hour',    wide: true  },
-  { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85',  alt: 'Casa Serena living room',              w: 900,  h: 1080, title: 'Light & Space', wide: false },
-  { src: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=85',  alt: 'Casa Serena beachfront pool',          w: 900,  h: 1080, title: 'Infinity Pool', wide: false },
-  { src: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200&q=85', alt: 'Casa Serena wide exterior view',       w: 1200, h: 1080, title: 'Perspective',   wide: false },
-  { src: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=85',     alt: 'Casa Serena chef kitchen',             w: 800,  h: 1080, title: "Chef's Kitchen",wide: false },
-  { src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=85',  alt: 'Casa Serena master suite bedroom',     w: 800,  h: 1080, title: 'Master Suite',  wide: false },
+  { src: '/images/gallery-1.jpg', alt: 'Casa Serena exterior at golden hour',  w: 1800, h: 1080, title: 'Golden Hour',    wide: true  },
+  { src: '/images/about.jpg',     alt: 'Casa Serena living room',              w: 900,  h: 1080, title: 'Light & Space', wide: false },
+  { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool',          w: 900,  h: 1080, title: 'Infinity Pool', wide: false },
+  { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view',       w: 1200, h: 1080, title: 'Perspective',   wide: false },
+  { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen',             w: 800,  h: 1080, title: "Chef's Kitchen",wide: false },
+  { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom',     w: 800,  h: 1080, title: 'Master Suite',  wide: false },
 ];
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
+<script>
+import { gsap, ScrollTrigger, sel, isPointer, isMobile } from '../lib/gsap';
+
+/* ── initial states ── */
+gsap.set(sel('gallery-label'),   { x: 20, opacity: 0 });
+gsap.set(sel('gallery-caption'), { y: 24, opacity: 0 });
+
+/* ── label + caption entrance ── */
+gsap.to(sel('gallery-label'),   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' } });
+gsap.to(sel('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
+
+/* ── mobile: fade each panel image ── */
+if (isMobile) {
+  document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
+    gsap.fromTo(panel.querySelector('img'), { opacity: 0, scale: 1.04 }, {
+      opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: panel, start: 'top 90%', toggleActions: 'play none none none' },
+    });
+  });
+}
+
+/* ── desktop: panel hover zoom ── */
+if (isPointer) {
+  document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
+    const img = panel.querySelector('img') as HTMLElement | null;
+    if (!img) return;
+    panel.addEventListener('mouseenter', () => gsap.to(img, { scale: 1.04, duration: 0.6, ease: 'power2.out' }));
+    panel.addEventListener('mouseleave', () => gsap.to(img, { scale: 1,    duration: 0.7, ease: 'power2.out' }));
+  });
+}
+
+/* ── scroll hint ── */
+const scrollHint    = document.querySelector(sel('gallery-scroll-hint'));
+const scrollHintSvg = scrollHint?.querySelector('svg');
+if (scrollHint && scrollHintSvg) {
+  gsap.to(scrollHintSvg, { x: 6, duration: 0.65, ease: 'power1.inOut', yoyo: true, repeat: -1 });
+  gsap.to(scrollHint,    { opacity: 0, duration: 0.6, ease: 'power2.in', delay: 3 });
+}
+
+/* ── desktop: horizontal pin ── */
+const track   = document.querySelector(sel('gallery-track'));
+const panels  = gsap.utils.toArray(sel('gallery-panel'));
+const counter = document.querySelector(sel('gallery-counter'));
+if (track && panels.length && !isMobile) {
+  ScrollTrigger.refresh();
+  const totalWidth = (track as HTMLElement).scrollWidth - window.innerWidth;
+  gsap.to(track, {
+    x: () => -totalWidth,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#gallery', start: 'top top',
+      end: () => `+=${totalWidth}`,
+      scrub: 1.0, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+      onUpdate: self => {
+        if (counter) {
+          const idx = Math.min(Math.round(self.progress * (panels.length - 1)), panels.length - 1);
+          counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+        }
+      },
+    },
+  });
+}
+
+/* ── lightbox ── */
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img') as HTMLImageElement | null;
+const lightboxCap   = document.getElementById('lightbox-caption');
+const lightboxClose = document.getElementById('lightbox-close');
+
+const openLightbox = (src: string, alt: string, caption: string) => {
+  if (!lightbox || !lightboxImg || !lightboxCap || !lightboxClose) return;
+  lightboxImg.src = src; lightboxImg.alt = alt; lightboxCap.textContent = caption;
+  lightbox.classList.add('open');
+  gsap.fromTo(lightbox,    { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
+  gsap.fromTo(lightboxImg, { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' });
+  document.body.style.overflow = 'hidden';
+  (lightboxClose as HTMLElement).focus();
+  /* close button hover */
+  if (isPointer) {
+    lightboxClose.addEventListener('mouseenter', () => gsap.to(lightboxClose, { opacity: 1, scale: 1.1, duration: 0.2, ease: 'power2.out' }));
+    lightboxClose.addEventListener('mouseleave', () => gsap.to(lightboxClose, { opacity: 0.6, scale: 1, duration: 0.25 }));
+  }
+};
+const closeLightbox = () => {
+  if (!lightbox || !lightboxImg) return;
+  gsap.to(lightbox, { opacity: 0, duration: 0.3, ease: 'power2.in',
+    onComplete: () => { lightbox.classList.remove('open'); lightboxImg.src = ''; document.body.style.overflow = ''; },
+  });
+};
+
+document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
+  panel.addEventListener('click', () => {
+    const img = panel.querySelector('img');
+    if (img) openLightbox(img.src, img.alt, (panel.querySelector(sel('panel-title')) as HTMLElement)?.textContent?.trim() ?? '');
+  });
+});
+lightboxClose?.addEventListener('click', closeLightbox);
+lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox(); });
+</script>
 
 <!-- Desktop: horizontal pinned scroll -->
 <section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
-  <div data-anim="gallery-label" class="absolute top-8 left-[4vw] font-sans text-[0.65rem] tracking-[0.15em] uppercase z-10" style="color:var(--cream-40)">The Property</div>
+  <div data-anim="gallery-label" class="label-xs absolute top-8 left-[4vw] z-10" style="color:var(--cream-40)">The Property</div>
   <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] font-sans text-[0.9rem] text-cream z-10">{pad(1)} / {pad(panels.length)}</div>
   <div data-anim="gallery-scroll-hint" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cream z-10 pointer-events-none">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -30,8 +130,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       >
         <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
           class="w-full h-full object-cover" />
-        <div data-anim="gallery-caption" class="absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream"
-          style="background:linear-gradient(to top,rgba(0,0,0,0.8),transparent)">
+        <div data-anim="gallery-caption" class="caption-gradient absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream">
           <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
           <span data-anim="panel-title" class="font-sans text-[0.95rem] tracking-[0.08em]">{p.title}</span>
         </div>
@@ -41,9 +140,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
 </section>
 
 <!-- Mobile: vertical stacked -->
-<section id="gallery" class="md:hidden bg-gallery-bg">
+<section id="gallery-mobile" class="md:hidden bg-gallery-bg">
   <div class="flex justify-between items-center px-5 pt-6 pb-3">
-    <div class="font-sans text-[0.65rem] tracking-[0.15em] uppercase" style="color:var(--cream-40)">The Property</div>
+    <div class="label-xs" style="color:var(--cream-40)">The Property</div>
     <div class="font-sans text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
   </div>
   <div class="flex flex-col">
@@ -51,8 +150,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       <div class="relative w-full overflow-hidden border-b border-terracotta/40" style={`height:${i === 0 ? '70vw' : '60vw'};min-height:220px`}>
         <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
           class="w-full h-full object-cover" />
-        <div class="absolute bottom-0 left-0 right-0 px-5 py-4 flex justify-between items-end text-cream"
-          style="background:linear-gradient(to top,rgba(0,0,0,0.8),transparent)">
+        <div class="caption-gradient absolute bottom-0 left-0 right-0 px-5 py-4 flex justify-between items-end text-cream">
           <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
           <span class="font-sans text-[0.9rem] tracking-[0.08em]">{p.title}</span>
         </div>

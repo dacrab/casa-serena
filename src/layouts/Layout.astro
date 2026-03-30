@@ -10,9 +10,11 @@ interface Props {
 const {
   title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
   description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access. Greece, at your doorstep.',
-  ogImage = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85',
+  ogImage = '/images/gallery-1.jpg',
 } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-serena.vercel.app');
+const siteURL     = Astro.site ?? new URL('https://casa-serena.vercel.app');
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const ogImageURL   = new URL(ogImage, siteURL).toString();
 ---
 <!doctype html>
 <html lang="en">
@@ -23,7 +25,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary SEO -->
@@ -37,9 +40,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
     <meta property="og:url"         content={canonicalURL} />
     <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image"       content={ogImage} />
+    <meta property="og:image"       content={ogImageURL} />
     <meta property="og:image:width"  content="1200" />
-    <meta property="og:image:height" content="800" />
+    <meta property="og:image:height" content="675" />
     <meta property="og:locale"      content="en_US" />
     <meta property="og:site_name"   content="Casa Serena" />
 
@@ -47,7 +50,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content={ogImage} />
+    <meta name="twitter:image"       content={ogImageURL} />
 
     <!-- Schema.org -->
     <script type="application/ld+json" is:inline>
@@ -59,7 +62,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
       "url": "https://casa-serena.vercel.app",
       "telephone": "+30-22860-00000",
       "email": "info@casaserena.com",
-      "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=85",
+      "image": "https://casa-serena.vercel.app/images/gallery-1.jpg",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Oia",
@@ -84,10 +87,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
     }
     </script>
 
-    <!-- Preload hero poster — LCP element -->
-    <link rel="preload" as="image"
-      href="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=1800&q=85"
-      fetchpriority="high" />
+    <!-- Preload hero video — LCP element -->
+    <link rel="preload" as="video" href="/images/hero-h264.mp4" fetchpriority="high" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -97,9 +98,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
     <Analytics />
   </head>
   <body>
-    <!-- Custom cursor -->
-    <div id="cursor" aria-hidden="true"></div>
-
     <!-- Load screen -->
     <div id="load-screen" aria-hidden="true">
       <div class="ls-logo">Casa Serena</div>
@@ -108,19 +106,51 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://casa-ser
     </div>
 
     <!-- Lightbox -->
-    <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <div id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
       <button id="lightbox-close" aria-label="Close lightbox">✕</button>
       <img id="lightbox-img" src="" alt="" />
-      <div id="lightbox-caption"></div>
+      <div id="lightbox-caption" role="status"></div>
     </div>
 
     <!-- Back to top -->
-    <button id="back-to-top" aria-label="Back to top">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <button id="back-to-top" aria-label="Back to top"
+      class="fixed bottom-8 right-8 z-[500] w-11 h-11 flex items-center justify-center border opacity-0 pointer-events-none"
+      style="border-color:var(--border-warm);background:theme(colors.warm-white)"
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="stroke-charcoal">
         <path d="M8 14V2M3 7l5-5 5 5"/>
       </svg>
     </button>
 
     <slot />
+
+    <!-- Cookie notice -->
+    <div id="cookie-banner" role="region" aria-label="Cookie notice" hidden
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[2000] flex items-center gap-6 bg-charcoal px-6 py-4 w-full max-w-[min(90vw,560px)] shadow-[0_8px_40px_rgba(0,0,0,0.4)]"
+      style="border:1px solid var(--border-faint)"
+    >
+      <p class="font-sans text-[0.78rem] text-driftwood leading-[1.6]">
+        This site uses analytics to understand visitor behaviour. No personal data is sold.
+        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
+           class="text-cream underline underline-offset-2 hover:text-terracotta transition-colors duration-200">Learn more</a>
+      </p>
+      <button id="cookie-accept"
+        class="label-xs text-cream px-5 py-2 shrink-0 cursor-pointer"
+        style="border:1px solid var(--border-light)"
+      >Got it</button>
+    </div>
+
+    <script is:inline>
+      // Cookie banner — show only if not yet accepted
+      const banner = document.getElementById('cookie-banner');
+      const btn    = document.getElementById('cookie-accept');
+      if (banner && !localStorage.getItem('cookie-ok')) {
+        setTimeout(() => { banner.hidden = false; }, 2000);
+      }
+      btn?.addEventListener('click', () => {
+        localStorage.setItem('cookie-ok', '1');
+        if (banner) banner.hidden = true;
+      });
+    </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://casaserena.com/sitemap-index.xml
+Sitemap: https://casa-serena.vercel.app/sitemap-index.xml
