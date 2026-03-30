@@ -189,15 +189,10 @@
   display: block;
   padding: 0.5rem 0;
 }
-.nav-scrolled .nav-bar {
-  background: rgba(253,250,245,0.96);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.nav-scrolled .nav-logo        { color: theme(colors.charcoal); }
-.nav-scrolled .nav-link        { color: rgba(42,35,32,0.65); }
-.nav-scrolled .nav-link.active { color: theme(colors.terracotta); }
-.nav-scrolled .nav-toggle span { background: theme(colors.charcoal); }
+.nav-light .nav-logo        { color: theme(colors.charcoal); }
+.nav-light .nav-link        { color: rgba(42,35,32,0.7); }
+.nav-light .nav-link.active { color: theme(colors.terracotta); }
+.nav-light .nav-toggle span { background: theme(colors.charcoal); }
 
 /* ─────────────────────────────────────────────
    HERO
