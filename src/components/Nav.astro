@@ -69,6 +69,15 @@ overlay?.querySelectorAll<HTMLAnchorElement>('a').forEach(a => {
 
 document.querySelector('[data-nav="logo"]')?.addEventListener('click', e => { e.preventDefault(); scrollTo(0, 1.2); });
 
+// Desktop nav links: smooth scroll instead of jump
+document.querySelectorAll<HTMLAnchorElement>('[data-nav="link"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href') ?? '');
+    if (target) scrollTo(target as HTMLElement, 1.0);
+  });
+});
+
 const allLinks = [...document.querySelectorAll<HTMLElement>('[data-nav="link"]')];
 const setActive = (id: string) => {
   allLinks.forEach(l => { l.removeAttribute('aria-current'); l.classList.remove('active'); });
