@@ -1,12 +1,10 @@
 ---
-const eyebrow = 'BEACHFRONT ESTATE';
+const eyebrow     = 'BEACHFRONT ESTATE';
 const marqueeText = 'PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · ';
 ---
-
 <script>
 import { gsap, ScrollTrigger, sel, isPointer, isMobile, scrollTo } from '../lib/gsap';
 
-/* ── Initial hidden states ── */
 gsap.set(sel('ec'),            { y: 22, opacity: 0 });
 gsap.set(sel('hero-title'),    { y: 70, opacity: 0 });
 gsap.set(sel('hero-scroll'),   { opacity: 0 });
@@ -16,18 +14,13 @@ gsap.set(sel('intro-text'),    { x: 60, opacity: 0 });
 gsap.set(sel('intro-right-p'), { y: 24, opacity: 0 });
 gsap.set(sel('hero-line'),     { scaleX: 0, transformOrigin: 'left center' });
 
-/* ── Marquee loop ── */
-gsap.to(sel('marquee-container'), {
-  x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8,
-});
+gsap.to(sel('marquee-container'), { x: '-50%', duration: 20, ease: 'none', repeat: -1, delay: 2.8 });
 
-/* ── Scroll indicator loop ── */
 gsap.timeline({ repeat: -1, repeatDelay: 0.4, delay: 3.0 })
   .to(sel('scroll-line'), { height: 40, duration: 0.55, ease: 'power2.out' })
-  .to(sel('scroll-line'), { opacity: 0, duration: 0.40, ease: 'power1.in'  })
+  .to(sel('scroll-line'), { opacity: 0, duration: 0.40, ease: 'power1.in' })
   .set(sel('scroll-line'), { height: 0, opacity: 1 });
 
-/* ── Entrance timeline (fires after load screen) ── */
 const entranceTl = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' } })
   .to(sel('ec'),          { y: 0, opacity: 1, stagger: { each: 0.028 }, duration: 0.9 })
   .to(sel('hero-line'),   { scaleX: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
@@ -36,69 +29,38 @@ const entranceTl = gsap.timeline({ paused: true, defaults: { ease: 'power4.out' 
   .to(sel('hero-scroll'), { opacity: 1, duration: 0.6, ease: 'power1.out' }, '-=0.4');
 
 document.addEventListener('casa:loaded', () => entranceTl.play(), { once: true });
+document.querySelector<HTMLVideoElement>('#hero video')?.play().catch(() => {});
 
-/* ── Force video play (autoplay policy) ── */
-(document.querySelector<HTMLVideoElement>('#hero video'))?.play().catch(() => {});
-
-/* ── Desktop: 3D tilt on title ── */
 if (isPointer) {
   const title = document.querySelector<HTMLElement>(sel('hero-title'));
   if (title) {
     title.addEventListener('mousemove', (e: MouseEvent) => {
       const { left, top, width, height } = title.getBoundingClientRect();
-      gsap.to(title, {
-        rotationX: ((e.clientY - top)  / height - 0.5) * -6,
-        rotationY: ((e.clientX - left) / width  - 0.5) *  8,
-        transformPerspective: 800,
-        duration: 0.4, ease: 'power2.out',
-      });
+      gsap.to(title, { rotationX: ((e.clientY - top) / height - 0.5) * -6, rotationY: ((e.clientX - left) / width - 0.5) * 8, transformPerspective: 800, duration: 0.4, ease: 'power2.out' });
     });
-    title.addEventListener('mouseleave', () =>
-      gsap.to(title, { rotationX: 0, rotationY: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }),
-    );
+    title.addEventListener('mouseleave', () => gsap.to(title, { rotationX: 0, rotationY: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' }));
   }
 }
 
-/* ── Desktop: meta letter-spacing parallax ── */
 if (!isMobile) {
-  gsap.to(sel('hero-meta'), {
-    letterSpacing: '0.28em', ease: 'none',
-    scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 },
-  });
+  gsap.to(sel('hero-meta'), { letterSpacing: '0.28em', ease: 'none', scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 } });
 }
 
-/* ── Intro section scroll-in (initialised here to reuse hero's scroll context) ── */
-gsap.to(sel('intro-text'), {
-  x: 0, opacity: 1, duration: 1.0, ease: 'power2.out',
-  scrollTrigger: { trigger: sel('intro-text'), start: 'top 80%', toggleActions: 'play none none none' },
-});
-gsap.to(sel('intro-right-p'), {
-  y: 0, opacity: 1, stagger: 0.14, duration: 0.9,
-  scrollTrigger: { trigger: sel('intro-right-p'), start: 'top 82%', toggleActions: 'play none none none' },
-});
+gsap.to(sel('intro-text'),    { x: 0, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: sel('intro-text'),    start: 'top 80%', toggleActions: 'play none none none' } });
+gsap.to(sel('intro-right-p'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.9,      scrollTrigger: { trigger: sel('intro-right-p'), start: 'top 82%', toggleActions: 'play none none none' } });
 
-/* ── Back-to-top button ── */
 const backBtn = document.getElementById('back-to-top') as HTMLElement | null;
 if (backBtn) {
   const btnSvg = backBtn.querySelector<HTMLElement>('svg');
-
   ScrollTrigger.create({
     trigger: '#hero', start: 'bottom top',
     onEnter:     () => { backBtn.style.pointerEvents = 'all';  gsap.to(backBtn, { opacity: 1, duration: 0.4, ease: 'power2.out' }); },
     onLeaveBack: () => { backBtn.style.pointerEvents = 'none'; gsap.to(backBtn, { opacity: 0, duration: 0.3, ease: 'power2.in'  }); },
   });
-
   backBtn.addEventListener('click', () => scrollTo(0, 1.2));
-
   if (isPointer) {
-    backBtn.addEventListener('mouseenter', () => {
-      gsap.to(backBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', duration: 0.25 });
-      if (btnSvg) gsap.to(btnSvg, { stroke: '#fff', duration: 0.25 });
-    });
-    backBtn.addEventListener('mouseleave', () => {
-      gsap.to(backBtn, { backgroundColor: 'var(--color-warm-white)', borderColor: 'var(--border-warm)', duration: 0.3 });
-      if (btnSvg) gsap.to(btnSvg, { stroke: 'var(--color-charcoal)', duration: 0.3 });
-    });
+    backBtn.addEventListener('mouseenter', () => { gsap.to(backBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', duration: 0.25 }); if (btnSvg) gsap.to(btnSvg, { stroke: '#fff', duration: 0.25 }); });
+    backBtn.addEventListener('mouseleave', () => { gsap.to(backBtn, { backgroundColor: 'var(--color-warm-white)', borderColor: 'var(--border-warm)', duration: 0.3 }); if (btnSvg) gsap.to(btnSvg, { stroke: 'var(--color-charcoal)', duration: 0.3 }); });
   }
 }
 </script>
@@ -109,26 +71,14 @@ if (backBtn) {
     <source src="/images/hero-h264.mp4" type="video/mp4; codecs=avc1.42E01E" />
   </video>
   <div class="hero-overlay" aria-hidden="true"></div>
-
   <div class="hero-content">
     <div class="hero-eyebrow" aria-label={eyebrow}>
-      {eyebrow.split('').map(c => (
-        <span data-anim="ec" class="inline-block" aria-hidden="true">{c}</span>
-      ))}
+      {eyebrow.split('').map(c => <span data-anim="ec" class="inline-block" aria-hidden="true">{c}</span>)}
     </div>
     <div data-anim="hero-line" class="w-16 h-px bg-terracotta mb-8"></div>
-    <h1
-      data-anim="hero-title"
-      class="font-serif italic font-light text-cream leading-[0.85] mb-6"
-      style="font-size:var(--text-hero)"
-    >
-      Serena
-    </h1>
-    <p data-anim="hero-meta" class="label-xs text-cream-muted">
-      Santorini, Greece · 4 Suites · 8 Acres · Caldera View
-    </p>
+    <h1 data-anim="hero-title" class="font-serif italic font-light text-cream leading-[0.85] mb-6" style="font-size:var(--text-hero)">Serena</h1>
+    <p data-anim="hero-meta" class="label-xs text-cream-muted">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</p>
   </div>
-
   <div data-anim="hero-scroll" class="hero-scroll" aria-hidden="true">
     <div data-anim="scroll-line" class="w-px bg-terracotta"></div>
     <span class="label-xs text-cream text-vertical">SCROLL</span>
@@ -137,8 +87,7 @@ if (backBtn) {
 
 <div class="marquee-strip" aria-hidden="true">
   <div data-anim="marquee-container" class="marquee-inner">
-    <span>{marqueeText}</span>
-    <span>{marqueeText}</span>
+    <span>{marqueeText}</span><span>{marqueeText}</span>
   </div>
 </div>
 

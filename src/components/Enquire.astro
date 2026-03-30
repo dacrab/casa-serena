@@ -1,22 +1,18 @@
 ---
 const year = new Date().getFullYear();
-
 const socials = [
-  { label: 'Instagram',   href: 'https://instagram.com'              },
-  { label: 'Casa Serena', href: 'https://casa-serena.vercel.app'     },
-  { label: 'Facebook',    href: 'https://facebook.com'               },
+  { label: 'Instagram',   href: 'https://instagram.com'          },
+  { label: 'Casa Serena', href: 'https://casa-serena.vercel.app' },
+  { label: 'Facebook',    href: 'https://facebook.com'           },
 ] as const;
-
 const fields = [
-  { id: 'enquire-name',    label: 'Name',    type: 'text',  name: 'name',    autocomplete: 'name',  required: true  },
-  { id: 'enquire-email',   label: 'Email',   type: 'email', name: 'email',   autocomplete: 'email', required: true  },
+  { id: 'enquire-name',  label: 'Name',  type: 'text',  name: 'name',  autocomplete: 'name'  },
+  { id: 'enquire-email', label: 'Email', type: 'email', name: 'email', autocomplete: 'email' },
 ] as const;
 ---
-
 <script>
 import { gsap, ScrollTrigger, sel, isPointer } from '../lib/gsap';
 
-/* ── Initial hidden states ── */
 gsap.set(sel('enquire-title'),   { y: 60, opacity: 0 });
 gsap.set(sel('enquire-eyebrow'), { y: 16, opacity: 0 });
 gsap.set(sel('enquire-social'),  { y: 16, opacity: 0 });
@@ -26,66 +22,46 @@ gsap.set(sel('enquire-rule'),    { scaleX: 0, transformOrigin: 'left center' });
 gsap.set(sel('form-group'),      { y: 20, opacity: 0 });
 gsap.set(sel('form-submit'),     { y: 30, opacity: 0 });
 
-/* ── Entrance timeline ── */
 ScrollTrigger.create({
   trigger: '#enquire', start: 'top 65%', once: true,
-  onEnter: () =>
-    gsap.timeline({ defaults: { ease: 'power3.out' } })
-      .to(sel('enquire-title'),   { y: 0, opacity: 1, duration: 1.1 })
-      .to(sel('enquire-rule'),    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-      .to(sel('enquire-eyebrow'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
-      .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
-      .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
-      .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
-      .to(sel('form-group'),      { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
-      .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
+  onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
+    .to(sel('enquire-title'),   { y: 0, opacity: 1, duration: 1.1 })
+    .to(sel('enquire-rule'),    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
+    .to(sel('enquire-eyebrow'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
+    .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
+    .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
+    .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
+    .to(sel('form-group'),      { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
+    .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
 });
 
-/* ── Form input focus highlight ── */
 document.querySelectorAll<HTMLElement>('.form-input').forEach(input => {
   input.addEventListener('focus', () => gsap.to(input, { borderColor: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' }));
   input.addEventListener('blur',  () => gsap.to(input, { borderColor: 'var(--border-light)',     duration: 0.3,  ease: 'power2.out' }));
 });
 
-/* ── Desktop: hover interactions ── */
 if (isPointer) {
   const submitBtn = document.querySelector<HTMLElement>(sel('form-submit'));
   if (submitBtn) {
     const arrow = submitBtn.querySelector<HTMLElement>('svg');
-    submitBtn.addEventListener('mouseenter', () => {
-      gsap.to(submitBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', letterSpacing: '0.2em', duration: 0.3, ease: 'power2.out' });
-      if (arrow) gsap.to(arrow, { x: 5, duration: 0.25, ease: 'power2.out' });
-    });
-    submitBtn.addEventListener('mouseleave', () => {
-      gsap.to(submitBtn, { backgroundColor: 'transparent', borderColor: 'var(--border-light)', letterSpacing: '0.14em', duration: 0.3, ease: 'power2.out' });
-      if (arrow) gsap.to(arrow, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.5)' });
-    });
+    submitBtn.addEventListener('mouseenter', () => { gsap.to(submitBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', letterSpacing: '0.2em', duration: 0.3, ease: 'power2.out' }); if (arrow) gsap.to(arrow, { x: 5, duration: 0.25, ease: 'power2.out' }); });
+    submitBtn.addEventListener('mouseleave', () => { gsap.to(submitBtn, { backgroundColor: 'transparent', borderColor: 'var(--border-light)', letterSpacing: '0.14em', duration: 0.3, ease: 'power2.out' }); if (arrow) gsap.to(arrow, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.5)' }); });
   }
-
   document.querySelectorAll<HTMLElement>(sel('enquire-link')).forEach(link => {
     link.addEventListener('mouseenter', () => gsap.to(link, { x: 6, color: 'var(--color-terracotta)', duration: 0.2, ease: 'power2.out' }));
     link.addEventListener('mouseleave', () => gsap.to(link, { x: 0, color: 'var(--color-cream)',      duration: 0.3, ease: 'elastic.out(1,0.5)' }));
   });
 }
 
-/* ── Form submission ── */
 const form = document.querySelector<HTMLFormElement>('.enquire-form');
 form?.addEventListener('submit', e => {
   e.preventDefault();
-  gsap.to(form, {
-    opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
-    onComplete() {
-      form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>';
-      gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' });
-    },
+  gsap.to(form, { opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
+    onComplete() { form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>'; gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }); },
   });
 });
 
-/* ── Footer fade-in ── */
-gsap.fromTo('footer', { opacity: 0 }, {
-  opacity: 1, duration: 0.6,
-  scrollTrigger: { trigger: 'footer', start: 'top 100%', once: true },
-});
+gsap.fromTo('footer', { opacity: 0 }, { opacity: 1, duration: 0.6, scrollTrigger: { trigger: 'footer', start: 'top 100%', once: true } });
 </script>
 
 <section id="enquire" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] section-px">
@@ -130,7 +106,7 @@ gsap.fromTo('footer', { opacity: 0 }, {
             <input
               id={f.id} type={f.type} name={f.name}
               autocomplete={f.autocomplete}
-              required={f.required} aria-required={f.required}
+              required aria-required="true"
               class="form-input"
             />
           </div>

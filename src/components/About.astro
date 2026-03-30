@@ -1,73 +1,34 @@
 ---
 import { Image } from 'astro:assets';
-
 const stats = [
-  { value: '8',    label: 'Acres'        },
+  { value: '8',    label: 'Acres' },
   { value: '180°', label: 'Caldera View' },
-  { value: '4',    label: 'Suites'       },
+  { value: '4',    label: 'Suites' },
 ] as const;
-
-const blurb = {
-  full:  'Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. The architecture whispers rather than shouts. Floor-to-ceiling glass dissolves the boundary between interior and ocean. At sunrise, the living room becomes a platform for light.',
-  short: 'Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. Floor-to-ceiling glass dissolves the boundary between interior and ocean.',
-};
 ---
-
 <script>
 import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
 
-/* ── Initial hidden states ── */
 gsap.set(sel('about-text-p'), { y: 24, opacity: 0 });
 gsap.set(sel('about-stats'),  { y: 30, opacity: 0 });
 gsap.set(sel('stat-label'),   { y: 10, opacity: 0 });
-
 if (!isMobile) {
   gsap.set(sel('about-image-wrapper'), { x: 40, opacity: 0 });
   gsap.set(sel('about-sidebar'),       { opacity: 0 });
 }
 
-/* ── Scroll animations ── */
 if (isMobile) {
-  gsap.fromTo(
-    '#about .aspect-video',
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: '#about', start: 'top 82%', toggleActions: 'play none none none' } },
-  );
+  gsap.fromTo('#about .aspect-video', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', scrollTrigger: { trigger: '#about', start: 'top 82%', toggleActions: 'play none none none' } });
 } else {
-  gsap.to(sel('about-image-wrapper'), {
-    opacity: 1, x: 0, duration: 1.1,
-    scrollTrigger: { trigger: '#about', start: 'top 72%', toggleActions: 'play none none none' },
-  });
-  gsap.fromTo(
-    `${sel('about-image-wrapper')} img`,
-    { scale: 1.08 },
-    { scale: 1, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } },
-  );
-  gsap.to(sel('about-sidebar'), {
-    opacity: 1, duration: 1.4,
-    scrollTrigger: { trigger: '#about', start: 'top 80%', toggleActions: 'play none none none' },
-  });
-  gsap.to(sel('about-sidebar'), {
-    y: -30, ease: 'none',
-    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 },
-  });
+  gsap.to(sel('about-image-wrapper'), { opacity: 1, x: 0, duration: 1.1, scrollTrigger: { trigger: '#about', start: 'top 72%', toggleActions: 'play none none none' } });
+  gsap.fromTo(`${sel('about-image-wrapper')} img`, { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
+  gsap.to(sel('about-sidebar'), { opacity: 1, duration: 1.4, scrollTrigger: { trigger: '#about', start: 'top 80%', toggleActions: 'play none none none' } });
+  gsap.to(sel('about-sidebar'), { y: -30, ease: 'none', scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 2 } });
 }
+gsap.to(sel('about-text-p'), { y: 0, opacity: 1, duration: 0.95, scrollTrigger: { trigger: sel('about-text-p'), start: 'top 78%', toggleActions: 'play none none none' } });
+gsap.to(sel('about-stats'),  { y: 0, opacity: 1, stagger: 0.12, duration: 0.8, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
+gsap.to(sel('stat-label'),   { y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3, scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' } });
 
-gsap.to(sel('about-text-p'), {
-  y: 0, opacity: 1, duration: 0.95,
-  scrollTrigger: { trigger: sel('about-text-p'), start: 'top 78%', toggleActions: 'play none none none' },
-});
-gsap.to(sel('about-stats'), {
-  y: 0, opacity: 1, stagger: 0.12, duration: 0.8,
-  scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' },
-});
-gsap.to(sel('stat-label'), {
-  y: 0, opacity: 1, stagger: 0.15, duration: 0.6, delay: 0.3,
-  scrollTrigger: { trigger: sel('about-stats'), start: 'top 82%', toggleActions: 'play none none none' },
-});
-
-/* ── Desktop: stat hover ── */
 if (isPointer) {
   document.querySelectorAll<HTMLElement>(sel('stat-number')).forEach(el => {
     el.addEventListener('mouseenter', () => gsap.to(el, { scale: 1.08, duration: 0.25, ease: 'power2.out' }));
@@ -77,29 +38,14 @@ if (isPointer) {
 </script>
 
 <section id="about" class="bg-warm-white py-[8vh] section-px overflow-hidden">
-
-  <!-- Desktop layout: vertical sidebar + content -->
   <div class="hidden md:grid grid-cols-[80px_1fr] gap-x-[4vw]">
-    <div
-      data-anim="about-sidebar"
-      aria-hidden="true"
-      class="font-serif text-[5rem] tracking-[0.3em] text-terracotta opacity-[0.12] [writing-mode:vertical-rl] rotate-180 sticky top-[40vh] h-fit row-span-2 select-none"
-    >SERENA</div>
-
+    <div data-anim="about-sidebar" aria-hidden="true" class="font-serif text-[5rem] tracking-[0.3em] text-terracotta opacity-[0.12] [writing-mode:vertical-rl] rotate-180 sticky top-[40vh] h-fit row-span-2 select-none">SERENA</div>
     <div class="flex flex-col">
       <div data-anim="about-image-wrapper" class="w-full aspect-video overflow-hidden">
-        <Image
-          src="/images/about.jpg"
-          alt="Casa Serena living space with Aegean view"
-          width={900} height={506} format="webp" quality={85} loading="lazy"
-          class="w-full h-full object-cover"
-        />
+        <Image src="/images/about.jpg" alt="Casa Serena living space with Aegean view" width={900} height={506} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover" />
       </div>
-
       <div class="pl-8 mt-16 max-w-[580px]">
-        <p data-anim="about-text-p" class="font-sans text-base text-charcoal leading-[1.8] mb-12">
-          {blurb.full}
-        </p>
+        <p data-anim="about-text-p" class="font-sans text-base text-charcoal leading-[1.8] mb-12">Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. The architecture whispers rather than shouts. Floor-to-ceiling glass dissolves the boundary between interior and ocean. At sunrise, the living room becomes a platform for light.</p>
         <div class="flex gap-16">
           {stats.map(s => (
             <div data-anim="about-stats" class="flex flex-col gap-2">
@@ -111,18 +57,11 @@ if (isPointer) {
       </div>
     </div>
   </div>
-
-  <!-- Mobile layout -->
   <div class="md:hidden flex flex-col gap-8">
     <div class="w-full aspect-video overflow-hidden">
-      <Image
-        src="/images/about.jpg"
-        alt="Casa Serena living space with Aegean view"
-        width={900} height={506} format="webp" quality={85} loading="lazy"
-        class="w-full h-full object-cover"
-      />
+      <Image src="/images/about.jpg" alt="Casa Serena living space with Aegean view" width={900} height={506} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover" />
     </div>
-    <p class="font-sans text-[0.95rem] text-charcoal leading-[1.8]">{blurb.short}</p>
+    <p class="font-sans text-[0.95rem] text-charcoal leading-[1.8]">Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. Floor-to-ceiling glass dissolves the boundary between interior and ocean.</p>
     <div class="flex justify-center gap-10 text-center">
       {stats.map(s => (
         <div class="flex flex-col gap-2 items-center">

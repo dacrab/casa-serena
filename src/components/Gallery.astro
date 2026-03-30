@@ -1,58 +1,32 @@
 ---
 import { Image } from 'astro:assets';
-
-interface Panel {
-  src:   string;
-  alt:   string;
-  w:     number;
-  h:     number;
-  title: string;
-  wide:  boolean;
-}
-
-const panels: Panel[] = [
+const panels = [
   { src: '/images/gallery-1.jpg', alt: 'Casa Serena exterior at golden hour', w: 1800, h: 1080, title: 'Golden Hour',     wide: true  },
   { src: '/images/about.jpg',     alt: 'Casa Serena living room',             w: 900,  h: 1080, title: 'Light & Space',  wide: false },
   { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool',         w: 900,  h: 1080, title: 'Infinity Pool',  wide: false },
   { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view',      w: 1200, h: 1080, title: 'Perspective',    wide: false },
   { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen',            w: 800,  h: 1080, title: "Chef's Kitchen", wide: false },
   { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom',    w: 800,  h: 1080, title: 'Master Suite',   wide: false },
-];
-
+] as const;
 const pad = (n: number) => String(n).padStart(2, '0');
 const total = pad(panels.length);
 ---
-
 <script>
 import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
 
-/* ── Initial hidden states ── */
 gsap.set(sel('gallery-label'),   { x: 20, opacity: 0 });
 gsap.set(sel('gallery-caption'), { y: 24, opacity: 0 });
 
-/* ── Label + caption entrance ── */
-gsap.to(sel('gallery-label'), {
-  opacity: 1, x: 0, duration: 0.7,
-  scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' },
-});
-gsap.to(sel('gallery-caption'), {
-  y: 0, opacity: 1, stagger: 0.1, duration: 0.8,
-  scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' },
-});
+gsap.to(sel('gallery-label'),   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' } });
+gsap.to(sel('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
 
-/* ── Mobile: fade-in each panel image ── */
 if (isMobile) {
   document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
     const img = panel.querySelector('img');
-    if (!img) return;
-    gsap.fromTo(img, { opacity: 0, scale: 1.04 }, {
-      opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out',
-      scrollTrigger: { trigger: panel, start: 'top 90%', toggleActions: 'play none none none' },
-    });
+    if (img) gsap.fromTo(img, { opacity: 0, scale: 1.04 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: panel, start: 'top 90%', toggleActions: 'play none none none' } });
   });
 }
 
-/* ── Desktop: panel hover zoom ── */
 if (isPointer) {
   document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
     const img = panel.querySelector<HTMLElement>('img');
@@ -62,7 +36,6 @@ if (isPointer) {
   });
 }
 
-/* ── Scroll hint animation ── */
 const scrollHint = document.querySelector<HTMLElement>(sel('gallery-scroll-hint'));
 const hintSvg    = scrollHint?.querySelector<SVGElement>('svg');
 if (scrollHint && hintSvg) {
@@ -70,31 +43,22 @@ if (scrollHint && hintSvg) {
   gsap.to(scrollHint, { opacity: 0, duration: 0.6, ease: 'power2.in', delay: 3 });
 }
 
-/* ── Desktop: horizontal pinned scroll ── */
-const track   = document.querySelector<HTMLElement>(sel('gallery-track'));
+const track    = document.querySelector<HTMLElement>(sel('gallery-track'));
 const panelEls = gsap.utils.toArray<HTMLElement>(sel('gallery-panel'));
 const counter  = document.querySelector<HTMLElement>(sel('gallery-counter'));
-
 if (track && panelEls.length && !isMobile) {
-  const totalWidth = () => track.scrollWidth - window.innerWidth;
-  gsap.to(track, {
-    x: () => -totalWidth(),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#gallery',
-      start: 'top top',
-      end: () => `+=${totalWidth()}`,
-      scrub: 1.0, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-      onUpdate(self) {
-        if (!counter) return;
-        const idx = Math.min(Math.round(self.progress * (panelEls.length - 1)), panelEls.length - 1);
-        counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panelEls.length).padStart(2, '0')}`;
-      },
+  const tw = () => track.scrollWidth - window.innerWidth;
+  gsap.to(track, { x: () => -tw(), ease: 'none', scrollTrigger: {
+    trigger: '#gallery', start: 'top top', end: () => `+=${tw()}`,
+    scrub: 1.0, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
+    onUpdate(self) {
+      if (!counter) return;
+      const idx = Math.min(Math.round(self.progress * (panelEls.length - 1)), panelEls.length - 1);
+      counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panelEls.length).padStart(2, '0')}`;
     },
-  });
+  }});
 }
 
-/* ── Lightbox ── */
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightbox-img') as HTMLImageElement | null;
 const lightboxCap   = document.getElementById('lightbox-caption');
@@ -102,46 +66,34 @@ const lightboxClose = document.getElementById('lightbox-close') as HTMLButtonEle
 
 const openLightbox = (src: string, alt: string, caption: string) => {
   if (!lightbox || !lightboxImg || !lightboxCap || !lightboxClose) return;
-  lightboxImg.src        = src;
-  lightboxImg.alt        = alt;
-  lightboxCap.textContent = caption;
+  lightboxImg.src = src; lightboxImg.alt = alt; lightboxCap.textContent = caption;
   lightbox.classList.add('open');
   gsap.fromTo(lightbox,    { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
   gsap.fromTo(lightboxImg, { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' });
   document.body.style.overflow = 'hidden';
   lightboxClose.focus();
-
   if (isPointer) {
     lightboxClose.addEventListener('mouseenter', () => gsap.to(lightboxClose, { opacity: 1, scale: 1.1, duration: 0.2 }), { once: true });
     lightboxClose.addEventListener('mouseleave', () => gsap.to(lightboxClose, { opacity: 0.6, scale: 1, duration: 0.25 }), { once: true });
   }
 };
-
 const closeLightbox = () => {
   if (!lightbox || !lightboxImg) return;
-  gsap.to(lightbox, {
-    opacity: 0, duration: 0.3, ease: 'power2.in',
-    onComplete() {
-      lightbox.classList.remove('open');
-      lightboxImg.src = '';
-      document.body.style.overflow = '';
-    },
+  gsap.to(lightbox, { opacity: 0, duration: 0.3, ease: 'power2.in',
+    onComplete() { lightbox.classList.remove('open'); lightboxImg.src = ''; document.body.style.overflow = ''; },
   });
 };
 
 document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
   panel.addEventListener('click', () => {
-    const img    = panel.querySelector('img');
-    const caption = panel.querySelector<HTMLElement>(sel('panel-title'))?.textContent?.trim() ?? '';
-    if (img) openLightbox(img.src, img.alt, caption);
+    const img = panel.querySelector('img');
+    const cap = panel.querySelector<HTMLElement>(sel('panel-title'))?.textContent?.trim() ?? '';
+    if (img) openLightbox(img.src, img.alt, cap);
   });
 });
-
 lightboxClose?.addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox();
-});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox(); });
 </script>
 
 <!-- Desktop: horizontal pinned scroll -->
