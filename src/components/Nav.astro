@@ -13,7 +13,7 @@ gsap.set(sel('nav-logo'),     { opacity: 0, y: -8 });
 gsap.set('[data-nav="link"]', { opacity: 0, y: -8 });
 
 const nav = document.querySelector<HTMLElement>('[data-nav="root"]');
-ScrollTrigger.create({ start: 'top -60', onEnter: () => nav?.classList.add('nav-scrolled'), onLeaveBack: () => nav?.classList.remove('nav-scrolled') });
+ScrollTrigger.create({ start: 'top -1', onEnter: () => nav?.classList.add('nav-scrolled'), onLeaveBack: () => nav?.classList.remove('nav-scrolled') });
 
 document.addEventListener('casa:loaded', () => {
   gsap.timeline()

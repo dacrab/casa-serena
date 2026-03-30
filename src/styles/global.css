@@ -117,9 +117,9 @@
   font-family: theme(--font-serif);
   font-size: 1rem;
   letter-spacing: 0.2em;
-  color: theme(colors.cream);
+  color: #fff;
   text-decoration: none;
-  transition: color 0.5s;
+  mix-blend-mode: difference;
 }
 .nav-links {
   display: none;
@@ -134,11 +134,12 @@
   font-size: 0.72rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: rgba(245,240,232,0.8);
+  color: #fff;
   text-decoration: none;
   position: relative;
+  mix-blend-mode: difference;
 }
-.nav-link.active { color: theme(colors.terracotta); }
+.nav-link.active { color: #fff; }
 .nav-toggle {
   display: flex;
   flex-direction: column;
@@ -189,14 +190,9 @@
   padding: 0.5rem 0;
 }
 .nav-scrolled .nav-bar {
-  background: rgba(253,250,245,0.96);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
-.nav-scrolled .nav-logo        { color: theme(colors.charcoal); mix-blend-mode: difference; }
-.nav-scrolled .nav-link        { color: rgba(42,35,32,0.65);    mix-blend-mode: difference; }
-.nav-scrolled .nav-link.active { color: theme(colors.terracotta); }
-.nav-scrolled .nav-toggle span { background: theme(colors.charcoal); }
+.nav-scrolled .nav-toggle span { background: #fff; }
 
 /* ─────────────────────────────────────────────
    HERO
