@@ -29,6 +29,29 @@
   --cream-40:      rgba(245, 240, 232, 0.4);
   --charcoal-65:   rgba(42, 35, 32, 0.65);
   --overlay-scrim: rgba(42, 35, 32, 0.5);
+
+  /* z-index scale */
+  --z-nav:      100;
+  --z-overlay:   98;
+  --z-hero:       2;
+  --z-lightbox:  900;
+  --z-load:     1000;
+  --z-cookie:    200;
+  --z-back-top:   50;
+  --z-gallery:    10;
+
+  /* fluid type scale */
+  --text-hero:     clamp(3.5rem, 13vw, 14rem);
+  --text-intro:    clamp(2.2rem, 8vw, 8rem);
+  --text-quote:    clamp(1.6rem, 4vw, 3.5rem);
+  --text-location: clamp(1.8rem, 4vw, 2.8rem);
+  --text-enquire:  clamp(3.5rem, 12vw, 11rem);
+  --text-counter:  clamp(6rem, 20vw, 22rem);
+
+  /* section spacing */
+  --section-px:    1.25rem;
+  --section-px-md: 4vw;
+  --section-py:    8vh;
 }
 
 /* ─────────────────────────────────────────────
@@ -78,7 +101,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: var(--z-nav);
 }
 .nav-bar {
   display: flex;
@@ -139,7 +162,7 @@
 .nav-overlay {
   position: fixed;
   inset: 0;
-  z-index: 998;
+  z-index: var(--z-overlay);
   background: theme(colors.charcoal);
   align-items: center;
   justify-content: center;
@@ -190,7 +213,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
 }
 .hero-overlay {
   position: absolute;
@@ -265,13 +287,61 @@
   background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
+.text-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.text-cream-muted {
+  color: var(--cream-70);
+}
+
+.row-divider {
+  border-top: 1px solid var(--border-warm);
+}
+
+.scale-origin-left {
+  transform-origin: left center;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: theme(colors.cream);
+  cursor: pointer;
+  font-family: theme(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.85rem 2rem;
+}
+
+.section-px {
+  padding-left: var(--section-px);
+  padding-right: var(--section-px);
+}
+@media (min-width: 768px) {
+  .section-px { padding-left: var(--section-px-md); padding-right: var(--section-px-md); }
+}
+
+.location-img-wrap {
+  width: 100%;
+  overflow: hidden;
+  height: clamp(200px, 45vw, 55vh);
+}
+
 /* ─────────────────────────────────────────────
    LIGHTBOX
 ───────────────────────────────────────────── */
 #lightbox {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  z-index: var(--z-lightbox);
   background: rgba(30,20,15,0.96);
   display: flex;
   align-items: center;
@@ -309,6 +379,143 @@
 }
 
 /* ─────────────────────────────────────────────
+   BACK TO TOP
+───────────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: var(--z-back-top);
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: theme(colors.warm-white);
+  border: 1px solid var(--border-warm);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+.back-to-top svg { stroke: theme(colors.charcoal); }
+
+/* ─────────────────────────────────────────────
+   COOKIE BANNER
+───────────────────────────────────────────── */
+.cookie-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-cookie);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: theme(colors.charcoal);
+  border: 1px solid var(--border-faint);
+  padding: 1rem 1.5rem;
+  width: min(90vw, 560px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+.cookie-banner[hidden] { display: none; }
+.cookie-banner-text {
+  font-family: theme(--font-sans);
+  font-size: 0.78rem;
+  color: theme(colors.driftwood);
+  line-height: 1.6;
+  margin: 0;
+}
+.cookie-banner-link {
+  color: theme(colors.cream);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cookie-accept {
+  font-family: theme(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: theme(colors.cream);
+  border: 1px solid var(--border-light);
+  background: transparent;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ─────────────────────────────────────────────
+   HERO EYEBROW
+───────────────────────────────────────────── */
+.hero-eyebrow {
+  font-family: theme(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: theme(colors.cream);
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ─────────────────────────────────────────────
+   GALLERY OVERLAYS
+───────────────────────────────────────────── */
+.gallery-label {
+  font-family: theme(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  position: absolute;
+  top: 2rem;
+  left: 4vw;
+  z-index: var(--z-gallery);
+}
+.gallery-counter {
+  position: absolute;
+  top: 2rem;
+  right: 4vw;
+  z-index: var(--z-gallery);
+  font-family: theme(--font-sans);
+  font-size: 0.9rem;
+  color: theme(colors.cream);
+}
+.gallery-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-gallery);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: theme(colors.cream);
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────
+   SITE FOOTER
+───────────────────────────────────────────── */
+.site-footer {
+  background: theme(colors.charcoal);
+  border-top: 1px solid var(--border-faint);
+  padding: 1.25rem var(--section-px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .site-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.25rem var(--section-px-md);
+    text-align: left;
+  }
+}
+
+/* ─────────────────────────────────────────────
    FORM
 ───────────────────────────────────────────── */
 .form-input {
@@ -337,7 +544,7 @@
 #load-screen {
   position: fixed;
   inset: 0;
-  z-index: 10000;
+  z-index: var(--z-load);
   background: theme(colors.charcoal);
   display: flex;
   flex-direction: column;

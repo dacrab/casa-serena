@@ -41,9 +41,9 @@ if (isPointer) {
 }
 </script>
 
-<section class="bg-cream py-[8vh] px-5 md:px-[4vw] grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
+<section class="bg-cream py-[8vh] section-px grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
   <div class="flex items-start">
-    <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:clamp(6rem,20vw,22rem)">
+    <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:var(--text-counter)">
       {pad(amenities.length)}
     </div>
   </div>
@@ -52,8 +52,7 @@ if (isPointer) {
     {amenities.map((a, i) => (
       <div
         data-anim="amenity-row"
-        class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer"
-        style="border-top:1px solid var(--border-warm)"
+        class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer row-divider"
       >
         <div class="flex flex-col gap-1">
           <div data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</div>

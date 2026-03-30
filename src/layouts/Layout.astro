@@ -113,11 +113,8 @@ const ogImageURL   = new URL(ogImage, siteURL).toString();
     </div>
 
     <!-- Back to top -->
-    <button id="back-to-top" aria-label="Back to top"
-      class="fixed bottom-8 right-8 z-[500] w-11 h-11 flex items-center justify-center border opacity-0 pointer-events-none"
-      style="border-color:var(--border-warm);background:theme(colors.warm-white)"
-    >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="stroke-charcoal">
+    <button id="back-to-top" aria-label="Back to top" class="back-to-top">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M8 14V2M3 7l5-5 5 5"/>
       </svg>
     </button>
@@ -125,19 +122,12 @@ const ogImageURL   = new URL(ogImage, siteURL).toString();
     <slot />
 
     <!-- Cookie notice -->
-    <div id="cookie-banner" role="region" aria-label="Cookie notice" hidden
-      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[2000] flex items-center gap-6 bg-charcoal px-6 py-4 w-full max-w-[min(90vw,560px)] shadow-[0_8px_40px_rgba(0,0,0,0.4)]"
-      style="border:1px solid var(--border-faint)"
-    >
-      <p class="font-sans text-[0.78rem] text-driftwood leading-[1.6]">
+    <div id="cookie-banner" role="region" aria-label="Cookie notice" hidden class="cookie-banner">
+      <p class="cookie-banner-text">
         This site uses analytics to understand visitor behaviour. No personal data is sold.
-        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
-           class="text-cream underline underline-offset-2 hover:text-terracotta transition-colors duration-200">Learn more</a>
+        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer" class="cookie-banner-link">Learn more</a>
       </p>
-      <button id="cookie-accept"
-        class="label-xs text-cream px-5 py-2 shrink-0 cursor-pointer"
-        style="border:1px solid var(--border-light)"
-      >Got it</button>
+      <button id="cookie-accept" class="cookie-accept">Got it</button>
     </div>
 
     <script is:inline>

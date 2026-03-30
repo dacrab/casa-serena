@@ -42,7 +42,7 @@ if (isPointer) {
 }
 </script>
 
-<section id="about" class="bg-warm-white py-[8vh] px-5 md:px-[4vw] overflow-hidden">
+<section id="about" class="bg-warm-white py-[8vh] section-px overflow-hidden">
 
   <!-- Desktop: sidebar + content -->
   <div class="hidden md:grid grid-cols-[80px_1fr] gap-x-[4vw]">
@@ -67,7 +67,7 @@ if (isPointer) {
         <div data-anim="about-stats" class="flex gap-16">
           {stats.map(s => (
             <div class="flex flex-col gap-2">
-              <div data-anim="stat-number" class="font-serif text-[2.8rem] font-light text-terracotta leading-none">{s.value}</div>
+              <div data-anim="stat-number" class="font-serif text-[2.8rem] font-light text-terracotta leading-none tabular-nums">{s.value}</div>
               <div data-anim="stat-label"  class="label-xs text-driftwood">{s.label}</div>
             </div>
           ))}

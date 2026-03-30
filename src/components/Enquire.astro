@@ -79,12 +79,12 @@ gsap.fromTo('footer', { opacity: 0 }, {
 });
 </script>
 
-<section id="enquire" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] px-5 md:px-[4vw]">
+<section id="enquire" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] section-px">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[8vw] max-w-[1100px] mx-auto items-start">
 
     <div class="flex flex-col gap-8">
-      <p data-anim="enquire-eyebrow" class="label-xs text-driftwood" style="letter-spacing:0.2em">Private Estate · Santorini</p>
-      <h2 data-anim="enquire-title" class="font-serif italic font-light text-cream leading-[0.9]" style="font-size:clamp(3.5rem,12vw,11rem)">Stay.</h2>
+      <p data-anim="enquire-eyebrow" class="label-xs text-driftwood">Private Estate · Santorini</p>
+      <h2 data-anim="enquire-title" class="font-serif italic font-light text-cream leading-[0.9]" style="font-size:var(--text-enquire)">Stay.</h2>
       <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta" style="transform-origin:left center"></div>
       <div data-anim="enquire-contact" class="flex flex-col gap-2">
         <a href="mailto:info@casaserena.com" data-anim="enquire-link"
@@ -119,10 +119,7 @@ gsap.fromTo('footer', { opacity: 0 }, {
           </label>
           <textarea id="enquire-message" name="message" rows={4} class="form-input resize-none leading-[1.6]"></textarea>
         </div>
-        <button type="submit" data-anim="form-submit"
-          class="w-full flex items-center justify-center gap-3 px-8 py-[0.85rem] label-xs text-cream cursor-pointer"
-          style="border:1px solid var(--border-light);background:transparent"
-        >
+        <button type="submit" data-anim="form-submit" class="btn-ghost">
           <span>Send Enquiry</span>
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="2" y1="8" x2="14" y2="8"/><path d="M9 3l5 5-5 5"/>
@@ -133,7 +130,7 @@ gsap.fromTo('footer', { opacity: 0 }, {
   </div>
 </section>
 
-<footer class="bg-charcoal px-5 md:px-[4vw] py-5 flex flex-col md:flex-row justify-between items-center gap-2 text-center md:text-left" style="border-top:1px solid var(--border-faint)">
+<footer class="site-footer">
   <span class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
   <span class="font-sans text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
 </footer>

@@ -44,7 +44,7 @@ if (isPointer) {
 </script>
 
 <section id="location" class="bg-warm-white">
-  <div data-anim="location-image" class="w-full overflow-hidden" style="height:clamp(200px,45vw,55vh)">
+  <div data-anim="location-image" class="location-img-wrap">
     <Image
       src="/images/location.jpg"
       alt="Santorini caldera aerial view"
@@ -53,9 +53,9 @@ if (isPointer) {
     />
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[6vw] px-5 md:px-[4vw] py-[10vh]">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[6vw] section-px py-[10vh]">
     <div class="flex flex-col gap-4">
-      <h3 data-anim="location-address" class="font-serif font-light text-charcoal" style="font-size:clamp(1.8rem,4vw,2.8rem)">Oia, Santorini 847 02</h3>
+      <h3 data-anim="location-address" class="font-serif font-light text-charcoal" style="font-size:var(--text-location)">Oia, Santorini 847 02</h3>
       <p data-anim="location-city" class="font-sans text-[0.9rem] text-driftwood">Santorini, Greece</p>
       <p data-anim="location-desc" class="font-sans text-base text-charcoal leading-[1.8]">
         Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.
@@ -64,7 +64,7 @@ if (isPointer) {
 
     <div class="flex flex-col">
       {distances.map(d => (
-        <div data-anim="location-distance" class="flex justify-between items-baseline py-5" style="border-top:1px solid var(--border-warm)">
+        <div data-anim="location-distance" class="flex justify-between items-baseline py-5 row-divider">
           <span class="font-sans font-medium text-charcoal">{d.dest}</span>
           <span data-anim="location-miles" class="font-sans text-[0.9rem] text-terracotta font-medium">{d.miles}</span>
         </div>

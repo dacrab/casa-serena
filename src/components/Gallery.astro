@@ -113,9 +113,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.
 
 <!-- Desktop: horizontal pinned scroll -->
 <section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
-  <div data-anim="gallery-label" class="label-xs absolute top-8 left-[4vw] z-10" style="color:var(--cream-40)">The Property</div>
-  <div data-anim="gallery-counter" class="absolute top-8 right-[4vw] font-sans text-[0.9rem] text-cream z-10">{pad(1)} / {pad(panels.length)}</div>
-  <div data-anim="gallery-scroll-hint" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-cream z-10 pointer-events-none">
+  <div data-anim="gallery-label" class="gallery-label text-cream-muted">The Property</div>
+  <div data-anim="gallery-counter" class="gallery-counter">{pad(1)} / {pad(panels.length)}</div>
+  <div data-anim="gallery-scroll-hint" class="gallery-scroll-hint">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M2 10h12M10 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
