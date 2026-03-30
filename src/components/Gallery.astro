@@ -97,7 +97,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.
 </script>
 
 <!-- Desktop: horizontal pinned scroll -->
-<section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative" aria-label="Property gallery">
+<section id="gallery" data-nav-theme="dark" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative" aria-label="Property gallery">
   <p data-anim="gallery-label" class="gallery-label text-cream-muted">The Property</p>
   <p data-anim="gallery-counter" class="gallery-counter" aria-live="polite">{pad(1)} / {total}</p>
 

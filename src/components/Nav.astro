@@ -83,8 +83,12 @@ const setActive = (id: string) => {
   document.querySelector(`[data-nav="link"][href="#${id}"]`)?.setAttribute('aria-current', 'page');
 };
 
-document.querySelectorAll('section[id]').forEach(s => {
-  ScrollTrigger.create({ trigger: s, start: 'top 55%', end: 'bottom 55%', onEnter: () => setActive(s.id), onEnterBack: () => setActive(s.id) });
+document.querySelectorAll<HTMLElement>('section[data-nav-theme]').forEach(s => {
+  ScrollTrigger.create({
+    trigger: s, start: 'top 60px', end: 'bottom 60px',
+    onEnter:     () => { nav?.classList.toggle('nav-light', s.dataset.navTheme === 'light'); if (s.id) setActive(s.id); },
+    onEnterBack: () => { nav?.classList.toggle('nav-light', s.dataset.navTheme === 'light'); if (s.id) setActive(s.id); },
+  });
 });
 </script>
 
