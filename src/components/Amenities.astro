@@ -1,34 +1,48 @@
 ---
 const amenities = [
-  { name: 'Infinity Pool',        desc: 'Saltwater heated year-round' },
-  { name: 'Private Beach Access', desc: 'Direct pathway to sand' },
-  { name: "Chef's Kitchen",       desc: 'Gaggenau appliances, island seating' },
-  { name: 'Spa & Steam Suite',    desc: 'Marble sauna and treatment rooms' },
+  { name: 'Infinity Pool',        desc: 'Saltwater heated year-round'          },
+  { name: 'Private Beach Access', desc: 'Direct pathway to sand'               },
+  { name: "Chef's Kitchen",       desc: 'Gaggenau appliances, island seating'  },
+  { name: 'Spa & Steam Suite',    desc: 'Marble sauna and treatment rooms'     },
   { name: 'Wine Cellar',          desc: '2,000 bottle capacity, climate controlled' },
-  { name: 'Media Room',           desc: 'Dolby Atmos, projection system' },
-  { name: 'Tennis Court',         desc: 'Professional grade, night lighting' },
-  { name: 'Guest House',          desc: 'Independent 2-bedroom residence' },
-];
+  { name: 'Media Room',           desc: 'Dolby Atmos, projection system'       },
+  { name: 'Tennis Court',         desc: 'Professional grade, night lighting'   },
+  { name: 'Guest House',          desc: 'Independent 2-bedroom residence'      },
+] as const;
+
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
+
 <script>
 import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
 
-/* ── initial states ── */
-gsap.set(sel('amenities-number'), { y: 30, opacity: 0 });
+/* ── Initial hidden states ── */
+gsap.set(sel('amenities-number'), { y: 30,  opacity: 0 });
 gsap.set(sel('amenity-row'),      { x: -28, opacity: 0 });
 
-/* ── animations ── */
-gsap.to(sel('amenities-number'), { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' } });
+/* ── Counter entrance + parallax ── */
+gsap.to(sel('amenities-number'), {
+  opacity: 1, y: 0, duration: 1.0,
+  scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' },
+});
 if (!isMobile) {
-  gsap.to(sel('amenities-number'), { y: -50, ease: 'none', scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
+  gsap.to(sel('amenities-number'), {
+    y: -50, ease: 'none',
+    scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 },
+  });
 }
-gsap.to(sel('amenity-row'), { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: sel('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
 
+/* ── Row stagger entrance ── */
+gsap.to(sel('amenity-row'), {
+  x: 0, opacity: 1, stagger: 0.08, duration: 0.75,
+  scrollTrigger: { trigger: sel('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' },
+});
+
+/* ── Desktop: row hover ── */
 if (isPointer) {
-  document.querySelectorAll(sel('amenity-row')).forEach(row => {
-    const name    = row.querySelector(sel('amenity-name'))    as HTMLElement | null;
-    const counter = row.querySelector(sel('amenity-counter')) as HTMLElement | null;
+  document.querySelectorAll<HTMLElement>(sel('amenity-row')).forEach(row => {
+    const name    = row.querySelector<HTMLElement>(sel('amenity-name'));
+    const counter = row.querySelector<HTMLElement>(sel('amenity-counter'));
     row.addEventListener('mouseenter', () => {
       if (name)    gsap.to(name,    { x: 8, color: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' });
       if (counter) gsap.to(counter, { scale: 1.3, duration: 0.25, ease: 'back.out(2)' });
@@ -42,24 +56,31 @@ if (isPointer) {
 </script>
 
 <section class="bg-cream py-[8vh] section-px grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
-  <div class="flex items-start">
-    <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:var(--text-counter)">
+  <!-- Large counter -->
+  <div class="flex items-start" aria-hidden="true">
+    <div
+      data-anim="amenities-number"
+      class="font-serif font-light text-sand leading-none select-none"
+      style="font-size:var(--text-counter)"
+    >
       {pad(amenities.length)}
     </div>
   </div>
 
-  <div class="flex flex-col">
+  <!-- Amenity rows -->
+  <ul class="flex flex-col list-none m-0 p-0">
     {amenities.map((a, i) => (
-      <div
+      <li
         data-anim="amenity-row"
-        class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-pointer row-divider"
+        class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-default row-divider"
       >
         <div class="flex flex-col gap-1">
-          <div data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</div>
-          <div class="font-sans text-[0.8rem] italic text-driftwood">{a.desc}</div>
+          <span data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</span>
+          <span class="font-sans text-[0.8rem] italic text-driftwood">{a.desc}</span>
         </div>
-        <div data-anim="amenity-counter" class="label-xs text-terracotta">{pad(i + 1)}</div>
-      </div>
+        <span data-anim="amenity-counter" class="label-xs text-terracotta" aria-hidden="true">{pad(i + 1)}</span>
+      </li>
     ))}
-  </div>
+  </ul>
 </section>
+

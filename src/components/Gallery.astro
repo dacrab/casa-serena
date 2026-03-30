@@ -1,160 +1,201 @@
 ---
 import { Image } from 'astro:assets';
-const panels = [
-  { src: '/images/gallery-1.jpg', alt: 'Casa Serena exterior at golden hour',  w: 1800, h: 1080, title: 'Golden Hour',    wide: true  },
-  { src: '/images/about.jpg',     alt: 'Casa Serena living room',              w: 900,  h: 1080, title: 'Light & Space', wide: false },
-  { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool',          w: 900,  h: 1080, title: 'Infinity Pool', wide: false },
-  { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view',       w: 1200, h: 1080, title: 'Perspective',   wide: false },
-  { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen',             w: 800,  h: 1080, title: "Chef's Kitchen",wide: false },
-  { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom',     w: 800,  h: 1080, title: 'Master Suite',  wide: false },
-];
-const pad = (n: number) => String(n).padStart(2, '0');
----
-<script>
-import { gsap, ScrollTrigger, sel, isPointer, isMobile } from '../lib/gsap';
 
-/* ── initial states ── */
+interface Panel {
+  src:   string;
+  alt:   string;
+  w:     number;
+  h:     number;
+  title: string;
+  wide:  boolean;
+}
+
+const panels: Panel[] = [
+  { src: '/images/gallery-1.jpg', alt: 'Casa Serena exterior at golden hour', w: 1800, h: 1080, title: 'Golden Hour',     wide: true  },
+  { src: '/images/about.jpg',     alt: 'Casa Serena living room',             w: 900,  h: 1080, title: 'Light & Space',  wide: false },
+  { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool',         w: 900,  h: 1080, title: 'Infinity Pool',  wide: false },
+  { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view',      w: 1200, h: 1080, title: 'Perspective',    wide: false },
+  { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen',            w: 800,  h: 1080, title: "Chef's Kitchen", wide: false },
+  { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom',    w: 800,  h: 1080, title: 'Master Suite',   wide: false },
+];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const total = pad(panels.length);
+---
+
+<script>
+import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
+
+/* ── Initial hidden states ── */
 gsap.set(sel('gallery-label'),   { x: 20, opacity: 0 });
 gsap.set(sel('gallery-caption'), { y: 24, opacity: 0 });
 
-/* ── label + caption entrance ── */
-gsap.to(sel('gallery-label'),   { opacity: 1, x: 0, duration: 0.7, scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' } });
-gsap.to(sel('gallery-caption'), { y: 0, opacity: 1, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' } });
+/* ── Label + caption entrance ── */
+gsap.to(sel('gallery-label'), {
+  opacity: 1, x: 0, duration: 0.7,
+  scrollTrigger: { trigger: '#gallery', start: 'top 90%', toggleActions: 'play none none none' },
+});
+gsap.to(sel('gallery-caption'), {
+  y: 0, opacity: 1, stagger: 0.1, duration: 0.8,
+  scrollTrigger: { trigger: '#gallery', start: 'top 85%', toggleActions: 'play none none none' },
+});
 
-/* ── mobile: fade each panel image ── */
+/* ── Mobile: fade-in each panel image ── */
 if (isMobile) {
-  document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
-    gsap.fromTo(panel.querySelector('img'), { opacity: 0, scale: 1.04 }, {
+  document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
+    const img = panel.querySelector('img');
+    if (!img) return;
+    gsap.fromTo(img, { opacity: 0, scale: 1.04 }, {
       opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out',
       scrollTrigger: { trigger: panel, start: 'top 90%', toggleActions: 'play none none none' },
     });
   });
 }
 
-/* ── desktop: panel hover zoom ── */
+/* ── Desktop: panel hover zoom ── */
 if (isPointer) {
-  document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
-    const img = panel.querySelector('img') as HTMLElement | null;
+  document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
+    const img = panel.querySelector<HTMLElement>('img');
     if (!img) return;
     panel.addEventListener('mouseenter', () => gsap.to(img, { scale: 1.04, duration: 0.6, ease: 'power2.out' }));
     panel.addEventListener('mouseleave', () => gsap.to(img, { scale: 1,    duration: 0.7, ease: 'power2.out' }));
   });
 }
 
-/* ── scroll hint ── */
-const scrollHint    = document.querySelector(sel('gallery-scroll-hint'));
-const scrollHintSvg = scrollHint?.querySelector('svg');
-if (scrollHint && scrollHintSvg) {
-  gsap.to(scrollHintSvg, { x: 6, duration: 0.65, ease: 'power1.inOut', yoyo: true, repeat: -1 });
-  gsap.to(scrollHint,    { opacity: 0, duration: 0.6, ease: 'power2.in', delay: 3 });
+/* ── Scroll hint animation ── */
+const scrollHint = document.querySelector<HTMLElement>(sel('gallery-scroll-hint'));
+const hintSvg    = scrollHint?.querySelector<SVGElement>('svg');
+if (scrollHint && hintSvg) {
+  gsap.to(hintSvg,    { x: 6, duration: 0.65, ease: 'power1.inOut', yoyo: true, repeat: -1 });
+  gsap.to(scrollHint, { opacity: 0, duration: 0.6, ease: 'power2.in', delay: 3 });
 }
 
-/* ── desktop: horizontal pin ── */
-const track   = document.querySelector(sel('gallery-track'));
-const panels  = gsap.utils.toArray(sel('gallery-panel'));
-const counter = document.querySelector(sel('gallery-counter'));
-if (track && panels.length && !isMobile) {
-  ScrollTrigger.refresh();
-  const totalWidth = (track as HTMLElement).scrollWidth - window.innerWidth;
+/* ── Desktop: horizontal pinned scroll ── */
+const track   = document.querySelector<HTMLElement>(sel('gallery-track'));
+const panelEls = gsap.utils.toArray<HTMLElement>(sel('gallery-panel'));
+const counter  = document.querySelector<HTMLElement>(sel('gallery-counter'));
+
+if (track && panelEls.length && !isMobile) {
+  const totalWidth = () => track.scrollWidth - window.innerWidth;
   gsap.to(track, {
-    x: () => -totalWidth,
+    x: () => -totalWidth(),
     ease: 'none',
     scrollTrigger: {
-      trigger: '#gallery', start: 'top top',
-      end: () => `+=${totalWidth}`,
+      trigger: '#gallery',
+      start: 'top top',
+      end: () => `+=${totalWidth()}`,
       scrub: 1.0, pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-      onUpdate: self => {
-        if (counter) {
-          const idx = Math.min(Math.round(self.progress * (panels.length - 1)), panels.length - 1);
-          counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
-        }
+      onUpdate(self) {
+        if (!counter) return;
+        const idx = Math.min(Math.round(self.progress * (panelEls.length - 1)), panelEls.length - 1);
+        counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(panelEls.length).padStart(2, '0')}`;
       },
     },
   });
 }
 
-/* ── lightbox ── */
+/* ── Lightbox ── */
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightbox-img') as HTMLImageElement | null;
 const lightboxCap   = document.getElementById('lightbox-caption');
-const lightboxClose = document.getElementById('lightbox-close');
+const lightboxClose = document.getElementById('lightbox-close') as HTMLButtonElement | null;
 
 const openLightbox = (src: string, alt: string, caption: string) => {
   if (!lightbox || !lightboxImg || !lightboxCap || !lightboxClose) return;
-  lightboxImg.src = src; lightboxImg.alt = alt; lightboxCap.textContent = caption;
+  lightboxImg.src        = src;
+  lightboxImg.alt        = alt;
+  lightboxCap.textContent = caption;
   lightbox.classList.add('open');
   gsap.fromTo(lightbox,    { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power2.out' });
   gsap.fromTo(lightboxImg, { scale: 0.92, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: 'power3.out' });
   document.body.style.overflow = 'hidden';
-  (lightboxClose as HTMLElement).focus();
-  /* close button hover */
+  lightboxClose.focus();
+
   if (isPointer) {
-    lightboxClose.addEventListener('mouseenter', () => gsap.to(lightboxClose, { opacity: 1, scale: 1.1, duration: 0.2, ease: 'power2.out' }));
-    lightboxClose.addEventListener('mouseleave', () => gsap.to(lightboxClose, { opacity: 0.6, scale: 1, duration: 0.25 }));
+    lightboxClose.addEventListener('mouseenter', () => gsap.to(lightboxClose, { opacity: 1, scale: 1.1, duration: 0.2 }), { once: true });
+    lightboxClose.addEventListener('mouseleave', () => gsap.to(lightboxClose, { opacity: 0.6, scale: 1, duration: 0.25 }), { once: true });
   }
 };
+
 const closeLightbox = () => {
   if (!lightbox || !lightboxImg) return;
-  gsap.to(lightbox, { opacity: 0, duration: 0.3, ease: 'power2.in',
-    onComplete: () => { lightbox.classList.remove('open'); lightboxImg.src = ''; document.body.style.overflow = ''; },
+  gsap.to(lightbox, {
+    opacity: 0, duration: 0.3, ease: 'power2.in',
+    onComplete() {
+      lightbox.classList.remove('open');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    },
   });
 };
 
-document.querySelectorAll(sel('gallery-panel')).forEach(panel => {
+document.querySelectorAll<HTMLElement>(sel('gallery-panel')).forEach(panel => {
   panel.addEventListener('click', () => {
-    const img = panel.querySelector('img');
-    if (img) openLightbox(img.src, img.alt, (panel.querySelector(sel('panel-title')) as HTMLElement)?.textContent?.trim() ?? '');
+    const img    = panel.querySelector('img');
+    const caption = panel.querySelector<HTMLElement>(sel('panel-title'))?.textContent?.trim() ?? '';
+    if (img) openLightbox(img.src, img.alt, caption);
   });
 });
+
 lightboxClose?.addEventListener('click', closeLightbox);
 lightbox?.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lightbox?.classList.contains('open')) closeLightbox();
+});
 </script>
 
 <!-- Desktop: horizontal pinned scroll -->
-<section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative">
-  <div data-anim="gallery-label" class="gallery-label text-cream-muted">The Property</div>
-  <div data-anim="gallery-counter" class="gallery-counter">{pad(1)} / {pad(panels.length)}</div>
-  <div data-anim="gallery-scroll-hint" class="gallery-scroll-hint">
+<section id="gallery" class="hidden md:block h-screen overflow-hidden bg-gallery-bg relative" aria-label="Property gallery">
+  <p data-anim="gallery-label" class="gallery-label text-cream-muted">The Property</p>
+  <p data-anim="gallery-counter" class="gallery-counter" aria-live="polite">{pad(1)} / {total}</p>
+
+  <div data-anim="gallery-scroll-hint" class="gallery-scroll-hint" aria-hidden="true">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M2 10h12M10 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <span class="font-sans text-[0.65rem] tracking-[0.1em] uppercase">scroll</span>
   </div>
+
   <div data-anim="gallery-track" class="flex h-full will-change-transform">
     {panels.map((p, i) => (
-      <div
+      <button
         data-anim="gallery-panel"
+        aria-label={`Open ${p.title} in lightbox`}
         class="shrink-0 h-full relative border-r border-terracotta/40 cursor-zoom-in overflow-hidden"
         style={`width:${p.wide ? '100vw' : '75vw'}`}
       >
         <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
-          class="w-full h-full object-cover" />
-        <div data-anim="gallery-caption" class="caption-gradient absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream">
-          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
+          class="w-full h-full object-cover pointer-events-none" />
+        <div data-anim="gallery-caption" class="caption-gradient absolute bottom-0 left-0 right-0 px-[4vw] py-8 flex justify-between items-end text-cream pointer-events-none">
+          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]" aria-hidden="true">{pad(i + 1)}</span>
           <span data-anim="panel-title" class="font-sans text-[0.95rem] tracking-[0.08em]">{p.title}</span>
         </div>
-      </div>
+      </button>
     ))}
   </div>
 </section>
 
 <!-- Mobile: vertical stacked -->
-<section id="gallery-mobile" class="md:hidden bg-gallery-bg">
+<section id="gallery-mobile" class="md:hidden bg-gallery-bg" aria-label="Property gallery">
   <div class="flex justify-between items-center px-5 pt-6 pb-3">
-    <div class="label-xs" style="color:var(--cream-40)">The Property</div>
-    <div class="font-sans text-[0.9rem] text-cream">{pad(1)} / {pad(panels.length)}</div>
+    <p class="label-xs" style="color:var(--cream-40)">The Property</p>
+    <p class="font-sans text-[0.9rem] text-cream">{pad(1)} / {total}</p>
   </div>
   <div class="flex flex-col">
     {panels.map((p, i) => (
-      <div class="relative w-full overflow-hidden border-b border-terracotta/40" style={`height:${i === 0 ? '70vw' : '60vw'};min-height:220px`}>
+      <div
+        data-anim="gallery-panel"
+        class="relative w-full overflow-hidden border-b border-terracotta/40"
+        style={`height:${i === 0 ? '70vw' : '60vw'};min-height:220px`}
+      >
         <Image src={p.src} alt={p.alt} width={p.w} height={p.h} format="webp" quality={85} loading="lazy"
           class="w-full h-full object-cover" />
-        <div class="caption-gradient absolute bottom-0 left-0 right-0 px-5 py-4 flex justify-between items-end text-cream">
-          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]">{pad(i + 1)}</span>
+        <div class="caption-gradient absolute bottom-0 left-0 right-0 px-5 py-4 flex justify-between items-end text-cream pointer-events-none">
+          <span class="font-serif italic text-[0.75rem] tracking-[0.1em]" aria-hidden="true">{pad(i + 1)}</span>
           <span class="font-sans text-[0.9rem] tracking-[0.08em]">{p.title}</span>
         </div>
       </div>
     ))}
   </div>
 </section>
+

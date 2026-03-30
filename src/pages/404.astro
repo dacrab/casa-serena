@@ -3,12 +3,15 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Page Not Found — Casa Serena">
-  <div class="min-h-svh bg-charcoal flex items-center justify-center px-5">
+  <main class="min-h-svh bg-charcoal flex items-center justify-center px-5">
     <div class="flex flex-col items-center text-center gap-5">
-      <p class="font-sans text-[clamp(5rem,15vw,12rem)] font-light text-cream/[0.06] leading-none tracking-[0.05em]">
+      <p
+        aria-hidden="true"
+        class="font-sans text-[clamp(5rem,15vw,12rem)] font-light text-cream/[0.06] leading-none tracking-[0.05em]"
+      >
         404
       </p>
-      <div class="w-12 h-px bg-terracotta"></div>
+      <div class="w-12 h-px bg-terracotta" aria-hidden="true"></div>
       <h1 class="font-serif text-[clamp(2.5rem,6vw,5rem)] italic font-light text-cream leading-none">
         Lost at sea.
       </h1>
@@ -22,5 +25,6 @@ import Layout from '../layouts/Layout.astro';
         Return to Casa Serena
       </a>
     </div>
-  </div>
+  </main>
 </Layout>
+
