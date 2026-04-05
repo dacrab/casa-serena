@@ -6,7 +6,7 @@ Luxury beachfront estate website. Built with [Astro](https://astro.build), style
 
 ## Stack
 
-- **Framework** — Astro 5 (static output)
+- **Framework** — Astro 6 (static output)
 - **Styling** — Tailwind CSS v4 (CSS-first config via `@theme` in `src/styles/global.css`)
 - **Animations** — GSAP + ScrollTrigger
 - **Fonts** — Cormorant Garamond, DM Sans (Google Fonts)
