@@ -13,12 +13,12 @@
     "@astrojs/sitemap": "3.7.2",
     "@tailwindcss/vite": "^4.2.2",
     "@vercel/analytics": "^2.0.1",
-    "astro": "6.1.5",
-    "gsap": "^3.14.2",
+    "astro": "6.1.8",
+    "gsap": "^3.15.0",
     "tailwindcss": "^4"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.8",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.3"
   }
 }
