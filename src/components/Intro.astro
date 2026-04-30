@@ -1,18 +1,18 @@
 ---
 ---
+<script>
+import { gsap } from '../lib/gsap';
+gsap.from('#intro h2', { opacity: 0, x: -30, duration: 0.8, scrollTrigger: { trigger: '#intro', start: 'top 80%' } });
+gsap.from('#intro p', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, scrollTrigger: { trigger: '#intro', start: 'top 80%' } });
+</script>
 
-<!-- Animations are handled by Hero.astro (shares scroll context) -->
-<section data-nav-theme="light" class="bg-warm-white py-[12vh] section-px grid grid-cols-1 md:grid-cols-[7fr_3fr] gap-8 md:gap-[4vw] items-center overflow-hidden">
-  <h2
-    data-anim="intro-text"
-    class="font-serif italic font-light text-charcoal leading-[1.1]"
-    style="font-size:var(--text-intro)"
-  >
-    A house that breathes.
-  </h2>
-  <div class="flex flex-col gap-4 pl-5 md:pl-8 border-l border-terracotta">
-    <p data-anim="intro-right-p" class="font-sans text-[0.9rem] md:text-[0.95rem] text-driftwood leading-[1.7]">
-      Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts. Light becomes material here.
+<section id="intro" data-nav-theme="light" class="bg-warm-white py-[12vh] section-px">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-[2fr_1fr] gap-8 items-center">
+    <h2 class="font-serif italic font-light text-charcoal text-5xl md:text-7xl leading-tight">
+      A house that breathes.
+    </h2>
+    <p class="text-driftwood leading-relaxed pl-8 border-l border-terracotta">
+      Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts.
     </p>
   </div>
 </section>

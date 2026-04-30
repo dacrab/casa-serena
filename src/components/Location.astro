@@ -1,61 +1,39 @@
 ---
 import { Image } from 'astro:assets';
-const distances = [
-  { dest: 'Fira',              miles: '12 km'  },
-  { dest: 'Santorini Airport', miles: '8 km'   },
-  { dest: 'Heraklion, Crete',  miles: '130 km' },
-  { dest: 'Athens',            miles: '280 km' },
-] as const;
 ---
 <script>
-import { gsap, ScrollTrigger, sel, isPointer, isMobile } from '../lib/gsap';
-
-gsap.set(sel('location-address'),  { y: 40, opacity: 0 });
-gsap.set(sel('location-city'),     { y: 16, opacity: 0 });
-gsap.set(sel('location-desc'),     { y: 24, opacity: 0 });
-gsap.set(sel('location-distance'), { x: 20, opacity: 0 });
-gsap.set(sel('location-miles'),    { x: 10, opacity: 0 });
-
-if (!isMobile) {
-  gsap.to(`${sel('location-image')} img`, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: sel('location-image'), start: 'top bottom', end: 'bottom top', scrub: true } });
-}
-
-ScrollTrigger.create({
-  trigger: '#location', start: 'top 78%', once: true,
-  onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .to(sel('location-address'),  { y: 0, opacity: 1, duration: 1.0 })
-    .to(sel('location-city'),     { y: 0, opacity: 1, duration: 0.6 }, '-=0.5')
-    .to(sel('location-desc'),     { y: 0, opacity: 1, duration: 0.8 }, '-=0.4')
-    .to(sel('location-distance'), { x: 0, opacity: 1, stagger: 0.1, duration: 0.6 }, '-=0.5')
-    .to(sel('location-miles'),    { x: 0, opacity: 1, stagger: 0.1, duration: 0.5 }, '-=0.5'),
-});
-
-if (isPointer) {
-  document.querySelectorAll<HTMLElement>(sel('location-distance')).forEach(row => {
-    const miles = row.querySelector<HTMLElement>(sel('location-miles'));
-    row.addEventListener('mouseenter', () => miles && gsap.to(miles, { scale: 1.1, duration: 0.2, ease: 'back.out(2)' }));
-    row.addEventListener('mouseleave', () => miles && gsap.to(miles, { scale: 1,   duration: 0.25 }));
-  });
-}
+import { gsap } from '../lib/gsap';
+gsap.from('#location h2, #location p', { opacity: 0, y: 20, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#location', start: 'top 80%' } });
+gsap.from('.distance', { opacity: 0, x: 20, stagger: 0.1, duration: 0.6, scrollTrigger: { trigger: '.distance', start: 'top 85%' } });
 </script>
 
 <section id="location" data-nav-theme="light" class="bg-warm-white">
-  <div data-anim="location-image" class="location-img-wrap">
+  <div class="w-full h-[40vh] overflow-hidden">
     <Image src="/images/location.jpg" alt="Santorini caldera aerial view" width={1400} height={788} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover" />
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[6vw] section-px py-[10vh]">
-    <div class="flex flex-col gap-4">
-      <h2 data-anim="location-address" class="font-serif font-light text-charcoal" style="font-size:var(--text-location)">Oia, Santorini 847 02</h2>
-      <p data-anim="location-city" class="font-sans text-[0.9rem] text-driftwood">Santorini, Greece</p>
-      <p data-anim="location-desc" class="font-sans text-base text-charcoal leading-[1.8]">Perched on the caldera cliffs of Oia with unobstructed views of the Aegean, Casa Serena sits where the volcanic landscape meets the sea. The location is exceptional: isolated enough to feel like a retreat, close enough to reach the vibrant energy of Fira and beyond.</p>
+  <div class="grid md:grid-cols-2 gap-10 section-px py-[10vh]">
+    <div>
+      <h2 class="font-serif font-light text-charcoal text-4xl mb-2">Oia, Santorini 847 02</h2>
+      <p class="text-driftwood mb-4">Santorini, Greece</p>
+      <p class="text-charcoal leading-relaxed">Perched on the caldera cliffs of Oia with unobstructed views of the Aegean. Isolated enough to feel like a retreat, close enough to reach Fira and beyond.</p>
     </div>
-    <dl class="flex flex-col">
-      {distances.map(d => (
-        <div data-anim="location-distance" class="flex justify-between items-baseline py-5 row-divider">
-          <dt class="font-sans font-medium text-charcoal">{d.dest}</dt>
-          <dd data-anim="location-miles" class="font-sans text-[0.9rem] text-terracotta font-medium">{d.miles}</dd>
-        </div>
-      ))}
+    <dl class="space-y-4">
+      <div class="distance flex justify-between py-4 border-t border-driftwood/20">
+        <dt class="font-medium text-charcoal">Fira</dt>
+        <dd class="text-terracotta font-medium">12 km</dd>
+      </div>
+      <div class="distance flex justify-between py-4 border-t border-driftwood/20">
+        <dt class="font-medium text-charcoal">Santorini Airport</dt>
+        <dd class="text-terracotta font-medium">8 km</dd>
+      </div>
+      <div class="distance flex justify-between py-4 border-t border-driftwood/20">
+        <dt class="font-medium text-charcoal">Heraklion, Crete</dt>
+        <dd class="text-terracotta font-medium">130 km</dd>
+      </div>
+      <div class="distance flex justify-between py-4 border-t border-driftwood/20">
+        <dt class="font-medium text-charcoal">Athens</dt>
+        <dd class="text-terracotta font-medium">280 km</dd>
+      </div>
     </dl>
   </div>
 </section>

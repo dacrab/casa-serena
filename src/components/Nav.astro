@@ -1,113 +1,62 @@
 ---
-const navLinks = [
-  { href: '#about',    label: 'About'    },
-  { href: '#gallery',  label: 'Gallery'  },
-  { href: '#location', label: 'Location' },
-  { href: '#enquire',  label: 'Enquire'  },
-] as const;
 ---
 <script>
-import { gsap, ScrollTrigger, sel, isPointer, scrollTo } from '../lib/gsap';
+import { gsap, ScrollTrigger } from '../lib/gsap';
 
-gsap.set(sel('nav-logo'),     { opacity: 0, y: -8 });
-gsap.set('[data-nav="link"]', { opacity: 0, y: -8 });
+gsap.from('nav a', { opacity: 0, y: -10, stagger: 0.05, duration: 0.6, delay: 0.2 });
 
-const nav = document.querySelector<HTMLElement>('[data-nav="root"]');
+const nav = document.querySelector('nav');
+const toggle = document.querySelector('[data-nav="toggle"]');
+const overlay = document.querySelector('[data-nav="overlay"]');
+let open = false;
 
-document.addEventListener('casa:loaded', () => {
-  gsap.timeline()
-    .to(sel('nav-logo'),     { opacity: 1, y: 0, duration: 0.7 })
-    .to('[data-nav="link"]', { opacity: 1, y: 0, stagger: 0.07, duration: 0.55 }, '-=0.35');
-}, { once: true });
+toggle?.addEventListener('click', () => {
+  open = !open;
+  overlay?.classList.toggle('hidden', !open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
 
-if (isPointer) {
-  document.querySelectorAll<HTMLElement>('[data-nav="link"]').forEach(el => {
-    const line = document.createElement('span');
-    line.style.cssText = 'position:absolute;bottom:-2px;left:0;width:100%;height:1px;display:block;background:var(--color-terracotta);transform-origin:left center;transform:scaleX(0)';
-    el.appendChild(line);
-    el.addEventListener('mouseenter', () => gsap.to(line, { scaleX: 1, duration: 0.3, ease: 'power2.out' }));
-    el.addEventListener('mouseleave', () => gsap.to(line, { scaleX: 0, duration: 0.25, ease: 'power2.in', transformOrigin: 'right center' }));
-  });
-}
-
-const toggle  = document.querySelector<HTMLElement>('[data-nav="toggle"]');
-const overlay = document.querySelector<HTMLElement>('[data-nav="overlay"]');
-const [bar0, bar1] = [...document.querySelectorAll<HTMLElement>('[data-nav="bar"]')];
-let menuOpen = false;
-
-const openMenu = () => {
-  menuOpen = true;
-  toggle?.setAttribute('aria-expanded', 'true');
-  if (overlay) overlay.style.display = 'flex';
-  gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
-  gsap.fromTo(overlay?.querySelectorAll('li') ?? [], { y: 24, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.07, duration: 0.4, ease: 'power3.out', delay: 0.1 });
-  if (bar0) gsap.to(bar0, { rotation:  45, y:  4, duration: 0.3, ease: 'power2.inOut' });
-  if (bar1) gsap.to(bar1, { rotation: -45, y: -4, duration: 0.3, ease: 'power2.inOut' });
-};
-const closeMenu = (cb?: () => void) => {
-  menuOpen = false;
-  toggle?.setAttribute('aria-expanded', 'false');
-  if (bar0) gsap.to(bar0, { rotation: 0, y: 0, duration: 0.25, ease: 'power2.inOut' });
-  if (bar1) gsap.to(bar1, { rotation: 0, y: 0, duration: 0.25, ease: 'power2.inOut' });
-  gsap.to(overlay, { opacity: 0, duration: 0.25, ease: 'power2.in', onComplete() { if (overlay) overlay.style.display = 'none'; cb?.(); } });
-};
-
-toggle?.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
-
-overlay?.querySelectorAll<HTMLAnchorElement>('a').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const href = a.getAttribute('href') ?? '';
-    closeMenu(() => {
-      const id = href === '#gallery' && window.innerWidth <= 768 ? '#gallery-mobile' : href;
-      const el = document.querySelector(id);
-      if (el) scrollTo(el as HTMLElement, 0.8);
-    });
+overlay?.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    open = false;
+    overlay.classList.add('hidden');
+    document.body.style.overflow = '';
   });
 });
 
-document.querySelector('[data-nav="logo"]')?.addEventListener('click', e => { e.preventDefault(); scrollTo(0, 1.2); });
-
-// Desktop nav links: smooth scroll instead of jump
-document.querySelectorAll<HTMLAnchorElement>('[data-nav="link"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href') ?? '');
-    if (target) scrollTo(target as HTMLElement, 1.0);
-  });
-});
-
-const allLinks = [...document.querySelectorAll<HTMLElement>('[data-nav="link"]')];
-const setActive = (id: string) => {
-  allLinks.forEach(l => { l.removeAttribute('aria-current'); l.classList.remove('active'); });
-  document.querySelector(`[data-nav="link"][href="#${id}"]`)?.setAttribute('aria-current', 'page');
-};
-
-document.querySelectorAll<HTMLElement>('section[data-nav-theme]').forEach(s => {
+document.querySelectorAll('[data-nav-theme]').forEach(s => {
   ScrollTrigger.create({
-    trigger: s, start: 'top 60px', end: 'bottom 60px',
-    onEnter:     () => { nav?.classList.toggle('nav-light', s.dataset.navTheme === 'light'); if (s.id) setActive(s.id); },
-    onEnterBack: () => { nav?.classList.toggle('nav-light', s.dataset.navTheme === 'light'); if (s.id) setActive(s.id); },
+    trigger: s as HTMLElement,
+    start: 'top 60px',
+    end: 'bottom 60px',
+    onEnter: () => nav?.classList.toggle('nav-light', (s as HTMLElement).dataset.navTheme === 'light'),
+    onEnterBack: () => nav?.classList.toggle('nav-light', (s as HTMLElement).dataset.navTheme === 'light'),
   });
 });
 </script>
 
-<header class="nav-header">
-  <nav data-nav="root" class="nav-bar">
-    <a data-nav="logo" data-anim="nav-logo" href="#hero" class="nav-logo">CASA SERENA</a>
-    <div class="nav-links">
-      {navLinks.map(({ href, label }) => <a data-nav="link" href={href} class="nav-link">{label}</a>)}
+<header class="fixed top-0 left-0 right-0 z-50">
+  <nav class="flex justify-between items-center section-px py-5 transition-colors">
+    <a href="#hero" class="font-serif text-sm tracking-widest text-cream">CASA SERENA</a>
+    <div class="hidden md:flex gap-8">
+      <a href="#about" class="label-xs text-cream/80 hover:text-terracotta transition">About</a>
+      <a href="#gallery" class="label-xs text-cream/80 hover:text-terracotta transition">Gallery</a>
+      <a href="#location" class="label-xs text-cream/80 hover:text-terracotta transition">Location</a>
+      <a href="#enquire" class="label-xs text-cream/80 hover:text-terracotta transition">Enquire</a>
     </div>
-    <button data-nav="toggle" aria-label="Open menu" aria-expanded="false" class="nav-toggle">
-      <span data-nav="bar"></span>
-      <span data-nav="bar"></span>
+    <button data-nav="toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+      <span class="w-6 h-0.5 bg-cream transition"></span>
+      <span class="w-6 h-0.5 bg-cream transition"></span>
     </button>
   </nav>
 </header>
 
-<div data-nav="overlay" class="nav-overlay" style="display:none" aria-hidden="true">
-  <ul class="nav-overlay-list">
-    {navLinks.map(({ href, label }) => <li><a href={href}>{label}</a></li>)}
+<div data-nav="overlay" class="hidden fixed inset-0 z-40 bg-charcoal flex items-center justify-center">
+  <ul class="space-y-4 text-center">
+    <li><a href="#about" class="font-serif italic text-5xl text-cream">About</a></li>
+    <li><a href="#gallery" class="font-serif italic text-5xl text-cream">Gallery</a></li>
+    <li><a href="#location" class="font-serif italic text-5xl text-cream">Location</a></li>
+    <li><a href="#enquire" class="font-serif italic text-5xl text-cream">Enquire</a></li>
   </ul>
 </div>
 

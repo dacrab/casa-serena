@@ -5,50 +5,15 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
-  ogImage?: string;
 }
 
 const {
-  title       = 'Casa Serena | Beachfront Estate · Santorini, Greece',
-  description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access. Greece, at your doorstep.',
-  ogImage     = '/images/gallery-1.jpg',
+  title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
+  description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
 } = Astro.props;
 
-const siteURL     = Astro.site ?? new URL('https://casa-serena.vercel.app');
+const siteURL = Astro.site ?? new URL('https://casa-serena.vercel.app');
 const canonicalURL = new URL(Astro.url.pathname, siteURL);
-const ogImageURL   = new URL(ogImage, siteURL).toString();
-
-const schema = {
-  '@context': 'https://schema.org',
-  '@type': 'LodgingBusiness',
-  name: 'Casa Serena',
-  description: 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
-  url: 'https://casa-serena.vercel.app',
-  telephone: '+30-22860-00000',
-  email: 'info@casaserena.com',
-  image: 'https://casa-serena.vercel.app/images/gallery-1.jpg',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Oia',
-    addressLocality: 'Santorini',
-    addressRegion: 'Cyclades',
-    postalCode: '847 02',
-    addressCountry: 'GR',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 36.4618,
-    longitude: 25.3753,
-  },
-  amenityFeature: [
-    { '@type': 'LocationFeatureSpecification', name: 'Infinity Pool',    value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Beach Access',     value: true },
-    { '@type': 'LocationFeatureSpecification', name: "Chef's Kitchen",   value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Free WiFi',        value: true },
-  ],
-  numberOfRooms: 4,
-  petsAllowed: false,
-};
 ---
 
 <!doctype html>
@@ -56,102 +21,18 @@ const schema = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
-
-    <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <!-- Primary SEO -->
     <title>{title}</title>
-    <meta name="description"  content={description} />
-    <meta name="robots"       content="index, follow" />
-    <meta name="theme-color"  content="#C4714A" />
-
-    <!-- Open Graph -->
-    <meta property="og:type"         content="website" />
-    <meta property="og:url"          content={canonicalURL} />
-    <meta property="og:title"        content={title} />
-    <meta property="og:description"  content={description} />
-    <meta property="og:image"        content={ogImageURL} />
-    <meta property="og:image:width"  content="1200" />
-    <meta property="og:image:height" content="675" />
-    <meta property="og:locale"       content="en_US" />
-    <meta property="og:site_name"    content="Casa Serena" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:title"       content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content={ogImageURL} />
-
-    <!-- Schema.org JSON-LD -->
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
-
-    <!-- Preload hero video (LCP) -->
-    <link rel="preload" as="video" href="/images/hero-h264.mp4" fetchpriority="high" />
-
-    <!-- Google Fonts -->
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#C4714A" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <Analytics />
   </head>
-
   <body>
-    <!-- Load screen -->
-    <div id="load-screen" aria-hidden="true">
-      <p class="ls-logo">Casa Serena</p>
-      <div class="ls-line"></div>
-      <p class="ls-sub">Santorini · Greece</p>
-    </div>
-
-    <!-- Lightbox (populated by Gallery component) -->
-    <div id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
-      <button id="lightbox-close" aria-label="Close lightbox">✕</button>
-      <img id="lightbox-img" src="" alt="" />
-      <p id="lightbox-caption" role="status"></p>
-    </div>
-
-    <!-- Back-to-top -->
-    <button id="back-to-top" aria-label="Back to top" class="back-to-top">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.5"
-           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M8 14V2M3 7l5-5 5 5" />
-      </svg>
-    </button>
-
     <slot />
-
-    <!-- Cookie notice -->
-    <div id="cookie-banner" role="region" aria-label="Cookie notice" hidden class="cookie-banner">
-      <p class="cookie-banner-text">
-        This site uses analytics to understand visitor behaviour. No personal data is sold.
-        <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
-           class="cookie-banner-link">Learn more</a>
-      </p>
-      <button id="cookie-accept" class="cookie-accept">Got it</button>
-    </div>
-
-    <script is:inline>
-      // Show cookie banner after 2 s if user hasn't accepted yet
-      const banner = document.getElementById('cookie-banner');
-      if (banner && !localStorage.getItem('cookie-ok')) {
-        setTimeout(() => { banner.hidden = false; }, 2000);
-      }
-      document.getElementById('cookie-accept')?.addEventListener('click', () => {
-        localStorage.setItem('cookie-ok', '1');
-        if (banner) banner.hidden = true;
-      });
-    </script>
   </body>
 </html>
 

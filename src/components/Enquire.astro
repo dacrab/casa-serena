@@ -1,138 +1,54 @@
 ---
-const year = new Date().getFullYear();
-const socials = [
-  { label: 'Instagram',   href: 'https://instagram.com'          },
-  { label: 'Casa Serena', href: 'https://casa-serena.vercel.app' },
-  { label: 'Facebook',    href: 'https://facebook.com'           },
-] as const;
-const fields = [
-  { id: 'enquire-name',  label: 'Name',  type: 'text',  name: 'name',  autocomplete: 'name'  },
-  { id: 'enquire-email', label: 'Email', type: 'email', name: 'email', autocomplete: 'email' },
-] as const;
 ---
 <script>
-import { gsap, ScrollTrigger, sel, isPointer } from '../lib/gsap';
+import { gsap } from '../lib/gsap';
+gsap.from('#enquire > div > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.8, scrollTrigger: { trigger: '#enquire', start: 'top 70%' } });
 
-gsap.set(sel('enquire-title'),   { y: 60, opacity: 0 });
-gsap.set(sel('enquire-eyebrow'), { y: 16, opacity: 0 });
-gsap.set(sel('enquire-social'),  { y: 16, opacity: 0 });
-gsap.set(sel('enquire-contact'), { y: 20, opacity: 0 });
-gsap.set(sel('enquire-right'),   { y: 24, opacity: 0 });
-gsap.set(sel('enquire-rule'),    { scaleX: 0, transformOrigin: 'left center' });
-gsap.set(sel('form-group'),      { y: 20, opacity: 0 });
-gsap.set(sel('form-submit'),     { y: 30, opacity: 0 });
-
-ScrollTrigger.create({
-  trigger: '#enquire', start: 'top 65%', once: true,
-  onEnter: () => gsap.timeline({ defaults: { ease: 'power3.out' } })
-    .to(sel('enquire-title'),   { y: 0, opacity: 1, duration: 1.1 })
-    .to(sel('enquire-rule'),    { scaleX: 1, duration: 0.6, ease: 'power2.out' }, '-=0.5')
-    .to(sel('enquire-eyebrow'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.3')
-    .to(sel('enquire-contact'), { y: 0, opacity: 1, duration: 0.7 }, '-=0.4')
-    .to(sel('enquire-right'),   { y: 0, opacity: 1, duration: 0.8 }, '-=0.5')
-    .to(sel('enquire-social'),  { y: 0, opacity: 1, duration: 0.6 }, '-=0.4')
-    .to(sel('form-group'),      { y: 0, opacity: 1, stagger: 0.1, duration: 0.55 }, '-=0.3')
-    .to(sel('form-submit'),     { y: 0, opacity: 1, duration: 0.45 }, '-=0.2'),
-});
-
-document.querySelectorAll<HTMLElement>('.form-input').forEach(input => {
-  input.addEventListener('focus', () => gsap.to(input, { borderColor: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' }));
-  input.addEventListener('blur',  () => gsap.to(input, { borderColor: 'var(--border-light)',     duration: 0.3,  ease: 'power2.out' }));
-});
-
-if (isPointer) {
-  const submitBtn = document.querySelector<HTMLElement>(sel('form-submit'));
-  if (submitBtn) {
-    const arrow = submitBtn.querySelector<HTMLElement>('svg');
-    submitBtn.addEventListener('mouseenter', () => { gsap.to(submitBtn, { backgroundColor: 'var(--color-terracotta)', borderColor: 'var(--color-terracotta)', letterSpacing: '0.2em', duration: 0.3, ease: 'power2.out' }); if (arrow) gsap.to(arrow, { x: 5, duration: 0.25, ease: 'power2.out' }); });
-    submitBtn.addEventListener('mouseleave', () => { gsap.to(submitBtn, { backgroundColor: 'transparent', borderColor: 'var(--border-light)', letterSpacing: '0.14em', duration: 0.3, ease: 'power2.out' }); if (arrow) gsap.to(arrow, { x: 0, duration: 0.3, ease: 'elastic.out(1,0.5)' }); });
-  }
-  document.querySelectorAll<HTMLElement>(sel('enquire-link')).forEach(link => {
-    link.addEventListener('mouseenter', () => gsap.to(link, { x: 6, color: 'var(--color-terracotta)', duration: 0.2, ease: 'power2.out' }));
-    link.addEventListener('mouseleave', () => gsap.to(link, { x: 0, color: 'var(--color-cream)',      duration: 0.3, ease: 'elastic.out(1,0.5)' }));
-  });
-}
-
-const form = document.querySelector<HTMLFormElement>('.enquire-form');
+const form = document.querySelector('form');
 form?.addEventListener('submit', e => {
   e.preventDefault();
-  gsap.to(form, { opacity: 0, y: -16, duration: 0.45, ease: 'power2.in',
-    onComplete() { form.innerHTML = '<p class="form-success">Thank you. We\'ll be in touch.</p>'; gsap.fromTo(form, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }); },
-  });
+  form.innerHTML = '<p class="text-cream text-xl font-serif italic">Thank you. We\'ll be in touch.</p>';
 });
-
-gsap.fromTo('footer', { opacity: 0 }, { opacity: 1, duration: 0.6, scrollTrigger: { trigger: 'footer', start: 'top 100%', once: true } });
 </script>
 
-<section id="enquire" data-nav-theme="dark" class="bg-charcoal py-20 md:py-[clamp(5rem,10vw,9rem)] section-px">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-[8vw] max-w-[1100px] mx-auto items-start">
-
-    <!-- Left: contact info -->
-    <div class="flex flex-col gap-8">
-      <p data-anim="enquire-eyebrow" class="label-xs text-driftwood">Private Estate · Santorini</p>
-      <h2 data-anim="enquire-title" class="font-serif italic font-light text-cream leading-[0.9]" style="font-size:var(--text-enquire)">
-        Stay.
-      </h2>
-      <div data-anim="enquire-rule" class="w-12 h-px bg-terracotta scale-origin-left"></div>
-
-      <address data-anim="enquire-contact" class="flex flex-col gap-2 not-italic">
-        <a href="mailto:info@casaserena.com" data-anim="enquire-link"
-           class="font-serif italic text-[1.05rem] text-cream hover:text-terracotta transition-colors duration-300 break-all">
-          info@casaserena.com
-        </a>
-        <a href="tel:+30-22860-00000" data-anim="enquire-link"
-           class="font-serif italic text-[1.05rem] text-cream hover:text-terracotta transition-colors duration-300">
-          +30 22860 00000
-        </a>
+<section id="enquire" data-nav-theme="dark" class="bg-charcoal py-20 section-px">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
+    <div>
+      <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
+      <h2 class="font-serif italic font-light text-cream text-7xl md:text-9xl mb-8">Stay.</h2>
+      <address class="not-italic space-y-2 mb-8">
+        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition">info@casaserena.com</a>
+        <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition">+30 22860 00000</a>
       </address>
-
-      <nav data-anim="enquire-social" aria-label="Social links" class="flex flex-wrap items-center gap-3 font-sans text-[0.75rem] tracking-[0.08em] text-driftwood">
-        {socials.map((s, i, arr) => (
-          <>
-            <a href={s.href} target="_blank" rel="noopener noreferrer"
-               class="hover:text-cream transition-colors duration-300">{s.label}</a>
-            {i < arr.length - 1 && <span aria-hidden="true">·</span>}
-          </>
-        ))}
+      <nav class="flex gap-3 text-xs text-driftwood">
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-cream transition">Instagram</a>
+        <span>·</span>
+        <a href="https://casa-serena.vercel.app" target="_blank" rel="noopener" class="hover:text-cream transition">Casa Serena</a>
+        <span>·</span>
+        <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-cream transition">Facebook</a>
       </nav>
     </div>
 
-    <!-- Right: enquiry form -->
-    <div data-anim="enquire-right" class="pt-0 md:pt-4">
-      <form class="enquire-form flex flex-col gap-6" novalidate aria-label="Enquiry form">
-        {fields.map(f => (
-          <div data-anim="form-group" class="flex flex-col gap-2">
-            <label for={f.id} class="label-xs text-driftwood">{f.label}</label>
-            <input
-              id={f.id} type={f.type} name={f.name}
-              autocomplete={f.autocomplete}
-              required aria-required="true"
-              class="form-input"
-            />
-          </div>
-        ))}
-
-        <div data-anim="form-group" class="flex flex-col gap-2">
-          <label for="enquire-message" class="label-xs text-driftwood">
-            Message <span class="opacity-60 italic normal-case tracking-normal">(optional)</span>
-          </label>
-          <textarea id="enquire-message" name="message" rows={4} class="form-input resize-none leading-[1.6]"></textarea>
-        </div>
-
-        <button type="submit" data-anim="form-submit" class="btn-ghost">
-          <span>Send Enquiry</span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
-               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="2" y1="8" x2="14" y2="8" /><path d="M9 3l5 5-5 5" />
-          </svg>
-        </button>
-      </form>
-    </div>
+    <form class="space-y-6">
+      <div>
+        <label for="name" class="label-xs text-driftwood block mb-2">Name</label>
+        <input id="name" name="name" required class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition" />
+      </div>
+      <div>
+        <label for="email" class="label-xs text-driftwood block mb-2">Email</label>
+        <input id="email" type="email" name="email" required class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition" />
+      </div>
+      <div>
+        <label for="message" class="label-xs text-driftwood block mb-2">Message <span class="opacity-60 italic">(optional)</span></label>
+        <textarea id="message" name="message" rows="4" class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition resize-none"></textarea>
+      </div>
+      <button type="submit" class="btn-ghost hover:bg-terracotta hover:border-terracotta transition">Send Enquiry</button>
+    </form>
   </div>
 </section>
 
-<footer class="site-footer">
-  <span class="font-serif text-[0.8rem] tracking-[0.2em] text-cream">CASA SERENA</span>
-  <span class="font-sans text-[0.68rem] text-driftwood">© {year} · Santorini, Greece</span>
+<footer class="bg-charcoal border-t border-cream/10 py-6 section-px flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+  <span class="font-serif text-sm tracking-widest text-cream">CASA SERENA</span>
+  <span class="text-xs text-driftwood">© {new Date().getFullYear()} · Santorini, Greece</span>
 </footer>
 

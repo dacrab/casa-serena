@@ -1,57 +1,34 @@
 ---
 import { Image } from 'astro:assets';
-const stats = [
-  { value: 280, label: 'Days of sun'    },
-  { value: 12,  label: 'Min to Fira'   },
-  { value: 45,  label: 'Feet above sea' },
-] as const;
 ---
 <script>
-import { gsap, ScrollTrigger, sel, isMobile } from '../lib/gsap';
-
-gsap.set([sel('quote-text'), sel('quote-attribution')], { y: 40, opacity: 0 });
-gsap.set(sel('quote-stat'),       { y: 30, opacity: 0 });
-gsap.set(sel('quote-stat-sep'),   { scaleX: 0, transformOrigin: 'left center' });
-gsap.set(sel('quote-stat-label'), { y: 8,  opacity: 0 });
-
-if (!isMobile) {
-  gsap.fromTo(sel('quote-bg-img'), { scale: 1.08 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'center center', scrub: 1.5 } });
-  gsap.to(sel('quote-bg-img'), { yPercent: 12, ease: 'none', scrollTrigger: { trigger: sel('quote-bg-img'), start: 'top bottom', end: 'bottom top', scrub: true } });
-}
-
-gsap.to([sel('quote-text'), sel('quote-attribution')], { y: 0, opacity: 1, stagger: 0.18, duration: 1.0, scrollTrigger: { trigger: sel('quote-text'), start: 'top 72%', toggleActions: 'play none none none' } });
-
-const st = { trigger: sel('quote-stat'), start: 'top 78%', toggleActions: 'play none none none' as const };
-gsap.to(sel('quote-stat'),       { y: 0, opacity: 1, stagger: 0.14, duration: 0.85, scrollTrigger: st });
-gsap.to(sel('quote-stat-sep'),   { scaleX: 1, stagger: 0.18, duration: 0.55, ease: 'power2.out', transformOrigin: 'left center', scrollTrigger: st });
-gsap.to(sel('quote-stat-label'), { y: 0, opacity: 1, stagger: 0.14, duration: 0.5, scrollTrigger: st });
-
-document.querySelectorAll<HTMLElement>(sel('quote-stat-number')).forEach(el => {
-  const target = parseFloat(el.textContent ?? '0');
-  const obj = { val: 0 };
-  ScrollTrigger.create({ trigger: el, start: 'top 82%', once: true,
-    onEnter: () => gsap.to(obj, { val: target, duration: 2.0, ease: 'power2.out', onUpdate: () => { el.textContent = String(Math.round(obj.val)); } }),
-  });
-});
+import { gsap } from '../lib/gsap';
+gsap.from('#quote blockquote, #quote p', { opacity: 0, y: 30, stagger: 0.15, duration: 0.8, scrollTrigger: { trigger: '#quote', start: 'top 75%' } });
+gsap.from('.quote-stat', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, scrollTrigger: { trigger: '.quote-stat', start: 'top 80%' } });
 </script>
 
-<section data-nav-theme="dark" class="relative overflow-hidden grid grid-cols-1 md:grid-cols-[60%_40%] min-h-svh md:h-[80vh] md:min-h-0">
-  <div class="absolute inset-0 z-0">
-    <Image src="/images/quote.jpg" alt="Casa Serena pool at sunset" width={800} height={600} format="webp" quality={85} loading="lazy" data-anim="quote-bg-img" class="w-full h-full object-cover" />
+<section id="quote" data-nav-theme="dark" class="relative min-h-[80vh] grid md:grid-cols-2">
+  <Image src="/images/quote.jpg" alt="Casa Serena pool at sunset" width={800} height={600} format="webp" quality={85} loading="lazy" class="absolute inset-0 w-full h-full object-cover -z-10" />
+  <div class="absolute inset-0 bg-charcoal/50 -z-10"></div>
+  
+  <div class="section-px py-20 flex flex-col justify-center text-cream">
+    <blockquote class="font-serif italic font-light text-4xl md:text-5xl leading-tight mb-4">"The Aegean has a way of resetting everything."</blockquote>
+    <p class="label-xs text-cream/70">— Private Guest, 2023</p>
   </div>
-  <div class="absolute inset-0" style="background:var(--overlay-scrim);z-index:1" aria-hidden="true"></div>
-  <div class="relative section-px pt-20 pb-8 md:py-0 flex flex-col justify-center text-cream" style="z-index:2">
-    <blockquote data-anim="quote-text" class="font-serif italic font-light leading-[1.3] mb-6" style="font-size:var(--text-quote)">"The Aegean has a way of resetting everything."</blockquote>
-    <p data-anim="quote-attribution" class="font-sans text-[0.8rem] tracking-[0.1em] text-cream-muted">— Private Guest, 2023</p>
-  </div>
-  <div class="relative section-px pb-12 md:py-0 flex flex-col justify-center gap-8 text-cream" style="z-index:2">
-    {stats.map(s => (
-      <div data-anim="quote-stat" class="flex md:flex-col items-center md:items-start gap-4 md:gap-2">
-        <span data-anim="quote-stat-number" class="font-serif text-[2.4rem] font-light leading-none tabular-nums">{s.value}</span>
-        <div  data-anim="quote-stat-sep"    class="w-px h-8 md:w-10 md:h-px bg-terracotta" aria-hidden="true"></div>
-        <span data-anim="quote-stat-label"  class="font-sans text-[0.7rem] tracking-[0.1em] uppercase text-cream-muted">{s.label}</span>
-      </div>
-    ))}
+  
+  <div class="section-px pb-12 md:py-20 flex flex-col justify-center gap-8 text-cream">
+    <div class="quote-stat">
+      <div class="font-serif text-5xl font-light">280</div>
+      <div class="label-xs text-cream/70 mt-2">Days of sun</div>
+    </div>
+    <div class="quote-stat">
+      <div class="font-serif text-5xl font-light">12</div>
+      <div class="label-xs text-cream/70 mt-2">Min to Fira</div>
+    </div>
+    <div class="quote-stat">
+      <div class="font-serif text-5xl font-light">45</div>
+      <div class="label-xs text-cream/70 mt-2">Feet above sea</div>
+    </div>
   </div>
 </section>
 

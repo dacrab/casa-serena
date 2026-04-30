@@ -1,68 +1,47 @@
 # Casa Serena
 
-> **Casa Serena** — Spanish/Italian for *"Serene House"* or *"Peaceful Home"*. A name that captures the stillness of waking up to the sea, where luxury and calm exist in perfect balance.
+> *Serene House* — A luxury beachfront estate website showcasing minimalist design and elegant animations.
 
-Luxury beachfront estate website. Built with [Astro](https://astro.build), styled with [Tailwind CSS v4](https://tailwindcss.com), animated with [GSAP](https://gsap.com).
+A single-page portfolio site for a fictional Santorini estate. Built with Astro, styled with Tailwind CSS, animated with GSAP.
+
+## Features
+
+- Video hero with marquee strip
+- Responsive sections: About, Gallery, Amenities, Location, Contact
+- Smooth scroll animations
+- Mobile-friendly navigation
+- Optimized images (WebP)
+- Static site generation
+
+## Quick Start
+
+```sh
+bun install
+bun dev          # http://localhost:4321
+bun build        # outputs to ./dist/
+```
 
 ## Stack
 
-- **Framework** — Astro 6 (static output)
-- **Styling** — Tailwind CSS v4 (CSS-first config via `@theme` in `src/styles/global.css`)
-- **Animations** — GSAP + ScrollTrigger
-- **Fonts** — Cormorant Garamond, DM Sans (Google Fonts)
-- **Images** — Astro Image (optimized WebP via Unsplash)
-- **SEO** — Open Graph, Twitter Card, JSON-LD structured data, sitemap
+- **Astro 6** — Static site generator
+- **Tailwind CSS v4** — Utility-first styling
+- **GSAP** — Scroll animations
+- **Vercel Analytics** — Visitor tracking
 
 ## Structure
 
 ```
 src/
-├── components/
-│   ├── Nav.astro          # Fixed navbar + mobile overlay
-│   ├── Hero.astro         # Hero, marquee strip, intro section
-│   ├── About.astro        # About section + stat counters
-│   ├── Gallery.astro      # Horizontal scroll gallery + lightbox
-│   ├── Amenities.astro    # Amenity list (data-driven)
-│   ├── Quote.astro        # Pull quote + animated stat counters
-│   ├── Location.astro     # Location map context + distances
-│   ├── Enquire.astro      # Contact form + footer
-│   └── PageScripts.astro  # All GSAP / ScrollTrigger logic
-├── styles/
-│   └── global.css         # Tailwind v4 @theme tokens + base styles
-├── layouts/
-│   └── Layout.astro       # HTML shell, SEO meta
-└── pages/
-    ├── index.astro        # Page orchestrator (~50 lines)
-    └── 404.astro
-public/
-├── favicon.svg            # Brand CS monogram (SVG, preferred)
-└── favicon.ico            # Brand CS monogram (ICO, fallback)
+├── components/     # Nav, Hero, About, Gallery, etc.
+├── layouts/        # HTML shell
+├── pages/          # index.astro
+└── styles/         # global.css (Tailwind config)
 ```
-
-## Commands
-
-| Command           | Action                                |
-| :---------------- | :------------------------------------ |
-| `bun install`     | Install dependencies                  |
-| `bun dev`         | Start dev server at `localhost:4321`  |
-| `bun build`       | Build production site to `./dist/`   |
-| `bun preview`     | Preview production build locally      |
-| `bun astro check` | Type-check all `.astro` files         |
-
-## Development
-
-```sh
-bun install
-bun dev
-```
-
-The dev server supports HMR. GSAP animations are disabled for users with `prefers-reduced-motion`.
 
 ## Deployment
 
-The site builds to a static `dist/` directory — deploy to any static host (Netlify, Vercel, Cloudflare Pages, etc).
+Deploy the `dist/` folder to any static host (Vercel, Netlify, Cloudflare Pages).
 
-```sh
-bun build
-# upload dist/ to your host
-```
+---
+
+**License**: MIT

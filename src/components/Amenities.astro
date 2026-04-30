@@ -1,58 +1,30 @@
 ---
 const amenities = [
-  { name: 'Infinity Pool',        desc: 'Saltwater heated year-round' },
-  { name: 'Private Beach Access', desc: 'Direct pathway to sand' },
-  { name: "Chef's Kitchen",       desc: 'Gaggenau appliances, island seating' },
-  { name: 'Spa & Steam Suite',    desc: 'Marble sauna and treatment rooms' },
-  { name: 'Wine Cellar',          desc: '2,000 bottle capacity, climate controlled' },
-  { name: 'Media Room',           desc: 'Dolby Atmos, projection system' },
-  { name: 'Tennis Court',         desc: 'Professional grade, night lighting' },
-  { name: 'Guest House',          desc: 'Independent 2-bedroom residence' },
-] as const;
-const pad = (n: number) => String(n).padStart(2, '0');
+  'Infinity Pool · Saltwater heated year-round',
+  'Private Beach Access · Direct pathway to sand',
+  "Chef's Kitchen · Gaggenau appliances, island seating",
+  'Spa & Steam Suite · Marble sauna and treatment rooms',
+  'Wine Cellar · 2,000 bottle capacity, climate controlled',
+  'Media Room · Dolby Atmos, projection system',
+  'Tennis Court · Professional grade, night lighting',
+  'Guest House · Independent 2-bedroom residence',
+];
 ---
 <script>
-import { gsap, sel, isPointer, isMobile } from '../lib/gsap';
-
-gsap.set(sel('amenities-number'), { y: 30,  opacity: 0 });
-gsap.set(sel('amenity-row'),      { x: -28, opacity: 0 });
-
-gsap.to(sel('amenities-number'), { opacity: 1, y: 0, duration: 1.0, scrollTrigger: { trigger: sel('amenities-number'), start: 'top 80%', toggleActions: 'play none none none' } });
-if (!isMobile) {
-  gsap.to(sel('amenities-number'), { y: -50, ease: 'none', scrollTrigger: { trigger: sel('amenities-number'), start: 'top bottom', end: 'bottom top', scrub: 1.5 } });
-}
-gsap.to(sel('amenity-row'), { x: 0, opacity: 1, stagger: 0.08, duration: 0.75, scrollTrigger: { trigger: sel('amenity-row'), start: 'top 78%', toggleActions: 'play none none none' } });
-
-if (isPointer) {
-  document.querySelectorAll<HTMLElement>(sel('amenity-row')).forEach(row => {
-    const name    = row.querySelector<HTMLElement>(sel('amenity-name'));
-    const counter = row.querySelector<HTMLElement>(sel('amenity-counter'));
-    row.addEventListener('mouseenter', () => {
-      if (name)    gsap.to(name,    { x: 8, color: 'var(--color-terracotta)', duration: 0.25, ease: 'power2.out' });
-      if (counter) gsap.to(counter, { scale: 1.3, duration: 0.25, ease: 'back.out(2)' });
-    });
-    row.addEventListener('mouseleave', () => {
-      if (name)    gsap.to(name,    { x: 0, color: 'var(--color-charcoal)', duration: 0.3 });
-      if (counter) gsap.to(counter, { scale: 1, duration: 0.3 });
-    });
-  });
-}
+import { gsap } from '../lib/gsap';
+gsap.from('.amenity', { opacity: 0, x: -20, stagger: 0.08, duration: 0.6, scrollTrigger: { trigger: '.amenity', start: 'top 80%' } });
 </script>
 
-<section data-nav-theme="light" class="bg-cream py-[8vh] section-px grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-8 md:gap-[6vw] items-start">
-  <div class="flex items-start" aria-hidden="true">
-    <div data-anim="amenities-number" class="font-serif font-light text-sand leading-none select-none" style="font-size:var(--text-counter)">{pad(amenities.length)}</div>
+<section data-nav-theme="light" class="bg-cream py-[8vh] section-px">
+  <div class="max-w-4xl mx-auto">
+    <ul class="space-y-6">
+      {amenities.map((a, i) => (
+        <li class="amenity py-4 border-t border-driftwood/20 font-serif text-lg text-charcoal">
+          <span class="text-terracotta mr-3">{String(i + 1).padStart(2, '0')}</span>
+          {a}
+        </li>
+      ))}
+    </ul>
   </div>
-  <ul class="flex flex-col list-none m-0 p-0">
-    {amenities.map((a, i) => (
-      <li data-anim="amenity-row" class="py-5 md:py-6 grid grid-cols-[1fr_auto] gap-8 items-center cursor-default row-divider">
-        <div class="flex flex-col gap-1">
-          <span data-anim="amenity-name" class="font-serif text-[1.1rem] md:text-[1.3rem] text-charcoal">{a.name}</span>
-          <span class="font-sans text-[0.8rem] italic text-driftwood">{a.desc}</span>
-        </div>
-        <span data-anim="amenity-counter" class="label-xs text-terracotta" aria-hidden="true">{pad(i + 1)}</span>
-      </li>
-    ))}
-  </ul>
 </section>
 
