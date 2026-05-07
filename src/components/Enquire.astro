@@ -16,7 +16,7 @@ function today() { const d = new Date(); d.setHours(0,0,0,0); return d; }
 function ymd(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function fromYmd(s: string) { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); }
+function fromYmd(s: string) { const [y,m,d] = s.split('-').map(Number) as [number,number,number]; return new Date(y,m-1,d); }
 function setVal(id: 'arrival'|'departure', key: string|null) {
   const el = document.getElementById(`val-${id}`)!;
   el.textContent = key ? fmtDay.format(fromYmd(key)) : 'Select date';

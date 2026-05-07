@@ -20,10 +20,10 @@ tl.from('.gallery-hero', { opacity: 0, scale: 1.04, duration: 1, ease: 'power2.o
   <p class="label-xs text-cream/40 mb-8">The Property</p>
   <div class="grid md:grid-cols-3 gap-4">
     <div class="gallery-hero md:col-span-2 aspect-[16/9] overflow-hidden">
-      <Image src={images[0].src} alt={images[0].alt} width={images[0].w} height={images[0].h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+      <Image src={images[0]!.src} alt={images[0]!.alt} width={images[0]!.w} height={images[0]!.h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
     <div class="gallery-cell aspect-[3/4] overflow-hidden">
-      <Image src={images[1].src} alt={images[1].alt} width={images[1].w} height={images[1].h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+      <Image src={images[1]!.src} alt={images[1]!.alt} width={images[1]!.w} height={images[1]!.h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
     {images.slice(2).map((img) => (
       <div class="gallery-cell aspect-[4/3] overflow-hidden">
