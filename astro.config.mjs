@@ -5,7 +5,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://casa-serena.vercel.app',
-  output: 'static',
   integrations: [sitemap()],
   devToolbar: { enabled: false },
   vite: {

@@ -8,9 +8,9 @@ tl.from('#enquire .enquire-info > *', { opacity: 0, y: 20, stagger: 0.1, duratio
   .from('#enquire .enquire-form > *', { opacity: 0, y: 16, stagger: 0.09, duration: 0.55, immediateRender: false }, '-=0.4');
 
 // ── helpers ──────────────────────────────────────────────────────────────────
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const FULL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+const fmtMonth = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' });
+const fmtDay   = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' });
 
 function today() {
   const d = new Date(); d.setHours(0,0,0,0); return d;
@@ -22,8 +22,10 @@ function fromYmd(s: string) {
   const [y,m,d] = s.split('-').map(Number);
   return new Date(y, m-1, d);
 }
-function display(d: Date) {
-  return `${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+function setVal(id: 'arrival'|'departure', key: string|null) {
+  const el = document.getElementById(`val-${id}`)!;
+  el.textContent = key ? fmtDay.format(fromYmd(key)) : 'Select date';
+  el.className   = key ? 'text-sm text-cream' : 'text-sm text-cream/40';
 }
 
 // ── state ────────────────────────────────────────────────────────────────────
@@ -51,7 +53,7 @@ const depInput  = document.getElementById('departure')  as HTMLInputElement;
 
 // ── render ───────────────────────────────────────────────────────────────────
 function render() {
-  calTitle.textContent = `${FULL_MONTHS[viewMonth]} ${viewYear}`;
+  calTitle.textContent = fmtMonth.format(new Date(viewYear, viewMonth));
 
   const t       = today();
   const firstDow = new Date(viewYear, viewMonth, 1).getDay();
@@ -92,10 +94,8 @@ function render() {
   });
 
   // update trigger buttons
-  document.getElementById('val-arrival')!.textContent  = selected.arrival   ? display(fromYmd(selected.arrival))   : 'Select date';
-  document.getElementById('val-departure')!.textContent = selected.departure ? display(fromYmd(selected.departure)) : 'Select date';
-  document.getElementById('val-arrival')!.className  = selected.arrival   ? 'text-sm text-cream' : 'text-sm text-cream/40';
-  document.getElementById('val-departure')!.className = selected.departure ? 'text-sm text-cream' : 'text-sm text-cream/40';
+  setVal('arrival',   selected.arrival);
+  setVal('departure', selected.departure);
 
   // active mode highlight
   arrLabel.className = `label-xs block mb-0.5 ${activeMode==='arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
@@ -176,10 +176,10 @@ form.addEventListener('submit', e => {
         <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition">info@casaserena.com</a>
         <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition">+30 22860 00000</a>
       </address>
-      <nav class="flex gap-4 label-xs text-driftwood">
+      <div class="flex gap-4 label-xs text-driftwood">
         <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-cream transition">Instagram</a>
         <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-cream transition">Facebook</a>
-      </nav>
+      </div>
     </div>
 
     <form class="enquire-form space-y-6" style="overflow: visible;">

@@ -19,20 +19,16 @@ tl.from('.gallery-hero', { opacity: 0, scale: 1.04, duration: 1, ease: 'power2.o
 <section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-[8vh] section-px">
   <p class="label-xs text-cream/40 mb-8">The Property</p>
   <div class="grid md:grid-cols-3 gap-4">
-    {/* Image 1 — hero span */}
     <div class="gallery-hero md:col-span-2 aspect-[16/9] overflow-hidden">
-      <Image src={images[0].src} alt={images[0].alt} width={images[0].w} height={images[0].h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+      <Image src={images[0].src} alt={images[0].alt} width={images[0].w} height={images[0].h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
-    {/* Image 2 — portrait */}
     <div class="gallery-cell aspect-[3/4] overflow-hidden">
-      <Image src={images[1].src} alt={images[1].alt} width={images[1].w} height={images[1].h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+      <Image src={images[1].src} alt={images[1].alt} width={images[1].w} height={images[1].h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
-    {/* Images 3–6 — equal row */}
     {images.slice(2).map((img) => (
       <div class="gallery-cell aspect-[4/3] overflow-hidden">
-        <Image src={img.src} alt={img.alt} width={img.w} height={img.h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+        <Image src={img.src} alt={img.alt} width={img.w} height={img.h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
       </div>
     ))}
   </div>
 </section>
-

@@ -29,18 +29,18 @@ toggle?.addEventListener('click', () => {
 overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
 document.querySelectorAll('[data-nav-theme]').forEach(s => {
+  const isLight = () => (s as HTMLElement).dataset.navTheme === 'light';
   ScrollTrigger.create({
     trigger: s as HTMLElement,
     start: 'top 60px',
     end: 'bottom 60px',
-    onEnter: () => nav?.classList.toggle('nav-light', (s as HTMLElement).dataset.navTheme === 'light'),
-    onEnterBack: () => nav?.classList.toggle('nav-light', (s as HTMLElement).dataset.navTheme === 'light'),
+    onEnter:     () => nav?.classList.toggle('nav-light', isLight()),
+    onEnterBack: () => nav?.classList.toggle('nav-light', isLight()),
   });
 });
 </script>
 
-<header class="fixed top-0 left-0 right-0 z-50">
-  <nav class="flex justify-between items-center section-px py-5 transition-colors">
+<nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center section-px py-5 transition-colors">
     <a href="#hero" class="nav-logo font-serif text-sm tracking-widest text-cream">CASA SERENA</a>
     <div class="hidden md:flex gap-8">
       <a href="#about" class="nav-link label-xs text-cream/80 hover:text-terracotta transition">About</a>
@@ -52,8 +52,7 @@ document.querySelectorAll('[data-nav-theme]').forEach(s => {
       <span class="w-6 h-0.5 bg-cream transition"></span>
       <span class="w-6 h-0.5 bg-cream transition"></span>
     </button>
-  </nav>
-</header>
+</nav>
 
 <div data-nav="overlay" style="display:none" class="fixed inset-0 z-40 bg-charcoal items-center justify-center">
   <ul class="space-y-4 text-center">

@@ -1,36 +1,30 @@
 ---
 const amenities = [
-  'Infinity Pool · Saltwater heated year-round',
-  'Private Beach Access · Direct pathway to sand',
-  "Chef's Kitchen · Gaggenau appliances, island seating",
-  'Spa & Steam Suite · Marble sauna and treatment rooms',
-  'Wine Cellar · 2,000 bottle capacity, climate controlled',
-  'Media Room · Dolby Atmos, projection system',
-  'Tennis Court · Professional grade, night lighting',
-  'Guest House · Independent 2-bedroom residence',
+  { n: '01', text: 'Infinity Pool · Saltwater heated year-round' },
+  { n: '02', text: 'Private Beach Access · Direct pathway to sand' },
+  { n: '03', text: "Chef's Kitchen · Gaggenau appliances, island seating" },
+  { n: '04', text: 'Spa & Steam Suite · Marble sauna and treatment rooms' },
+  { n: '05', text: 'Wine Cellar · 2,000 bottle capacity, climate controlled' },
+  { n: '06', text: 'Media Room · Dolby Atmos, projection system' },
+  { n: '07', text: 'Tennis Court · Professional grade, night lighting' },
+  { n: '08', text: 'Guest House · Independent 2-bedroom residence' },
 ];
 ---
 <script>
-import { gsap, ScrollTrigger } from '../lib/gsap';
-// Each row animates when it enters — no batch firing
+import { gsap } from '../lib/gsap';
 document.querySelectorAll('.amenity').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, x: -24, duration: 0.55,
-    scrollTrigger: { trigger: el, start: 'top 88%' }
-  });
+  gsap.from(el, { opacity: 0, x: -24, duration: 0.55, scrollTrigger: { trigger: el, start: 'top 88%' } });
 });
 </script>
 
 <section data-nav-theme="light" class="bg-cream py-[8vh] section-px">
   <div class="max-w-4xl mx-auto">
     <ul>
-      {amenities.map((a, i) => (
+      {amenities.map(({ n, text }) => (
         <li class="amenity py-4 border-t border-driftwood/20 font-serif text-lg text-charcoal">
-          <span class="text-terracotta mr-3">{String(i + 1).padStart(2, '0')}</span>
-          {a}
+          <span class="text-terracotta mr-3">{n}</span>{text}
         </li>
       ))}
     </ul>
   </div>
 </section>
-

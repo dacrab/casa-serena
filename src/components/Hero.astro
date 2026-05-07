@@ -9,8 +9,6 @@ tl.from('#hero .label-top',  { opacity: 0, y: 12, duration: 0.6 })
   .from('#hero h1',          { opacity: 0, y: 40, duration: 1, ease: 'power4.out' }, '-=0.2')
   .from('#hero .label-bot',  { opacity: 0, y: 12, duration: 0.6 }, '-=0.4')
   .to('.marquee', { x: '-50%', duration: 22, ease: 'none', repeat: -1 }, '-=0.2');
-
-document.querySelector('video')?.play().catch(() => {});
 </script>
 
 <section id="hero" data-nav-theme="dark" class="relative min-h-svh flex items-end">
