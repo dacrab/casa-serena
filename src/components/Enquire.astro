@@ -4,132 +4,98 @@
 import { gsap } from '../lib/gsap';
 
 const tl = gsap.timeline({ scrollTrigger: { trigger: '#enquire', start: 'top 80%' } });
-tl.from('#enquire .enquire-info > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.7, immediateRender: false })
-  .from('#enquire .enquire-form > *', { opacity: 0, y: 16, stagger: 0.09, duration: 0.55, immediateRender: false }, '-=0.4');
+tl.from('#enquire .enquire-info > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.7 })
+  .from('#enquire .enquire-form > div', { opacity: 0, y: 16, stagger: 0.09, duration: 0.55 }, '-=0.4');
 
-// ── helpers ──────────────────────────────────────────────────────────────────
 const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 const fmtMonth = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' });
 const fmtDay   = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' });
 
-function today() {
-  const d = new Date(); d.setHours(0,0,0,0); return d;
-}
+function today() { const d = new Date(); d.setHours(0,0,0,0); return d; }
+// ISO string keys (YYYY-MM-DD) for all date comparisons — avoids timezone/midnight bugs
 function ymd(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function fromYmd(s: string) {
-  const [y,m,d] = s.split('-').map(Number);
-  return new Date(y, m-1, d);
-}
+function fromYmd(s: string) { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); }
 function setVal(id: 'arrival'|'departure', key: string|null) {
   const el = document.getElementById(`val-${id}`)!;
   el.textContent = key ? fmtDay.format(fromYmd(key)) : 'Select date';
   el.className   = key ? 'text-sm text-cream' : 'text-sm text-cream/40';
 }
 
-// ── state ────────────────────────────────────────────────────────────────────
-type Mode = 'arrival' | 'departure' | null;
+type Mode = 'arrival'|'departure'|null;
 let selected: Record<'arrival'|'departure', string|null> = { arrival: null, departure: null };
-let viewYear  = today().getFullYear();
-let viewMonth = today().getMonth();
+let viewYear = today().getFullYear(), viewMonth = today().getMonth();
 let activeMode: Mode = null;
 
-// ── elements ─────────────────────────────────────────────────────────────────
-const calWrap   = document.getElementById('cal-wrap')!;
-// Portal to body so it escapes all stacking contexts
+const calWrap  = document.getElementById('cal-wrap')!;
+// Portal to body so the calendar escapes any stacking context from the form
 document.body.appendChild(calWrap);
-calWrap.style.position = 'absolute';
-calWrap.style.zIndex = '9999';
+calWrap.style.cssText = 'position:absolute;z-index:50;display:none';
 
-const calGrid   = document.getElementById('cal-grid')!;
-const calTitle  = document.getElementById('cal-title')!;
-const arrBtn    = document.getElementById('btn-arrival')!;
-const depBtn    = document.getElementById('btn-departure')!;
-const arrLabel  = document.getElementById('lbl-arrival')!;
-const depLabel  = document.getElementById('lbl-departure')!;
-const arrInput  = document.getElementById('arrival')   as HTMLInputElement;
-const depInput  = document.getElementById('departure')  as HTMLInputElement;
+const calGrid  = document.getElementById('cal-grid')!;
+const calTitle = document.getElementById('cal-title')!;
+const arrBtn   = document.getElementById('btn-arrival')!;
+const depBtn   = document.getElementById('btn-departure')!;
+const arrInput = document.getElementById('arrival')   as HTMLInputElement;
+const depInput = document.getElementById('departure')  as HTMLInputElement;
 
-// ── render ───────────────────────────────────────────────────────────────────
 function render() {
   calTitle.textContent = fmtMonth.format(new Date(viewYear, viewMonth));
-
-  const t       = today();
+  const t = today();
   const firstDow = new Date(viewYear, viewMonth, 1).getDay();
-  const daysInM  = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const daysInM  = new Date(viewYear, viewMonth+1, 0).getDate();
+  const arrDate  = selected.arrival   ? fromYmd(selected.arrival)   : null;
+  const depDate  = selected.departure ? fromYmd(selected.departure) : null;
 
-  const arrDate = selected.arrival   ? fromYmd(selected.arrival)   : null;
-  const depDate = selected.departure ? fromYmd(selected.departure) : null;
-
-  let html = '';
-  // day-of-week headers
-  DAYS.forEach(d => { html += `<div class="text-center label-xs text-driftwood/50 py-1">${d}</div>`; });
-  // empty cells
+  let html = DAYS.map(d => `<div class="text-center label-xs text-driftwood/50 py-1">${d}</div>`).join('');
   for (let i = 0; i < firstDow; i++) html += '<div></div>';
-  // day cells
   for (let n = 1; n <= daysInM; n++) {
     const cell = new Date(viewYear, viewMonth, n);
     const key  = ymd(cell);
-    const isPast    = cell < t;
-    const isArr     = arrDate && key === ymd(arrDate);
-    const isDep     = depDate && key === ymd(depDate);
-    const inRange   = arrDate && depDate && cell > arrDate && cell < depDate;
-
+    const isPast   = cell < t;
+    const isEndpt  = (arrDate && key===ymd(arrDate)) || (depDate && key===ymd(depDate));
+    const inRange  = arrDate && depDate && cell > arrDate && cell < depDate;
     let cls = 'text-center text-sm py-1.5 ';
-    if (isPast)          cls += 'text-cream/15 cursor-not-allowed';
-    else if (isArr||isDep) cls += 'bg-terracotta text-cream cursor-pointer font-medium';
-    else if (inRange)    cls += 'bg-terracotta/20 text-cream cursor-pointer';
-    else                 cls += 'text-cream/70 hover:text-terracotta cursor-pointer';
-
-    html += `<div class="${cls}" data-key="${isPast ? '' : key}">${n}</div>`;
+    if (isPast)       cls += 'text-cream/15 cursor-not-allowed';
+    else if (isEndpt) cls += 'bg-terracotta text-cream cursor-pointer font-medium';
+    else if (inRange) cls += 'bg-terracotta/20 text-cream cursor-pointer';
+    else              cls += 'text-cream/70 hover:text-terracotta cursor-pointer';
+    html += `<div class="${cls}" data-key="${isPast?'':key}">${n}</div>`;
   }
-
   calGrid.innerHTML = html;
-
-  // click handlers
   calGrid.querySelectorAll<HTMLElement>('[data-key]').forEach(el => {
     if (!el.dataset.key) return;
     el.addEventListener('click', () => selectDate(el.dataset.key!));
   });
-
-  // update trigger buttons
   setVal('arrival',   selected.arrival);
   setVal('departure', selected.departure);
-
-  // active mode highlight
-  arrLabel.className = `label-xs block mb-0.5 ${activeMode==='arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
-  depLabel.className = `label-xs block mb-0.5 ${activeMode==='departure' ? 'text-terracotta' : 'text-driftwood/60'}`;
+  const lA = document.getElementById('lbl-arrival')!;
+  const lD = document.getElementById('lbl-departure')!;
+  lA.className = `label-xs block mb-0.5 ${activeMode==='arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
+  lD.className = `label-xs block mb-0.5 ${activeMode==='departure' ? 'text-terracotta' : 'text-driftwood/60'}`;
 }
 
 function selectDate(key: string) {
   if (!activeMode) return;
   selected[activeMode] = key;
-  // if arrival set and >= departure, clear departure
-  if (selected.arrival && selected.departure && selected.arrival >= selected.departure) {
-    selected.departure = null;
-  }
-  arrInput.value = selected.arrival   ?? '';
+  if (selected.arrival && selected.departure && selected.arrival >= selected.departure) selected.departure = null;
+  arrInput.value = selected.arrival  ?? '';
   depInput.value = selected.departure ?? '';
-  // auto-advance to departure after picking arrival
-  if (activeMode === 'arrival' && !selected.departure) {
-    activeMode = 'departure';
-  } else {
-    closeCalendar();
-  }
-  render();
+  // Auto-advance to departure after arrival is picked
+  if (activeMode === 'arrival' && !selected.departure) { activeMode = 'departure'; render(); }
+  else closeCalendar();
 }
 
-// ── open / close ─────────────────────────────────────────────────────────────
 function openCalendar(mode: Mode) {
   activeMode = mode;
-  const existing = mode && selected[mode];
-  if (existing) { const d = fromYmd(existing); viewYear = d.getFullYear(); viewMonth = d.getMonth(); }
+  const ex = mode && selected[mode];
+  if (ex) { const d = fromYmd(ex); viewYear = d.getFullYear(); viewMonth = d.getMonth(); }
   else { viewYear = today().getFullYear(); viewMonth = today().getMonth(); }
-  const anchor = document.getElementById('date-section')!.getBoundingClientRect();
-  calWrap.style.top   = `${anchor.bottom + window.scrollY + 4}px`;
-  calWrap.style.left  = `${anchor.left}px`;
-  calWrap.style.width = `${anchor.width}px`;
+  const r = document.getElementById('date-section')!.getBoundingClientRect();
+  calWrap.style.top   = `${r.bottom + window.scrollY + 4}px`;
+  calWrap.style.left  = `${r.left}px`;
+  calWrap.style.width = `${r.width}px`;
   render();
   calWrap.style.display = 'block';
   gsap.fromTo(calWrap, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.18 });
@@ -140,29 +106,22 @@ function closeCalendar() {
   render();
 }
 
-arrBtn.addEventListener('click', e => { e.stopPropagation(); activeMode === 'arrival' ? closeCalendar() : openCalendar('arrival'); });
-depBtn.addEventListener('click', e => { e.stopPropagation(); activeMode === 'departure' ? closeCalendar() : openCalendar('departure'); });
+arrBtn.addEventListener('click', e => { e.stopPropagation(); activeMode==='arrival' ? closeCalendar() : openCalendar('arrival'); });
+depBtn.addEventListener('click', e => { e.stopPropagation(); activeMode==='departure' ? closeCalendar() : openCalendar('departure'); });
 document.addEventListener('click', e => {
   const t = e.target as Node;
   if (!document.getElementById('date-section')!.contains(t) && !calWrap.contains(t)) closeCalendar();
 });
-
 document.getElementById('cal-prev')!.addEventListener('click', e => {
-  e.stopPropagation();
-  viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
-  render();
+  e.stopPropagation(); viewMonth--; if (viewMonth<0){viewMonth=11;viewYear--;} render();
 });
 document.getElementById('cal-next')!.addEventListener('click', e => {
-  e.stopPropagation();
-  viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
-  render();
+  e.stopPropagation(); viewMonth++; if (viewMonth>11){viewMonth=0;viewYear++;} render();
 });
 
-// ── form ─────────────────────────────────────────────────────────────────────
-const form = document.querySelector('form')!;
-form.addEventListener('submit', e => {
+document.querySelector('form')!.addEventListener('submit', e => {
   e.preventDefault();
-  form.innerHTML = '<p class="text-cream text-xl font-serif italic">Thank you. We\'ll be in touch.</p>';
+  (e.target as HTMLFormElement).innerHTML = '<p class="text-cream text-xl font-serif italic">Thank you. We\'ll be in touch.</p>';
 });
 </script>
 
@@ -182,34 +141,30 @@ form.addEventListener('submit', e => {
       </div>
     </div>
 
-    <form class="enquire-form space-y-6" style="overflow: visible;">
+    <form class="enquire-form space-y-6">
 
-      <!-- Date picker -->
-      <div id="date-section" class="relative" style="isolation: isolate; z-index: 10;">
+      <div id="date-section" class="relative">
         <p class="label-xs text-driftwood mb-2">Dates</p>
         <div class="flex gap-px border-b border-cream/20">
-          <button id="btn-arrival" type="button" class="flex-1 text-left py-2 pr-4 group">
+          <button id="btn-arrival" type="button" class="flex-1 text-left py-2 pr-4 cursor-pointer">
             <span id="lbl-arrival" class="label-xs text-driftwood/60 block mb-0.5">Arrival</span>
             <span id="val-arrival" class="text-sm text-cream/40">Select date</span>
           </button>
           <div class="w-px bg-cream/10 self-stretch mx-2"></div>
-          <button id="btn-departure" type="button" class="flex-1 text-left py-2 pl-2 group">
+          <button id="btn-departure" type="button" class="flex-1 text-left py-2 pl-2 cursor-pointer">
             <span id="lbl-departure" class="label-xs text-driftwood/60 block mb-0.5">Departure</span>
             <span id="val-departure" class="text-sm text-cream/40">Select date</span>
           </button>
         </div>
         <input type="hidden" id="arrival"   name="arrival" />
         <input type="hidden" id="departure" name="departure" />
-
-        <!-- Calendar dropdown -->
-        <div id="cal-wrap" style="display:none"
-          class="bg-[#1e1a17] border border-cream/10 p-4 shadow-2xl">
+        <div id="cal-wrap" style="display:none" class="bg-[#1e1a17] border border-cream/10 p-4 shadow-2xl">
           <div class="flex justify-between items-center mb-3">
-            <button id="cal-prev" type="button" class="text-driftwood/60 hover:text-cream transition px-1">
+            <button id="cal-prev" type="button" class="text-driftwood/60 hover:text-cream transition px-1 cursor-pointer">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
             </button>
             <span id="cal-title" class="label-xs text-cream"></span>
-            <button id="cal-next" type="button" class="text-driftwood/60 hover:text-cream transition px-1">
+            <button id="cal-next" type="button" class="text-driftwood/60 hover:text-cream transition px-1 cursor-pointer">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
             </button>
           </div>
@@ -219,22 +174,24 @@ form.addEventListener('submit', e => {
 
       <div>
         <label for="name" class="label-xs text-driftwood block mb-2">Name</label>
-        <input id="name" name="name" required
-          class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition" />
+        <input id="name" name="name" required class="form-input" />
       </div>
       <div>
         <label for="email" class="label-xs text-driftwood block mb-2">Email</label>
-        <input id="email" type="email" name="email" required
-          class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition" />
+        <input id="email" type="email" name="email" required class="form-input" />
       </div>
       <div>
         <label for="message" class="label-xs text-driftwood block mb-2">Message <span class="opacity-60 italic">(optional)</span></label>
-        <textarea id="message" name="message" rows="3"
-          class="w-full bg-transparent border-b border-cream/20 text-cream py-2 focus:border-terracotta outline-none transition resize-none"></textarea>
+        <textarea id="message" name="message" rows="3" class="form-input resize-none"></textarea>
       </div>
-      <button type="submit" class="btn-ghost hover:bg-terracotta hover:border-terracotta transition">Send Enquiry</button>
-    </form>
 
+      <button
+        type="submit"
+        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs cursor-pointer
+               hover:bg-terracotta hover:border-terracotta hover:text-white transition-all duration-200"
+      >Send Enquiry</button>
+
+    </form>
   </div>
 </section>
 

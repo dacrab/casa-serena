@@ -15,6 +15,7 @@
   html {
     -webkit-font-smoothing: antialiased;
     scroll-padding-top: 64px;
+    scroll-behavior: smooth;
   }
   body {
     background: theme(colors.charcoal);
@@ -46,20 +47,18 @@
   }
 }
 
-.btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(245, 240, 232, 0.4);
-  color: #F5F0E8;
-  cursor: pointer;
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
+/* Shared style for all form text inputs */
+.form-input {
   width: 100%;
-  padding: 0.85rem 2rem;
+  background: transparent;
+  border-bottom: 1px solid rgba(245, 240, 232, 0.2);
+  color: #F5F0E8;
+  padding: 0.5rem 0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  border-color: theme(colors.terracotta);
 }
 
 nav.nav-light a {
