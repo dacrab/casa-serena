@@ -3,8 +3,12 @@
 <script>
 import { gsap } from '../lib/gsap';
 
-gsap.from('#hero h1, #hero p', { opacity: 0, y: 30, stagger: 0.15, duration: 1, delay: 0.3 });
-gsap.to('.marquee', { x: '-50%', duration: 20, ease: 'none', repeat: -1 });
+// Orchestrated entrance: label → h1 → subtitle, then marquee
+const tl = gsap.timeline({ delay: 0.2 });
+tl.from('#hero .label-top',  { opacity: 0, y: 12, duration: 0.6 })
+  .from('#hero h1',          { opacity: 0, y: 40, duration: 1, ease: 'power4.out' }, '-=0.2')
+  .from('#hero .label-bot',  { opacity: 0, y: 12, duration: 0.6 }, '-=0.4')
+  .to('.marquee', { x: '-50%', duration: 22, ease: 'none', repeat: -1 }, '-=0.2');
 
 document.querySelector('video')?.play().catch(() => {});
 </script>
@@ -15,10 +19,10 @@ document.querySelector('video')?.play().catch(() => {});
     <source src="/images/hero-h264.mp4" type="video/mp4" />
   </video>
   <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60 -z-10"></div>
-  <div class="section-px pb-8 md:pb-12">
-    <p class="label-xs text-cream mb-4">BEACHFRONT ESTATE</p>
+  <div class="section-px pb-12 md:pb-20">
+    <p class="label-top label-xs text-cream mb-4">BEACHFRONT ESTATE</p>
     <h1 class="font-serif italic font-light text-cream leading-none mb-3" style="font-size: clamp(4rem, 18vw, 14rem)">Serena</h1>
-    <p class="label-xs text-cream/70">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</p>
+    <p class="label-bot label-xs text-cream/70">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</p>
   </div>
 </section>
 

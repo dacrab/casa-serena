@@ -3,7 +3,8 @@
 <script>
 import { gsap, ScrollTrigger } from '../lib/gsap';
 
-gsap.from('nav a', { opacity: 0, y: -10, stagger: 0.05, duration: 0.6, delay: 0.2 });
+gsap.from('nav .nav-logo', { opacity: 0, y: -10, duration: 0.5, delay: 0.1 });
+gsap.from('nav .nav-link', { opacity: 0, y: -10, stagger: 0.07, duration: 0.5, delay: 0.3 });
 
 const nav = document.querySelector('nav');
 const toggle = document.querySelector('[data-nav="toggle"]');
@@ -40,12 +41,12 @@ document.querySelectorAll('[data-nav-theme]').forEach(s => {
 
 <header class="fixed top-0 left-0 right-0 z-50">
   <nav class="flex justify-between items-center section-px py-5 transition-colors">
-    <a href="#hero" class="font-serif text-sm tracking-widest text-cream">CASA SERENA</a>
+    <a href="#hero" class="nav-logo font-serif text-sm tracking-widest text-cream">CASA SERENA</a>
     <div class="hidden md:flex gap-8">
-      <a href="#about" class="label-xs text-cream/80 hover:text-terracotta transition">About</a>
-      <a href="#gallery" class="label-xs text-cream/80 hover:text-terracotta transition">Gallery</a>
-      <a href="#location" class="label-xs text-cream/80 hover:text-terracotta transition">Location</a>
-      <a href="#enquire" class="label-xs text-cream/80 hover:text-terracotta transition">Enquire</a>
+      <a href="#about" class="nav-link label-xs text-cream/80 hover:text-terracotta transition">About</a>
+      <a href="#gallery" class="nav-link label-xs text-cream/80 hover:text-terracotta transition">Gallery</a>
+      <a href="#location" class="nav-link label-xs text-cream/80 hover:text-terracotta transition">Location</a>
+      <a href="#enquire" class="nav-link label-xs text-cream/80 hover:text-terracotta transition">Enquire</a>
     </div>
     <button data-nav="toggle" class="md:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
       <span class="w-6 h-0.5 bg-cream transition"></span>

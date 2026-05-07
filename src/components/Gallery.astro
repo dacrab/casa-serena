@@ -2,23 +2,34 @@
 import { Image } from 'astro:assets';
 const images = [
   { src: '/images/gallery-1.jpg', alt: 'Casa Serena exterior at golden hour', w: 1800, h: 1080 },
-  { src: '/images/about.jpg', alt: 'Casa Serena living room', w: 900, h: 1080 },
-  { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool', w: 900, h: 1080 },
-  { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view', w: 1200, h: 1080 },
-  { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen', w: 800, h: 1080 },
-  { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom', w: 800, h: 1080 },
+  { src: '/images/quote.jpg',     alt: 'Casa Serena pool at sunset',          w: 800,  h: 600  },
+  { src: '/images/gallery-2.jpg', alt: 'Casa Serena beachfront pool',         w: 900,  h: 1080 },
+  { src: '/images/gallery-3.jpg', alt: 'Casa Serena wide exterior view',      w: 1200, h: 1080 },
+  { src: '/images/gallery-4.jpg', alt: 'Casa Serena chef kitchen',            w: 800,  h: 1080 },
+  { src: '/images/gallery-5.jpg', alt: 'Casa Serena master suite bedroom',    w: 800,  h: 1080 },
 ];
 ---
 <script>
 import { gsap } from '../lib/gsap';
-gsap.from('.gallery-item', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, scrollTrigger: { trigger: '#gallery', start: 'top 80%' } });
+const tl = gsap.timeline({ scrollTrigger: { trigger: '#gallery', start: 'top 80%' } });
+tl.from('.gallery-hero', { opacity: 0, scale: 1.04, duration: 1, ease: 'power2.out' })
+  .from('.gallery-cell', { opacity: 0, y: 24, stagger: 0.08, duration: 0.6 }, '-=0.5');
 </script>
 
 <section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-[8vh] section-px">
   <p class="label-xs text-cream/40 mb-8">The Property</p>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {images.map((img) => (
-      <div class="gallery-item aspect-[4/3] overflow-hidden">
+  <div class="grid md:grid-cols-3 gap-4">
+    {/* Image 1 — hero span */}
+    <div class="gallery-hero md:col-span-2 aspect-[16/9] overflow-hidden">
+      <Image src={images[0].src} alt={images[0].alt} width={images[0].w} height={images[0].h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+    </div>
+    {/* Image 2 — portrait */}
+    <div class="gallery-cell aspect-[3/4] overflow-hidden">
+      <Image src={images[1].src} alt={images[1].alt} width={images[1].w} height={images[1].h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+    </div>
+    {/* Images 3–6 — equal row */}
+    {images.slice(2).map((img) => (
+      <div class="gallery-cell aspect-[4/3] overflow-hidden">
         <Image src={img.src} alt={img.alt} width={img.w} height={img.h} format="webp" quality={85} loading="lazy" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
       </div>
     ))}

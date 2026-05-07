@@ -48,8 +48,8 @@
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(245, 240, 232, 0.15);
-  color: theme(colors.cream);
+  border: 1px solid rgba(245, 240, 232, 0.4);
+  color: #F5F0E8;
   cursor: pointer;
   font-size: 0.65rem;
   letter-spacing: 0.15em;
@@ -65,3 +65,17 @@
 nav.nav-light a {
   color: theme(colors.charcoal);
 }
+
+/* ── Native date input ───────────────────────────────────────────────────── */
+.date-input::-webkit-calendar-picker-indicator {
+  filter: invert(0.6) sepia(1) saturate(2) hue-rotate(330deg);
+  cursor: pointer;
+  opacity: 0.6;
+}
+.date-input::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+.date-input::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+.date-input::-webkit-datetime-edit { color: rgba(245,240,232,0.4); }
+.date-input:not(:placeholder-shown)::-webkit-datetime-edit,
+.date-input[value]::-webkit-datetime-edit { color: #F5F0E8; }

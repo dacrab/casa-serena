@@ -11,8 +11,14 @@ const amenities = [
 ];
 ---
 <script>
-import { gsap } from '../lib/gsap';
-gsap.from('.amenity', { opacity: 0, x: -20, stagger: 0.08, duration: 0.6, scrollTrigger: { trigger: '.amenity', start: 'top 80%' } });
+import { gsap, ScrollTrigger } from '../lib/gsap';
+// Each row animates when it enters — no batch firing
+document.querySelectorAll('.amenity').forEach(el => {
+  gsap.from(el, {
+    opacity: 0, x: -24, duration: 0.55,
+    scrollTrigger: { trigger: el, start: 'top 88%' }
+  });
+});
 </script>
 
 <section data-nav-theme="light" class="bg-cream py-[8vh] section-px">
