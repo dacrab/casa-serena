@@ -4,9 +4,7 @@ import { Image } from 'astro:assets';
 <script>
 import { gsap } from '../lib/gsap';
 
-gsap.from('#about img', { opacity: 0, y: 20, duration: 0.8, scrollTrigger: { trigger: '#about', start: 'top 80%' } });
-gsap.from('#about p', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, scrollTrigger: { trigger: '#about', start: 'top 80%' } });
-gsap.from('.stat', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, delay: 0.4, scrollTrigger: { trigger: '.stat', start: 'top 85%' } });
+gsap.from('#about img, #about p, .stat', { opacity: 0, y: 20, stagger: 0.15, duration: 0.8, scrollTrigger: { trigger: '#about', start: 'top 80%' } });
 </script>
 
 <section id="about" data-nav-theme="light" class="bg-warm-white py-[8vh] section-px">
@@ -14,7 +12,7 @@ gsap.from('.stat', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, delay: 0.4,
     <Image src="/images/about.jpg" alt="Casa Serena living space" width={900} height={506} format="webp" quality={85} loading="lazy" class="w-full aspect-video object-cover" />
     <div>
       <p class="text-charcoal leading-relaxed mb-8">Built in 1987 and completely reimagined in 2019, Casa Serena is an exercise in restraint. Floor-to-ceiling glass dissolves the boundary between interior and ocean.</p>
-      <div class="flex gap-12">
+      <div class="flex gap-12 justify-center md:justify-start">
         <div class="stat">
           <div class="font-serif text-4xl font-light text-terracotta">8</div>
           <div class="label-xs text-driftwood">Acres</div>

@@ -9,6 +9,7 @@ export default defineConfig({
   integrations: [sitemap()],
   devToolbar: { enabled: false },
   vite: {
+    // @ts-ignore — false positive from duplicate vite type declarations (astro internal vs @tailwindcss/vite)
     plugins: [tailwindcss()],
   },
 });

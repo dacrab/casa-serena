@@ -3,20 +3,19 @@ import { Image } from 'astro:assets';
 ---
 <script>
 import { gsap } from '../lib/gsap';
-gsap.from('#quote blockquote, #quote p', { opacity: 0, y: 30, stagger: 0.15, duration: 0.8, scrollTrigger: { trigger: '#quote', start: 'top 75%' } });
-gsap.from('.quote-stat', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, scrollTrigger: { trigger: '.quote-stat', start: 'top 80%' } });
+gsap.from('#quote blockquote, #quote p, .quote-stat', { opacity: 0, y: 20, stagger: 0.12, duration: 0.8, scrollTrigger: { trigger: '#quote', start: 'top 75%' } });
 </script>
 
 <section id="quote" data-nav-theme="dark" class="relative min-h-[80vh] grid md:grid-cols-2">
   <Image src="/images/quote.jpg" alt="Casa Serena pool at sunset" width={800} height={600} format="webp" quality={85} loading="lazy" class="absolute inset-0 w-full h-full object-cover -z-10" />
   <div class="absolute inset-0 bg-charcoal/50 -z-10"></div>
   
-  <div class="section-px py-20 flex flex-col justify-center text-cream">
-    <blockquote class="font-serif italic font-light text-4xl md:text-5xl leading-tight mb-4">"The Aegean has a way of resetting everything."</blockquote>
+  <div class="section-px py-[8vh] flex flex-col justify-center text-cream">
+    <blockquote class="font-serif italic font-light leading-tight mb-4" style="font-size: clamp(1.75rem, 5vw, 3rem)">"The Aegean has a way of resetting everything."</blockquote>
     <p class="label-xs text-cream/70">— Private Guest, 2023</p>
   </div>
-  
-  <div class="section-px pb-12 md:py-20 flex flex-col justify-center gap-8 text-cream">
+
+  <div class="section-px py-[8vh] flex flex-col justify-center gap-8 text-cream">
     <div class="quote-stat">
       <div class="font-serif text-5xl font-light">280</div>
       <div class="label-xs text-cream/70 mt-2">Days of sun</div>

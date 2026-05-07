@@ -17,7 +17,7 @@ gsap.from('.amenity', { opacity: 0, x: -20, stagger: 0.08, duration: 0.6, scroll
 
 <section data-nav-theme="light" class="bg-cream py-[8vh] section-px">
   <div class="max-w-4xl mx-auto">
-    <ul class="space-y-6">
+    <ul>
       {amenities.map((a, i) => (
         <li class="amenity py-4 border-t border-driftwood/20 font-serif text-lg text-charcoal">
           <span class="text-terracotta mr-3">{String(i + 1).padStart(2, '0')}</span>

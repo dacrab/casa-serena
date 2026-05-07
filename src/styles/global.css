@@ -2,14 +2,12 @@
 
 @theme {
   --color-cream: #F5F0E8;
-  --color-sand: #E8DCC8;
   --color-terracotta: #C4714A;
   --color-driftwood: #9C8468;
   --color-charcoal: #2A2320;
   --color-warm-white: #FDFAF5;
   --color-gallery-bg: #1a1410;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
   --default-font-family: 'DM Sans', system-ui, sans-serif;
 }
 
@@ -19,10 +17,8 @@
     scroll-padding-top: 64px;
   }
   body {
-    margin: 0;
     background: theme(colors.charcoal);
-    color: theme(colors.charcoal);
-    font-family: theme(--font-sans);
+    color: theme(colors.cream);
     font-weight: 300;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -34,7 +30,6 @@
 }
 
 .label-xs {
-  font-family: theme(--font-sans);
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -56,7 +51,6 @@
   border: 1px solid rgba(245, 240, 232, 0.15);
   color: theme(colors.cream);
   cursor: pointer;
-  font-family: theme(--font-sans);
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;

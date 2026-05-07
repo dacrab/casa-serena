@@ -12,8 +12,7 @@ const {
   description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
 } = Astro.props;
 
-const siteURL = Astro.site ?? new URL('https://casa-serena.vercel.app');
-const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -23,6 +22,7 @@ const canonicalURL = new URL(Astro.url.pathname, siteURL);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#C4714A" />

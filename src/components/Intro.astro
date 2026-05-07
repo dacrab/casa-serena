@@ -2,16 +2,15 @@
 ---
 <script>
 import { gsap } from '../lib/gsap';
-gsap.from('#intro h2', { opacity: 0, x: -30, duration: 0.8, scrollTrigger: { trigger: '#intro', start: 'top 80%' } });
-gsap.from('#intro p', { opacity: 0, y: 20, duration: 0.8, delay: 0.2, scrollTrigger: { trigger: '#intro', start: 'top 80%' } });
+gsap.from('#intro h2, #intro p', { opacity: 0, y: 20, stagger: 0.15, duration: 0.8, scrollTrigger: { trigger: '#intro', start: 'top 80%' } });
 </script>
 
 <section id="intro" data-nav-theme="light" class="bg-warm-white py-[12vh] section-px">
   <div class="max-w-6xl mx-auto grid md:grid-cols-[2fr_1fr] gap-8 items-center">
-    <h2 class="font-serif italic font-light text-charcoal text-5xl md:text-7xl leading-tight">
+    <h2 class="font-serif italic font-light text-charcoal leading-tight" style="font-size: clamp(2.5rem, 7vw, 4.5rem)">
       A house that breathes.
     </h2>
-    <p class="text-driftwood leading-relaxed pl-8 border-l border-terracotta">
+    <p class="text-driftwood leading-relaxed mt-6 pl-6 md:mt-0 md:pl-8 border-l border-terracotta">
       Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts.
     </p>
   </div>

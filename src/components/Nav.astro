@@ -7,22 +7,25 @@ gsap.from('nav a', { opacity: 0, y: -10, stagger: 0.05, duration: 0.6, delay: 0.
 
 const nav = document.querySelector('nav');
 const toggle = document.querySelector('[data-nav="toggle"]');
-const overlay = document.querySelector('[data-nav="overlay"]');
+const overlay = document.querySelector<HTMLElement>('[data-nav="overlay"]');
 let open = false;
 
+const closeMenu = () => {
+  open = false;
+  gsap.to(overlay, { opacity: 0, duration: 0.2, onComplete: () => { overlay!.style.display = 'none'; } });
+  document.body.style.overflow = '';
+};
+
 toggle?.addEventListener('click', () => {
-  open = !open;
-  overlay?.classList.toggle('hidden', !open);
-  document.body.style.overflow = open ? 'hidden' : '';
+  if (open) { closeMenu(); return; }
+  open = true;
+  overlay!.style.display = 'flex';
+  gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3 });
+  gsap.from('[data-nav="overlay"] li', { opacity: 0, y: 20, stagger: 0.07, duration: 0.4, delay: 0.1 });
+  document.body.style.overflow = 'hidden';
 });
 
-overlay?.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    open = false;
-    overlay.classList.add('hidden');
-    document.body.style.overflow = '';
-  });
-});
+overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
 document.querySelectorAll('[data-nav-theme]').forEach(s => {
   ScrollTrigger.create({
@@ -51,7 +54,7 @@ document.querySelectorAll('[data-nav-theme]').forEach(s => {
   </nav>
 </header>
 
-<div data-nav="overlay" class="hidden fixed inset-0 z-40 bg-charcoal flex items-center justify-center">
+<div data-nav="overlay" style="display:none" class="fixed inset-0 z-40 bg-charcoal items-center justify-center">
   <ul class="space-y-4 text-center">
     <li><a href="#about" class="font-serif italic text-5xl text-cream">About</a></li>
     <li><a href="#gallery" class="font-serif italic text-5xl text-cream">Gallery</a></li>
@@ -59,4 +62,3 @@ document.querySelectorAll('[data-nav-theme]').forEach(s => {
     <li><a href="#enquire" class="font-serif italic text-5xl text-cream">Enquire</a></li>
   </ul>
 </div>
-

@@ -14,7 +14,7 @@ import { gsap } from '../lib/gsap';
 gsap.from('.gallery-item', { opacity: 0, y: 20, stagger: 0.1, duration: 0.6, scrollTrigger: { trigger: '#gallery', start: 'top 80%' } });
 </script>
 
-<section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-20 section-px">
+<section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-[8vh] section-px">
   <p class="label-xs text-cream/40 mb-8">The Property</p>
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
     {images.map((img) => (
