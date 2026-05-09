@@ -7,6 +7,7 @@
   --color-charcoal: #2A2320;
   --color-warm-white: #FDFAF5;
   --color-gallery-bg: #1a1410;
+  --color-surface: #1e1a17;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --default-font-family: 'DM Sans', system-ui, sans-serif;
 }
@@ -39,28 +40,26 @@
 .section-px {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
-}
-@media (min-width: 768px) {
-  .section-px {
+  @screen md {
     padding-left: 4vw;
     padding-right: 4vw;
   }
 }
 
-/* Shared style for all form text inputs */
 .form-input {
   width: 100%;
   background: transparent;
-  border-bottom: 1px solid rgba(245, 240, 232, 0.2);
-  color: #F5F0E8;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
+  color: var(--color-cream);
   padding: 0.5rem 0;
   outline: none;
   transition: border-color 0.2s;
-}
-.form-input:focus {
-  border-color: theme(colors.terracotta);
+  &:focus { border-color: var(--color-terracotta); }
 }
 
-nav.nav-light a {
-  color: theme(colors.charcoal);
-}
+.heading-hero { font-size: clamp(3rem, 18vw, 14rem); }
+.heading-xl   { font-size: clamp(2.5rem, 10vw, 8rem); }
+.heading-lg   { font-size: clamp(2rem, 4vw, 3.5rem); }
+.heading-md   { font-size: clamp(1.75rem, 5vw, 2.25rem); }
+
+.map-iframe { border: 0; filter: grayscale(1) contrast(1.1); }

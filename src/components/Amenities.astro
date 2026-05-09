@@ -17,11 +17,11 @@ document.querySelectorAll('.amenity').forEach(el => {
 });
 </script>
 
-<section data-nav-theme="light" class="bg-cream py-[8vh] section-px">
+<section data-nav-theme="light" class="bg-cream py-10 md:py-[8vh] section-px">
   <div class="max-w-4xl mx-auto">
     <ul>
       {amenities.map(({ n, text }) => (
-        <li class="amenity py-4 border-t border-driftwood/20 font-serif text-lg text-charcoal">
+        <li class="amenity py-4 border-t border-driftwood/20 font-serif text-base md:text-lg text-charcoal">
           <span class="text-terracotta mr-3">{n}</span>{text}
         </li>
       ))}

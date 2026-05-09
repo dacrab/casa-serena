@@ -16,13 +16,13 @@ tl.from('.gallery-hero', { opacity: 0, scale: 1.04, duration: 1, ease: 'power2.o
   .from('.gallery-cell', { opacity: 0, y: 24, stagger: 0.08, duration: 0.6 }, '-=0.5');
 </script>
 
-<section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-[8vh] section-px">
+<section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-10 md:py-[8vh] section-px">
   <p class="label-xs text-cream/40 mb-8">The Property</p>
-  <div class="grid md:grid-cols-3 gap-4">
-    <div class="gallery-hero md:col-span-2 aspect-[16/9] overflow-hidden">
+  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+    <div class="gallery-hero sm:col-span-2 md:col-span-2 aspect-[16/9] overflow-hidden">
       <Image src={images[0]!.src} alt={images[0]!.alt} width={images[0]!.w} height={images[0]!.h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
-    <div class="gallery-cell aspect-[3/4] overflow-hidden">
+    <div class="gallery-cell aspect-[4/3] sm:aspect-[3/4] overflow-hidden">
       <Image src={images[1]!.src} alt={images[1]!.alt} width={images[1]!.w} height={images[1]!.h} class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
     </div>
     {images.slice(2).map((img) => (

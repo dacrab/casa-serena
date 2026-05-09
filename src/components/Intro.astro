@@ -12,20 +12,20 @@ tl.from('#intro .intro-img', { opacity: 0, scale: 1.04, duration: 1.1, ease: 'po
 
 <section id="intro" data-nav-theme="light" class="bg-warm-white">
   <div class="grid md:grid-cols-[3fr_2fr] min-h-[80vh]">
-    <div class="intro-img overflow-hidden min-h-[50vw] md:min-h-0">
+    <div class="intro-img overflow-hidden min-h-[60vw] sm:min-h-[50vw] md:min-h-0">
       <Image
         src="/images/about.jpg"
         alt="Casa Serena living space"
         width={1200} height={900}
-        loading="eager"
+        loading="lazy"
         class="w-full h-full object-cover"
       />
     </div>
 
-    <div class="flex flex-col justify-center gap-10 section-px py-[10vh]">
+    <div class="flex flex-col justify-center gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
       <div>
         <p class="label-xs text-driftwood mb-6">Est. 1987 · Reimagined 2019</p>
-        <h2 class="font-serif italic font-light text-charcoal leading-tight mb-6" style="font-size: clamp(2rem, 4vw, 3.5rem)">
+        <h2 class="font-serif italic font-light text-charcoal leading-tight mb-6 heading-lg">
           A house that breathes.
         </h2>
         <p class="intro-body text-charcoal/80 leading-relaxed border-l border-terracotta pl-5">

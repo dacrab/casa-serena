@@ -9,25 +9,25 @@ tl.from('#location h2, #location .location-sub, #location .location-body', { opa
 
 <section id="location" data-nav-theme="light" class="bg-warm-white">
 
-  <div class="w-full h-[50vh] relative">
+  <div class="w-full h-[40vh] md:h-[50vh] relative">
     <iframe
       title="Casa Serena location"
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3181.0!2d25.3753!3d36.4618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1499ce69a7d3b3c7%3A0x0!2sOia%2C+Santorini%2C+Greece!5e0!3m2!1sen!2s!4v1"
       width="100%" height="100%"
-      style="border:0; filter: grayscale(1) contrast(1.1);"
+      class="map-iframe"
       loading="lazy"
     ></iframe>
     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
       <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/>
-        <circle cx="18" cy="18" r="7" fill="#FDFAF5"/>
+        <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="var(--color-terracotta)"/>
+        <circle cx="18" cy="18" r="7" fill="var(--color-warm-white)"/>
       </svg>
     </div>
   </div>
 
-  <div class="location-content grid md:grid-cols-2 gap-10 section-px py-[10vh]">
+  <div class="location-content grid md:grid-cols-2 gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
     <div>
-      <h2 class="font-serif font-light text-charcoal mb-2" style="font-size: clamp(1.75rem, 5vw, 2.25rem)">Oia, Santorini 847 02</h2>
+      <h2 class="font-serif font-light text-charcoal mb-2 heading-md">Oia, Santorini 847 02</h2>
       <p class="location-sub text-driftwood mb-4">Santorini, Greece</p>
       <p class="location-body text-charcoal leading-relaxed">Perched on the caldera cliffs of Oia with unobstructed views of the Aegean. Isolated enough to feel like a retreat, close enough to reach Fira and beyond.</p>
     </div>
