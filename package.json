@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.2",
-    "@tailwindcss/vite": "^4.2.4",
+    "@tailwindcss/vite": "^4.3.0",
     "@vercel/analytics": "^2.0.1",
-    "astro": "6.3.0",
+    "astro": "6.3.1",
     "gsap": "^3.15.0",
     "tailwindcss": "^4"
   },
