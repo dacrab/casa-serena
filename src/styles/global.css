@@ -48,6 +48,7 @@
 
 .form-input {
   width: 100%;
+  min-height: 44px;
   background: transparent;
   border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
   color: var(--color-cream);
