@@ -3,9 +3,12 @@
 <script>
 import { gsap } from '../lib/gsap';
 
+gsap.set('#enquire .enquire-info > *', { opacity: 0, y: 30 });
+gsap.set('#enquire .enquire-form > div, #enquire .enquire-form > button', { opacity: 0, y: 20 });
+
 const tl = gsap.timeline({ scrollTrigger: { trigger: '#enquire', start: 'top 80%' } });
-tl.from('#enquire .enquire-info > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.7 })
-  .from('#enquire .enquire-form > div', { opacity: 0, y: 16, stagger: 0.09, duration: 0.55 }, '-=0.4');
+tl.to('#enquire .enquire-info > *', { opacity: 1, y: 0, stagger: 0.12, duration: 0.8 })
+  .to('#enquire .enquire-form > div, #enquire .enquire-form > button', { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.4');
 
 const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 const fmtMonth = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' });
@@ -62,7 +65,6 @@ function render() {
     el.addEventListener('click', () => selectDate(el.dataset.key!));
   });
 
-  // Update displayed values
   const valArr = document.getElementById('val-arrival')!;
   const valDep = document.getElementById('val-departure')!;
   valArr.textContent = selected.arrival   ? fmtDay.format(fromYmd(selected.arrival))   : 'Select date';
@@ -144,12 +146,12 @@ document.querySelector('form')!.addEventListener('submit', e => {
       <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
       <h2 class="font-serif italic font-light text-cream mb-6 md:mb-8 heading-xl">Stay.</h2>
       <address class="not-italic space-y-2 mb-8">
-        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition">info@casaserena.com</a>
-        <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition">+30 22860 00000</a>
+        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition-colors">info@casaserena.com</a>
+        <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition-colors">+30 22860 00000</a>
       </address>
       <div class="flex gap-4 label-xs text-driftwood">
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-cream transition">Instagram</a>
-        <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-cream transition">Facebook</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-cream transition-colors">Instagram</a>
+        <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-cream transition-colors">Facebook</a>
       </div>
     </div>
 
@@ -173,11 +175,11 @@ document.querySelector('form')!.addEventListener('submit', e => {
 
         <div id="cal-wrap" hidden class="absolute top-full left-0 right-0 mt-1 z-10 bg-surface border border-cream/10 p-4 shadow-2xl">
           <div class="flex justify-between items-center mb-3">
-            <button id="cal-prev" type="button" class="text-driftwood/60 hover:text-cream transition px-1">
+            <button id="cal-prev" type="button" class="text-driftwood/60 hover:text-cream transition-colors px-1">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
             </button>
             <span id="cal-title" class="label-xs text-cream"></span>
-            <button id="cal-next" type="button" class="text-driftwood/60 hover:text-cream transition px-1">
+            <button id="cal-next" type="button" class="text-driftwood/60 hover:text-cream transition-colors px-1">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
             </button>
           </div>
@@ -201,7 +203,7 @@ document.querySelector('form')!.addEventListener('submit', e => {
       <button
         type="submit"
         class="w-full py-3 px-8 border border-cream/40 text-cream label-xs
-               hover:bg-terracotta hover:border-terracotta hover:text-white transition-all duration-200"
+               hover:bg-terracotta hover:border-terracotta hover:text-white transition-colors duration-200"
       >Send Enquiry</button>
 
     </form>

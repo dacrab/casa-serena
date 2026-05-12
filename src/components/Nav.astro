@@ -3,7 +3,8 @@
 <script>
 import { gsap, ScrollTrigger } from '../lib/gsap';
 
-gsap.from('nav .nav-logo', { opacity: 0, y: -10, duration: 0.5, delay: 0.1 });
+gsap.set('nav .nav-logo', { opacity: 0, y: -10 });
+gsap.to('nav .nav-logo', { opacity: 1, y: 0, duration: 0.6, delay: 0.1 });
 
 const nav     = document.querySelector<HTMLElement>('nav');
 const toggle  = document.querySelector<HTMLButtonElement>('[data-nav="toggle"]');
@@ -16,8 +17,8 @@ const openMenu = () => {
   open = true;
   overlay!.hidden = false;
   gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25 });
-  gsap.from('[data-nav="overlay"] li', { opacity: 0, y: 20, stagger: 0.07, duration: 0.35, delay: 0.05 });
-  gsap.to(bar1, { rotate: 45,  y: 4,  duration: 0.2 });
+  gsap.fromTo('[data-nav="overlay"] li', { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 });
+  gsap.to(bar1, { rotate: 45, y: 4, duration: 0.2 });
   gsap.to(bar2, { rotate: -45, y: -4, duration: 0.2 });
   document.body.style.overflow = 'hidden';
 };
@@ -63,10 +64,10 @@ document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
   <a href="#hero" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
-    <a href="#intro"    class="nav-link label-xs transition">About</a>
-    <a href="#gallery"  class="nav-link label-xs transition">Gallery</a>
-    <a href="#location" class="nav-link label-xs transition">Location</a>
-    <a href="#enquire"  class="nav-link label-xs transition">Enquire</a>
+    <a href="#intro"    class="nav-link label-xs">About</a>
+    <a href="#gallery"  class="nav-link label-xs">Gallery</a>
+    <a href="#location" class="nav-link label-xs">Location</a>
+    <a href="#enquire"  class="nav-link label-xs">Enquire</a>
   </div>
 
   <button data-nav="toggle" class="md:hidden flex flex-col justify-center gap-[5px] w-8 h-8" aria-label="Toggle menu">
@@ -77,9 +78,9 @@ document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
 
 <div data-nav="overlay" hidden class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center">
   <ul class="space-y-6 text-center">
-    <li><a href="#intro"    class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta transition">About</a></li>
-    <li><a href="#gallery"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta transition">Gallery</a></li>
-    <li><a href="#location" class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta transition">Location</a></li>
-    <li><a href="#enquire"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta transition">Enquire</a></li>
+    <li><a href="#intro"    class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">About</a></li>
+    <li><a href="#gallery"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Gallery</a></li>
+    <li><a href="#location" class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Location</a></li>
+    <li><a href="#enquire"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Enquire</a></li>
   </ul>
 </div>

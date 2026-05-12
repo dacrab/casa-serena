@@ -3,18 +3,18 @@
 <script>
 import { gsap } from '../lib/gsap';
 
-// Orchestrated entrance: label → h1 → subtitle, then marquee
-const tl = gsap.timeline({ delay: 0.2 });
-tl.from('#hero .label-top',  { opacity: 0, y: 12, duration: 0.6 })
-  .from('#hero h1',          { opacity: 0, y: 40, duration: 1, ease: 'power4.out' }, '-=0.2')
-  .from('#hero .label-bot',  { opacity: 0, y: 12, duration: 0.6 }, '-=0.4')
+gsap.set('#hero .label-top, #hero h1, #hero .label-bot', { opacity: 0, y: 30 });
+
+const tl = gsap.timeline({ delay: 0.3 });
+tl.to('#hero .label-top', { opacity: 1, y: 0, duration: 0.6 })
+  .to('#hero h1',         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
+  .to('#hero .label-bot', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
   .to('.marquee', { x: '-50%', duration: 22, ease: 'none', repeat: -1 }, '-=0.2');
 </script>
 
 <section id="hero" data-nav-theme="dark" class="relative min-h-svh flex items-end">
   <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover -z-10" aria-hidden="true">
-    <source src="/images/hero.mp4" type="video/mp4; codecs=hvc1" />
-    <source src="/images/hero-h264.mp4" type="video/mp4" />
+    <source src="/images/hero.mp4" type="video/mp4" />
   </video>
   <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60"></div>
   <div class="section-px pb-8 sm:pb-12 md:pb-20">
@@ -30,4 +30,3 @@ tl.from('#hero .label-top',  { opacity: 0, y: 12, duration: 0.6 })
     <span class="label-xs text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>
-
