@@ -31,14 +31,14 @@ tl.to('.gallery-hero', { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out'
   <p class="label-xs text-cream/40 mb-8">The Property</p>
   <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
     <div class="gallery-hero sm:col-span-2 md:col-span-2 aspect-[16/9] overflow-hidden">
-      <Image src={images[0]!.src} alt={images[0]!.alt} class="w-full h-full object-cover gallery-img" />
+      <Image src={images[0]!.src} alt={images[0]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
     </div>
     <div class="gallery-cell aspect-[4/3] sm:aspect-[3/4] overflow-hidden">
-      <Image src={images[1]!.src} alt={images[1]!.alt} class="w-full h-full object-cover gallery-img" />
+      <Image src={images[1]!.src} alt={images[1]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
     </div>
     {images.slice(2).map((img) => (
       <div class="gallery-cell aspect-[4/3] overflow-hidden">
-        <Image src={img.src} alt={img.alt} class="w-full h-full object-cover gallery-img" />
+        <Image src={img.src} alt={img.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
       </div>
     ))}
   </div>

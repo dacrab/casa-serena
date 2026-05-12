@@ -28,15 +28,16 @@ let selected: Record<'arrival'|'departure', string|null> = { arrival: null, depa
 let viewYear = today().getFullYear(), viewMonth = today().getMonth();
 let activeMode: Mode = null;
 
-const calWrap  = document.getElementById('cal-wrap')!;
-const calGrid  = document.getElementById('cal-grid')!;
-const calTitle = document.getElementById('cal-title')!;
-const arrBtn   = document.getElementById('btn-arrival')!;
-const depBtn   = document.getElementById('btn-departure')!;
-const arrInput = document.getElementById('arrival')    as HTMLInputElement;
-const depInput = document.getElementById('departure')  as HTMLInputElement;
+const calWrap  = document.getElementById('cal-wrap');
+const calGrid  = document.getElementById('cal-grid');
+const calTitle = document.getElementById('cal-title');
+const arrBtn   = document.getElementById('btn-arrival');
+const depBtn   = document.getElementById('btn-departure');
+const arrInput = document.getElementById('arrival')    as HTMLInputElement | null;
+const depInput = document.getElementById('departure')  as HTMLInputElement | null;
 
 function render() {
+  if (!calTitle || !calGrid) return;
   calTitle.textContent = fmtMonth.format(new Date(viewYear, viewMonth));
   const t = today();
   const firstDow = new Date(viewYear, viewMonth, 1).getDay();
@@ -57,25 +58,36 @@ function render() {
     else if (isEndpt) cls += 'bg-terracotta text-cream cursor-pointer font-medium';
     else if (inRange) cls += 'bg-terracotta/20 text-cream cursor-pointer';
     else              cls += 'text-cream/70 hover:text-terracotta cursor-pointer';
-    html += `<div class="${cls}" data-key="${isPast ? '' : key}">${n}</div>`;
+    const interactive = !isPast ? `role="button" tabindex="0"` : '';
+    html += `<div class="${cls}" ${interactive} data-key="${isPast ? '' : key}">${n}</div>`;
   }
   calGrid.innerHTML = html;
   calGrid.querySelectorAll<HTMLElement>('[data-key]').forEach(el => {
     if (!el.dataset.key) return;
     el.addEventListener('click', () => selectDate(el.dataset.key!));
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectDate(el.dataset.key!);
+      }
+    });
   });
 
-  const valArr = document.getElementById('val-arrival')!;
-  const valDep = document.getElementById('val-departure')!;
-  valArr.textContent = selected.arrival   ? fmtDay.format(fromYmd(selected.arrival))   : 'Select date';
-  valDep.textContent = selected.departure ? fmtDay.format(fromYmd(selected.departure)) : 'Select date';
-  valArr.className = selected.arrival   ? 'text-sm text-cream' : 'text-sm text-cream/40';
-  valDep.className = selected.departure ? 'text-sm text-cream' : 'text-sm text-cream/40';
+  const valArr = document.getElementById('val-arrival');
+  const valDep = document.getElementById('val-departure');
+  if (valArr) {
+    valArr.textContent = selected.arrival   ? fmtDay.format(fromYmd(selected.arrival))   : 'Select date';
+    valArr.className = selected.arrival   ? 'text-sm text-cream' : 'text-sm text-cream/40';
+  }
+  if (valDep) {
+    valDep.textContent = selected.departure ? fmtDay.format(fromYmd(selected.departure)) : 'Select date';
+    valDep.className = selected.departure ? 'text-sm text-cream' : 'text-sm text-cream/40';
+  }
 
-  const lA = document.getElementById('lbl-arrival')!;
-  const lD = document.getElementById('lbl-departure')!;
-  lA.className = `label-xs block mb-0.5 ${activeMode === 'arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
-  lD.className = `label-xs block mb-0.5 ${activeMode === 'departure' ? 'text-terracotta' : 'text-driftwood/60'}`;
+  const lA = document.getElementById('lbl-arrival');
+  const lD = document.getElementById('lbl-departure');
+  if (lA) lA.className = `label-xs block mb-0.5 ${activeMode === 'arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
+  if (lD) lD.className = `label-xs block mb-0.5 ${activeMode === 'departure' ? 'text-terracotta' : 'text-driftwood/60'}`;
 }
 
 function selectDate(key: string) {
@@ -84,8 +96,8 @@ function selectDate(key: string) {
   if (selected.arrival && selected.departure && selected.arrival >= selected.departure) {
     selected.departure = null;
   }
-  arrInput.value = selected.arrival  ?? '';
-  depInput.value = selected.departure ?? '';
+  if (arrInput) arrInput.value = selected.arrival  ?? '';
+  if (depInput) depInput.value = selected.departure ?? '';
   if (activeMode === 'arrival' && !selected.departure) {
     activeMode = 'departure';
     render();
@@ -100,41 +112,46 @@ function openCalendar(mode: Mode) {
   if (ex) { const d = fromYmd(ex); viewYear = d.getFullYear(); viewMonth = d.getMonth(); }
   else { viewYear = today().getFullYear(); viewMonth = today().getMonth(); }
   render();
+  if (!calWrap) return;
   calWrap.hidden = false;
   gsap.fromTo(calWrap, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.18 });
 }
 
 function closeCalendar() {
   activeMode = null;
-  gsap.to(calWrap, { opacity: 0, y: -6, duration: 0.15, onComplete: () => { calWrap.hidden = true; } });
+  if (calWrap) {
+    gsap.to(calWrap, { opacity: 0, y: -6, duration: 0.15, onComplete: () => { calWrap.hidden = true; } });
+  }
   render();
 }
 
-arrBtn.addEventListener('click', e => {
+arrBtn?.addEventListener('click', e => {
   e.stopPropagation();
   activeMode === 'arrival' ? closeCalendar() : openCalendar('arrival');
 });
-depBtn.addEventListener('click', e => {
+depBtn?.addEventListener('click', e => {
   e.stopPropagation();
   activeMode === 'departure' ? closeCalendar() : openCalendar('departure');
 });
 document.addEventListener('click', e => {
-  if (!document.getElementById('date-section')!.contains(e.target as Node)) closeCalendar();
+  const dateSection = document.getElementById('date-section');
+  if (dateSection && !dateSection.contains(e.target as Node)) closeCalendar();
 });
-document.getElementById('cal-prev')!.addEventListener('click', e => {
+document.getElementById('cal-prev')?.addEventListener('click', e => {
   e.stopPropagation();
   if (--viewMonth < 0) { viewMonth = 11; viewYear--; }
   render();
 });
-document.getElementById('cal-next')!.addEventListener('click', e => {
+document.getElementById('cal-next')?.addEventListener('click', e => {
   e.stopPropagation();
   if (++viewMonth > 11) { viewMonth = 0; viewYear++; }
   render();
 });
 
-document.querySelector('form')!.addEventListener('submit', e => {
+document.getElementById('enquire-form')?.addEventListener('submit', e => {
   e.preventDefault();
-  (e.target as HTMLFormElement).innerHTML =
+  const form = e.target as HTMLFormElement;
+  form.innerHTML =
     '<p class="text-cream text-xl font-serif italic">Thank you. We\'ll be in touch.</p>';
 });
 </script>
@@ -150,12 +167,12 @@ document.querySelector('form')!.addEventListener('submit', e => {
         <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition-colors">+30 22860 00000</a>
       </address>
       <div class="flex gap-4 label-xs text-driftwood">
-        <a href="https://instagram.com" target="_blank" rel="noopener" class="hover:text-cream transition-colors py-3">Instagram</a>
-        <a href="https://facebook.com" target="_blank" rel="noopener" class="hover:text-cream transition-colors py-3">Facebook</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">Instagram<span class="sr-only"> (opens in new tab)</span></a>
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">Facebook<span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
 
-    <form class="enquire-form space-y-6">
+    <form id="enquire-form" class="enquire-form space-y-6">
 
       <div id="date-section" class="relative">
         <p class="label-xs text-driftwood mb-2">Dates</p>
@@ -183,7 +200,7 @@ document.querySelector('form')!.addEventListener('submit', e => {
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
             </button>
           </div>
-          <div id="cal-grid" class="grid grid-cols-7 gap-y-0.5"></div>
+          <div id="cal-grid" aria-live="polite" class="grid grid-cols-7 gap-y-0.5"></div>
         </div>
       </div>
 

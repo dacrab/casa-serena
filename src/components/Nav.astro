@@ -1,4 +1,10 @@
 ---
+const navLinks = [
+  { href: '#intro', label: 'About' },
+  { href: '#gallery', label: 'Gallery' },
+  { href: '#location', label: 'Location' },
+  { href: '#enquire', label: 'Enquire' },
+];
 ---
 <script>
 import { gsap, ScrollTrigger } from '../lib/gsap';
@@ -15,28 +21,42 @@ let open = false;
 
 const openMenu = () => {
   open = true;
-  overlay!.hidden = false;
+  if (!overlay) return;
+  overlay.hidden = false;
   gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25 });
   gsap.fromTo('[data-nav="overlay"] li', { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 });
   gsap.to(bar1, { rotate: 45, y: 4, duration: 0.2 });
   gsap.to(bar2, { rotate: -45, y: -4, duration: 0.2 });
   document.body.style.overflow = 'hidden';
+  // Focus first link in overlay
+  const firstLink = overlay.querySelector<HTMLElement>('a');
+  firstLink?.focus();
 };
 
 const closeMenu = () => {
   open = false;
   gsap.to(bar1, { rotate: 0, y: 0, duration: 0.2 });
   gsap.to(bar2, { rotate: 0, y: 0, duration: 0.2 });
-  gsap.to(overlay, { opacity: 0, duration: 0.2, onComplete: () => { overlay!.hidden = true; } });
+  if (overlay) {
+    gsap.to(overlay, { opacity: 0, duration: 0.2, onComplete: () => { overlay.hidden = true; } });
+  }
   document.body.style.overflow = '';
+  // Return focus to toggle button
+  toggle?.focus();
 };
 
 toggle?.addEventListener('click', () => open ? closeMenu() : openMenu());
 overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
+// Escape key closes mobile menu
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && open) closeMenu();
+});
+
 // Nav theme switching
 document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
-  const theme = s.dataset.navTheme!;
+  const theme = s.dataset.navTheme;
+  if (!theme) return;
   ScrollTrigger.create({
     trigger: s,
     start: 'top 60px',
@@ -64,10 +84,9 @@ document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
   <a href="#hero" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
-    <a href="#intro"    class="nav-link label-xs">About</a>
-    <a href="#gallery"  class="nav-link label-xs">Gallery</a>
-    <a href="#location" class="nav-link label-xs">Location</a>
-    <a href="#enquire"  class="nav-link label-xs">Enquire</a>
+    {navLinks.map(({ href, label }) => (
+      <a href={href} class="nav-link label-xs">{label}</a>
+    ))}
   </div>
 
   <button data-nav="toggle" class="md:hidden flex flex-col justify-center gap-[5px] w-11 h-11" aria-label="Toggle menu">
@@ -78,9 +97,8 @@ document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
 
 <div data-nav="overlay" hidden class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center">
   <ul class="space-y-6 text-center">
-    <li><a href="#intro"    class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">About</a></li>
-    <li><a href="#gallery"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Gallery</a></li>
-    <li><a href="#location" class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Location</a></li>
-    <li><a href="#enquire"  class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">Enquire</a></li>
+    {navLinks.map(({ href, label }) => (
+      <li><a href={href} class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">{label}</a></li>
+    ))}
   </ul>
 </div>
