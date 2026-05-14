@@ -1,25 +1,17 @@
 ---
 import { Image } from 'astro:assets';
 import aboutImg from '../assets/images/about.webp';
+
+const stats = [
+  { n: '8',    label: 'Acres' },
+  { n: '180°', label: 'Caldera View' },
+  { n: '4',    label: 'Suites' },
+];
 ---
-<script>
-import { gsap } from '../lib/gsap';
-
-gsap.set('#intro .intro-img, #intro h2, #intro .intro-body, .stat', { opacity: 0 });
-gsap.set('#intro .intro-img', { scale: 1.04 });
-gsap.set('#intro h2, #intro .intro-body', { y: 30 });
-gsap.set('.stat', { y: 20 });
-
-const tl = gsap.timeline({ scrollTrigger: { trigger: '#intro', start: 'top 70%' } });
-tl.to('#intro .intro-img', { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' })
-  .to('#intro h2',         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.4')
-  .to('#intro .intro-body',{ opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
-  .to('.stat',             { opacity: 1, y: 0, stagger: 0.12, duration: 0.6 }, '-=0.3');
-</script>
 
 <section id="intro" data-nav-theme="light" class="bg-warm-white">
-  <div class="grid md:grid-cols-[3fr_2fr] min-h-[80vh]">
-    <div class="intro-img overflow-hidden min-h-[60vw] sm:min-h-[50vw] md:min-h-0">
+  <div class="grid md:grid-cols-[3fr_2fr] md:min-h-[80vh]">
+    <div data-anim="img" class="overflow-hidden aspect-[4/3] md:aspect-auto md:min-h-0">
       <Image
         src={aboutImg}
         alt="Casa Serena living space"
@@ -30,30 +22,24 @@ tl.to('#intro .intro-img', { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.
 
     <div class="flex flex-col justify-center gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
       <div>
-        <p class="label-xs text-driftwood mb-6">Est. 1987 · Reimagined 2019</p>
-        <h2 class="font-serif italic font-light text-charcoal leading-tight mb-6 heading-lg">
+        <p class="label-xs text-driftwood mb-5">Est. 1987 · Reimagined 2019</p>
+        <h2 class="font-serif italic font-light text-charcoal leading-tight mb-5 heading-lg">
           A house that breathes.
         </h2>
-        <p class="intro-body text-charcoal/80 leading-relaxed border-l border-terracotta pl-5">
-          Designed to dissolve boundaries between interior and ocean, Casa Serena is where architecture whispers rather than shouts.
+        <p data-anim="body" class="text-charcoal/80 leading-relaxed border-l border-terracotta pl-5">
+          Designed to dissolve boundaries between interior and ocean,
+          Casa Serena is where architecture whispers rather than shouts.
         </p>
       </div>
 
-      <div class="flex gap-10 pt-8 border-t border-driftwood/20">
-        <div class="stat">
-          <div class="font-serif text-4xl font-light text-terracotta">8</div>
-          <div class="label-xs text-driftwood mt-1">Acres</div>
-        </div>
-        <div class="stat">
-          <div class="font-serif text-4xl font-light text-terracotta">180°</div>
-          <div class="label-xs text-driftwood mt-1">Caldera View</div>
-        </div>
-        <div class="stat">
-          <div class="font-serif text-4xl font-light text-terracotta">4</div>
-          <div class="label-xs text-driftwood mt-1">Suites</div>
-        </div>
+      <div class="flex gap-8 sm:gap-10 pt-8 border-t border-driftwood/20">
+        {stats.map(({ n, label }) => (
+          <div data-anim="stat">
+            <div class="font-serif text-3xl sm:text-4xl font-light text-terracotta">{n}</div>
+            <div class="label-xs text-driftwood mt-1">{label}</div>
+          </div>
+        ))}
       </div>
     </div>
-
   </div>
 </section>

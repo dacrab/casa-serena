@@ -1,32 +1,32 @@
 ---
 ---
-<script>
-import { gsap } from '../lib/gsap';
 
-gsap.set('#hero .label-top, #hero h1, #hero .label-bot', { opacity: 0, y: 30 });
-
-const tl = gsap.timeline({ delay: 0.3 });
-tl.to('#hero .label-top', { opacity: 1, y: 0, duration: 0.6 })
-  .to('#hero h1',         { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.3')
-  .to('#hero .label-bot', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
-  .to('.marquee', { x: '-50%', duration: 22, ease: 'none', repeat: -1 }, '-=0.2');
-</script>
-
-<section id="hero" data-nav-theme="dark" class="relative min-h-svh flex items-end">
-  <video autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover -z-10" aria-hidden="true">
+<section
+  id="hero"
+  data-nav-theme="dark"
+  class="relative min-h-svh flex items-end overflow-hidden"
+>
+  <video
+    autoplay loop muted playsinline preload="metadata"
+    class="absolute inset-0 w-full h-full object-cover -z-10"
+    aria-hidden="true"
+  >
     <source src="/images/hero.mp4" type="video/mp4" />
   </video>
   <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60"></div>
-  <div class="section-px pb-8 sm:pb-12 md:pb-20">
-    <p class="label-top label-xs text-cream mb-4">BEACHFRONT ESTATE</p>
-    <h1 class="font-serif italic font-light text-cream leading-none mb-3 heading-hero">Serena</h1>
-    <p class="label-bot label-xs text-cream/70">Santorini, Greece · 4 Suites · 8 Acres · Caldera View</p>
+
+  <div class="section-px pb-10 md:pb-20 w-full">
+    <p data-anim="label-top" class="label-xs text-cream mb-3 md:mb-4">BEACHFRONT ESTATE</p>
+    <h1 data-anim="title" class="font-serif italic font-light text-cream leading-none mb-3 heading-hero">Serena</h1>
+    <p data-anim="label-bot" class="label-xs text-cream/70">
+      Santorini, Greece · 4 Suites · 8 Acres · Caldera View
+    </p>
   </div>
 </section>
 
 <div class="h-10 bg-terracotta overflow-hidden" aria-hidden="true">
-  <div class="marquee flex whitespace-nowrap">
-    <span class="label-xs text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
-    <span class="label-xs text-cream pr-12">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+  <div class="marquee flex whitespace-nowrap will-change-transform">
+    <span class="label-xs text-cream pr-12 leading-10">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
+    <span class="label-xs text-cream pr-12 leading-10">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>

@@ -3,28 +3,25 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Page Not Found — Casa Serena">
-  <main class="min-h-svh bg-charcoal flex items-center justify-center px-5">
-    <div class="flex flex-col items-center text-center gap-5">
-      <p
-        aria-hidden="true"
-        class="text-[clamp(5rem,15vw,12rem)] font-light text-cream/[0.06] leading-none tracking-[0.05em]"
-      >
+  <main class="min-h-svh bg-charcoal flex items-center justify-center section-px">
+    <div class="flex flex-col items-center text-center gap-5 max-w-md">
+      <p aria-hidden="true" class="font-light text-cream/[0.06] leading-none tracking-[0.05em] heading-xl">
         404
       </p>
       <div class="w-12 h-px bg-terracotta" aria-hidden="true"></div>
-      <h1 class="font-serif text-[clamp(2.5rem,6vw,5rem)] italic font-light text-cream leading-none">
+      <h1 class="font-serif italic font-light text-cream leading-none heading-lg">
         Lost at sea.
       </h1>
-      <p class="text-[0.9rem] text-driftwood tracking-[0.05em]">
+      <p class="text-sm text-driftwood tracking-wider">
         This page doesn't exist — but the estate does.
       </p>
       <a
         href="/"
-        class="inline-flex items-center gap-3 mt-4 text-[0.75rem] tracking-[0.15em] uppercase text-cream border border-white/20 px-8 py-[0.85rem] transition-[background,border-color] duration-300 hover:bg-terracotta hover:border-terracotta"
+        class="inline-flex items-center gap-3 mt-4 label-xs text-cream border border-white/20 px-8 py-3 min-h-[44px]
+               transition-colors duration-300 hover:bg-terracotta hover:border-terracotta"
       >
         Return to Casa Serena
       </a>
     </div>
   </main>
 </Layout>
-

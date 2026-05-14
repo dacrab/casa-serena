@@ -1,13 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 import gallery1 from '../assets/images/gallery-1.webp';
-import quote from '../assets/images/quote.webp';
+import quote    from '../assets/images/quote.webp';
 import gallery2 from '../assets/images/gallery-2.webp';
 import gallery3 from '../assets/images/gallery-3.webp';
 import gallery4 from '../assets/images/gallery-4.webp';
 import gallery5 from '../assets/images/gallery-5.webp';
 
-const images = [
+const [hero, ...rest] = [
   { src: gallery1, alt: 'Casa Serena exterior at golden hour' },
   { src: quote,    alt: 'Casa Serena pool at sunset' },
   { src: gallery2, alt: 'Casa Serena beachfront pool' },
@@ -16,35 +16,28 @@ const images = [
   { src: gallery5, alt: 'Casa Serena master suite bedroom' },
 ];
 ---
-<script>
-import { gsap } from '../lib/gsap';
 
-gsap.set('.gallery-hero', { opacity: 0, scale: 1.04 });
-gsap.set('.gallery-cell', { opacity: 0, y: 30 });
+<section
+  id="gallery"
+  data-nav-theme="dark"
+  class="bg-gallery-bg py-10 md:py-[8vh] section-px"
+>
+  <p class="label-xs text-cream/40 mb-6 md:mb-8">The Property</p>
 
-const tl = gsap.timeline({ scrollTrigger: { trigger: '#gallery', start: 'top 80%' } });
-tl.to('.gallery-hero', { opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out' })
-  .to('.gallery-cell', { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.4');
-</script>
-
-<section id="gallery" data-nav-theme="dark" class="bg-gallery-bg py-10 md:py-[8vh] section-px">
-  <p class="label-xs text-cream/40 mb-8">The Property</p>
-  <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-    <div class="gallery-hero sm:col-span-2 md:col-span-2 aspect-[16/9] overflow-hidden">
-      <Image src={images[0]!.src} alt={images[0]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+    <div data-anim="hero" class="sm:col-span-2 md:col-span-2 aspect-[16/9] overflow-hidden">
+      <Image src={hero!.src} alt={hero!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
     </div>
-    <div class="gallery-cell aspect-[4/3] sm:aspect-[3/4] overflow-hidden">
-      <Image src={images[1]!.src} alt={images[1]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
-    </div>
-    {images.slice(2).map((img) => (
-      <div class="gallery-cell aspect-[4/3] overflow-hidden">
-        <Image src={img.src} alt={img.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
+    {rest.map(({ src, alt }, i) => (
+      <div
+        data-anim="cell"
+        class:list={[
+          'overflow-hidden',
+          i === 0 ? 'aspect-[4/3] sm:aspect-[3/4]' : 'aspect-[4/3]',
+        ]}
+      >
+        <Image src={src} alt={alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
       </div>
     ))}
   </div>
 </section>
-
-<style>
-  .gallery-img { transition: transform 0.5s; }
-  .gallery-img:hover { transform: scale(1.05); }
-</style>

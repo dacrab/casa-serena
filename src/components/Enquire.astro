@@ -1,188 +1,38 @@
 ---
+const social = [
+  { href: 'https://instagram.com', label: 'Instagram' },
+  { href: 'https://facebook.com',  label: 'Facebook' },
+];
 ---
-<script>
-import { gsap } from '../lib/gsap';
-
-gsap.set('#enquire .enquire-info > *', { opacity: 0, y: 30 });
-gsap.set('#enquire .enquire-form > div, #enquire .enquire-form > button', { opacity: 0, y: 20 });
-
-const tl = gsap.timeline({ scrollTrigger: { trigger: '#enquire', start: 'top 80%' } });
-tl.to('#enquire .enquire-info > *', { opacity: 1, y: 0, stagger: 0.12, duration: 0.8 })
-  .to('#enquire .enquire-form > div, #enquire .enquire-form > button', { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 }, '-=0.4');
-
-const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-const fmtMonth = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' });
-const fmtDay   = new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric' });
-
-function today() { const d = new Date(); d.setHours(0,0,0,0); return d; }
-function ymd(d: Date) {
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-function fromYmd(s: string) {
-  const [y,m,d] = s.split('-').map(Number) as [number,number,number];
-  return new Date(y, m-1, d);
-}
-
-type Mode = 'arrival' | 'departure' | null;
-let selected: Record<'arrival'|'departure', string|null> = { arrival: null, departure: null };
-let viewYear = today().getFullYear(), viewMonth = today().getMonth();
-let activeMode: Mode = null;
-
-const calWrap  = document.getElementById('cal-wrap');
-const calGrid  = document.getElementById('cal-grid');
-const calTitle = document.getElementById('cal-title');
-const arrBtn   = document.getElementById('btn-arrival');
-const depBtn   = document.getElementById('btn-departure');
-const arrInput = document.getElementById('arrival')    as HTMLInputElement | null;
-const depInput = document.getElementById('departure')  as HTMLInputElement | null;
-
-function render() {
-  if (!calTitle || !calGrid) return;
-  calTitle.textContent = fmtMonth.format(new Date(viewYear, viewMonth));
-  const t = today();
-  const firstDow = new Date(viewYear, viewMonth, 1).getDay();
-  const daysInM  = new Date(viewYear, viewMonth+1, 0).getDate();
-  const arrDate  = selected.arrival   ? fromYmd(selected.arrival)   : null;
-  const depDate  = selected.departure ? fromYmd(selected.departure) : null;
-
-  let html = DAYS.map(d => `<div class="text-center label-xs text-driftwood/50 py-1">${d}</div>`).join('');
-  for (let i = 0; i < firstDow; i++) html += '<div></div>';
-  for (let n = 1; n <= daysInM; n++) {
-    const cell = new Date(viewYear, viewMonth, n);
-    const key  = ymd(cell);
-    const isPast  = cell < t;
-    const isEndpt = (arrDate && key === ymd(arrDate)) || (depDate && key === ymd(depDate));
-    const inRange = arrDate && depDate && cell > arrDate && cell < depDate;
-    let cls = 'text-center text-sm py-1.5 ';
-    if (isPast)       cls += 'text-cream/15 cursor-not-allowed';
-    else if (isEndpt) cls += 'bg-terracotta text-cream cursor-pointer font-medium';
-    else if (inRange) cls += 'bg-terracotta/20 text-cream cursor-pointer';
-    else              cls += 'text-cream/70 hover:text-terracotta cursor-pointer';
-    const interactive = !isPast ? `role="button" tabindex="0"` : '';
-    html += `<div class="${cls}" ${interactive} data-key="${isPast ? '' : key}">${n}</div>`;
-  }
-  calGrid.innerHTML = html;
-  calGrid.querySelectorAll<HTMLElement>('[data-key]').forEach(el => {
-    if (!el.dataset.key) return;
-    el.addEventListener('click', () => selectDate(el.dataset.key!));
-    el.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        selectDate(el.dataset.key!);
-      }
-    });
-  });
-
-  const valArr = document.getElementById('val-arrival');
-  const valDep = document.getElementById('val-departure');
-  if (valArr) {
-    valArr.textContent = selected.arrival   ? fmtDay.format(fromYmd(selected.arrival))   : 'Select date';
-    valArr.className = selected.arrival   ? 'text-sm text-cream' : 'text-sm text-cream/40';
-  }
-  if (valDep) {
-    valDep.textContent = selected.departure ? fmtDay.format(fromYmd(selected.departure)) : 'Select date';
-    valDep.className = selected.departure ? 'text-sm text-cream' : 'text-sm text-cream/40';
-  }
-
-  const lA = document.getElementById('lbl-arrival');
-  const lD = document.getElementById('lbl-departure');
-  if (lA) lA.className = `label-xs block mb-0.5 ${activeMode === 'arrival'   ? 'text-terracotta' : 'text-driftwood/60'}`;
-  if (lD) lD.className = `label-xs block mb-0.5 ${activeMode === 'departure' ? 'text-terracotta' : 'text-driftwood/60'}`;
-}
-
-function selectDate(key: string) {
-  if (!activeMode) return;
-  selected[activeMode] = key;
-  if (selected.arrival && selected.departure && selected.arrival >= selected.departure) {
-    selected.departure = null;
-  }
-  if (arrInput) arrInput.value = selected.arrival  ?? '';
-  if (depInput) depInput.value = selected.departure ?? '';
-  if (activeMode === 'arrival' && !selected.departure) {
-    activeMode = 'departure';
-    render();
-  } else {
-    closeCalendar();
-  }
-}
-
-function openCalendar(mode: Mode) {
-  activeMode = mode;
-  const ex = mode && selected[mode];
-  if (ex) { const d = fromYmd(ex); viewYear = d.getFullYear(); viewMonth = d.getMonth(); }
-  else { viewYear = today().getFullYear(); viewMonth = today().getMonth(); }
-  render();
-  if (!calWrap) return;
-  calWrap.hidden = false;
-  gsap.fromTo(calWrap, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.18 });
-}
-
-function closeCalendar() {
-  activeMode = null;
-  if (calWrap) {
-    gsap.to(calWrap, { opacity: 0, y: -6, duration: 0.15, onComplete: () => { calWrap.hidden = true; } });
-  }
-  render();
-}
-
-arrBtn?.addEventListener('click', e => {
-  e.stopPropagation();
-  activeMode === 'arrival' ? closeCalendar() : openCalendar('arrival');
-});
-depBtn?.addEventListener('click', e => {
-  e.stopPropagation();
-  activeMode === 'departure' ? closeCalendar() : openCalendar('departure');
-});
-document.addEventListener('click', e => {
-  const dateSection = document.getElementById('date-section');
-  if (dateSection && !dateSection.contains(e.target as Node)) closeCalendar();
-});
-document.getElementById('cal-prev')?.addEventListener('click', e => {
-  e.stopPropagation();
-  if (--viewMonth < 0) { viewMonth = 11; viewYear--; }
-  render();
-});
-document.getElementById('cal-next')?.addEventListener('click', e => {
-  e.stopPropagation();
-  if (++viewMonth > 11) { viewMonth = 0; viewYear++; }
-  render();
-});
-
-document.getElementById('enquire-form')?.addEventListener('submit', e => {
-  e.preventDefault();
-  const form = e.target as HTMLFormElement;
-  form.innerHTML =
-    '<p class="text-cream text-xl font-serif italic">Thank you. We\'ll be in touch.</p>';
-});
-</script>
 
 <section id="enquire" data-nav-theme="dark" class="bg-charcoal py-10 md:py-[8vh] section-px">
-  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12">
-
-    <div class="enquire-info">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-12">
+    <div data-anim="info">
       <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
       <h2 class="font-serif italic font-light text-cream mb-6 md:mb-8 heading-xl">Stay.</h2>
       <address class="not-italic space-y-2 mb-8">
-        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition-colors">info@casaserena.com</a>
-        <a href="tel:+30-22860-00000" class="block text-cream hover:text-terracotta transition-colors">+30 22860 00000</a>
+        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition-colors py-1">info@casaserena.com</a>
+        <a href="tel:+302286000000"          class="block text-cream hover:text-terracotta transition-colors py-1">+30 22860 00000</a>
       </address>
       <div class="flex gap-4 label-xs text-driftwood">
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">Instagram<span class="sr-only"> (opens in new tab)</span></a>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">Facebook<span class="sr-only"> (opens in new tab)</span></a>
+        {social.map(({ href, label }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">
+            {label}<span class="sr-only"> (opens in new tab)</span>
+          </a>
+        ))}
       </div>
     </div>
 
-    <form id="enquire-form" class="enquire-form space-y-6">
-
-      <div id="date-section" class="relative">
+    <form id="enquire-form" class="space-y-6">
+      <div data-anim="field" id="date-section" class="relative">
         <p class="label-xs text-driftwood mb-2">Dates</p>
         <div class="flex gap-px border-b border-cream/20">
-          <button id="btn-arrival" type="button" class="flex-1 text-left py-2 pr-4">
+          <button id="btn-arrival" type="button" class="flex-1 text-left py-3 pr-4 min-h-[44px]">
             <span id="lbl-arrival" class="label-xs text-driftwood/60 block mb-0.5">Arrival</span>
             <span id="val-arrival" class="text-sm text-cream/40">Select date</span>
           </button>
-          <div class="w-px bg-cream/10 self-stretch mx-2"></div>
-          <button id="btn-departure" type="button" class="flex-1 text-left py-2 pl-2">
+          <div class="w-px bg-cream/10 self-stretch mx-2" aria-hidden="true"></div>
+          <button id="btn-departure" type="button" class="flex-1 text-left py-3 pl-2 min-h-[44px]">
             <span id="lbl-departure" class="label-xs text-driftwood/60 block mb-0.5">Departure</span>
             <span id="val-departure" class="text-sm text-cream/40">Select date</span>
           </button>
@@ -192,37 +42,45 @@ document.getElementById('enquire-form')?.addEventListener('submit', e => {
 
         <div id="cal-wrap" hidden class="absolute top-full left-0 right-0 mt-1 z-10 bg-surface border border-cream/10 p-4 shadow-2xl">
           <div class="flex justify-between items-center mb-3">
-            <button id="cal-prev" type="button" class="text-driftwood/60 hover:text-cream transition-colors px-1 min-w-[44px] min-h-[44px] flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+            <button id="cal-prev" type="button" aria-label="Previous month"
+              class="text-driftwood/60 hover:text-cream transition-colors w-11 h-11 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+              </svg>
             </button>
             <span id="cal-title" class="label-xs text-cream"></span>
-            <button id="cal-next" type="button" class="text-driftwood/60 hover:text-cream transition-colors px-1 min-w-[44px] min-h-[44px] flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
+            <button id="cal-next" type="button" aria-label="Next month"
+              class="text-driftwood/60 hover:text-cream transition-colors w-11 h-11 flex items-center justify-center">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+              </svg>
             </button>
           </div>
           <div id="cal-grid" aria-live="polite" class="grid grid-cols-7 gap-y-0.5"></div>
         </div>
       </div>
 
-      <div>
+      <div data-anim="field">
         <label for="name" class="label-xs text-driftwood block mb-2">Name</label>
         <input id="name" name="name" required class="form-input" />
       </div>
-      <div>
+      <div data-anim="field">
         <label for="email" class="label-xs text-driftwood block mb-2">Email</label>
         <input id="email" type="email" name="email" required class="form-input" />
       </div>
-      <div>
-        <label for="message" class="label-xs text-driftwood block mb-2">Message <span class="opacity-60 italic">(optional)</span></label>
+      <div data-anim="field">
+        <label for="message" class="label-xs text-driftwood block mb-2">
+          Message <span class="opacity-60 italic">(optional)</span>
+        </label>
         <textarea id="message" name="message" rows="3" class="form-input resize-none"></textarea>
       </div>
 
       <button
+        data-anim="field"
         type="submit"
-        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs
+        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs min-h-[44px]
                hover:bg-terracotta hover:border-terracotta hover:text-white transition-colors duration-200"
       >Send Enquiry</button>
-
     </form>
   </div>
 </section>

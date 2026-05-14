@@ -10,22 +10,16 @@ const amenities = [
   { n: '08', text: 'Guest House · Independent 2-bedroom residence' },
 ];
 ---
-<script>
-import { gsap } from '../lib/gsap';
-
-gsap.set('.amenity', { opacity: 0, x: -20 });
-
-document.querySelectorAll('.amenity').forEach(el => {
-  gsap.to(el, { opacity: 1, x: 0, duration: 0.6, scrollTrigger: { trigger: el, start: 'top 88%' } });
-});
-</script>
 
 <section data-nav-theme="light" class="bg-cream py-10 md:py-[8vh] section-px">
   <div class="max-w-4xl mx-auto">
     <h2 class="sr-only">Amenities</h2>
     <ul>
       {amenities.map(({ n, text }) => (
-        <li class="amenity py-4 border-t border-driftwood/20 font-serif text-base md:text-lg text-charcoal">
+        <li
+          data-amenity
+          class="py-4 border-t border-driftwood/20 font-serif text-base md:text-lg text-charcoal"
+        >
           <span class="text-terracotta mr-3">{n}</span>{text}
         </li>
       ))}

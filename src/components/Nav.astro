@@ -1,73 +1,48 @@
 ---
 const navLinks = [
-  { href: '#intro', label: 'About' },
-  { href: '#gallery', label: 'Gallery' },
+  { href: '#intro',    label: 'About' },
+  { href: '#gallery',  label: 'Gallery' },
   { href: '#location', label: 'Location' },
-  { href: '#enquire', label: 'Enquire' },
+  { href: '#enquire',  label: 'Enquire' },
 ];
 ---
-<script>
-import { gsap, ScrollTrigger } from '../lib/gsap';
 
-gsap.set('nav .nav-logo', { opacity: 0, y: -10 });
-gsap.to('nav .nav-logo', { opacity: 1, y: 0, duration: 0.6, delay: 0.1 });
+<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
+  <a href="#hero" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
-const nav     = document.querySelector<HTMLElement>('nav');
-const toggle  = document.querySelector<HTMLButtonElement>('[data-nav="toggle"]');
-const overlay = document.querySelector<HTMLElement>('[data-nav="overlay"]');
-const bar1    = document.querySelector<HTMLElement>('[data-bar="1"]');
-const bar2    = document.querySelector<HTMLElement>('[data-bar="2"]');
-let open = false;
+  <div class="hidden md:flex gap-8">
+    {navLinks.map(({ href, label }) => (
+      <a href={href} class="nav-link label-xs">{label}</a>
+    ))}
+  </div>
 
-const openMenu = () => {
-  open = true;
-  if (!overlay) return;
-  overlay.hidden = false;
-  gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25 });
-  gsap.fromTo('[data-nav="overlay"] li', { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6 });
-  gsap.to(bar1, { rotate: 45, y: 4, duration: 0.2 });
-  gsap.to(bar2, { rotate: -45, y: -4, duration: 0.2 });
-  document.body.style.overflow = 'hidden';
-  // Focus first link in overlay
-  const firstLink = overlay.querySelector<HTMLElement>('a');
-  firstLink?.focus();
-};
+  <button
+    data-nav="toggle"
+    class="md:hidden relative flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
+    aria-label="Toggle menu"
+    aria-controls="nav-overlay"
+  >
+    <span data-nav="bar" class="bar block w-6 h-0.5 origin-center"></span>
+    <span data-nav="bar" class="bar block w-6 h-0.5 origin-center"></span>
+  </button>
+</nav>
 
-const closeMenu = () => {
-  open = false;
-  gsap.to(bar1, { rotate: 0, y: 0, duration: 0.2 });
-  gsap.to(bar2, { rotate: 0, y: 0, duration: 0.2 });
-  if (overlay) {
-    gsap.to(overlay, { opacity: 0, duration: 0.2, onComplete: () => { overlay.hidden = true; } });
-  }
-  document.body.style.overflow = '';
-  // Return focus to toggle button
-  toggle?.focus();
-};
-
-toggle?.addEventListener('click', () => open ? closeMenu() : openMenu());
-overlay?.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-
-// Escape key closes mobile menu
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && open) closeMenu();
-});
-
-// Nav theme switching
-document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
-  const theme = s.dataset.navTheme;
-  if (!theme) return;
-  ScrollTrigger.create({
-    trigger: s,
-    start: 'top 60px',
-    end: 'bottom 60px',
-    onEnter:     () => nav?.classList.toggle('nav-light', theme === 'light'),
-    onEnterBack: () => nav?.classList.toggle('nav-light', theme === 'light'),
-    onLeave:     () => nav?.classList.remove('nav-light'),
-    onLeaveBack: () => nav?.classList.remove('nav-light'),
-  });
-});
-</script>
+<div
+  id="nav-overlay"
+  data-nav="overlay"
+  hidden
+  class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center"
+>
+  <ul class="space-y-6 text-center">
+    {navLinks.map(({ href, label }) => (
+      <li>
+        <a href={href} class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">
+          {label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
 
 <style>
   nav .nav-logo, nav .nav-link { color: var(--color-cream); transition: color 0.3s; }
@@ -78,27 +53,10 @@ document.querySelectorAll<HTMLElement>('[data-nav-theme]').forEach(s => {
   nav.nav-light .nav-logo,
   nav.nav-light .nav-link { color: var(--color-charcoal); }
   nav.nav-light .bar { background: var(--color-charcoal); }
+
+  /* While the mobile overlay is open, the nav sits on a dark background regardless
+     of which section's theme is underneath — force cream so logo + X stay visible. */
+  nav.nav-open .nav-logo,
+  nav.nav-open .nav-link { color: var(--color-cream); }
+  nav.nav-open .bar { background: var(--color-cream); }
 </style>
-
-<nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center section-px py-5">
-  <a href="#hero" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
-
-  <div class="hidden md:flex gap-8">
-    {navLinks.map(({ href, label }) => (
-      <a href={href} class="nav-link label-xs">{label}</a>
-    ))}
-  </div>
-
-  <button data-nav="toggle" class="md:hidden flex flex-col justify-center gap-[5px] w-11 h-11" aria-label="Toggle menu">
-    <span data-bar="1" class="bar block w-6 h-0.5 origin-center"></span>
-    <span data-bar="2" class="bar block w-6 h-0.5 origin-center"></span>
-  </button>
-</nav>
-
-<div data-nav="overlay" hidden class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center">
-  <ul class="space-y-6 text-center">
-    {navLinks.map(({ href, label }) => (
-      <li><a href={href} class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">{label}</a></li>
-    ))}
-  </ul>
-</div>
