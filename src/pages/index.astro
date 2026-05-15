@@ -7,6 +7,21 @@ import Gallery from '../components/Gallery.astro';
 import Amenities from '../components/Amenities.astro';
 import Location from '../components/Location.astro';
 import Enquire from '../components/Enquire.astro';
+
+const testimonials = [
+  { quote: 'We\'ve stayed at estates across the Mediterranean — Amalfi, Côte d\'Azur, Mallorca. Casa Serena is the only one we\'ve returned to three times. It\'s not a place you visit. It\'s a place you miss.', name: 'James & Caroline H.', detail: 'London, UK · Stayed August 2024' },
+  { quote: 'The silence. That\'s what I remember most. No music piped through speakers, no lobby chatter. Just the wind, the sea, and the occasional clink of a wine glass. Absolute perfection.', name: 'Sophie M.', detail: 'Paris, France · Stayed May 2024' },
+  { quote: 'My wife said "I don\'t want to leave" on day two. We extended by a week. Nikos and his team made it feel effortless — as if the extra days had always been part of the plan.', name: 'David & Rachel K.', detail: 'New York, USA · Stayed June 2024' },
+];
+
+const faqs = [
+  { q: 'What is the minimum stay?', a: '3 nights year-round, with a 5-night minimum during July and August. We find this allows guests to truly settle into the rhythm of the estate.' },
+  { q: 'Is the estate suitable for children?', a: 'Absolutely. We welcome families and can arrange childproofing, high chairs, cots, and vetted childcare. Please note the property has unfenced cliff edges and an infinity pool — supervision is required for young children.' },
+  { q: 'How do I get to the estate from the airport?', a: 'We provide complimentary private transfers in our Mercedes V-Class for all guests. The drive from Santorini Airport takes approximately 25 minutes. Helicopter transfers from Athens or Mykonos can also be arranged.' },
+  { q: 'Can I book the entire estate exclusively?', a: 'Yes. Full estate buyouts are available for up to 16 guests across all four suites. This is popular for celebrations, retreats, and family gatherings. Contact us for exclusive-use pricing.' },
+  { q: 'What is your cancellation policy?', a: 'Cancellations 60+ days before arrival receive a full refund minus a €200 fee. 30–59 days: 50% retained. Less than 30 days: no refund. We strongly recommend travel insurance.' },
+  { q: 'Is Wi-Fi available?', a: 'Yes — high-speed fibre Wi-Fi is available throughout the estate, including all outdoor terraces and the pool area. We also offer a "digital detox" option where we can disable connectivity in your suite on request.' },
+];
 ---
 
 <Layout>
@@ -16,8 +31,60 @@ import Enquire from '../components/Enquire.astro';
     <Intro />
     <Gallery />
     <Amenities />
+
+    <!-- Testimonials -->
+    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-32 section-px overflow-hidden">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-baseline justify-between mb-14">
+          <div>
+            <p class="label-xs text-driftwood mb-3">Guest Voices</p>
+            <h2 class="font-serif italic font-light text-cream heading-lg">What They Say</h2>
+          </div>
+          <div class="hidden md:block w-16 h-px bg-terracotta/40"></div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-10 md:gap-14">
+          {testimonials.map(t => (
+            <blockquote class="relative">
+              <span class="absolute -top-4 -left-2 font-serif text-[4rem] text-terracotta/15 leading-none select-none" aria-hidden="true">"</span>
+              <p class="text-cream/70 text-sm leading-relaxed mb-6 relative z-10">{t.quote}</p>
+              <footer class="border-t border-cream/10 pt-4">
+                <cite class="not-italic text-cream text-sm font-medium block mb-1">{t.name}</cite>
+                <span class="label-xs text-driftwood">{t.detail}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section data-nav-theme="light" class="bg-warm-white py-20 md:py-28 section-px">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-14">
+          <p class="label-xs text-driftwood mb-3">FAQ</p>
+          <h2 class="font-serif italic font-light text-charcoal heading-lg mb-3">Common Questions</h2>
+          <p class="text-charcoal/50 text-sm">Can't find your answer? <a href="/#enquire" class="text-terracotta hover:underline">Get in touch</a>.</p>
+        </div>
+        <div>
+          {faqs.map(({ q, a }, i) => (
+            <details class="group border-b border-driftwood/15">
+              <summary class="flex justify-between items-center py-5 list-none text-charcoal font-medium text-sm md:text-base hover:text-terracotta transition-colors">
+                <span class="flex items-center gap-4">
+                  <span class="label-xs text-driftwood/50 w-5">{String(i + 1).padStart(2, '0')}</span>
+                  {q}
+                </span>
+                <svg class="w-4 h-4 text-driftwood shrink-0 ml-4 transition-transform duration-200 group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+              </summary>
+              <p class="text-charcoal/65 text-sm leading-relaxed pb-5 pl-9">{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
     <Location />
     <Enquire />
   </main>
 </Layout>
-

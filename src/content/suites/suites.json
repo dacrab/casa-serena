@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Caldera Suite",
+    "tagline": "Where sky meets sea.",
+    "description": "Our signature suite occupies the entire upper floor of the main residence. Floor-to-ceiling glass frames an unbroken 180° panorama of the caldera.",
+    "price": "€2,800",
+    "specs": { "size": "95 m²", "bed": "King", "terrace": "40 m²", "view": "Caldera & Aegean", "bath": "Freestanding tub + rain shower", "guests": "2 adults" },
+    "features": ["Private infinity plunge pool", "Outdoor dining terrace", "Fireplace", "Walk-in dressing room", "Nespresso & wine fridge", "Bose sound system"],
+    "order": 1
+  },
+  {
+    "name": "Aegean Suite",
+    "tagline": "Suspended above the blue.",
+    "description": "Cantilevered over the cliff edge, the Aegean Suite feels like sleeping on the water itself. A wraparound balcony traces the curve of the caldera.",
+    "price": "€2,200",
+    "specs": { "size": "72 m²", "bed": "King", "terrace": "28 m²", "view": "Open sea", "bath": "Double vanity + outdoor shower", "guests": "2 adults" },
+    "features": ["Heated plunge pool", "Daybed terrace", "Writing desk nook", "Rainfall shower with sea view", "Handmade ceramics", "Organic bath amenities"],
+    "order": 2
+  },
+  {
+    "name": "Garden Suite",
+    "tagline": "Rooted in the earth.",
+    "description": "Set within the estate's terraced gardens, this ground-level retreat opens directly onto a private courtyard of bougainvillea and olive trees.",
+    "price": "€1,800",
+    "specs": { "size": "68 m²", "bed": "King or Twin", "terrace": "35 m² courtyard", "view": "Garden & partial sea", "bath": "Rain shower + soaking tub", "guests": "2–3 adults" },
+    "features": ["Private walled courtyard", "Outdoor stone bathtub", "Kitchenette", "Direct garden access", "Hammock & loungers", "Pet-friendly on request"],
+    "order": 3
+  },
+  {
+    "name": "Cliff Studio",
+    "tagline": "Intimate. Essential. Perfect.",
+    "description": "The most intimate of our accommodations — a sculpted cave suite carved into the volcanic rock. Minimal in footprint but maximal in atmosphere.",
+    "price": "€1,200",
+    "specs": { "size": "45 m²", "bed": "Queen", "terrace": "12 m²", "view": "Caldera", "bath": "Monsoon shower", "guests": "2 adults" },
+    "features": ["Cave architecture", "Built-in stone seating", "Caldera-view balcony", "Curated minibar", "Bluetooth speaker", "Complimentary breakfast"],
+    "order": 4
+  }
+]

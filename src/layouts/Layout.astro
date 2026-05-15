@@ -6,14 +6,37 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: string;
 }
 
 const {
   title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
   description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
+  image = '/images/og.jpg',
+  type = 'website',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+const amenities = ['Infinity Pool', 'Private Beach Access', 'Spa & Steam Suite', 'Wine Cellar'];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LodgingBusiness',
+  name: 'Casa Serena',
+  description,
+  url: Astro.site?.toString(),
+  image: ogImage.toString(),
+  address: { '@type': 'PostalAddress', streetAddress: 'Caldera Cliffs', addressLocality: 'Oia', addressRegion: 'Santorini', postalCode: '847 02', addressCountry: 'GR' },
+  geo: { '@type': 'GeoCoordinates', latitude: 36.4618, longitude: 25.3753 },
+  telephone: '+30-22860-00000',
+  email: 'info@casaserena.com',
+  starRating: { '@type': 'Rating', ratingValue: '5' },
+  amenityFeature: amenities.map(name => ({ '@type': 'LocationFeatureSpecification', name })),
+  numberOfRooms: 4,
+  priceRange: '€€€€',
+};
 ---
 
 <!doctype html>
@@ -28,12 +51,23 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#C4714A" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="Casa Serena" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href="https://fonts.gstatic.com/s/cormorantgaramond/v16/co3YmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href="https://fonts.gstatic.com/s/dmsans/v15/rP2Hp2ywxg089UriCZOIHTWEBlwu8Q.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
     <Analytics />
     <SpeedInsights />
   </head>

@@ -1,14 +1,15 @@
 ---
 const navLinks = [
-  { href: '#intro',    label: 'About' },
-  { href: '#gallery',  label: 'Gallery' },
-  { href: '#location', label: 'Location' },
-  { href: '#enquire',  label: 'Enquire' },
+  { href: '/suites', label: 'Suites' },
+  { href: '/experiences', label: 'Experiences' },
+  { href: '/gallery', label: 'Gallery' },
+  { href: '/story', label: 'Our Story' },
+  { href: '/#enquire', label: 'Enquire' },
 ];
 ---
 
 <nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
-  <a href="#hero" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
+  <a href="/" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
     {navLinks.map(({ href, label }) => (
@@ -45,7 +46,8 @@ const navLinks = [
 </div>
 
 <style>
-  nav .nav-logo, nav .nav-link { color: var(--color-cream); transition: color 0.3s; }
+  nav .nav-logo,
+  nav .nav-link { color: var(--color-cream); transition: color 0.3s; }
   nav .nav-link { opacity: 0.8; }
   nav .nav-link:hover { color: var(--color-terracotta); opacity: 1; }
   nav .bar { background: var(--color-cream); transition: background 0.3s; }
@@ -54,8 +56,6 @@ const navLinks = [
   nav.nav-light .nav-link { color: var(--color-charcoal); }
   nav.nav-light .bar { background: var(--color-charcoal); }
 
-  /* While the mobile overlay is open, the nav sits on a dark background regardless
-     of which section's theme is underneath — force cream so logo + X stay visible. */
   nav.nav-open .nav-logo,
   nav.nav-open .nav-link { color: var(--color-cream); }
   nav.nav-open .bar { background: var(--color-cream); }

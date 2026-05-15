@@ -1,0 +1,18 @@
+---
+import Layout from './Layout.astro';
+import Nav from '../components/Nav.astro';
+interface Props { title: string; description: string; heading: string; }
+const { title, description, heading } = Astro.props;
+---
+
+<Layout {title} {description}>
+  <Nav />
+  <main class="bg-warm-white pt-28 pb-16 md:pt-36 section-px">
+    <article class="max-w-3xl mx-auto prose-cs">
+      <p data-intro class="label-xs text-driftwood mb-4">Legal</p>
+      <h1 data-intro>{heading}</h1>
+      <p class="meta">Last updated: January 2025</p>
+      <slot />
+    </article>
+  </main>
+</Layout>

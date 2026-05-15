@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import { Image } from 'astro:assets';
+import gallery1 from '../assets/images/gallery-1.webp';
+import gallery2 from '../assets/images/gallery-2.webp';
+import gallery4 from '../assets/images/gallery-4.webp';
+import gallery5 from '../assets/images/gallery-5.webp';
+
+const suites = [
+  { name: 'Caldera Suite', tagline: 'Where sky meets sea.', description: 'Our signature suite occupies the entire upper floor of the main residence. Floor-to-ceiling glass frames an unbroken 180° panorama of the caldera — from the volcanic islands to the open Aegean. Wake to sunrise over Thirassia, retire to sunset from your private terrace.', image: gallery1, specs: { size: '95 m²', bed: 'King', terrace: '40 m²', view: 'Caldera & Aegean', bath: 'Freestanding tub + rain shower', guests: '2 adults' }, price: '€2,800', features: ['Private infinity plunge pool', 'Outdoor dining terrace', 'Fireplace', 'Walk-in dressing room', 'Nespresso & wine fridge', 'Bose sound system'] },
+  { name: 'Aegean Suite', tagline: 'Suspended above the blue.', description: 'Cantilevered over the cliff edge, the Aegean Suite feels like sleeping on the water itself. A wraparound balcony traces the curve of the caldera, while inside, hand-plastered walls and reclaimed oak create warmth against the endless blue beyond.', image: gallery2, specs: { size: '72 m²', bed: 'King', terrace: '28 m²', view: 'Open sea', bath: 'Double vanity + outdoor shower', guests: '2 adults' }, price: '€2,200', features: ['Heated plunge pool', 'Daybed terrace', 'Writing desk nook', 'Rainfall shower with sea view', 'Handmade ceramics', 'Organic bath amenities'] },
+  { name: 'Garden Suite', tagline: 'Rooted in the earth.', description: 'Set within the estate\'s terraced gardens, this ground-level retreat opens directly onto a private courtyard of bougainvillea and olive trees. Stone floors stay cool underfoot; vaulted ceilings recall the island\'s cave-dwelling heritage.', image: gallery4, specs: { size: '68 m²', bed: 'King or Twin', terrace: '35 m² courtyard', view: 'Garden & partial sea', bath: 'Rain shower + soaking tub', guests: '2–3 adults' }, price: '€1,800', features: ['Private walled courtyard', 'Outdoor stone bathtub', 'Kitchenette', 'Direct garden access', 'Hammock & loungers', 'Pet-friendly on request'] },
+  { name: 'Cliff Studio', tagline: 'Intimate. Essential. Perfect.', description: 'The most intimate of our accommodations — a sculpted cave suite carved into the volcanic rock. Minimal in footprint but maximal in atmosphere: whitewashed curves, a single perfectly placed window framing the caldera, and absolute silence.', image: gallery5, specs: { size: '45 m²', bed: 'Queen', terrace: '12 m²', view: 'Caldera', bath: 'Monsoon shower', guests: '2 adults' }, price: '€1,200', features: ['Cave architecture', 'Built-in stone seating', 'Caldera-view balcony', 'Curated minibar', 'Bluetooth speaker', 'Complimentary breakfast'] },
+];
+
+const light = { bg: 'bg-warm-white', text: 'text-charcoal', textMuted: 'text-charcoal/75', border: 'border-driftwood/15', features: 'text-charcoal/65', price: 'text-charcoal', spec: 'text-charcoal', btn: 'bg-charcoal text-cream hover:bg-terracotta' };
+const dark = { bg: 'bg-charcoal', text: 'text-cream', textMuted: 'text-cream/65', border: 'border-cream/10', features: 'text-cream/55', price: 'text-cream', spec: 'text-cream', btn: 'bg-cream text-charcoal hover:bg-terracotta hover:text-cream' };
+---
+
+<Layout
+  title="Suites — Casa Serena | Santorini"
+  description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio."
+>
+  <Nav />
+  <main>
+    <section class="relative h-[60vh] md:h-[70vh] flex items-end overflow-hidden">
+      <Image data-intro src={gallery5} alt="Suite interior at dusk" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/30 to-transparent"></div>
+      <div class="relative section-px pb-10 md:pb-16 w-full">
+        <p data-intro class="label-xs text-cream/50 mb-3">Accommodations</p>
+        <h1 data-intro class="font-serif italic font-light text-cream heading-xl leading-none mb-3">Our Suites</h1>
+        <p data-intro class="text-cream/50 max-w-md text-sm leading-relaxed">
+          Four residences, each with its own character. Frame the view, honour the materials, disappear into the landscape.
+        </p>
+      </div>
+    </section>
+
+    {suites.map((suite, i) => {
+      const isOdd = i % 2 !== 0;
+      const t = isOdd ? dark : light;
+      return (
+        <section data-nav-theme={isOdd ? 'dark' : 'light'} class={t.bg}>
+          <div class:list={['grid md:grid-cols-[1.2fr_1fr] md:min-h-[85vh]', isOdd && 'md:[direction:rtl]']}>
+            <div data-reveal class="overflow-hidden aspect-[4/3] md:aspect-auto md:min-h-0 relative">
+              <Image src={suite.image} alt={`${suite.name} interior`} loading={i === 0 ? 'eager' : 'lazy'} class="w-full h-full object-cover" />
+              <span class="absolute bottom-4 right-6 md:bottom-8 md:right-10 font-serif text-[6rem] md:text-[10rem] leading-none text-white/10 select-none" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+            <div class:list={['flex flex-col justify-center section-px py-10 md:py-16', isOdd && 'md:[direction:ltr]']}>
+              <div class="mb-8">
+                <p data-reveal class="label-xs text-terracotta mb-4">{suite.tagline}</p>
+                <h2 data-reveal class={`font-serif italic font-light leading-tight heading-lg mb-4 ${t.text}`}>{suite.name}</h2>
+                <p data-reveal class={`leading-relaxed ${t.textMuted}`}>{suite.description}</p>
+              </div>
+              <dl data-reveal class={`grid grid-cols-2 sm:grid-cols-3 gap-y-4 gap-x-3 py-6 border-y mb-6 ${t.border}`}>
+                {Object.entries(suite.specs).map(([key, val]) => (
+                  <div>
+                    <dt class="label-xs text-driftwood/80 mb-1 capitalize">{key}</dt>
+                    <dd class={`text-xs font-medium ${t.spec}`}>{val}</dd>
+                  </div>
+                ))}
+              </dl>
+              <ul data-reveal class={`grid grid-cols-2 gap-x-4 gap-y-2 text-xs mb-8 ${t.features}`}>
+                {suite.features.map(f => (
+                  <li class="flex items-start gap-2"><span class="text-terracotta mt-0.5">—</span>{f}</li>
+                ))}
+              </ul>
+              <div data-reveal class="flex items-end justify-between">
+                <div>
+                  <p class="label-xs text-driftwood mb-1">From</p>
+                  <p class={`font-serif text-3xl font-light ${t.price}`}>
+                    {suite.price}<span class="text-sm text-driftwood ml-1">/ night</span>
+                  </p>
+                </div>
+                <a href="/#enquire" class={`label-xs px-6 py-3 min-h-[44px] flex items-center transition-colors duration-200 ${t.btn}`}>
+                  Reserve
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    })}
+
+    <section data-nav-theme="dark" class="bg-charcoal py-20 section-px">
+      <div class="max-w-xl mx-auto text-center">
+        <p data-reveal class="label-xs text-driftwood mb-6">Every stay includes</p>
+        <p data-reveal class="text-cream/50 text-sm leading-relaxed mb-10">
+          Daily housekeeping · Organic breakfast · Airport transfers · Concierge service ·
+          Premium linens · Complimentary Wi-Fi · Welcome amenities · Turndown service
+        </p>
+        <a data-reveal href="/#enquire" class="inline-flex items-center gap-3 label-xs text-cream border border-cream/20 px-8 py-3 min-h-[44px] hover:bg-terracotta hover:border-terracotta transition-colors duration-200">Book Your Stay</a>
+      </div>
+    </section>
+  </main>
+</Layout>
