@@ -33,54 +33,28 @@ const faqs = [
     <Amenities />
 
     <!-- Testimonials -->
-    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-32 section-px overflow-hidden">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex items-baseline justify-between mb-14">
-          <div>
-            <p class="label-xs text-driftwood mb-3">Guest Voices</p>
-            <h2 class="font-serif italic font-light text-cream heading-lg">What They Say</h2>
-          </div>
-          <div class="hidden md:block w-16 h-px bg-terracotta/40"></div>
-        </div>
-        <div class="grid md:grid-cols-3 gap-10 md:gap-14">
-          {testimonials.map(t => (
-            <blockquote class="relative">
-              <span class="absolute -top-4 -left-2 font-serif text-[4rem] text-terracotta/15 leading-none select-none" aria-hidden="true">"</span>
-              <p class="text-cream/70 text-sm leading-relaxed mb-6 relative z-10">{t.quote}</p>
-              <footer class="border-t border-cream/10 pt-4">
-                <cite class="not-italic text-cream text-sm font-medium block mb-1">{t.name}</cite>
-                <span class="label-xs text-driftwood">{t.detail}</span>
-              </footer>
-            </blockquote>
-          ))}
-        </div>
+    <section data-nav-theme="dark" class="bg-charcoal py-28 md:py-40 section-px">
+      <div class="max-w-2xl mx-auto space-y-24 md:space-y-32">
+        {testimonials.map(t => (
+          <blockquote>
+            <p class="font-serif italic text-cream/80 text-lg md:text-xl leading-relaxed">{t.quote}</p>
+            <footer class="mt-6">
+              <span class="text-cream/50 text-xs tracking-wide">{t.name} — {t.detail}</span>
+            </footer>
+          </blockquote>
+        ))}
       </div>
     </section>
 
     <!-- FAQ -->
-    <section data-nav-theme="light" class="bg-warm-white py-20 md:py-28 section-px">
-      <div class="max-w-3xl mx-auto">
-        <div class="text-center mb-14">
-          <p class="label-xs text-driftwood mb-3">FAQ</p>
-          <h2 class="font-serif italic font-light text-charcoal heading-lg mb-3">Common Questions</h2>
-          <p class="text-charcoal/50 text-sm">Can't find your answer? <a href="/#enquire" class="text-terracotta hover:underline">Get in touch</a>.</p>
-        </div>
-        <div>
-          {faqs.map(({ q, a }, i) => (
-            <details class="group border-b border-driftwood/15">
-              <summary class="flex justify-between items-center py-5 list-none text-charcoal font-medium text-sm md:text-base hover:text-terracotta transition-colors">
-                <span class="flex items-center gap-4">
-                  <span class="label-xs text-driftwood/50 w-5">{String(i + 1).padStart(2, '0')}</span>
-                  {q}
-                </span>
-                <svg class="w-4 h-4 text-driftwood shrink-0 ml-4 transition-transform duration-200 group-open:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-              </summary>
-              <p class="text-charcoal/65 text-sm leading-relaxed pb-5 pl-9">{a}</p>
-            </details>
-          ))}
-        </div>
+    <section data-nav-theme="light" class="bg-warm-white py-28 md:py-40 section-px">
+      <div class="max-w-2xl mx-auto">
+        {faqs.map(({ q, a }) => (
+          <details class="group border-b border-charcoal/10 py-6">
+            <summary class="list-none cursor-pointer text-charcoal font-medium text-sm md:text-base">{q}</summary>
+            <p class="text-charcoal/55 text-sm font-light leading-relaxed mt-4">{a}</p>
+          </details>
+        ))}
       </div>
     </section>
 

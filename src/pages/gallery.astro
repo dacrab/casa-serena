@@ -11,144 +11,127 @@ import quote from '../assets/images/quote.webp';
 import about from '../assets/images/about.webp';
 
 const images = [
-  { src: gallery1, alt: 'Estate exterior at golden hour', category: 'estate', tall: true },
-  { src: quote, alt: 'Infinity pool overlooking the caldera', category: 'pool', tall: false },
-  { src: gallery2, alt: 'Beachfront pool and sun terrace', category: 'pool', tall: false },
-  { src: about, alt: 'Living space with caldera views', category: 'interiors', tall: true },
-  { src: gallery3, alt: 'Panoramic estate view from the hillside', category: 'estate', tall: false },
-  { src: gallery4, alt: 'Chef\'s kitchen with island seating', category: 'interiors', tall: false },
-  { src: gallery5, alt: 'Master suite bedroom at dusk', category: 'suites', tall: true },
-  { src: gallery1, alt: 'Caldera Suite private terrace', category: 'suites', tall: false },
-  { src: gallery2, alt: 'Spa plunge pool', category: 'spa', tall: false },
-  { src: quote, alt: 'Evening ambiance by the pool', category: 'pool', tall: true },
-  { src: gallery3, alt: 'Garden pathway through olive trees', category: 'estate', tall: false },
-  { src: gallery5, alt: 'Aegean Suite bathroom detail', category: 'suites', tall: false },
+  { src: gallery1, alt: 'Estate exterior at golden hour' },
+  { src: quote, alt: 'Infinity pool at sunset' },
+  { src: gallery2, alt: 'Beachfront pool terrace' },
+  { src: about, alt: 'Living space with caldera views' },
+  { src: gallery3, alt: 'Panoramic hillside view' },
+  { src: gallery4, alt: 'Chef\'s kitchen' },
+  { src: gallery5, alt: 'Master suite at dusk' },
+  { src: gallery1, alt: 'Private terrace morning light' },
+  { src: gallery2, alt: 'Spa treatment room' },
+  { src: quote, alt: 'Pool at twilight' },
+  { src: gallery3, alt: 'Garden pathway' },
+  { src: gallery5, alt: 'Suite bathroom detail' },
 ];
-
-const categories = ['all', 'estate', 'pool', 'interiors', 'suites', 'spa'];
 ---
 
 <Layout
   title="Gallery — Casa Serena | Santorini"
-  description="Explore Casa Serena through our gallery — the estate, suites, pool, spa, and caldera views."
+  description="Explore Casa Serena through our gallery — the estate, suites, pool, and caldera views."
 >
   <Nav />
   <main>
-    <!-- Hero -->
-    <section class="relative h-[70vh] md:h-[80vh] overflow-hidden">
-      <Image data-intro src={gallery1} alt="Casa Serena estate at golden hour" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/20 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 right-0 section-px pb-10 md:pb-16">
-        <p data-intro class="label-xs text-cream/50 mb-3">Gallery</p>
-        <h1 data-intro class="font-serif italic font-light text-cream heading-xl leading-none mb-3">The Estate</h1>
-        <p data-intro class="text-cream/50 text-sm">{images.length} photographs</p>
-      </div>
+    <!-- Hero: first image full viewport -->
+    <section class="relative h-screen overflow-hidden">
+      <Image data-intro src={images[0]!.src} alt={images[0]!.alt} loading="eager" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
+      <p data-intro class="absolute bottom-8 left-0 section-px text-cream/60 text-xs tracking-wide">{images[0]!.alt}</p>
     </section>
 
-    <!-- Filter bar -->
-    <section class="bg-charcoal py-5 section-px border-b border-cream/5 sticky top-[60px] z-30">
-      <div data-intro class="flex flex-wrap gap-2" role="tablist" aria-label="Filter gallery">
-        {categories.map(cat => (
-          <button
-            data-filter={cat}
-            role="tab"
-            aria-selected={cat === 'all' ? 'true' : 'false'}
-            class:list={['label-xs px-4 py-2 min-h-[36px] transition-colors duration-200', cat === 'all' ? 'text-cream border-b-2 border-terracotta' : 'text-cream/40 hover:text-cream/70']}
-          >{cat}</button>
-        ))}
-      </div>
+    <!-- Remaining images -->
+    <section class="py-32 md:py-48 space-y-32 md:space-y-48">
+      {images.slice(1).map((img, i) => (
+        <figure data-reveal class="section-px max-w-[1400px] mx-auto cursor-pointer" data-lightbox-trigger={i + 1}>
+          <Image src={img.src} alt={img.alt} loading="lazy" class="w-full object-cover" />
+          <figcaption class="mt-4 text-xs text-driftwood/70 tracking-wide">{img.alt}</figcaption>
+        </figure>
+      ))}
     </section>
-
-    <!-- Masonry grid -->
-    <section class="bg-charcoal py-6 md:py-10 section-px">
-      <div id="gallery-grid" class="columns-2 md:columns-3 lg:columns-4 gap-2 md:gap-3 space-y-2 md:space-y-3">
-        {images.map((img, i) => (
-          <button
-            data-reveal
-            data-category={img.category}
-            data-index={i}
-            class:list={['gallery-item w-full overflow-hidden relative group break-inside-avoid', img.tall ? 'aspect-[3/4]' : 'aspect-[4/3]']}
-            aria-label={`View: ${img.alt}`}
-          >
-            <Image src={img.src} alt={img.alt} loading={i < 4 ? 'eager' : 'lazy'} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-end p-4 opacity-0 group-hover:opacity-100">
-              <span class="text-cream text-xs leading-tight">{img.alt}</span>
-            </div>
-          </button>
-        ))}
-      </div>
-    </section>
-
-    <!-- Lightbox -->
-    <div id="lightbox" hidden class="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center" role="dialog" aria-modal="true" aria-label="Image viewer">
-      <button id="lb-close" class="absolute top-4 right-4 text-cream/70 hover:text-cream w-12 h-12 flex items-center justify-center z-10" aria-label="Close">
-        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/></svg>
-      </button>
-      <button id="lb-prev" class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream w-12 h-12 flex items-center justify-center" aria-label="Previous">
-        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
-      </button>
-      <button id="lb-next" class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-cream/70 hover:text-cream w-12 h-12 flex items-center justify-center" aria-label="Next">
-        <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/></svg>
-      </button>
-      <img id="lb-img" src="" alt="" class="max-h-[80vh] max-w-[85vw] md:max-h-[85vh] md:max-w-[90vw] object-contain" />
-      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 text-center">
-        <p id="lb-caption" class="text-cream/60 text-xs md:text-sm mb-1"></p>
-        <p id="lb-counter" class="label-xs text-cream/30"></p>
-      </div>
-    </div>
   </main>
-</Layout>
 
-<script>
-  const filters = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
-  const items = [...document.querySelectorAll<HTMLElement>('.gallery-item')];
-  const lightbox = document.getElementById('lightbox')!;
-  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
-  const lbCaption = document.getElementById('lb-caption')!;
-  const lbCounter = document.getElementById('lb-counter')!;
-  let currentIndex = 0;
-  let touchStartX = 0;
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[100] bg-charcoal/95 hidden items-center justify-center" aria-hidden="true" role="dialog" aria-label="Image lightbox">
+    <button id="lb-close" class="absolute top-6 right-6 text-cream/60 hover:text-cream text-sm tracking-wide z-10" aria-label="Close lightbox">Close</button>
+    <button id="lb-prev" class="absolute left-6 top-1/2 -translate-y-1/2 text-cream/60 hover:text-cream text-2xl z-10" aria-label="Previous image">&#8592;</button>
+    <button id="lb-next" class="absolute right-6 top-1/2 -translate-y-1/2 text-cream/60 hover:text-cream text-2xl z-10" aria-label="Next image">&#8594;</button>
+    <img id="lb-img" class="max-h-[85vh] max-w-[90vw] object-contain" alt="" />
+    <p id="lb-caption" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-cream/50 text-xs tracking-wide"></p>
+  </div>
 
-  const getVisible = () => items.filter(i => i.style.display !== 'none');
+  <script>
+    const lightbox = document.getElementById('lightbox')!;
+    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
+    const lbCaption = document.getElementById('lb-caption')!;
+    const figures = document.querySelectorAll<HTMLElement>('[data-lightbox-trigger]');
+    const heroSection = document.querySelector<HTMLElement>('main > section:first-child')!;
 
-  const show = (idx: number) => {
-    const vis = getVisible();
-    currentIndex = ((idx % vis.length) + vis.length) % vis.length;
-    const img = vis[currentIndex]!.querySelector('img')!;
-    lbImg.src = img.src;
-    lbImg.alt = lbCaption.textContent = img.alt;
-    lbCounter.textContent = `${currentIndex + 1} / ${vis.length}`;
-  };
-
-  const open = (idx: number) => { show(idx); lightbox.hidden = false; document.body.style.overflow = 'hidden'; };
-  const close = () => { lightbox.hidden = true; document.body.style.overflow = ''; };
-
-  filters.forEach(btn => btn.addEventListener('click', () => {
-    const cat = btn.dataset.filter!;
-    filters.forEach(b => {
-      const active = b === btn;
-      b.setAttribute('aria-selected', String(active));
-      b.className = `label-xs px-4 py-2 min-h-[36px] transition-colors duration-200 ${active ? 'text-cream border-b-2 border-terracotta' : 'text-cream/40 hover:text-cream/70'}`;
+    interface LBImage { src: string; alt: string }
+    const allImages: LBImage[] = [];
+    const heroImg = heroSection.querySelector('img')!;
+    allImages.push({ src: heroImg.currentSrc || heroImg.src, alt: heroImg.alt });
+    figures.forEach(fig => {
+      const img = fig.querySelector('img');
+      if (img) allImages.push({ src: img.currentSrc || img.src, alt: img.alt });
     });
-    items.forEach(item => { item.style.display = cat === 'all' || item.dataset.category === cat ? '' : 'none'; });
-  }));
 
-  items.forEach(item => item.addEventListener('click', () => open(getVisible().indexOf(item))));
-  document.getElementById('lb-close')!.addEventListener('click', close);
-  document.getElementById('lb-prev')!.addEventListener('click', () => show(currentIndex - 1));
-  document.getElementById('lb-next')!.addEventListener('click', () => show(currentIndex + 1));
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+    let current = 0;
+    let touchStartX = 0;
 
-  document.addEventListener('keydown', e => {
-    if (lightbox.hidden) return;
-    if (e.key === 'Escape') close();
-    else if (e.key === 'ArrowLeft') show(currentIndex - 1);
-    else if (e.key === 'ArrowRight') show(currentIndex + 1);
-  });
+    function open(index: number) {
+      current = index;
+      show();
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
 
-  lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0]!.clientX; }, { passive: true });
-  lightbox.addEventListener('touchend', e => {
-    const diff = e.changedTouches[0]!.clientX - touchStartX;
-    if (Math.abs(diff) > 50) show(currentIndex + (diff > 0 ? -1 : 1));
-  });
-</script>
+    function close() {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function show() {
+      const img = allImages[current]!;
+      lbImg.src = img.src;
+      lbImg.alt = img.alt;
+      lbCaption.textContent = img.alt;
+    }
+
+    function prev() { current = (current - 1 + allImages.length) % allImages.length; show(); }
+    function next() { current = (current + 1) % allImages.length; show(); }
+
+    // Click hero to open
+    heroSection.addEventListener('click', () => open(0));
+    heroSection.style.cursor = 'pointer';
+
+    figures.forEach(fig => {
+      fig.addEventListener('click', () => {
+        const idx = parseInt(fig.dataset.lightboxTrigger || '0') + 1;
+        open(idx);
+      });
+    });
+
+    document.getElementById('lb-close')!.addEventListener('click', close);
+    document.getElementById('lb-prev')!.addEventListener('click', prev);
+    document.getElementById('lb-next')!.addEventListener('click', next);
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+      if (lightbox.classList.contains('hidden')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') next();
+    });
+
+    // Swipe
+    lightbox.addEventListener('touchstart', e => { touchStartX = e.touches[0]!.clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0]!.clientX - touchStartX;
+      if (Math.abs(diff) > 50) diff > 0 ? prev() : next();
+    });
+  </script>
+</Layout>

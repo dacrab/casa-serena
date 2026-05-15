@@ -8,78 +8,68 @@ import quote from '../assets/images/quote.webp';
 import about from '../assets/images/about.webp';
 
 const experiences = [
-  { id: 'dining', title: 'Private Dining', subtitle: 'Farm, sea, table.', image: gallery4, lead: 'The kitchen is the heart of Casa Serena. Not a restaurant kitchen — a home kitchen, scaled for celebration.', body: 'Our resident chef Maria sources daily from Ammoudi Bay fishermen, the estate\'s own herb garden, and volcanic-soil farms across the island. Every meal is a conversation — tell us what you love, what you\'re celebrating, what you\'re craving, and we\'ll create something unrepeatable.', offerings: ['Daily organic breakfast, served wherever you wish', 'Multi-course tasting dinners with Cycladic wine pairing', 'Sunset aperitivo on the caldera terrace', 'Private wine cellar tastings (2,000+ bottles)', 'Hands-on cooking class with market visit'] },
-  { id: 'wellness', title: 'Spa & Wellness', subtitle: 'Stillness as luxury.', image: quote, lead: 'The spa is carved into the cliff itself — a series of vaulted chambers where time dissolves.', body: 'Heated marble underfoot. Volcanic stone walls that hold warmth. The distant sound of the Aegean through narrow windows. Every treatment uses what the island gives: olive oil, volcanic clay, thyme honey, sea salt. This is not a spa menu — it\'s a ritual.', offerings: ['Volcanic stone massage (90 min)', 'Caldera clay facial with hyaluronic infusion', 'Couples hammam ritual with champagne', 'Sunrise yoga on the terrace (daily 07:00)', 'Marble steam room & cold plunge (open daily)'] },
-  { id: 'excursions', title: 'Island & Sea', subtitle: 'Beyond the estate.', image: gallery3, lead: 'Santorini is best discovered slowly — by sail, by foot, by taste.', body: 'We don\'t hand you a brochure. We listen to what moves you, then build the day around it. A private catamaran to a beach with no name. A sunset hike along the caldera rim with nobody else in sight. A winery lunch where the vintner pours from barrels, not bottles.', offerings: ['Private catamaran — full day, swim, snorkel, dine on board', 'Volcanic hot springs & crater hike', 'Estate winery tour with vineyard lunch', 'Akrotiri ruins with private archaeologist', 'Helicopter transfer from Athens (25 min)'] },
-  { id: 'concierge', title: 'Concierge', subtitle: 'Before you ask.', image: about, lead: 'The best service is invisible. You never have to ask — because we already know.', body: 'Nikos and his team have one job: make everything feel effortless. The car is waiting before you reach the door. The restaurant has your favourite table. The boat is fuelled and the captain knows where the dolphins are today. This isn\'t service — it\'s intuition.', offerings: ['Complimentary airport transfers (Mercedes V-Class)', 'Priority restaurant reservations island-wide', 'Event production — proposals, birthdays, celebrations', 'Vetted multilingual childcare on 24h notice', 'Personal shopping from curated island boutiques'] },
+  {
+    title: 'Private Dining',
+    image: gallery4,
+    phrase: 'Farm, sea, table.',
+    body: 'Our resident chef sources daily from Ammoudi Bay fishermen, the estate\'s herb garden, and volcanic-soil farms. Every meal is a conversation — tell us what you love, and we\'ll create something unrepeatable.',
+    offerings: ['Daily organic breakfast, served wherever you wish', 'Multi-course tasting dinners with Cycladic wine pairing', 'Sunset aperitivo on the caldera terrace', 'Private wine cellar tastings', 'Hands-on cooking class with market visit'],
+  },
+  {
+    title: 'Spa & Wellness',
+    image: quote,
+    phrase: 'Stillness as luxury.',
+    body: 'The spa is carved into the cliff — vaulted chambers where time dissolves. Heated marble underfoot, volcanic stone walls, the distant sound of the Aegean. Every treatment uses what the island gives: olive oil, volcanic clay, thyme honey, sea salt.',
+    offerings: ['Volcanic stone massage', 'Caldera clay facial', 'Couples hammam ritual', 'Sunrise yoga on the terrace', 'Marble steam room & cold plunge'],
+  },
+  {
+    title: 'Island & Sea',
+    image: gallery3,
+    phrase: 'Beyond the estate.',
+    body: 'Santorini is best discovered slowly — by sail, by foot, by taste. We listen to what moves you, then build the day around it. A private catamaran to a beach with no name. A sunset hike with nobody else in sight.',
+    offerings: ['Private catamaran — swim, snorkel, dine on board', 'Volcanic hot springs & crater hike', 'Estate winery tour with vineyard lunch', 'Akrotiri ruins with private archaeologist', 'Helicopter transfer from Athens'],
+  },
+  {
+    title: 'Concierge',
+    image: about,
+    phrase: 'Before you ask.',
+    body: 'The best service is invisible. The car is waiting before you reach the door. The restaurant has your favourite table. The boat is fuelled and the captain knows where the dolphins are today.',
+    offerings: ['Airport transfers', 'Priority restaurant reservations island-wide', 'Event production — proposals, birthdays, celebrations', 'Multilingual childcare on 24h notice', 'Personal shopping from island boutiques'],
+  },
 ];
-
-const light = { bg: 'bg-warm-white', grad: 'bg-gradient-to-b from-warm-white/20 via-transparent to-warm-white', text: 'text-charcoal', textMuted: 'text-charcoal/90', body: 'text-charcoal/70', border: 'border-driftwood/20', item: 'text-charcoal/80' };
-const dark = { bg: 'bg-charcoal', grad: 'bg-gradient-to-b from-charcoal/20 via-transparent to-charcoal', text: 'text-cream', textMuted: 'text-cream/90', body: 'text-cream/60', border: 'border-cream/10', item: 'text-cream/70' };
 ---
 
 <Layout
   title="Experiences — Casa Serena | Santorini"
-  description="Private dining, cliff-carved spa, island excursions, and anticipatory concierge service at Casa Serena."
+  description="Private dining, cliff-carved spa, island excursions, and anticipatory concierge at Casa Serena."
 >
   <Nav />
   <main>
-    <section class="relative h-svh flex items-center justify-center overflow-hidden">
+    <section class="relative h-svh flex items-end overflow-hidden">
       <Image data-intro src={quote} alt="Infinity pool at golden hour" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-charcoal/50"></div>
-      <div class="relative text-center section-px">
-        <p data-intro class="label-xs text-cream/60 mb-4 tracking-[0.3em]">The Experience</p>
-        <h1 data-intro class="font-serif italic font-light text-cream heading-hero leading-none mb-6">Live</h1>
-        <p data-intro class="text-cream/60 max-w-sm mx-auto text-sm leading-relaxed">
-          Four pillars shape every stay. Each one designed to disappear — so all you feel is the moment.
-        </p>
-      </div>
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-        <span class="label-xs text-cream/30">Scroll</span>
-        <div class="w-px h-8 bg-cream/20"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent"></div>
+      <div class="relative section-px pb-16 md:pb-24 w-full">
+        <p data-intro class="label-xs text-cream/50 mb-3 tracking-[0.3em]">Experiences</p>
+        <h1 data-intro class="font-serif italic font-light text-cream heading-hero leading-none">Live</h1>
       </div>
     </section>
 
-    {experiences.map((exp, i) => {
-      const isOdd = i % 2 !== 0;
-      const t = isOdd ? dark : light;
-      return (
-        <section id={exp.id} data-nav-theme={isOdd ? 'dark' : 'light'} class={t.bg}>
-          <div data-reveal class="relative h-[50vh] md:h-[65vh] overflow-hidden">
-            <Image src={exp.image} alt={exp.title} loading="lazy" class="w-full h-full object-cover" />
-            <div class={`absolute inset-0 ${t.grad}`}></div>
-            <span class="absolute top-4 right-4 md:top-10 md:right-12 font-serif text-[5rem] md:text-[12rem] leading-none text-white/10 select-none" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-          </div>
-          <div class="max-w-2xl mx-auto section-px py-12 md:py-20">
-            <p data-reveal class="label-xs text-terracotta mb-4">{exp.subtitle}</p>
-            <h2 data-reveal class={`font-serif italic font-light heading-lg leading-tight mb-6 ${t.text}`}>{exp.title}</h2>
-            <p data-reveal class={`font-serif text-xl md:text-2xl italic leading-snug mb-6 ${t.textMuted}`}>{exp.lead}</p>
-            <p data-reveal class={`leading-relaxed mb-10 ${t.body}`}>{exp.body}</p>
-            <ul data-reveal class={`space-y-3 border-t pt-8 ${t.border}`}>
-              {exp.offerings.map((o, j) => (
-                <li class={`flex gap-4 items-baseline ${t.item}`}>
-                  <span class="text-terracotta label-xs w-5 shrink-0">{String(j + 1).padStart(2, '0')}</span>
-                  <span class="text-sm leading-relaxed">{o}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      );
-    })}
-
-    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-28 section-px">
-      <div class="max-w-xl mx-auto text-center">
-        <p data-reveal class="font-serif italic text-cream/30 text-xl md:text-2xl leading-relaxed mb-10">
-          "The best luxury is the luxury of not having to think about anything."
-        </p>
-        <div data-reveal class="w-12 h-px bg-terracotta mx-auto mb-10"></div>
-        <a data-reveal href="/#enquire" class="inline-flex items-center gap-3 label-xs text-cream border border-cream/20 px-8 py-3 min-h-[44px] hover:bg-terracotta hover:border-terracotta transition-colors duration-200">
-          Begin Planning
-        </a>
-      </div>
-    </section>
+    {experiences.map((exp) => (
+      <section class="bg-warm-white py-20 md:py-32">
+        <div data-reveal class="w-full">
+          <Image src={exp.image} alt={exp.title} loading="lazy" class="w-full h-[60vh] md:h-[75vh] object-cover" />
+        </div>
+        <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
+          <p data-reveal class="label-xs text-charcoal/40 mb-3">{exp.title}</p>
+          <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-6">{exp.phrase}</p>
+          <p data-reveal class="text-charcoal/60 leading-relaxed mb-10">{exp.body}</p>
+          <ul data-reveal class="space-y-2">
+            {exp.offerings.map((o) => (
+              <li class="text-sm text-charcoal/50 leading-relaxed">{o}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
   </main>
 </Layout>

@@ -4,7 +4,9 @@ import Nav from '../components/Nav.astro';
 import { Image } from 'astro:assets';
 import about from '../assets/images/about.webp';
 import gallery1 from '../assets/images/gallery-1.webp';
+import gallery2 from '../assets/images/gallery-2.webp';
 import gallery3 from '../assets/images/gallery-3.webp';
+import gallery5 from '../assets/images/gallery-5.webp';
 
 const timeline = [
   { year: '1987', text: 'The original villa is built by shipping magnate Alexandros Kiriakos as a family summer retreat on the caldera cliffs.' },
@@ -15,117 +17,99 @@ const timeline = [
   { year: '2022', text: 'The spa wing and wine cellar are completed. The estate reaches its current, and perhaps final, form.' },
 ];
 
-const team = [
-  { name: 'Elena Vassilakis', role: 'Architect & Creative Director', bio: 'Athens-born, London-trained. Elena spent three years studying the light, wind, and stone of Santorini before drawing a single line. Her philosophy: buildings should feel inevitable, as if they grew from the cliff.' },
-  { name: 'Nikos Papadopoulos', role: 'Estate Manager', bio: 'Born in Oia, Nikos knows every path, every fisherman, every hidden cove. He\'s been with the estate since opening day and ensures every guest experience is seamless and deeply personal.' },
-  { name: 'Maria Stavrou', role: 'Head Chef', bio: 'Trained at Le Cordon Bleu Paris, Maria returned to Greece to cook the food she grew up eating — elevated, seasonal, rooted in the Cycladic terroir. Her garden supplies 60% of the kitchen.' },
-  { name: 'Dimitris Alexiou', role: 'Spa Director', bio: 'A former physiotherapist turned wellness practitioner, Dimitris designs treatments that combine ancient Greek bathing rituals with modern therapeutic science.' },
-];
-
 const principles = [
   'Every room has a direct relationship with the outdoors — a terrace, a courtyard, or a framed view.',
   'Materials are sourced within 50km: volcanic stone, local marble, Santorini earth pigments.',
   'No air conditioning in common areas — the architecture itself creates cross-ventilation and thermal mass cooling.',
   'The colour palette is limited to three: white, stone, and the blue of the Aegean.',
 ];
+
+const team = [
+  { name: 'Elena Vassilakis', role: 'Architect & Creative Director', bio: 'Athens-born, London-trained. Three years studying the light, wind, and stone of Santorini before drawing a single line.' },
+  { name: 'Nikos Papadopoulos', role: 'Estate Manager', bio: 'Born in Oia. Knows every path, every fisherman, every hidden cove. With the estate since opening day.' },
+  { name: 'Maria Stavrou', role: 'Head Chef', bio: 'Le Cordon Bleu Paris, returned to Greece to cook the food she grew up eating — elevated, seasonal, rooted in Cycladic terroir.' },
+  { name: 'Dimitris Alexiou', role: 'Spa Director', bio: 'Former physiotherapist turned wellness practitioner. Combines ancient Greek bathing rituals with modern therapeutic science.' },
+];
 ---
 
 <Layout
   title="Our Story — Casa Serena | Santorini"
-  description="The history, architecture, and people behind Casa Serena — a private estate reimagined on the caldera cliffs of Santorini."
+  description="The history, architecture, and people behind Casa Serena — a private estate on the caldera cliffs of Santorini."
 >
   <Nav />
   <main>
-    <!-- Cinematic hero -->
     <section class="relative h-svh flex items-end overflow-hidden">
       <Image data-intro src={gallery1} alt="Casa Serena at golden hour" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/30 to-transparent"></div>
-      <div class="relative section-px pb-12 md:pb-20 w-full max-w-3xl">
-        <p data-intro class="label-xs text-cream/50 mb-4">Our Story</p>
-        <h1 data-intro class="font-serif italic font-light text-cream heading-xl leading-none mb-4">Built to Last</h1>
-        <p data-intro class="text-cream/60 max-w-md leading-relaxed">
-          Not a hotel. Not a rental. A home — opened to those who understand that the finest things take time.
-        </p>
-      </div>
-    </section>
-
-    <!-- Opening statement -->
-    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-32 section-px">
-      <div class="max-w-2xl mx-auto text-center">
-        <p data-reveal class="font-serif italic text-cream/80 text-xl md:text-3xl leading-relaxed">
-          "We didn't want to build something impressive. We wanted to build something that would still feel right in a hundred years — when the stone has weathered and the vines have taken over."
-        </p>
-        <p data-reveal class="label-xs text-driftwood mt-8">— Elena Vassilakis, Architect</p>
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent"></div>
+      <div class="relative section-px pb-16 md:pb-24 w-full">
+        <p data-intro class="label-xs text-cream/50 mb-3 tracking-[0.3em]">Our Story</p>
+        <h1 data-intro class="font-serif italic font-light text-cream heading-hero leading-none">Built to Last</h1>
       </div>
     </section>
 
     <!-- Philosophy -->
-    <section data-nav-theme="light" class="bg-warm-white">
-      <div class="grid md:grid-cols-[3fr_2fr] md:min-h-[75vh]">
-        <div data-reveal class="overflow-hidden aspect-[4/3] md:aspect-auto">
-          <Image src={about} alt="Casa Serena interior living space" loading="eager" class="w-full h-full object-cover" />
-        </div>
-        <div class="flex flex-col justify-center section-px py-12 md:py-16">
-          <h2 data-reveal class="font-serif italic font-light text-charcoal heading-lg leading-tight mb-8">Architecture as hospitality.</h2>
-          <div class="space-y-5 text-charcoal/75 leading-relaxed">
-            <p data-reveal>Casa Serena was never meant to impress. It was meant to disappear — to let the caldera, the light, and the silence do the work.</p>
-            <p data-reveal>Every material was chosen for how it ages: local limestone that whitens in the sun, reclaimed teak that silvers with salt air, hand-troweled plaster that catches the golden hour.</p>
-            <p data-reveal>The estate descends across 8 acres of terraced cliff to a private beach accessible only from the property. Four suites are distributed across the terrain — close enough for community, far enough for solitude.</p>
-            <p data-reveal class="font-serif italic text-charcoal text-lg">There is no lobby. No reception desk. No key card. You arrive, and you are home.</p>
-          </div>
-        </div>
+    <section class="bg-warm-white py-20 md:py-32">
+      <div data-reveal class="w-full">
+        <Image src={about} alt="Casa Serena interior" loading="eager" class="w-full h-[60vh] md:h-[75vh] object-cover" />
+      </div>
+      <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
+        <p data-reveal class="label-xs text-charcoal/40 mb-3">Philosophy</p>
+        <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-6">Architecture as hospitality.</p>
+        <p data-reveal class="text-charcoal/60 leading-relaxed mb-5">Casa Serena was never meant to impress. It was meant to disappear — to let the caldera, the light, and the silence do the work.</p>
+        <p data-reveal class="text-charcoal/60 leading-relaxed mb-5">Every material was chosen for how it ages: local limestone that whitens in the sun, reclaimed teak that silvers with salt air, hand-troweled plaster that catches the golden hour.</p>
+        <p data-reveal class="text-charcoal/60 leading-relaxed">There is no lobby. No reception desk. No key card. You arrive, and you are home.</p>
       </div>
     </section>
 
     <!-- Timeline -->
-    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-32 section-px">
-      <div class="max-w-2xl mx-auto">
-        <h2 data-reveal class="font-serif italic font-light text-cream heading-lg mb-16 text-center">A Brief History</h2>
-        <div class="relative">
-          <div class="absolute left-[39px] md:left-[59px] top-0 bottom-0 w-px bg-cream/10 hidden md:block" aria-hidden="true"></div>
+    <section class="bg-warm-white py-20 md:py-32">
+      <div data-reveal class="w-full">
+        <Image src={gallery2} alt="Estate terraces" loading="lazy" class="w-full h-[60vh] md:h-[75vh] object-cover" />
+      </div>
+      <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
+        <p data-reveal class="label-xs text-charcoal/40 mb-3">Timeline</p>
+        <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-10">A brief history.</p>
+        <div class="space-y-8">
           {timeline.map(({ year, text }) => (
-            <div data-reveal class="relative grid grid-cols-[80px_1fr] md:grid-cols-[120px_1fr] gap-6 pb-10 last:pb-0">
-              <div class="relative">
-                <span class="font-serif text-2xl text-terracotta">{year}</span>
-                <div class="absolute top-3 -right-[13px] w-2 h-2 rounded-full bg-terracotta hidden md:block" aria-hidden="true"></div>
-              </div>
-              <p class="text-cream/60 leading-relaxed pt-1">{text}</p>
+            <div data-reveal>
+              <p class="text-sm text-terracotta mb-1">{year}</p>
+              <p class="text-charcoal/60 leading-relaxed">{text}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- Design principles -->
-    <section data-nav-theme="light" class="relative min-h-[60vh] md:min-h-[80vh] flex items-center overflow-hidden">
-      <Image data-reveal src={gallery3} alt="Panoramic estate view" loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-warm-white/85 md:bg-gradient-to-r md:from-warm-white md:via-warm-white/95 md:to-warm-white/70"></div>
-      <div class="relative section-px py-16 md:py-20 max-w-2xl">
-        <p data-reveal class="label-xs text-driftwood mb-4">Design Principles</p>
-        <h2 data-reveal class="font-serif italic font-light text-charcoal heading-lg leading-tight mb-10">Less building.<br/>More landscape.</h2>
-        <ol class="space-y-6">
-          {principles.map((text, i) => (
-            <li data-reveal class="flex gap-5 items-baseline">
-              <span class="font-serif text-3xl text-terracotta/60 leading-none">{i + 1}</span>
-              <p class="text-charcoal/80 leading-relaxed">{text}</p>
-            </li>
+    <!-- Design Principles -->
+    <section class="bg-warm-white py-20 md:py-32">
+      <div data-reveal class="w-full">
+        <Image src={gallery3} alt="Panoramic estate view" loading="lazy" class="w-full h-[60vh] md:h-[75vh] object-cover" />
+      </div>
+      <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
+        <p data-reveal class="label-xs text-charcoal/40 mb-3">Design Principles</p>
+        <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-10">Less building. More landscape.</p>
+        <div class="space-y-6">
+          {principles.map((text) => (
+            <p data-reveal class="text-charcoal/60 leading-relaxed">{text}</p>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
 
     <!-- Team -->
-    <section data-nav-theme="dark" class="bg-charcoal py-20 md:py-32 section-px">
-      <div class="max-w-5xl mx-auto">
-        <p data-reveal class="label-xs text-driftwood mb-4 text-center">The People</p>
-        <h2 data-reveal class="font-serif italic font-light text-cream heading-lg mb-4 text-center">Behind the Silence</h2>
-        <p data-reveal class="text-cream/40 text-center max-w-md mx-auto mb-16 text-sm">Four people who chose this island, this cliff, this life. They don't work here — they live here.</p>
-        <div class="grid sm:grid-cols-2 gap-x-12 gap-y-10">
+    <section class="bg-warm-white py-20 md:py-32">
+      <div data-reveal class="w-full">
+        <Image src={gallery5} alt="The estate team" loading="lazy" class="w-full h-[60vh] md:h-[75vh] object-cover" />
+      </div>
+      <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
+        <p data-reveal class="label-xs text-charcoal/40 mb-3">The People</p>
+        <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-10">Behind the silence.</p>
+        <div class="space-y-8">
           {team.map(({ name, role, bio }) => (
-            <div data-reveal class="relative pl-6 border-l border-terracotta/40">
-              <h3 class="font-serif text-xl text-cream mb-1">{name}</h3>
-              <p class="label-xs text-terracotta mb-4">{role}</p>
-              <p class="text-cream/50 text-sm leading-relaxed">{bio}</p>
+            <div data-reveal>
+              <p class="text-charcoal text-sm font-medium">{name}</p>
+              <p class="text-charcoal/40 text-xs mb-2">{role}</p>
+              <p class="text-charcoal/60 text-sm leading-relaxed">{bio}</p>
             </div>
           ))}
         </div>
@@ -133,15 +117,15 @@ const principles = [
     </section>
 
     <!-- Press -->
-    <section data-nav-theme="light" class="bg-warm-white py-20 section-px">
-      <div class="max-w-4xl mx-auto text-center">
-        <p data-reveal class="label-xs text-driftwood mb-8">As Featured In</p>
-        <div data-reveal class="flex flex-wrap justify-center gap-x-12 gap-y-4 text-charcoal/30 font-serif italic text-xl md:text-2xl">
-          <span>Condé Nast Traveller</span>
-          <span>Wallpaper*</span>
-          <span>Monocle</span>
-          <span>Architectural Digest</span>
-          <span>Financial Times HTSI</span>
+    <section class="bg-warm-white py-20 md:py-32 section-px">
+      <div class="max-w-2xl mx-auto">
+        <p data-reveal class="label-xs text-charcoal/40 mb-6">Press</p>
+        <div data-reveal class="space-y-2 text-sm text-charcoal/50">
+          <p>Condé Nast Traveller</p>
+          <p>Wallpaper*</p>
+          <p>Monocle</p>
+          <p>Architectural Digest</p>
+          <p>Financial Times HTSI</p>
         </div>
       </div>
     </section>
