@@ -34,25 +34,32 @@ const faqs = [
 
     <!-- Testimonials -->
     <section data-nav-theme="dark" class="bg-charcoal py-28 md:py-40 section-px">
-      <div class="max-w-2xl mx-auto space-y-24 md:space-y-32">
-        {testimonials.map(t => (
-          <blockquote>
-            <p class="font-serif italic text-cream/80 text-lg md:text-xl leading-relaxed">{t.quote}</p>
-            <footer class="mt-6">
-              <span class="text-cream/50 text-xs tracking-wide">{t.name} — {t.detail}</span>
-            </footer>
-          </blockquote>
-        ))}
+      <div class="max-w-2xl mx-auto">
+        <p class="label-xs text-driftwood mb-16 md:mb-24">Guest Voices</p>
+        <div class="space-y-16 md:space-y-24">
+          {testimonials.map(t => (
+            <blockquote class="border-l border-terracotta/30 pl-6 md:pl-8">
+              <p class="font-serif italic text-cream/80 text-lg md:text-xl leading-relaxed">{t.quote}</p>
+              <footer class="mt-5">
+                <span class="text-cream/40 text-xs tracking-wide">{t.name} — {t.detail}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
       </div>
     </section>
 
     <!-- FAQ -->
     <section data-nav-theme="light" class="bg-warm-white py-28 md:py-40 section-px">
       <div class="max-w-2xl mx-auto">
+        <p class="label-xs text-driftwood mb-12">Common Questions</p>
         {faqs.map(({ q, a }) => (
-          <details class="group border-b border-charcoal/10 py-6">
-            <summary class="list-none cursor-pointer text-charcoal font-medium text-sm md:text-base">{q}</summary>
-            <p class="text-charcoal/55 text-sm font-light leading-relaxed mt-4">{a}</p>
+          <details class="group border-b border-charcoal/10 py-5">
+            <summary class="flex justify-between items-center list-none text-charcoal font-medium text-sm md:text-base">
+              {q}
+              <span class="text-driftwood text-lg leading-none transition-transform duration-200 group-open:rotate-45 shrink-0 ml-4">+</span>
+            </summary>
+            <p class="text-charcoal/55 text-sm font-light leading-relaxed mt-4 pr-8">{a}</p>
           </details>
         ))}
       </div>

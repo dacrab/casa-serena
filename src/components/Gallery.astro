@@ -6,6 +6,7 @@ import gallery2 from '../assets/images/gallery-2.webp';
 import gallery3 from '../assets/images/gallery-3.webp';
 import gallery4 from '../assets/images/gallery-4.webp';
 import gallery5 from '../assets/images/gallery-5.webp';
+import about    from '../assets/images/about.webp';
 
 const [hero, ...rest] = [
   { src: gallery1, alt: 'Casa Serena exterior at golden hour' },
@@ -14,6 +15,7 @@ const [hero, ...rest] = [
   { src: gallery3, alt: 'Casa Serena wide exterior view' },
   { src: gallery4, alt: 'Casa Serena chef kitchen' },
   { src: gallery5, alt: 'Casa Serena master suite bedroom' },
+  { src: about,    alt: 'Casa Serena living space' },
 ];
 ---
 
@@ -24,18 +26,12 @@ const [hero, ...rest] = [
 >
   <p class="label-xs text-cream/40 mb-6 md:mb-8">The Property</p>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-    <div data-anim="hero" class="sm:col-span-2 md:col-span-2 aspect-[16/9] overflow-hidden">
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+    <div data-anim="hero" class="col-span-2 aspect-[16/9] overflow-hidden">
       <Image src={hero!.src} alt={hero!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
     </div>
-    {rest.map(({ src, alt }, i) => (
-      <div
-        data-anim="cell"
-        class:list={[
-          'overflow-hidden',
-          i === 0 ? 'aspect-[4/3] sm:aspect-[3/4]' : 'aspect-[4/3]',
-        ]}
-      >
+    {rest.map(({ src, alt }) => (
+      <div data-anim="cell" class="aspect-[4/3] overflow-hidden">
         <Image src={src} alt={alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
       </div>
     ))}
