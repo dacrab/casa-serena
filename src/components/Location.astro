@@ -8,20 +8,7 @@ const distances = [
 ---
 
 <section id="location" data-nav-theme="light" class="bg-warm-white">
-  <div class="w-full h-[40vh] md:h-[50vh] relative">
-    <iframe
-      title="Casa Serena location"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3181.0!2d25.3753!3d36.4618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1499ce69a7d3b3c7%3A0x0!2sOia%2C+Santorini%2C+Greece!5e0!3m2!1sen!2s!4v1"
-      class="map-iframe"
-      loading="lazy"
-    ></iframe>
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-      <svg width="36" height="48" viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="var(--color-terracotta)"/>
-        <circle cx="18" cy="18" r="7" fill="var(--color-warm-white)"/>
-      </svg>
-    </div>
-  </div>
+  <div id="map" class="w-full h-[40vh] md:h-[50vh]"></div>
 
   <div data-anim="content" class="grid md:grid-cols-2 gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
     <div>
@@ -42,3 +29,29 @@ const distances = [
     </dl>
   </div>
 </section>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script>
+  import L from 'leaflet';
+
+  const map = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false }).setView([36.4618, 25.3753], 14);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19,
+  }).addTo(map);
+
+  // Custom terracotta pin
+  const pin = L.divIcon({
+    className: '',
+    html: `<svg width="36" height="48" viewBox="0 0 36 48" fill="none"><path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/><circle cx="18" cy="18" r="7" fill="#FDFAF5"/></svg>`,
+    iconSize: [36, 48],
+    iconAnchor: [18, 48],
+  });
+
+  L.marker([36.4618, 25.3753], { icon: pin }).addTo(map);
+
+  // Re-add minimal attribution
+  L.control.attribution({ position: 'bottomright', prefix: false })
+    .addAttribution('© <a href="https://carto.com">CARTO</a>')
+    .addTo(map);
+</script>

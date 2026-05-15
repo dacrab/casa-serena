@@ -88,7 +88,6 @@ a, button, [role="button"], [role="tab"], summary, input[type="submit"] { cursor
 }
 .form-input:focus { border-color: var(--color-terracotta); }
 
-.map-iframe { border: 0; filter: grayscale(1) contrast(1.1); width: 100%; height: 100%; }
 .gallery-img { transition: transform 0.5s; }
 .gallery-img:hover { transform: scale(1.05); }
 
