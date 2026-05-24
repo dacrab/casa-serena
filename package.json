@@ -14,7 +14,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
-    "astro": "6.3.3",
+    "astro": "6.3.7",
     "gsap": "^3.15.0",
     "leaflet": "1.9.4",
     "tailwindcss": "^4"
