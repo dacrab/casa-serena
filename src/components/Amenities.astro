@@ -1,28 +1,29 @@
 ---
 const amenities = [
-  { n: '01', text: 'Infinity Pool · Saltwater heated year-round' },
-  { n: '02', text: 'Private Beach Access · Direct pathway to sand' },
-  { n: '03', text: "Chef's Kitchen · Gaggenau appliances, island seating" },
-  { n: '04', text: 'Spa & Steam Suite · Marble sauna and treatment rooms' },
-  { n: '05', text: 'Wine Cellar · 2,000 bottle capacity, climate controlled' },
-  { n: '06', text: 'Media Room · Dolby Atmos, projection system' },
-  { n: '07', text: 'Tennis Court · Professional grade, night lighting' },
-  { n: '08', text: 'Guest House · Independent 2-bedroom residence' },
+  { n: '01', title: 'Infinity Pool', detail: 'Saltwater heated year-round' },
+  { n: '02', title: 'Private Beach Access', detail: 'Direct pathway to sand' },
+  { n: '03', title: "Chef's Kitchen", detail: 'Gaggenau appliances, island seating' },
+  { n: '04', title: 'Spa & Steam Suite', detail: 'Marble sauna and treatment rooms' },
+  { n: '05', title: 'Wine Cellar', detail: '2,000 bottle capacity, climate controlled' },
+  { n: '06', title: 'Media Room', detail: 'Dolby Atmos, projection system' },
+  { n: '07', title: 'Tennis Court', detail: 'Professional grade, night lighting' },
+  { n: '08', title: 'Guest House', detail: 'Independent 2-bedroom residence' },
 ];
 ---
 
-<section data-nav-theme="light" class="bg-cream py-10 md:py-[8vh] section-px">
-  <div class="max-w-4xl mx-auto">
-    <h2 class="sr-only">Amenities</h2>
-    <ul>
-      {amenities.map(({ n, text }) => (
-        <li
-          data-amenity
-          class="py-4 border-t border-driftwood/20 font-serif text-base md:text-lg text-charcoal"
-        >
-          <span class="text-terracotta mr-3">{n}</span>{text}
-        </li>
+<section data-nav-theme="light" class="bg-cream section-px py-16 md:py-24">
+  <div class="max-w-[1400px] mx-auto">
+    <p class="label-xs text-driftwood mb-10">Amenities</p>
+    <div class="grid sm:grid-cols-2 gap-px bg-driftwood/15">
+      {amenities.map(({ n, title, detail }) => (
+        <div data-amenity class="bg-cream p-8 md:p-10 flex gap-6 items-start">
+          <span class="font-serif text-4xl md:text-5xl font-light text-terracotta/40 leading-none shrink-0">{n}</span>
+          <div class="pt-1">
+            <p class="font-serif italic font-light text-charcoal text-lg md:text-xl">{title}</p>
+            <p class="label-xs text-driftwood mt-2">{detail}</p>
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   </div>
 </section>
