@@ -8,7 +8,7 @@ const navLinks = [
 ];
 ---
 
-<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
+<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5 mix-blend-difference">
   <a href="/" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
@@ -46,17 +46,10 @@ const navLinks = [
 </div>
 
 <style>
+  nav { mix-blend-mode: difference; }
   nav .nav-logo,
-  nav .nav-link { color: var(--color-cream); transition: color 0.3s; }
-  nav .nav-link { opacity: 0.8; }
-  nav .nav-link:hover { color: var(--color-terracotta); opacity: 1; }
-  nav .bar { background: var(--color-cream); transition: background 0.3s; }
-
-  nav.nav-light .nav-logo,
-  nav.nav-light .nav-link { color: var(--color-charcoal); }
-  nav.nav-light .bar { background: var(--color-charcoal); }
-
-  nav.nav-open .nav-logo,
-  nav.nav-open .nav-link { color: var(--color-cream); }
-  nav.nav-open .bar { background: var(--color-cream); }
+  nav .nav-link { color: #fff; }
+  nav .nav-link { opacity: 0.8; transition: opacity 0.3s; }
+  nav .nav-link:hover { opacity: 1; }
+  nav .bar { background: #fff; }
 </style>

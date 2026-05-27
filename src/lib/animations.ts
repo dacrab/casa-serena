@@ -50,14 +50,6 @@ function nav() {
   toggle.addEventListener('click', () => (open ? closeMenu() : openMenu()));
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closeMenu(); });
-
-  $$('[data-nav-theme]').forEach(section => {
-    const light = section.dataset.navTheme === 'light';
-    ScrollTrigger.create({
-      trigger: section, start: 'top 60px', end: 'bottom 60px',
-      onToggle: ({ isActive }) => el.classList.toggle('nav-light', isActive && light),
-    });
-  });
 }
 
 /* ═══ HOMEPAGE SECTIONS ═══ */
