@@ -33,21 +33,64 @@ const faqs = [
     <Amenities />
 
     <!-- Testimonials -->
-    <section data-nav-theme="dark" class="bg-charcoal py-28 md:py-40 section-px">
-      <div class="max-w-2xl mx-auto">
-        <p class="label-xs text-driftwood mb-16 md:mb-24">Guest Voices</p>
-        <div class="space-y-16 md:space-y-24">
-          {testimonials.map(t => (
-            <blockquote class="border-l border-terracotta/30 pl-6 md:pl-8">
-              <p class="font-serif italic text-cream/80 text-lg md:text-xl leading-relaxed">{t.quote}</p>
-              <footer class="mt-5">
-                <span class="text-cream/40 text-xs tracking-wide">{t.name} — {t.detail}</span>
+    <section data-nav-theme="dark" class="bg-charcoal overflow-hidden">
+      <div class="relative min-h-[60vh] md:min-h-[70vh] flex flex-col justify-between section-px py-16 md:py-24">
+        <p class="label-xs text-driftwood">Guest Voices</p>
+
+        <div id="testimonial-track" class="mt-12 md:mt-0">
+          {testimonials.map((t, i) => (
+            <blockquote
+              data-testimonial={i}
+              class:list={["transition-opacity duration-700", i !== 0 && "hidden"]}
+            >
+              <p class="font-serif italic text-cream font-light leading-tight heading-lg max-w-4xl">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <footer class="mt-8 md:mt-12">
+                <span class="text-cream/40 text-xs tracking-widest">{t.name}</span>
+                <span class="text-driftwood/50 text-xs ml-4">{t.detail}</span>
               </footer>
             </blockquote>
           ))}
         </div>
+
+        <!-- Dots + counter -->
+        <div class="flex items-center gap-6 mt-10 md:mt-0">
+          <div class="flex gap-2" id="testimonial-dots">
+            {testimonials.map((_, i) => (
+              <button
+                data-dot={i}
+                aria-label={`Testimonial ${i + 1}`}
+                class:list={["w-6 h-px transition-all duration-300", i === 0 ? "bg-terracotta" : "bg-cream/20"]}
+              />
+            ))}
+          </div>
+          <span id="testimonial-counter" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
+        </div>
       </div>
     </section>
+
+    <script>
+      const quotes = document.querySelectorAll<HTMLElement>('[data-testimonial]');
+      const dots = document.querySelectorAll<HTMLButtonElement>('[data-dot]');
+      const counter = document.getElementById('testimonial-counter')!;
+      let current = 0;
+      let timer: ReturnType<typeof setInterval>;
+
+      function show(i: number) {
+        quotes[current]!.classList.add('hidden');
+        dots[current]!.classList.replace('bg-terracotta', 'bg-cream/20');
+        current = i;
+        quotes[current]!.classList.remove('hidden');
+        dots[current]!.classList.replace('bg-cream/20', 'bg-terracotta');
+        counter.textContent = `${current + 1} / ${quotes.length}`;
+      }
+
+      dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(timer); show(i); startTimer(); }));
+
+      function startTimer() { timer = setInterval(() => show((current + 1) % quotes.length), 6000); }
+      startTimer();
+    </script>
 
     <!-- FAQ -->
     <section data-nav-theme="light" class="bg-warm-white py-28 md:py-40 section-px">

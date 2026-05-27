@@ -10,36 +10,38 @@ const stats = [
 ---
 
 <section id="intro" data-nav-theme="light" class="bg-warm-white">
-  <div class="grid md:grid-cols-[3fr_2fr] md:min-h-[80vh]">
-    <div data-anim="img" class="overflow-hidden aspect-[4/3] md:aspect-auto md:min-h-0">
+  <!-- Full-bleed image with overlaid text -->
+  <div class="relative overflow-hidden">
+    <div data-anim="img" class="overflow-hidden">
       <Image
         src={aboutImg}
         alt="Casa Serena living space"
         loading="lazy"
-        class="w-full h-full object-cover"
+        class="w-full h-[70vh] md:h-[85vh] object-cover"
       />
     </div>
+    <!-- Bottom overlay text -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-warm-white via-warm-white/60 to-transparent pt-24 pb-10 md:pb-14 section-px">
+      <p class="label-xs text-driftwood mb-4">Est. 1987 · Reimagined 2019</p>
+      <h2 class="font-serif italic font-light text-charcoal leading-tight heading-lg max-w-xl">
+        A house that breathes.
+      </h2>
+    </div>
+  </div>
 
-    <div class="flex flex-col justify-center gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
-      <div>
-        <p class="label-xs text-driftwood mb-5">Est. 1987 · Reimagined 2019</p>
-        <h2 class="font-serif italic font-light text-charcoal leading-tight mb-5 heading-lg">
-          A house that breathes.
-        </h2>
-        <p data-anim="body" class="text-charcoal/80 leading-relaxed border-l border-terracotta pl-5">
-          Designed to dissolve boundaries between interior and ocean,
-          Casa Serena is where architecture whispers rather than shouts.
-        </p>
-      </div>
-
-      <div class="flex justify-center md:justify-start gap-8 sm:gap-10 pt-8 border-t border-driftwood/20">
-        {stats.map(({ n, label }) => (
-          <div data-anim="stat">
-            <div class="font-serif text-3xl sm:text-4xl font-light text-terracotta">{n}</div>
-            <div class="label-xs text-driftwood mt-1">{label}</div>
-          </div>
-        ))}
-      </div>
+  <!-- Body text + stats below -->
+  <div class="section-px py-10 md:py-16 grid md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-end max-w-[1400px] mx-auto">
+    <p data-anim="body" class="text-charcoal/70 leading-relaxed max-w-lg border-l-2 border-terracotta pl-5">
+      Designed to dissolve boundaries between interior and ocean,
+      Casa Serena is where architecture whispers rather than shouts.
+    </p>
+    <div class="flex gap-10 md:gap-14">
+      {stats.map(({ n, label }) => (
+        <div data-anim="stat" class="text-center md:text-right">
+          <div class="font-serif text-4xl md:text-5xl font-light text-terracotta">{n}</div>
+          <div class="label-xs text-driftwood mt-1">{label}</div>
+        </div>
+      ))}
     </div>
   </div>
 </section>

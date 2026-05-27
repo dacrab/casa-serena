@@ -10,66 +10,101 @@ import about from '../assets/images/about.webp';
 const experiences = [
   {
     title: 'Private Dining',
+    index: '01',
     image: gallery4,
     phrase: 'Farm, sea, table.',
     body: 'Our resident chef sources daily from Ammoudi Bay fishermen, the estate\'s herb garden, and volcanic-soil farms. Every meal is a conversation — tell us what you love, and we\'ll create something unrepeatable.',
     offerings: ['Daily organic breakfast, served wherever you wish', 'Multi-course tasting dinners with Cycladic wine pairing', 'Sunset aperitivo on the caldera terrace', 'Private wine cellar tastings', 'Hands-on cooking class with market visit'],
+    bg: 'bg-warm-white',
+    theme: 'light',
   },
   {
     title: 'Spa & Wellness',
+    index: '02',
     image: quote,
     phrase: 'Stillness as luxury.',
-    body: 'The spa is carved into the cliff — vaulted chambers where time dissolves. Heated marble underfoot, volcanic stone walls, the distant sound of the Aegean. Every treatment uses what the island gives: olive oil, volcanic clay, thyme honey, sea salt.',
+    body: 'The spa is carved into the cliff — vaulted chambers where time dissolves. Heated marble underfoot, volcanic stone walls, the distant sound of the Aegean. Every treatment uses what the island gives.',
     offerings: ['Volcanic stone massage', 'Caldera clay facial', 'Couples hammam ritual', 'Sunrise yoga on the terrace', 'Marble steam room & cold plunge'],
+    bg: 'bg-charcoal',
+    theme: 'dark',
   },
   {
     title: 'Island & Sea',
+    index: '03',
     image: gallery3,
     phrase: 'Beyond the estate.',
-    body: 'Santorini is best discovered slowly — by sail, by foot, by taste. We listen to what moves you, then build the day around it. A private catamaran to a beach with no name. A sunset hike with nobody else in sight.',
+    body: 'Santorini is best discovered slowly — by sail, by foot, by taste. We listen to what moves you, then build the day around it. A private catamaran to a beach with no name.',
     offerings: ['Private catamaran — swim, snorkel, dine on board', 'Volcanic hot springs & crater hike', 'Estate winery tour with vineyard lunch', 'Akrotiri ruins with private archaeologist', 'Helicopter transfer from Athens'],
+    bg: 'bg-warm-white',
+    theme: 'light',
   },
   {
     title: 'Concierge',
+    index: '04',
     image: about,
     phrase: 'Before you ask.',
     body: 'The best service is invisible. The car is waiting before you reach the door. The restaurant has your favourite table. The boat is fuelled and the captain knows where the dolphins are today.',
     offerings: ['Airport transfers', 'Priority restaurant reservations island-wide', 'Event production — proposals, birthdays, celebrations', 'Multilingual childcare on 24h notice', 'Personal shopping from island boutiques'],
+    bg: 'bg-charcoal',
+    theme: 'dark',
   },
 ];
 ---
 
-<Layout
-  title="Experiences — Casa Serena | Santorini"
-  description="Private dining, cliff-carved spa, island excursions, and anticipatory concierge at Casa Serena."
->
+<Layout title="Experiences — Casa Serena | Santorini" description="Private dining, cliff-carved spa, island excursions, and anticipatory concierge at Casa Serena.">
   <Nav />
   <main>
+
+    <!-- Hero -->
     <section class="relative h-svh flex items-end overflow-hidden">
       <Image data-intro src={quote} alt="Infinity pool at golden hour" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/60 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
       <div class="relative section-px pb-16 md:pb-24 w-full">
-        <p data-intro class="label-xs text-cream/50 mb-3 tracking-[0.3em]">Experiences</p>
+        <p data-intro class="label-xs text-cream/50 mb-3">Experiences</p>
         <h1 data-intro class="font-serif italic font-light text-cream heading-hero leading-none">Live</h1>
       </div>
     </section>
 
-    {experiences.map((exp) => (
-      <section class="bg-warm-white py-20 md:py-32">
-        <div data-reveal class="w-full">
-          <Image src={exp.image} alt={exp.title} loading="lazy" class="w-full h-[60vh] md:h-[75vh] object-cover" />
-        </div>
-        <div class="max-w-2xl mx-auto section-px pt-12 md:pt-16">
-          <p data-reveal class="label-xs text-charcoal/40 mb-3">{exp.title}</p>
-          <p data-reveal class="font-serif italic text-charcoal/80 text-lg md:text-xl mb-6">{exp.phrase}</p>
-          <p data-reveal class="text-charcoal/60 leading-relaxed mb-10">{exp.body}</p>
-          <ul data-reveal class="space-y-2">
-            {exp.offerings.map((o) => (
-              <li class="text-sm text-charcoal/50 leading-relaxed">{o}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    ))}
+    {experiences.map((exp) => {
+      const isDark = exp.theme === 'dark';
+      const text = isDark ? 'text-cream' : 'text-charcoal';
+      const muted = isDark ? 'text-cream/50' : 'text-charcoal/50';
+      const border = isDark ? 'border-cream/10' : 'border-charcoal/10';
+      return (
+        <section data-nav-theme={exp.theme} class={`${exp.bg}`}>
+          <!-- Full-bleed image -->
+          <div data-reveal class="overflow-hidden">
+            <Image src={exp.image} alt={exp.title} loading="lazy"
+              class="w-full h-[55vh] md:h-[70vh] object-cover" />
+          </div>
+
+          <!-- Content: index + title left, offerings right -->
+          <div class="section-px py-16 md:py-24 max-w-[1400px] mx-auto grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20">
+            <div>
+              <div class="flex items-baseline gap-4 mb-6">
+                <span class={`font-serif text-5xl md:text-7xl font-light ${isDark ? 'text-cream/10' : 'text-charcoal/10'}`}>{exp.index}</span>
+                <div>
+                  <p data-reveal class={`label-xs ${isDark ? 'text-terracotta' : 'text-terracotta'} mb-1`}>{exp.title}</p>
+                  <h2 data-reveal class={`font-serif italic font-light heading-md leading-tight ${text}`}>{exp.phrase}</h2>
+                </div>
+              </div>
+              <p data-reveal class={`${muted} leading-relaxed text-sm max-w-md`}>{exp.body}</p>
+            </div>
+            <div>
+              <p data-reveal class={`label-xs ${muted} mb-6`}>What's included</p>
+              <ul class="space-y-0">
+                {exp.offerings.map((o) => (
+                  <li data-reveal class={`text-sm ${muted} py-4 border-b ${border} flex items-start gap-3`}>
+                    <span class="text-terracotta mt-0.5 shrink-0">—</span>
+                    {o}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      );
+    })}
+
   </main>
 </Layout>
