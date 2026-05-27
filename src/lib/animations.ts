@@ -14,11 +14,10 @@ const slideUp = (y = 28, duration = D.base) => ({ y, opacity: 0, duration });
 /* ═══ NAVIGATION ═══ */
 
 function nav() {
-  const el = document.querySelector<HTMLElement>('[data-nav="root"]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-nav="toggle"]');
   const overlay = document.querySelector<HTMLElement>('[data-nav="overlay"]');
   const bars = $$('[data-nav="bar"]');
-  if (!el || !toggle || !overlay) return;
+  if (!toggle || !overlay) return;
 
   if (!reduced) gsap.fromTo('[data-nav="logo"]', { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: D.base, delay: 0.1 });
   else gsap.set('[data-nav="logo"]', { opacity: 1 });
@@ -30,7 +29,6 @@ function nav() {
   };
   const openMenu = () => {
     open = true;
-    el.classList.add('nav-open');
     overlay.hidden = false;
     setBars(true);
     document.body.style.overflow = 'hidden';
@@ -40,7 +38,6 @@ function nav() {
   };
   const closeMenu = () => {
     open = false;
-    el.classList.remove('nav-open');
     setBars(false);
     document.body.style.overflow = '';
     gsap.to(overlay, { opacity: 0, duration: D.fast, onComplete: () => { overlay.hidden = true; } });
@@ -73,7 +70,6 @@ function intro() {
   if (!document.getElementById('intro')) return;
   scrollTL('#intro', 'top 75%')
     .from('#intro [data-anim="img"]', { scale: 1.05, opacity: 0, duration: D.slow, ease: E.soft })
-    .from('#intro h2', { y: 30, opacity: 0, duration: D.slow, ease: E.out }, '-=0.4')
     .from('#intro [data-anim="body"]', slideUp(), '-=0.4')
     .from('#intro [data-anim="stat"]', { y: 20, opacity: 0, duration: D.base, stagger: 0.1 }, '-=0.3');
 }
@@ -113,10 +109,11 @@ function subpageIntro() {
   const tl = gsap.timeline({ delay: 0.1 });
   els.forEach((el, i) => {
     const isImg = el.tagName === 'IMG' || el.querySelector('img');
-    const [from, to] = isImg
-      ? [{ opacity: 0, scale: 1.03 }, { opacity: 1, scale: 1, duration: D.slow, ease: E.soft }]
-      : [{ opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: D.base, ease: E.out }];
-    tl.fromTo(el, from, to, i === 0 ? (isImg ? '0' : '0.05') : (isImg ? '<' : '-=0.3'));
+    tl.fromTo(el,
+      { opacity: 0, ...(isImg ? { scale: 1.03 } : { y: 20 }) },
+      { opacity: 1, ...(isImg ? { scale: 1 } : { y: 0 }), duration: isImg ? D.slow : D.base, ease: isImg ? E.soft : E.out },
+      i === 0 ? 0 : '-=0.3',
+    );
   });
 }
 
