@@ -10,16 +10,8 @@ const distances = [
 <section id="location" data-nav-theme="light" class="bg-warm-white">
   <div id="map" class="w-full h-[40vh] md:h-[50vh]"></div>
 
-  <div data-anim="content" class="grid md:grid-cols-2 gap-8 md:gap-10 section-px py-10 md:py-[10vh]">
-    <div>
-      <h2 data-anim="text" class="font-serif font-light text-charcoal mb-2 heading-md">Oia, Santorini 847 02</h2>
-      <p data-anim="text" class="text-driftwood mb-4">Santorini, Greece</p>
-      <p data-anim="text" class="text-charcoal leading-relaxed">
-        Perched on the caldera cliffs of Oia with unobstructed views of the Aegean.
-        Isolated enough to feel like a retreat, close enough to reach Fira and beyond.
-      </p>
-    </div>
-    <dl>
+  <div data-anim="content" class="section-px py-10 md:py-[10vh]">
+    <dl class="max-w-sm">
       {distances.map(({ name, km }) => (
         <div data-anim="distance" class="flex justify-between py-4 border-t border-driftwood/20">
           <dt class="font-medium text-charcoal">{name}</dt>

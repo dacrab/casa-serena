@@ -8,7 +8,7 @@ const navLinks = [
 ];
 ---
 
-<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5 mix-blend-difference">
+<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
   <a href="/" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
@@ -46,6 +46,7 @@ const navLinks = [
 </div>
 
 <style>
+  nav { mix-blend-mode: difference; }
   nav .nav-logo,
   nav .nav-link { color: #fff; }
   nav .nav-link { opacity: 0.8; transition: opacity 0.3s; }
