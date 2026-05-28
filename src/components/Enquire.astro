@@ -4,40 +4,32 @@ const social = [
   { href: 'https://facebook.com', label: 'Facebook' },
 ];
 
-const footerColumns = [
-  { title: 'Explore', links: [
-    { href: '/suites', text: 'Suites' },
-    { href: '/experiences', text: 'Experiences' },
-    { href: '/gallery', text: 'Gallery' },
-    { href: '/story', text: 'Our Story' },
-  ]},
-  { title: 'Contact', links: [
-    { href: 'mailto:info@casaserena.com', text: 'info@casaserena.com' },
-    { href: 'tel:+302286000000', text: '+30 22860 00000' },
-  ], extra: 'Oia, Santorini 847 02' },
-  { title: 'Legal', links: [
-    { href: '/privacy', text: 'Privacy Policy' },
-    { href: '/terms', text: 'Terms & Conditions' },
-  ]},
+const exploreLinks = [
+  { href: '/suites', text: 'Suites' },
+  { href: '/experiences', text: 'Experiences' },
+  { href: '/gallery', text: 'Gallery' },
+  { href: '/story', text: 'Our Story' },
 ];
 ---
 
-<section id="enquire" data-nav-theme="dark" class="bg-charcoal py-10 md:py-[8vh] section-px">
-  <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-10 md:gap-12">
-    <div data-anim="info">
-      <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
-      <h2 class="font-serif italic font-light text-cream mb-6 md:mb-8 heading-xl">Stay.</h2>
-      <address class="not-italic space-y-2 mb-8">
-        <a href="mailto:info@casaserena.com" class="block text-cream hover:text-terracotta transition-colors py-1">info@casaserena.com</a>
-        <a href="tel:+302286000000" class="block text-cream hover:text-terracotta transition-colors py-1">+30 22860 00000</a>
-      </address>
-      <div class="flex gap-4 label-xs text-driftwood">
-        {social.map(({ href, label }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors py-3">
-            {label}<span class="sr-only"> (opens in new tab)</span>
-          </a>
-        ))}
+<section id="enquire" data-nav-theme="dark" class="bg-charcoal py-16 md:py-24 section-px">
+  <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_2fr] gap-12 md:gap-20">
+    <div data-anim="info" class="flex flex-col justify-between gap-8">
+      <div>
+        <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
+        <h2 class="font-serif italic font-light text-cream heading-xl leading-none">Stay.</h2>
       </div>
+      <address class="not-italic">
+        <a href="mailto:info@casaserena.com" class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">info@casaserena.com</a>
+        <a href="tel:+302286000000" class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">+30 22860 00000</a>
+        <div class="flex gap-4 label-xs text-driftwood mt-4">
+          {social.map(({ href, label }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
+              {label}<span class="sr-only"> (opens in new tab)</span>
+            </a>
+          ))}
+        </div>
+      </address>
     </div>
 
     <form id="enquire-form" class="space-y-6">
@@ -92,42 +84,30 @@ const footerColumns = [
         <textarea id="message" name="message" rows="3" class="form-input resize-none"></textarea>
       </div>
 
-      <button
-        data-anim="field"
-        type="submit"
-        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs min-h-[44px]
-               hover:bg-terracotta hover:border-terracotta hover:text-white transition-colors duration-200"
-      >Send Enquiry</button>
+      <button data-anim="field" type="submit"
+        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs min-h-[44px] hover:bg-terracotta hover:border-terracotta transition-colors duration-200">
+        Send Enquiry
+      </button>
     </form>
   </div>
 </section>
 
-<footer class="bg-charcoal border-t border-cream/10 section-px py-10 md:py-14">
-  <div class="max-w-5xl mx-auto">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-10">
-      <div class="col-span-2 md:col-span-1">
-        <a href="/" class="font-serif text-sm tracking-widest text-cream">CASA SERENA</a>
-        <p class="font-serif italic font-light text-cream/30 mt-4 text-base leading-snug">"Where the cliff meets the sea."</p>
-      </div>
-      {footerColumns.map(({ title, links, extra }) => (
-        <div>
-          <p class="label-xs text-driftwood mb-3">{title}</p>
-          <nav class="flex flex-col gap-2 text-sm text-cream/60">
-            {links.map(({ href, text }) => (
-              <a href={href} class="hover:text-cream transition-colors">{text}</a>
-            ))}
-            {extra && <span>{extra}</span>}
-          </nav>
-        </div>
+<footer class="bg-charcoal border-t border-cream/10 section-px py-8">
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+    <a href="/" class="font-serif text-sm tracking-widest text-cream shrink-0">CASA SERENA</a>
+    <nav class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-cream/40">
+      {exploreLinks.map(({ href, text }) => (
+        <a href={href} class="hover:text-cream transition-colors">{text}</a>
       ))}
-    </div>
-    <div class="border-t border-cream/5 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-center">
-      <span class="text-xs text-driftwood">© {new Date().getFullYear()} Casa Serena Estate. All rights reserved.</span>
-      <div class="flex gap-4 label-xs text-driftwood">
-        {social.map(({ href, label }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">{label}</a>
-        ))}
-      </div>
-    </div>
+      <a href="mailto:info@casaserena.com" class="hover:text-cream transition-colors">info@casaserena.com</a>
+      <a href="/privacy" class="hover:text-cream transition-colors">Privacy</a>
+      <a href="/terms" class="hover:text-cream transition-colors">Terms</a>
+      {social.map(({ href, label }) => (
+        <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
+          {label}<span class="sr-only"> (opens in new tab)</span>
+        </a>
+      ))}
+    </nav>
+    <span class="text-xs text-driftwood/40 shrink-0">© {new Date().getFullYear()}</span>
   </div>
 </footer>
