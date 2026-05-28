@@ -10,26 +10,17 @@ const stats = [
 ---
 
 <section id="intro" data-nav-theme="light" class="bg-warm-white">
-  <!-- Full-bleed image with overlaid text -->
   <div class="relative overflow-hidden">
     <div data-anim="img" class="overflow-hidden">
-      <Image
-        src={aboutImg}
-        alt="Casa Serena living space"
-        loading="lazy"
-        class="w-full h-[70vh] md:h-[85vh] object-cover"
-      />
+      <Image src={aboutImg} alt="Casa Serena living space" loading="lazy"
+        class="w-full h-[70vh] md:h-[85vh] object-cover" />
     </div>
-    <!-- Bottom overlay text -->
     <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-warm-white via-warm-white/60 to-transparent pt-24 pb-10 md:pb-14 section-px">
       <p class="label-xs text-driftwood mb-4">Est. 1987 · Reimagined 2019</p>
-      <h2 class="font-serif italic font-light text-charcoal leading-tight heading-lg max-w-xl">
-        A house that breathes.
-      </h2>
+      <h2 class="font-serif italic font-light text-charcoal leading-tight heading-lg max-w-xl">A house that breathes.</h2>
     </div>
   </div>
 
-  <!-- Body text + stats below -->
   <div class="section-px py-10 md:py-16 grid md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-end max-w-[1400px] mx-auto">
     <p data-anim="body" class="text-charcoal/70 leading-relaxed max-w-lg border-l-2 border-terracotta pl-5">
       Designed to dissolve boundaries between interior and ocean,

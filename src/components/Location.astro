@@ -1,9 +1,9 @@
 ---
 const distances = [
-  { name: 'Fira',              km: '12 km' },
+  { name: 'Fira',             km: '12 km' },
   { name: 'Santorini Airport', km: '8 km' },
-  { name: 'Heraklion, Crete',  km: '130 km' },
-  { name: 'Athens',            km: '280 km' },
+  { name: 'Heraklion, Crete', km: '130 km' },
+  { name: 'Athens',           km: '280 km' },
 ];
 ---
 
@@ -35,23 +35,14 @@ const distances = [
   import L from 'leaflet';
 
   const map = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false }).setView([36.4618, 25.3753], 18);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19,
-  }).addTo(map);
-
-  // Custom terracotta pin
   const pin = L.divIcon({
     className: '',
     html: `<svg width="36" height="48" viewBox="0 0 36 48" fill="none"><path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/><circle cx="18" cy="18" r="7" fill="#FDFAF5"/></svg>`,
     iconSize: [36, 48],
     iconAnchor: [18, 48],
   });
-
   L.marker([36.4618, 25.3753], { icon: pin }).addTo(map);
-
-  // Re-add minimal attribution
-  L.control.attribution({ position: 'bottomright', prefix: false })
-    .addAttribution('© <a href="https://carto.com">CARTO</a>')
-    .addTo(map);
+  L.control.attribution({ position: 'bottomright', prefix: false }).addAttribution('© <a href="https://carto.com">CARTO</a>').addTo(map);
 </script>

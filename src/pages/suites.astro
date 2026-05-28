@@ -9,62 +9,37 @@ import gallery5 from '../assets/images/gallery-5.webp';
 
 const suites = [
   {
-    name: 'Caldera Suite',
-    tagline: 'Where sky meets sea.',
+    name: 'Caldera Suite', tagline: 'Where sky meets sea.', index: '01', image: gallery1,
     description: 'Our signature suite occupies the entire upper floor. Floor-to-ceiling glass frames an unbroken panorama of the caldera — from the volcanic islands to the open Aegean.',
-    image: gallery1,
-    size: '95 m²',
-    view: 'Caldera & Aegean',
-    price: '€2,800',
+    size: '95 m²', view: 'Caldera & Aegean', price: '€2,800',
     features: ['Private infinity plunge pool', 'Outdoor dining terrace', 'Fireplace', 'Walk-in dressing room', 'Wine fridge'],
-    index: '01',
   },
   {
-    name: 'Aegean Suite',
-    tagline: 'Suspended above the blue.',
+    name: 'Aegean Suite', tagline: 'Suspended above the blue.', index: '02', image: gallery2,
     description: 'Cantilevered over the cliff edge, the Aegean Suite feels like sleeping on the water itself. A wraparound balcony traces the curve of the caldera.',
-    image: gallery2,
-    size: '72 m²',
-    view: 'Open sea',
-    price: '€2,200',
+    size: '72 m²', view: 'Open sea', price: '€2,200',
     features: ['Heated plunge pool', 'Daybed terrace', 'Rainfall shower with sea view', 'Handmade ceramics'],
-    index: '02',
   },
   {
-    name: 'Garden Suite',
-    tagline: 'Rooted in the earth.',
-    description: 'Set within the estate\'s terraced gardens, this ground-level retreat opens directly onto a private courtyard of bougainvillea and olive trees.',
-    image: gallery4,
-    size: '68 m²',
-    view: 'Garden & partial sea',
-    price: '€1,800',
+    name: 'Garden Suite', tagline: 'Rooted in the earth.', index: '03', image: gallery4,
+    description: "Set within the estate's terraced gardens, this ground-level retreat opens directly onto a private courtyard of bougainvillea and olive trees.",
+    size: '68 m²', view: 'Garden & partial sea', price: '€1,800',
     features: ['Private walled courtyard', 'Outdoor stone bathtub', 'Kitchenette', 'Direct garden access'],
-    index: '03',
   },
   {
-    name: 'Cliff Studio',
-    tagline: 'Intimate. Essential. Perfect.',
+    name: 'Cliff Studio', tagline: 'Intimate. Essential. Perfect.', index: '04', image: gallery5,
     description: 'A sculpted cave suite carved into the volcanic rock. Minimal in footprint but maximal in atmosphere — whitewashed curves, absolute silence.',
-    image: gallery5,
-    size: '45 m²',
-    view: 'Caldera',
-    price: '€1,200',
+    size: '45 m²', view: 'Caldera', price: '€1,200',
     features: ['Cave architecture', 'Caldera-view balcony', 'Curated minibar', 'Complimentary breakfast'],
-    index: '04',
   },
 ];
 ---
 
-<Layout
-  title="Suites — Casa Serena | Santorini"
-  description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio."
->
+<Layout title="Suites — Casa Serena | Santorini" description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio.">
   <Nav />
   <main>
-    <!-- Hero -->
     <section class="relative h-svh overflow-hidden">
-      <Image data-intro src={gallery5} alt="Suite interior at dusk" loading="eager"
-        class="absolute inset-0 w-full h-full object-cover" />
+      <Image data-intro src={gallery5} alt="Suite interior at dusk" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
       <div class="absolute inset-0 flex flex-col justify-end section-px pb-16 md:pb-24">
         <p data-intro class="label-xs text-cream/50 mb-3">Accommodations</p>
@@ -73,15 +48,10 @@ const suites = [
       </div>
     </section>
 
-    <!-- Suite sections -->
     {suites.map((suite) => (
       <section data-nav-theme="dark" class="relative h-svh overflow-hidden flex items-end">
-        <!-- Full-bleed background image -->
-        <Image data-reveal src={suite.image} alt={`${suite.name} interior`} loading="lazy"
-          class="absolute inset-0 w-full h-full object-cover" />
+        <Image data-reveal src={suite.image} alt={`${suite.name} interior`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
-
-        <!-- Floating info card at bottom -->
         <div class="relative w-full section-px pb-10 md:pb-16">
           <div class="grid md:grid-cols-[1fr_auto] gap-6 md:gap-16 items-end">
             <div>
@@ -103,10 +73,7 @@ const suites = [
               <p class="font-serif text-cream text-3xl md:text-4xl font-light">{suite.price}</p>
               <p class="label-xs text-driftwood mt-1">per night</p>
               <p class="text-xs text-cream/40 mt-1">{suite.size} · {suite.view}</p>
-              <a href="/#enquire"
-                class="inline-block mt-5 label-xs text-cream border border-cream/30 px-6 py-3 hover:bg-terracotta hover:border-terracotta transition-colors duration-200">
-                Reserve
-              </a>
+              <a href="/#enquire" class="inline-block mt-5 label-xs text-cream border border-cream/30 px-6 py-3 hover:bg-terracotta hover:border-terracotta transition-colors duration-200">Reserve</a>
             </div>
           </div>
         </div>
