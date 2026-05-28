@@ -103,7 +103,6 @@ export function initBooking() {
   $('cal-prev')?.addEventListener('click', e => { e.stopPropagation(); if (--viewMonth < 0) { viewMonth = 11; viewYear--; } render(); });
   $('cal-next')?.addEventListener('click', e => { e.stopPropagation(); if (++viewMonth > 11) { viewMonth = 0; viewYear++; } render(); });
 
-  // Validation + submit
   const showError = (input: HTMLElement, msg: string) => {
     input.classList.add('border-red-400');
     let err = input.nextElementSibling;

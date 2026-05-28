@@ -7,20 +7,17 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
-  type?: string;
 }
 
 const {
   title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
   description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
   image = '/images/og.jpg',
-  type = 'website',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 
-const amenities = ['Infinity Pool', 'Private Beach Access', 'Spa & Steam Suite', 'Wine Cellar'];
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LodgingBusiness',
@@ -33,7 +30,7 @@ const jsonLd = {
   telephone: '+30-22860-00000',
   email: 'info@casaserena.com',
   starRating: { '@type': 'Rating', ratingValue: '5' },
-  amenityFeature: amenities.map(name => ({ '@type': 'LocationFeatureSpecification', name })),
+  amenityFeature: ['Infinity Pool', 'Private Beach Access', 'Spa & Steam Suite', 'Wine Cellar'].map(name => ({ '@type': 'LocationFeatureSpecification', name })),
   numberOfRooms: 4,
   priceRange: '€€€€',
 };
@@ -51,7 +48,7 @@ const jsonLd = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#C4714A" />
-    <meta property="og:type" content={type} />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -73,8 +70,6 @@ const jsonLd = {
   </head>
   <body>
     <slot />
-    <script>
-      import '../lib/animations';
-    </script>
+    <script>import '../lib/animations';</script>
   </body>
 </html>

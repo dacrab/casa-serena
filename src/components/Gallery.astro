@@ -16,15 +16,8 @@ import about    from '../assets/images/about.webp';
 >
   <p class="label-xs text-cream/40 mb-6 md:mb-8">The Property</p>
 
-  <!--
-    Bento grid:
-    Row 1: [tall portrait] [wide landscape spanning 2 cols]
-    Row 2: [wide landscape spanning 2 cols] [tall portrait]
-    Row 3: [3 equal squares]
-  -->
   <div class="grid grid-cols-3 grid-rows-[auto_auto_auto] gap-2 md:gap-3">
 
-    <!-- Row 1: portrait left, landscape right (spans 2) -->
     <div data-anim="cell" class="row-span-2 overflow-hidden">
       <Image src={gallery1} alt="Casa Serena exterior at golden hour" loading="lazy"
         class="w-full h-full object-cover gallery-img aspect-[3/4] md:aspect-auto" style="min-height:100%" />
@@ -34,13 +27,11 @@ import about    from '../assets/images/about.webp';
         class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
     </div>
 
-    <!-- Row 2: landscape spans 2 (under the wide one above) -->
     <div data-anim="cell" class="col-span-2 overflow-hidden">
       <Image src={gallery2} alt="Beachfront pool" loading="lazy"
         class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
     </div>
 
-    <!-- Row 3: 3 equal squares -->
     <div data-anim="cell" class="overflow-hidden aspect-square">
       <Image src={gallery3} alt="Wide exterior view" loading="lazy"
         class="w-full h-full object-cover gallery-img" />

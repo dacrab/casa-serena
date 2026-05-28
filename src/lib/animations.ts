@@ -11,8 +11,6 @@ const $$ = (sel: string, root: ParentNode = document) => Array.from(root.querySe
 const scrollTL = (trigger: string, start = 'top 80%') => gsap.timeline({ scrollTrigger: { trigger, start, once: true } });
 const slideUp = (y = 28, duration = D.base) => ({ y, opacity: 0, duration });
 
-/* ═══ NAVIGATION ═══ */
-
 function nav() {
   const toggle = document.querySelector<HTMLButtonElement>('[data-nav="toggle"]');
   const overlay = document.querySelector<HTMLElement>('[data-nav="overlay"]');
@@ -48,8 +46,6 @@ function nav() {
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closeMenu(); });
 }
-
-/* ═══ HOMEPAGE SECTIONS ═══ */
 
 function hero() {
   if (!document.getElementById('hero')) return;
@@ -90,8 +86,7 @@ function amenities() {
 function location() {
   if (!document.getElementById('location')) return;
   scrollTL('#location [data-anim="content"]')
-    .from('#location [data-anim="text"]', { ...slideUp(), duration: D.slow, stagger: 0.12 })
-    .from('#location [data-anim="distance"]', { x: 18, opacity: 0, duration: D.base, stagger: 0.08 }, '-=0.4');
+    .from('#location [data-anim="distance"]', { x: 18, opacity: 0, duration: D.base, stagger: 0.08 });
 }
 
 function enquire() {
@@ -100,8 +95,6 @@ function enquire() {
     .from('#enquire [data-anim="info"] > *', { ...slideUp(), duration: D.slow, stagger: 0.12 })
     .from('#enquire [data-anim="field"]', { ...slideUp(), stagger: 0.08 }, '-=0.4');
 }
-
-/* ═══ SUBPAGE ANIMATIONS ═══ */
 
 function subpageIntro() {
   const els = $$('[data-intro]');
@@ -127,8 +120,6 @@ function subpageReveal() {
     );
   });
 }
-
-/* ═══ INIT ═══ */
 
 function init() {
   gsap.to('.marquee', { x: '-50%', duration: 22, ease: 'none', repeat: -1 });
