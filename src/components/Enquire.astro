@@ -62,31 +62,30 @@ const social = [
         </div>
       </div>
 
-      <div data-anim="field" class="relative">
-        <label class="label-xs text-driftwood block mb-2">Suite</label>
-        <div id="suite-dropdown" class="relative">
+      <div data-anim="field" id="suite-section" class="relative z-10">
+        <p class="label-xs text-driftwood mb-2">Suite</p>
+        <div class="border-b border-cream/20">
           <button type="button" id="suite-btn"
-            class="w-full flex justify-between items-center border-b border-cream/20 py-3 text-sm text-cream/40 min-h-[44px] hover:border-cream/40 transition-colors">
-            <span id="suite-label">No preference</span>
-            <svg class="w-3 h-3 text-driftwood shrink-0 transition-transform duration-200" id="suite-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            class="w-full flex justify-between items-center py-3 text-left min-h-[44px]">
+            <span id="suite-label" class="text-sm text-cream/40">No preference</span>
+            <svg id="suite-chevron" class="w-3 h-3 text-driftwood shrink-0 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
             </svg>
           </button>
-          <ul id="suite-options" hidden
-            class="absolute top-full left-0 right-0 z-30 bg-surface border border-cream/10 mt-1 shadow-2xl">
-            {[
-              { value: '', label: 'No preference' },
-              { value: 'Caldera Suite', label: '01 — Caldera Suite' },
-              { value: 'Aegean Suite',  label: '02 — Aegean Suite' },
-              { value: 'Garden Suite',  label: '03 — Garden Suite' },
-              { value: 'Cliff Studio',  label: '04 — Cliff Studio' },
-            ].map(({ value, label }) => (
-              <li data-value={value}
-                class="px-4 py-3 text-sm text-cream/50 hover:text-cream hover:bg-cream/5 cursor-pointer transition-colors label-option">
-                {label}
-              </li>
-            ))}
-          </ul>
+        </div>
+        <div id="suite-wrap" hidden class="absolute top-full left-0 right-0 mt-1 z-50 bg-surface border border-cream/10 shadow-2xl">
+          {[
+            { value: '',               label: 'No preference' },
+            { value: 'Caldera Suite',  label: '01 — Caldera Suite' },
+            { value: 'Aegean Suite',   label: '02 — Aegean Suite' },
+            { value: 'Garden Suite',   label: '03 — Garden Suite' },
+            { value: 'Cliff Studio',   label: '04 — Cliff Studio' },
+          ].map(({ value, label }) => (
+            <div data-value={value}
+              class="suite-option px-4 py-3 text-sm text-cream/50 hover:text-cream hover:bg-cream/5 cursor-pointer transition-colors">
+              {label}
+            </div>
+          ))}
         </div>
         <input type="hidden" id="suite" name="suite" />
       </div>
@@ -115,30 +114,41 @@ const social = [
 </section>
 
 <script>
-  const btn = document.getElementById('suite-btn')!;
-  const opts = document.getElementById('suite-options')!;
-  const lbl = document.getElementById('suite-label')!;
-  const inp = document.getElementById('suite') as HTMLInputElement;
-  const chev = document.getElementById('suite-chevron')!;
+  import gsap from 'gsap';
 
-  const toggle = (open: boolean) => {
-    opts.hidden = !open;
-    chev.style.transform = open ? 'rotate(180deg)' : '';
+  const btn     = document.getElementById('suite-btn')!;
+  const wrap    = document.getElementById('suite-wrap')!;
+  const lbl     = document.getElementById('suite-label')!;
+  const inp     = document.getElementById('suite') as HTMLInputElement;
+  const chev    = document.getElementById('suite-chevron')!;
+  const section = document.getElementById('suite-section')!;
+
+  let isOpen = false;
+
+  const open = () => {
+    isOpen = true;
+    wrap.hidden = false;
+    chev.style.transform = 'rotate(180deg)';
+    gsap.fromTo(wrap, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.18 });
+  };
+  const close = () => {
+    isOpen = false;
+    chev.style.transform = '';
+    gsap.to(wrap, { opacity: 0, y: -6, duration: 0.15, onComplete: () => { wrap.hidden = true; } });
   };
 
-  btn.addEventListener('click', () => toggle(!!opts.hidden));
+  btn.addEventListener('click', e => { e.stopPropagation(); isOpen ? close() : open(); });
 
-  opts.querySelectorAll<HTMLElement>('.label-option').forEach(li => {
-    li.addEventListener('click', () => {
-      inp.value = li.dataset.value!;
-      lbl.textContent = li.textContent!.trim();
-      lbl.classList.toggle('text-cream/40', !li.dataset.value);
-      lbl.classList.toggle('text-cream', !!li.dataset.value);
-      toggle(false);
+  wrap.querySelectorAll<HTMLElement>('.suite-option').forEach(el => {
+    el.addEventListener('click', () => {
+      inp.value = el.dataset.value!;
+      lbl.textContent = el.textContent!.trim();
+      lbl.className = `text-sm ${el.dataset.value ? 'text-cream' : 'text-cream/40'}`;
+      close();
     });
   });
 
   document.addEventListener('click', e => {
-    if (!document.getElementById('suite-dropdown')!.contains(e.target as Node)) toggle(false);
+    if (isOpen && !section.contains(e.target as Node)) close();
   });
 </script>
