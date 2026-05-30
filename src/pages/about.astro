@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 import about from '../assets/images/about.webp';
 import gallery1 from '../assets/images/gallery-1.webp';
 import gallery2 from '../assets/images/gallery-2.webp';
+import Footer from '../components/Footer.astro';
 
 const timeline = [
   { year: '1987', text: 'The original villa is built by shipping magnate Alexandros Kiriakos as a family summer retreat on the caldera cliffs.' },
@@ -32,7 +33,7 @@ const team = [
 const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural Digest', 'Financial Times HTSI'];
 ---
 
-<Layout title="Our Story — Casa Serena | Santorini" description="The history, architecture, and people behind Casa Serena.">
+<Layout title="About — Casa Serena | Santorini" description="The history, architecture, and people behind Casa Serena.">
   <Nav />
   <main>
 
@@ -40,7 +41,7 @@ const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural 
       <Image data-intro src={gallery1} alt="Casa Serena at golden hour" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
       <div class="relative section-px pb-16 md:pb-24 w-full">
-        <p data-intro class="label-xs text-cream/50 mb-3">Our Story</p>
+        <p data-intro class="label-xs text-cream/50 mb-3">About</p>
         <h1 data-intro class="font-serif italic font-light text-cream heading-hero leading-none">Built to Last</h1>
       </div>
     </section>
@@ -126,4 +127,5 @@ const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural 
     </section>
 
   </main>
+  <Footer />
 </Layout>

@@ -3,13 +3,6 @@ const social = [
   { href: 'https://instagram.com', label: 'Instagram' },
   { href: 'https://facebook.com', label: 'Facebook' },
 ];
-
-const exploreLinks = [
-  { href: '/suites', text: 'Suites' },
-  { href: '/experiences', text: 'Experiences' },
-  { href: '/gallery', text: 'Gallery' },
-  { href: '/story', text: 'Our Story' },
-];
 ---
 
 <section id="enquire" data-nav-theme="dark" class="bg-charcoal py-16 md:py-24 section-px">
@@ -91,23 +84,3 @@ const exploreLinks = [
     </form>
   </div>
 </section>
-
-<footer class="bg-charcoal border-t border-cream/10 section-px py-8">
-  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-    <a href="/" class="font-serif text-sm tracking-widest text-cream shrink-0">CASA SERENA</a>
-    <nav class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-cream/40">
-      {exploreLinks.map(({ href, text }) => (
-        <a href={href} class="hover:text-cream transition-colors">{text}</a>
-      ))}
-      <a href="mailto:info@casaserena.com" class="hover:text-cream transition-colors">info@casaserena.com</a>
-      <a href="/privacy" class="hover:text-cream transition-colors">Privacy</a>
-      <a href="/terms" class="hover:text-cream transition-colors">Terms</a>
-      {social.map(({ href, label }) => (
-        <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
-          {label}<span class="sr-only"> (opens in new tab)</span>
-        </a>
-      ))}
-    </nav>
-    <span class="text-xs text-driftwood/40 shrink-0">© {new Date().getFullYear()}</span>
-  </div>
-</footer>

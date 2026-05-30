@@ -3,8 +3,8 @@ const navLinks = [
   { href: '/suites', label: 'Suites' },
   { href: '/experiences', label: 'Experiences' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/story', label: 'Our Story' },
-  { href: '/#enquire', label: 'Enquire' },
+  { href: '/about', label: 'About' },
+  { href: '/enquire', label: 'Enquire' },
 ];
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
@@ -14,7 +14,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
   <div class="hidden md:flex gap-8">
     {navLinks.map(({ href, label }) => {
-      const active = href.startsWith('/#') ? false : href === path;
+      const active = href === path;
       return (
         <a href={href} class:list={["nav-link label-xs", active && "nav-link--active"]}>{label}</a>
       );
@@ -40,7 +40,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 >
   <ul class="space-y-6 text-center">
     {navLinks.map(({ href, label }) => {
-      const active = href.startsWith('/#') ? false : href === path;
+      const active = href === path;
       return (
         <li>
           <a href={href} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", active ? "text-terracotta" : "text-cream"]}>

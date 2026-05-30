@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import { Image } from 'astro:assets';
 import gallery1 from '../assets/images/gallery-1.webp';
 import gallery2 from '../assets/images/gallery-2.webp';
@@ -73,11 +74,12 @@ const suites = [
               <p class="font-serif text-cream text-3xl md:text-4xl font-light">{suite.price}</p>
               <p class="label-xs text-driftwood mt-1">per night</p>
               <p class="text-xs text-cream/40 mt-1">{suite.size} · {suite.view}</p>
-              <a href="/#enquire" class="inline-block mt-5 label-xs text-cream border border-cream/30 px-6 py-3 hover:bg-terracotta hover:border-terracotta transition-colors duration-200">Reserve</a>
+              <a href="/enquire" class="inline-block mt-5 label-xs text-cream border border-cream/30 px-6 py-3 hover:bg-terracotta hover:border-terracotta transition-colors duration-200">Reserve</a>
             </div>
           </div>
         </div>
       </section>
     ))}
   </main>
+  <Footer />
 </Layout>

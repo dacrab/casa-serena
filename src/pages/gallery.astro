@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 import { Image } from 'astro:assets';
 import gallery1 from '../assets/images/gallery-1.webp';
 import gallery2 from '../assets/images/gallery-2.webp';
@@ -140,4 +141,5 @@ const images = [
     lb.addEventListener('touchstart', e => { tx = e.touches[0]!.clientX; }, { passive: true });
     lb.addEventListener('touchend', e => { const d = e.changedTouches[0]!.clientX - tx; if (Math.abs(d) > 50) show(d > 0 ? cur - 1 : cur + 1); });
   </script>
+  <Footer />
 </Layout>
