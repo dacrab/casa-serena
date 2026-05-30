@@ -6,15 +6,19 @@ const navLinks = [
   { href: '/story', label: 'Our Story' },
   { href: '/#enquire', label: 'Enquire' },
 ];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
 <nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
   <a href="/" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
-    {navLinks.map(({ href, label }) => (
-      <a href={href} class="nav-link label-xs">{label}</a>
-    ))}
+    {navLinks.map(({ href, label }) => {
+      const active = href.startsWith('/#') ? false : href === path;
+      return (
+        <a href={href} class:list={["nav-link label-xs", active && "nav-link--active"]}>{label}</a>
+      );
+    })}
   </div>
 
   <button
@@ -35,13 +39,16 @@ const navLinks = [
   class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center"
 >
   <ul class="space-y-6 text-center">
-    {navLinks.map(({ href, label }) => (
-      <li>
-        <a href={href} class="font-serif italic text-4xl sm:text-5xl text-cream hover:text-terracotta">
-          {label}
-        </a>
-      </li>
-    ))}
+    {navLinks.map(({ href, label }) => {
+      const active = href.startsWith('/#') ? false : href === path;
+      return (
+        <li>
+          <a href={href} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", active ? "text-terracotta" : "text-cream"]}>
+            {label}
+          </a>
+        </li>
+      );
+    })}
   </ul>
 </div>
 
@@ -51,5 +58,6 @@ const navLinks = [
   nav .nav-link { color: #fff; }
   nav .nav-link { opacity: 0.8; transition: opacity 0.3s; }
   nav .nav-link:hover { opacity: 1; }
+  nav .nav-link--active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
   nav .bar { background: #fff; }
 </style>

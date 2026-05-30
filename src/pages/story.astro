@@ -64,12 +64,15 @@ const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural 
       <div class="max-w-3xl mx-auto">
         <p data-reveal class="label-xs text-driftwood mb-12">Timeline</p>
         <div class="relative">
-          <div class="absolute left-[4.5rem] top-0 bottom-0 w-px bg-cream/10 hidden md:block"></div>
-          {timeline.map(({ year, text }) => (
+          {timeline.map(({ year, text }, i) => (
             <div data-reveal class="grid md:grid-cols-[8rem_1fr] gap-4 md:gap-12 py-8 border-b border-cream/5 last:border-0">
               <div class="flex items-start gap-3">
                 <span class="font-serif text-terracotta/30 text-5xl md:text-7xl font-light leading-none">{year}</span>
-                <div class="hidden md:block w-2 h-2 rounded-full bg-terracotta/50 mt-4 shrink-0 relative z-10"></div>
+                <div class="hidden md:flex flex-col items-center shrink-0 self-stretch relative z-10">
+                  <div class={`w-px flex-1 bg-cream/10 ${i === 0 ? 'opacity-0' : ''}`}></div>
+                  <div class="w-2 h-2 rounded-full bg-terracotta/50 shrink-0"></div>
+                  <div class={`w-px flex-1 bg-cream/10 ${i === timeline.length - 1 ? 'opacity-0' : ''}`}></div>
+                </div>
               </div>
               <p class="text-cream/55 leading-relaxed text-sm">{text}</p>
             </div>
