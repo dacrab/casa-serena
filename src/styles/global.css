@@ -64,7 +64,7 @@ html.js [data-reveal] {
 .heading-lg   { font-size: clamp(2rem, 4vw, 3.5rem); }
 .heading-md   { font-size: clamp(1.75rem, 5vw, 2.25rem); }
 
-a, button, [role="button"], input[type="submit"] { cursor: pointer; }
+a, button, [role="button"], input[type="submit"], select { cursor: pointer; }
 
 @media (pointer: coarse) {
   a, button { min-height: 44px; }

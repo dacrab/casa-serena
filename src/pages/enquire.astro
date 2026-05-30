@@ -20,8 +20,10 @@ import Footer from '../components/Footer.astro';
   <script>
     const suite = new URLSearchParams(location.search).get('suite');
     if (suite) {
-      const sel = document.getElementById('suite') as HTMLSelectElement | null;
-      if (sel) sel.value = suite;
+      const inp = document.getElementById('suite') as HTMLInputElement | null;
+      const lbl = document.getElementById('suite-label');
+      if (inp) inp.value = suite;
+      if (lbl) { lbl.textContent = suite; lbl.classList.replace('text-cream/40', 'text-cream'); }
     }
   </script>
 </Layout>

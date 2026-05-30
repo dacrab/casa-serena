@@ -62,15 +62,33 @@ const social = [
         </div>
       </div>
 
-      <div data-anim="field">
-        <label for="suite" class="label-xs text-driftwood block mb-2">Suite</label>
-        <select id="suite" name="suite" class="form-input">
-          <option value="">No preference</option>
-          <option value="Caldera Suite">01 — Caldera Suite</option>
-          <option value="Aegean Suite">02 — Aegean Suite</option>
-          <option value="Garden Suite">03 — Garden Suite</option>
-          <option value="Cliff Studio">04 — Cliff Studio</option>
-        </select>
+      <div data-anim="field" class="relative">
+        <label class="label-xs text-driftwood block mb-2">Suite</label>
+        <div id="suite-dropdown" class="relative">
+          <button type="button" id="suite-btn"
+            class="w-full flex justify-between items-center border-b border-cream/20 py-3 text-sm text-cream/40 min-h-[44px] hover:border-cream/40 transition-colors">
+            <span id="suite-label">No preference</span>
+            <svg class="w-3 h-3 text-driftwood shrink-0 transition-transform duration-200" id="suite-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+            </svg>
+          </button>
+          <ul id="suite-options" hidden
+            class="absolute top-full left-0 right-0 z-30 bg-surface border border-cream/10 mt-1 shadow-2xl">
+            {[
+              { value: '', label: 'No preference' },
+              { value: 'Caldera Suite', label: '01 — Caldera Suite' },
+              { value: 'Aegean Suite',  label: '02 — Aegean Suite' },
+              { value: 'Garden Suite',  label: '03 — Garden Suite' },
+              { value: 'Cliff Studio',  label: '04 — Cliff Studio' },
+            ].map(({ value, label }) => (
+              <li data-value={value}
+                class="px-4 py-3 text-sm text-cream/50 hover:text-cream hover:bg-cream/5 cursor-pointer transition-colors label-option">
+                {label}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <input type="hidden" id="suite" name="suite" />
       </div>
 
       <div data-anim="field">
@@ -95,3 +113,32 @@ const social = [
     </form>
   </div>
 </section>
+
+<script>
+  const btn = document.getElementById('suite-btn')!;
+  const opts = document.getElementById('suite-options')!;
+  const lbl = document.getElementById('suite-label')!;
+  const inp = document.getElementById('suite') as HTMLInputElement;
+  const chev = document.getElementById('suite-chevron')!;
+
+  const toggle = (open: boolean) => {
+    opts.hidden = !open;
+    chev.style.transform = open ? 'rotate(180deg)' : '';
+  };
+
+  btn.addEventListener('click', () => toggle(!!opts.hidden));
+
+  opts.querySelectorAll<HTMLElement>('.label-option').forEach(li => {
+    li.addEventListener('click', () => {
+      inp.value = li.dataset.value!;
+      lbl.textContent = li.textContent!.trim();
+      lbl.classList.toggle('text-cream/40', !li.dataset.value);
+      lbl.classList.toggle('text-cream', !!li.dataset.value);
+      toggle(false);
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!document.getElementById('suite-dropdown')!.contains(e.target as Node)) toggle(false);
+  });
+</script>
