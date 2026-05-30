@@ -23,8 +23,8 @@ bun build        # outputs to ./dist/
 
 ## Stack
 
-- **Astro 6** — Static site generator
-- **Tailwind CSS v4** — Utility-first styling
+- **Astro** — Static site generator
+- **Tailwind CSS** — Utility-first styling
 - **GSAP** — Scroll animations
 - **Vercel Analytics** — Visitor tracking
 
