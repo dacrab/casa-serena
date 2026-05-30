@@ -17,4 +17,11 @@ import Footer from '../components/Footer.astro';
     <Enquire />
   </main>
   <Footer />
+  <script>
+    const suite = new URLSearchParams(location.search).get('suite');
+    if (suite) {
+      const msg = document.getElementById('message') as HTMLTextAreaElement | null;
+      if (msg) msg.value = `I'd like to enquire about the ${suite}.`;
+    }
+  </script>
 </Layout>
