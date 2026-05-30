@@ -20,8 +20,8 @@ import Footer from '../components/Footer.astro';
   <script>
     const suite = new URLSearchParams(location.search).get('suite');
     if (suite) {
-      const msg = document.getElementById('message') as HTMLTextAreaElement | null;
-      if (msg) msg.value = `I'd like to enquire about the ${suite}.`;
+      const sel = document.getElementById('suite') as HTMLSelectElement | null;
+      if (sel) sel.value = suite;
     }
   </script>
 </Layout>

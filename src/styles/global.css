@@ -87,6 +87,8 @@ a, button, [role="button"], input[type="submit"] { cursor: pointer; }
   transition: border-color 0.2s;
 }
 .form-input:focus { border-color: var(--color-terracotta); }
+select.form-input { appearance: none; cursor: pointer; }
+select.form-input option { background: #1a1a1a; color: var(--color-cream); }
 
 .gallery-img { transition: transform 0.5s; }
 .gallery-img:hover { transform: scale(1.05); }
