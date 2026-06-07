@@ -8,6 +8,7 @@ updates:
     time: 04:00
     timezone: Europe/Athens
   open-pull-requests-limit: 3
+  versioning-strategy: increase
   groups:
     all-non-major:
       patterns:
