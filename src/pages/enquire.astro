@@ -1,23 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Enquire from '../components/Enquire.astro';
-import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Enquire — Casa Serena | Santorini" description="Reserve your stay at Casa Serena. Contact us to check availability and book your suite.">
-  <Nav />
-  <main class="flex-1 pt-20 md:pt-24">
-    <Enquire />
-  </main>
-  <Footer />
-  <script>
-    const suite = new URLSearchParams(location.search).get('suite');
-    if (suite) {
-      const inp = document.getElementById('suite') as HTMLInputElement | null;
-      const lbl = document.getElementById('suite-label');
-      if (inp) inp.value = suite;
-      if (lbl) { lbl.textContent = suite; lbl.classList.replace('text-cream/40', 'text-cream'); }
-    }
-  </script>
-</Layout>
+<PageLayout title="Enquire — Casa Serena | Santorini" description="Reserve your stay at Casa Serena. Contact us to check availability and book your suite." mainClass="flex-1 pt-20 md:pt-24">
+  <Enquire />
+</PageLayout>

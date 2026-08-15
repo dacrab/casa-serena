@@ -1,18 +1,15 @@
 ---
-const social = [
-  { href: 'https://instagram.com', label: 'Instagram' },
-  { href: 'https://facebook.com', label: 'Facebook' },
-];
+import { site, socialLinks } from '../lib/site';
 ---
 
 <footer class="bg-charcoal border-t border-cream/10 section-px py-8 mt-auto">
   <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
     <a href="/" class="font-serif text-sm tracking-widest text-cream shrink-0">CASA SERENA</a>
     <nav class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-cream/40">
-      <a href="mailto:info@casaserena.com" class="hover:text-cream transition-colors">info@casaserena.com</a>
+      <a href={`mailto:${site.email}`} class="hover:text-cream transition-colors">{site.email}</a>
       <a href="/privacy" class="hover:text-cream transition-colors">Privacy</a>
       <a href="/terms" class="hover:text-cream transition-colors">Terms</a>
-      {social.map(({ href, label }) => (
+      {socialLinks.map(({ href, label }) => (
         <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
           {label}<span class="sr-only"> (opens in new tab)</span>
         </a>

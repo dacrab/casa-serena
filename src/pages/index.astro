@@ -1,19 +1,12 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 import Intro from '../components/Intro.astro';
 import Gallery from '../components/Gallery.astro';
 import Amenities from '../components/Amenities.astro';
 import Location from '../components/Location.astro';
 import Enquire from '../components/Enquire.astro';
-import Footer from '../components/Footer.astro';
-
-const testimonials = [
-  { quote: 'We\'ve stayed at estates across the Mediterranean — Amalfi, Côte d\'Azur, Mallorca. Casa Serena is the only one we\'ve returned to three times. It\'s not a place you visit. It\'s a place you miss.', name: 'James & Caroline H.', detail: 'London, UK · Stayed August 2024' },
-  { quote: 'The silence. That\'s what I remember most. No music piped through speakers, no lobby chatter. Just the wind, the sea, and the occasional clink of a wine glass. Absolute perfection.', name: 'Sophie M.', detail: 'Paris, France · Stayed May 2024' },
-  { quote: 'My wife said "I don\'t want to leave" on day two. We extended by a week. Nikos and his team made it feel effortless — as if the extra days had always been part of the plan.', name: 'David & Rachel K.', detail: 'New York, USA · Stayed June 2024' },
-];
+import Testimonials from '../components/Testimonials.astro';
 
 const faqs = [
   { q: 'What is the minimum stay?', a: '3 nights year-round, with a 5-night minimum during July and August. We find this allows guests to truly settle into the rhythm of the estate.' },
@@ -25,99 +18,29 @@ const faqs = [
 ];
 ---
 
-<Layout>
-  <Nav />
-  <main>
-    <Hero />
-    <Intro />
-    <Gallery />
-    <Amenities />
+<PageLayout>
+  <Hero />
+  <Intro />
+  <Gallery />
+  <Amenities />
+  <Testimonials />
 
-    <section data-nav-theme="dark" class="bg-charcoal overflow-hidden">
-      <div class="section-px py-20 md:py-32">
-        <p class="label-xs text-driftwood mb-12 md:mb-16">Guest Voices</p>
+  <section class="bg-warm-white py-20 md:py-32 section-px">
+    <div class="max-w-3xl mx-auto">
+      <p class="label-xs text-driftwood mb-12">Common Questions</p>
+      {faqs.map(({ q, a }) => (
+        <details class="border-t border-charcoal/10 group">
+          <summary class="flex w-full justify-between items-start gap-6 py-7 text-left cursor-pointer">
+            <span class="font-serif italic font-light text-charcoal text-xl md:text-2xl leading-snug">{q}</span>
+            <span class="text-terracotta text-2xl leading-none shrink-0 mt-1 transition-transform duration-300 group-open:rotate-45">+</span>
+          </summary>
+          <p class="text-charcoal/55 text-sm leading-relaxed pb-7 max-w-2xl">{a}</p>
+        </details>
+      ))}
+      <div class="border-t border-charcoal/10"></div>
+    </div>
+  </section>
 
-        <div id="testimonial-track">
-          {testimonials.map((t, i) => (
-            <blockquote data-testimonial={i} class:list={[i !== 0 && "hidden"]}>
-              <p class="font-serif italic text-cream font-light leading-tight heading-lg max-w-4xl">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <footer class="mt-8 md:mt-10">
-                <span class="text-cream/40 text-xs tracking-widest">{t.name}</span>
-                <span class="text-driftwood/50 text-xs ml-4">{t.detail}</span>
-              </footer>
-            </blockquote>
-          ))}
-        </div>
-
-        <div class="flex items-center gap-6 mt-12 md:mt-16">
-          <div class="flex gap-2" id="testimonial-dots">
-            {testimonials.map((_, i) => (
-              <button data-dot={i} aria-label={`Testimonial ${i + 1}`}
-                class:list={["w-6 h-px transition-all duration-300", i === 0 ? "bg-terracotta" : "bg-cream/20"]} />
-            ))}
-          </div>
-          <span id="testimonial-counter" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
-        </div>
-      </div>
-    </section>
-
-    <script>
-      const quotes = document.querySelectorAll<HTMLElement>('[data-testimonial]');
-      const dots = document.querySelectorAll<HTMLButtonElement>('[data-dot]');
-      const counter = document.getElementById('testimonial-counter')!;
-      let current = 0, timer: ReturnType<typeof setInterval>;
-      function show(i: number) {
-        quotes[current]!.classList.add('hidden');
-        dots[current]!.classList.replace('bg-terracotta', 'bg-cream/20');
-        current = i;
-        quotes[current]!.classList.remove('hidden');
-        dots[current]!.classList.replace('bg-cream/20', 'bg-terracotta');
-        counter.textContent = `${current + 1} / ${quotes.length}`;
-      }
-      dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(timer); show(i); startTimer(); }));
-      function startTimer() { timer = setInterval(() => show((current + 1) % quotes.length), 6000); }
-      startTimer();
-    </script>
-
-    <section data-nav-theme="light" class="bg-warm-white py-20 md:py-32 section-px">
-      <div class="max-w-3xl mx-auto">
-        <p class="label-xs text-driftwood mb-12">Common Questions</p>
-        {faqs.map(({ q, a }) => (
-          <div class="faq-item border-t border-charcoal/10">
-            <button
-              class="faq-btn w-full flex justify-between items-start gap-6 py-7 text-left"
-              aria-expanded="false"
-            >
-              <span class="font-serif italic font-light text-charcoal text-xl md:text-2xl leading-snug">{q}</span>
-              <span class="faq-icon text-terracotta text-2xl leading-none shrink-0 mt-1 transition-transform duration-300">+</span>
-            </button>
-            <div class="faq-body overflow-hidden max-h-0 transition-all duration-400 ease-in-out">
-              <p class="text-charcoal/55 text-sm leading-relaxed pb-7 max-w-2xl">{a}</p>
-            </div>
-          </div>
-        ))}
-        <div class="border-t border-charcoal/10"></div>
-      </div>
-    </section>
-
-    <script>
-      document.querySelectorAll<HTMLElement>('.faq-item').forEach(item => {
-        const btn = item.querySelector<HTMLButtonElement>('.faq-btn')!;
-        const body = item.querySelector<HTMLElement>('.faq-body')!;
-        const icon = item.querySelector<HTMLElement>('.faq-icon')!;
-        btn.addEventListener('click', () => {
-          const open = btn.getAttribute('aria-expanded') === 'true';
-          btn.setAttribute('aria-expanded', String(!open));
-          body.style.maxHeight = open ? '0' : body.scrollHeight + 'px';
-          icon.style.transform = open ? '' : 'rotate(45deg)';
-        });
-      });
-    </script>
-
-    <Location />
-    <Enquire />
-    <Footer />
-  </main>
-</Layout>
+  <Location />
+  <Enquire />
+</PageLayout>

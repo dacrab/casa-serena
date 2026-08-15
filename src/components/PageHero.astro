@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  alt: string;
+  label: string;
+  title: string;
+  subtitle?: string;
+  caption?: string;
+  size?: 'hero' | 'xl';
+}
+
+const { image, alt, label, title, subtitle, caption, size = 'xl' } = Astro.props;
+---
+
+<section class="relative h-svh flex items-end overflow-hidden">
+  <Image data-intro src={image} alt={alt} loading="eager"
+    class="absolute inset-0 w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
+  <div class="relative section-px pb-16 md:pb-24 w-full">
+    <p data-intro class="label-xs text-cream/50 mb-3">{label}</p>
+    <h1 data-intro class:list={["font-serif italic font-light text-cream leading-none", size === 'hero' ? 'heading-hero' : 'heading-xl']}>
+      {title}
+    </h1>
+    {subtitle && <p data-intro class="label-xs text-cream/40 mt-4">{subtitle}</p>}
+  </div>
+  {caption && <p class="absolute bottom-6 right-6 label-xs text-cream/30 hidden md:block">{caption}</p>}
+</section>

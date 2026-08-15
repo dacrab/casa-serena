@@ -11,11 +11,11 @@ const amenities = [
 ];
 ---
 
-<section data-nav-theme="light" class="bg-cream section-px py-16 md:py-24">
+<section class="bg-cream section-px py-16 md:py-24">
   <div class="max-w-[1400px] mx-auto">
     <p class="label-xs text-driftwood mb-10">Amenities</p>
     {amenities.map(({ n, title, detail }) => (
-      <div data-amenity class="grid grid-cols-[3rem_1fr_auto] md:grid-cols-[4rem_1fr_auto] items-baseline gap-4 py-5 border-t border-driftwood/15 last:border-b">
+      <div data-reveal="x" class="grid grid-cols-[3rem_1fr_auto] md:grid-cols-[4rem_1fr_auto] items-baseline gap-4 py-5 border-t border-driftwood/15 last:border-b">
         <span class="font-serif text-terracotta/40 text-sm font-light">{n}</span>
         <span class="font-serif italic font-light text-charcoal text-lg md:text-xl">{title}</span>
         <span class="label-xs text-driftwood text-right hidden sm:block">{detail}</span>

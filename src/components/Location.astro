@@ -7,13 +7,13 @@ const distances = [
 ];
 ---
 
-<section id="location" data-nav-theme="light" class="bg-warm-white">
+<section id="location" class="bg-warm-white">
   <div class="grid md:grid-cols-2 min-h-[50vh]">
     <div id="map" class="w-full h-[50vw] md:h-auto min-h-[300px]"></div>
-    <div data-anim="content" class="section-px py-10 md:py-16 flex items-center">
+    <div data-reveal class="section-px py-10 md:py-16 flex items-center">
       <dl class="w-full">
         {distances.map(({ name, km }) => (
-          <div data-anim="distance" class="flex justify-between py-4 border-t border-driftwood/20">
+          <div data-reveal="x" class="flex justify-between py-4 border-t border-driftwood/20">
             <dt class="font-medium text-charcoal">{name}</dt>
             <dd class="text-terracotta font-medium">{km}</dd>
           </div>
@@ -23,19 +23,33 @@ const distances = [
   </div>
 </section>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script>
-  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
 
-  const map = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false }).setView([36.4618, 25.3753], 18);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+  const target = document.getElementById('map');
+  if (target) {
+    let started = false;
+    const io = new IntersectionObserver(
+      async entries => {
+        if (started || !entries.some(e => e.isIntersecting)) return;
+        started = true;
+        io.disconnect();
+        const { default: L } = await import('leaflet');
 
-  const pin = L.divIcon({
-    className: '',
-    html: `<svg width="36" height="48" viewBox="0 0 36 48" fill="none"><path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/><circle cx="18" cy="18" r="7" fill="#FDFAF5"/></svg>`,
-    iconSize: [36, 48],
-    iconAnchor: [18, 48],
-  });
-  L.marker([36.4618, 25.3753], { icon: pin }).addTo(map);
-  L.control.attribution({ position: 'bottomright', prefix: false }).addAttribution('© <a href="https://carto.com">CARTO</a>').addTo(map);
+        const map = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false }).setView([36.4618, 25.3753], 18);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+
+        const pin = L.divIcon({
+          className: '',
+          html: `<svg width="36" height="48" viewBox="0 0 36 48" fill="none"><path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/><circle cx="18" cy="18" r="7" fill="#FDFAF5"/></svg>`,
+          iconSize: [36, 48],
+          iconAnchor: [18, 48],
+        });
+        L.marker([36.4618, 25.3753], { icon: pin }).addTo(map);
+        L.control.attribution({ position: 'bottomright', prefix: false }).addAttribution('© <a href="https://carto.com">CARTO</a>').addTo(map);
+      },
+      { rootMargin: '400px' },
+    );
+    io.observe(target);
+  }
 </script>

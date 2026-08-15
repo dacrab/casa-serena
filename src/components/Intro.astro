@@ -9,9 +9,9 @@ const stats = [
 ];
 ---
 
-<section id="intro" data-nav-theme="light" class="bg-warm-white">
+<section id="intro" class="bg-warm-white">
   <div class="relative overflow-hidden">
-    <div data-anim="img" class="overflow-hidden">
+    <div data-reveal="scale" class="overflow-hidden">
       <Image src={aboutImg} alt="Casa Serena living space" loading="lazy"
         class="w-full h-[70vh] md:h-[85vh] object-cover" />
     </div>
@@ -22,13 +22,13 @@ const stats = [
   </div>
 
   <div class="section-px py-10 md:py-16 grid md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-end max-w-[1400px] mx-auto">
-    <p data-anim="body" class="text-charcoal/70 leading-relaxed max-w-lg border-l-2 border-terracotta pl-5">
+    <p data-reveal class="text-charcoal/70 leading-relaxed max-w-lg border-l-2 border-terracotta pl-5">
       Designed to dissolve boundaries between interior and ocean,
       Casa Serena is where architecture whispers rather than shouts.
     </p>
     <div class="flex gap-10 md:gap-14">
       {stats.map(({ n, label }) => (
-        <div data-anim="stat" class="text-center md:text-right">
+        <div data-reveal class="text-center md:text-right">
           <div class="font-serif text-4xl md:text-5xl font-light text-terracotta">{n}</div>
           <div class="label-xs text-driftwood mt-1">{label}</div>
         </div>

@@ -1,7 +1,6 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { Image } from 'astro:assets';
 import gallery1 from '../assets/images/gallery-1.webp';
 import gallery2 from '../assets/images/gallery-2.webp';
@@ -27,82 +26,74 @@ const images = [
 ];
 ---
 
-<Layout title="Gallery — Casa Serena | Santorini" description="Explore Casa Serena through our gallery — the estate, suites, pool, and caldera views.">
-  <Nav />
-  <main class="bg-gallery-bg min-h-screen">
+<PageLayout title="Gallery — Casa Serena | Santorini" description="Explore Casa Serena through our gallery — the estate, suites, pool, and caldera views." mainClass="bg-gallery-bg min-h-screen">
+  <PageHero
+    image={about}
+    alt="Casa Serena interior living space"
+    label="Gallery"
+    title="The Estate"
+    caption={images[0]!.alt}
+  />
 
-    <section class="relative h-svh overflow-hidden cursor-pointer" data-lightbox-trigger="0">
-      <Image data-intro src={about} alt="Casa Serena interior living space" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/50 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 right-0 section-px pb-10 md:pb-16 flex justify-between items-end">
-        <div>
-          <p data-intro class="label-xs text-cream/40 mb-2">Gallery</p>
-          <h1 data-intro class="font-serif italic font-light text-cream heading-xl leading-none">The Estate</h1>
-        </div>
-        <p class="label-xs text-cream/30 hidden md:block">{images[0]!.alt}</p>
+  <section class="section-px py-4 md:py-6 space-y-3 md:space-y-4">
+    <div class="grid grid-cols-3 gap-3 md:gap-4">
+      <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="1">
+        <Image src={images[1]!.src} alt={images[1]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
       </div>
-    </section>
-
-    <section class="section-px py-4 md:py-6 space-y-3 md:space-y-4">
-      <div class="grid grid-cols-3 gap-3 md:gap-4">
-        <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="1">
-          <Image src={images[1]!.src} alt={images[1]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
-        </div>
-        <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="2">
-          <Image src={images[2]!.src} alt={images[2]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
-        </div>
+      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="2">
+        <Image src={images[2]!.src} alt={images[2]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
       </div>
+    </div>
 
-      <div class="grid grid-cols-3 gap-3 md:gap-4">
-        {[3,4,5].map(i => (
-          <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger={i}>
-            <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
-          </div>
-        ))}
-      </div>
-
-      <div class="grid grid-cols-3 gap-3 md:gap-4">
-        <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="6">
-          <Image src={images[6]!.src} alt={images[6]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
+    <div class="grid grid-cols-3 gap-3 md:gap-4">
+      {[3,4,5].map(i => (
+        <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger={i}>
+          <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
         </div>
-        <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="7">
-          <Image src={images[7]!.src} alt={images[7]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
-        </div>
-      </div>
+      ))}
+    </div>
 
-      <div class="grid grid-cols-2 gap-3 md:gap-4">
-        {[8,9].map(i => (
-          <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger={i}>
-            <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:4/3" />
-          </div>
-        ))}
+    <div class="grid grid-cols-3 gap-3 md:gap-4">
+      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="6">
+        <Image src={images[6]!.src} alt={images[6]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
       </div>
-
-      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="10">
-        <Image src={images[10]!.src} alt={images[10]!.alt} loading="lazy" class="w-full object-cover gallery-img" style="aspect-ratio:21/9" />
+      <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="7">
+        <Image src={images[7]!.src} alt={images[7]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
       </div>
+    </div>
 
-      <div class="grid grid-cols-3 gap-3 md:gap-4 pb-4 md:pb-6">
-        <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="11">
-          <Image src={images[11]!.src} alt={images[11]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
+    <div class="grid grid-cols-2 gap-3 md:gap-4">
+      {[8,9].map(i => (
+        <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger={i}>
+          <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:4/3" />
         </div>
-        <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="0">
-          <Image src={images[0]!.src} alt={images[0]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
-        </div>
-        <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="4">
-          <Image src={images[4]!.src} alt={images[4]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
-        </div>
+      ))}
+    </div>
+
+    <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="10">
+      <Image src={images[10]!.src} alt={images[10]!.alt} loading="lazy" class="w-full object-cover gallery-img" style="aspect-ratio:21/9" />
+    </div>
+
+    <div class="grid grid-cols-3 gap-3 md:gap-4 pb-4 md:pb-6">
+      <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="11">
+        <Image src={images[11]!.src} alt={images[11]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
       </div>
-    </section>
-  </main>
+      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="0">
+        <Image src={images[0]!.src} alt={images[0]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
+      </div>
+      <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="4">
+        <Image src={images[4]!.src} alt={images[4]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
+      </div>
+    </div>
+  </section>
 
-  <div id="lightbox" hidden class="fixed inset-0 z-[100] bg-charcoal/97 flex items-center justify-center" role="dialog" aria-label="Image lightbox">
+  <dialog id="lightbox" aria-label="Image lightbox">
     <button id="lb-close" class="absolute top-5 right-6 label-xs text-cream/50 hover:text-cream z-10" aria-label="Close">✕ Close</button>
     <button id="lb-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream text-3xl z-10 w-12 h-12 flex items-center justify-center" aria-label="Previous">&#8592;</button>
     <button id="lb-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream text-3xl z-10 w-12 h-12 flex items-center justify-center" aria-label="Next">&#8594;</button>
     <img id="lb-img" class="max-h-[88vh] max-w-[88vw] object-contain" alt="" />
     <p id="lb-caption" class="absolute bottom-6 left-1/2 -translate-x-1/2 label-xs text-cream/40"></p>
-  </div>
+  </dialog>
 
   <script>
     interface Img { src: string; alt: string }
@@ -113,18 +104,19 @@ const images = [
       imgs[i] = { src: img.currentSrc || img.src, alt: img.alt };
     });
 
-    const lb = document.getElementById('lightbox')!;
+    const dlg = document.getElementById('lightbox') as HTMLDialogElement;
     const lbImg = document.getElementById('lb-img') as HTMLImageElement;
     const lbCap = document.getElementById('lb-caption')!;
     let cur = 0;
 
     const show = (i: number) => {
       cur = (i + imgs.length) % imgs.length;
-      lbImg.src = imgs[cur]!.src; lbImg.alt = imgs[cur]!.alt;
+      lbImg.src = imgs[cur]!.src;
+      lbImg.alt = imgs[cur]!.alt;
       lbCap.textContent = imgs[cur]!.alt;
     };
-    const open = (i: number) => { show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; };
-    const close = () => { lb.hidden = true; document.body.style.overflow = ''; };
+    const open = (i: number) => { show(i); dlg.showModal(); };
+    const close = () => dlg.close();
 
     document.querySelectorAll<HTMLElement>('[data-lightbox-trigger]').forEach(el =>
       el.addEventListener('click', () => open(parseInt(el.dataset.lightboxTrigger!))));
@@ -132,14 +124,14 @@ const images = [
     document.getElementById('lb-prev')!.addEventListener('click', () => show(cur - 1));
     document.getElementById('lb-next')!.addEventListener('click', () => show(cur + 1));
     document.addEventListener('keydown', e => {
-      if (lb.hidden) return;
-      if (e.key === 'Escape') close();
+      if (!dlg.open) return;
       if (e.key === 'ArrowLeft') show(cur - 1);
       if (e.key === 'ArrowRight') show(cur + 1);
     });
     let tx = 0;
-    lb.addEventListener('touchstart', e => { tx = e.touches[0]!.clientX; }, { passive: true });
-    lb.addEventListener('touchend', e => { const d = e.changedTouches[0]!.clientX - tx; if (Math.abs(d) > 50) show(d > 0 ? cur - 1 : cur + 1); });
+    dlg.addEventListener('touchstart', e => { tx = e.touches[0]!.clientX; }, { passive: true });
+    dlg.addEventListener('touchend', e => {
+      if (dlg.open) { const d = e.changedTouches[0]!.clientX - tx; if (Math.abs(d) > 50) show(d > 0 ? cur - 1 : cur + 1); }
+    });
   </script>
-  <Footer />
-</Layout>
+</PageLayout>

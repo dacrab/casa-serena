@@ -1,56 +1,66 @@
 ---
-const navLinks = [
-  { href: '/suites', label: 'Suites' },
-  { href: '/experiences', label: 'Experiences' },
-  { href: '/gallery', label: 'Gallery' },
-  { href: '/about', label: 'About' },
-  { href: '/enquire', label: 'Enquire' },
-];
+import { navLinks } from '../lib/site';
+
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => href === path;
 ---
 
-<nav data-nav="root" class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
-  <a href="/" data-nav="logo" class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
+<nav class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
+  <a href="/" data-intro class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
 
   <div class="hidden md:flex gap-8">
-    {navLinks.map(({ href, label }) => {
-      const active = href === path;
-      return (
-        <a href={href} class:list={["nav-link label-xs", active && "nav-link--active"]}>{label}</a>
-      );
-    })}
+    {navLinks.map(({ href, label }) => (
+      <a href={href} class:list={["nav-link label-xs", isActive(href) && "nav-link--active"]}>{label}</a>
+    ))}
   </div>
 
   <button
-    data-nav="toggle"
-    class="md:hidden relative flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
+    type="button"
+    data-nav-toggle
     aria-label="Toggle menu"
     aria-controls="nav-overlay"
+    aria-expanded="false"
+    class="md:hidden relative flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
   >
-    <span data-nav="bar" class="bar block w-6 h-0.5 origin-center"></span>
-    <span data-nav="bar" class="bar block w-6 h-0.5 origin-center"></span>
+    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
+    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
   </button>
 </nav>
 
-<div
+<dialog
   id="nav-overlay"
-  data-nav="overlay"
-  hidden
-  class="fixed inset-0 z-40 bg-charcoal flex items-center justify-center"
+  class="md:hidden flex-col items-center justify-center"
 >
   <ul class="space-y-6 text-center">
-    {navLinks.map(({ href, label }) => {
-      const active = href === path;
-      return (
-        <li>
-          <a href={href} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", active ? "text-terracotta" : "text-cream"]}>
-            {label}
-          </a>
-        </li>
-      );
-    })}
+    {navLinks.map(({ href, label }) => (
+      <li>
+        <a href={href} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", isActive(href) ? "text-terracotta" : "text-cream"]}>
+          {label}
+        </a>
+      </li>
+    ))}
   </ul>
-</div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('nav-overlay') as HTMLDialogElement;
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  if (!dialog || !toggle) throw new Error('Nav elements missing');
+
+  const setOpen = (open: boolean) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.classList.toggle('is-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) dialog.showModal();
+    else {
+      dialog.close();
+      toggle.focus();
+    }
+  };
+
+  toggle.addEventListener('click', () => setOpen(!dialog.open));
+  dialog.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+</script>
 
 <style>
   nav { mix-blend-mode: difference; }
@@ -59,5 +69,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
   nav .nav-link { opacity: 0.8; transition: opacity 0.3s; }
   nav .nav-link:hover { opacity: 1; }
   nav .nav-link--active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
-  nav .bar { background: #fff; }
+  nav .bar { background: #fff; transition: transform 0.2s; }
+  [data-nav-toggle].is-open [data-bar]:first-child { transform: rotate(45deg) translateY(4px); }
+  [data-nav-toggle].is-open [data-bar]:last-child { transform: rotate(-45deg) translateY(-4px); }
 </style>

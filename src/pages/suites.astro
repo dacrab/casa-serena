@@ -1,85 +1,49 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHero from '../components/PageHero.astro';
 import { Image } from 'astro:assets';
-import gallery1 from '../assets/images/gallery-1.webp';
-import gallery2 from '../assets/images/gallery-2.webp';
-import gallery4 from '../assets/images/gallery-4.webp';
+import { suites } from '../data/suites';
 import gallery5 from '../assets/images/gallery-5.webp';
-
-const suites = [
-  {
-    name: 'Caldera Suite', tagline: 'Where sky meets sea.', index: '01', image: gallery1,
-    description: 'Our signature suite occupies the entire upper floor. Floor-to-ceiling glass frames an unbroken panorama of the caldera — from the volcanic islands to the open Aegean.',
-    size: '95 m²', view: 'Caldera & Aegean', price: '€2,800',
-    features: ['Private infinity plunge pool', 'Outdoor dining terrace', 'Fireplace', 'Walk-in dressing room', 'Wine fridge'],
-  },
-  {
-    name: 'Aegean Suite', tagline: 'Suspended above the blue.', index: '02', image: gallery2,
-    description: 'Cantilevered over the cliff edge, the Aegean Suite feels like sleeping on the water itself. A wraparound balcony traces the curve of the caldera.',
-    size: '72 m²', view: 'Open sea', price: '€2,200',
-    features: ['Heated plunge pool', 'Daybed terrace', 'Rainfall shower with sea view', 'Handmade ceramics'],
-  },
-  {
-    name: 'Garden Suite', tagline: 'Rooted in the earth.', index: '03', image: gallery4,
-    description: "Set within the estate's terraced gardens, this ground-level retreat opens directly onto a private courtyard of bougainvillea and olive trees.",
-    size: '68 m²', view: 'Garden & partial sea', price: '€1,800',
-    features: ['Private walled courtyard', 'Outdoor stone bathtub', 'Kitchenette', 'Direct garden access'],
-  },
-  {
-    name: 'Cliff Studio', tagline: 'Intimate. Essential. Perfect.', index: '04', image: gallery5,
-    description: 'A sculpted cave suite carved into the volcanic rock. Minimal in footprint but maximal in atmosphere — whitewashed curves, absolute silence.',
-    size: '45 m²', view: 'Caldera', price: '€1,200',
-    features: ['Cave architecture', 'Caldera-view balcony', 'Curated minibar', 'Complimentary breakfast'],
-  },
-];
 ---
 
-<Layout title="Suites — Casa Serena | Santorini" description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio.">
-  <Nav />
-  <main>
-    <section class="relative h-svh overflow-hidden">
-      <Image data-intro src={gallery5} alt="Suite interior at dusk" loading="eager" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
-      <div class="absolute inset-0 flex flex-col justify-end section-px pb-16 md:pb-24">
-        <p data-intro class="label-xs text-cream/50 mb-3">Accommodations</p>
-        <h1 data-intro class="font-serif italic font-light text-cream heading-xl leading-none">Our Suites</h1>
-        <p data-intro class="label-xs text-cream/40 mt-4">Four distinct retreats · From €1,200/night</p>
-      </div>
-    </section>
+<PageLayout title="Suites — Casa Serena | Santorini" description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio.">
+  <PageHero
+    image={gallery5}
+    alt="Suite interior at dusk"
+    label="Accommodations"
+    title="Our Suites"
+    subtitle="Four distinct retreats · From €1,200/night"
+  />
 
-    {suites.map((suite) => (
-      <section data-nav-theme="dark" class="relative h-svh overflow-hidden flex items-end">
-        <Image data-reveal src={suite.image} alt={`${suite.name} interior`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
-        <div class="relative w-full section-px pb-10 md:pb-16">
-          <div class="grid md:grid-cols-[1fr_auto] gap-6 md:gap-16 items-end">
-            <div>
-              <div class="flex items-baseline gap-4 mb-3">
-                <span class="font-serif text-terracotta/60 text-6xl md:text-8xl font-light leading-none">{suite.index}</span>
-                <div>
-                  <p class="label-xs text-cream/40 mb-1">{suite.tagline}</p>
-                  <h2 class="font-serif italic font-light text-cream heading-md leading-tight">{suite.name}</h2>
-                </div>
-              </div>
-              <p class="text-cream/60 text-sm leading-relaxed max-w-lg mb-6">{suite.description}</p>
-              <div class="flex flex-wrap gap-2 mb-6">
-                {suite.features.map(f => (
-                  <span class="text-xs text-cream/40 border border-cream/10 px-3 py-1">{f}</span>
-                ))}
+  {suites.map((suite) => (
+    <section class="relative h-svh overflow-hidden flex items-end">
+      <Image data-reveal="scale" src={suite.image} alt={`${suite.name} interior`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
+      <div class="relative w-full section-px pb-10 md:pb-16">
+        <div class="grid md:grid-cols-[1fr_auto] gap-6 md:gap-16 items-end">
+          <div data-reveal>
+            <div class="flex items-baseline gap-4 mb-3">
+              <span class="font-serif text-terracotta/60 text-6xl md:text-8xl font-light leading-none">{suite.index}</span>
+              <div>
+                <p class="label-xs text-cream/40 mb-1">{suite.tagline}</p>
+                <h2 class="font-serif italic font-light text-cream heading-md leading-tight">{suite.name}</h2>
               </div>
             </div>
-            <div class="text-right shrink-0">
-              <p class="font-serif text-cream text-3xl md:text-4xl font-light">{suite.price}</p>
-              <p class="label-xs text-driftwood mt-1">per night</p>
-              <p class="text-xs text-cream/40 mt-1">{suite.size} · {suite.view}</p>
-              <a href={`/enquire?suite=${encodeURIComponent(suite.name)}`} class="inline-block mt-5 label-xs text-cream border border-cream/30 px-6 py-3 hover:bg-terracotta hover:border-terracotta transition-colors duration-200">Reserve</a>
+            <p class="text-cream/60 text-sm leading-relaxed max-w-lg mb-6">{suite.description}</p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              {suite.features.map(f => (
+                <span class="text-xs text-cream/40 border border-cream/10 px-3 py-1">{f}</span>
+              ))}
             </div>
           </div>
+          <div data-reveal class="text-right shrink-0">
+            <p class="font-serif text-cream text-3xl md:text-4xl font-light">{suite.price}</p>
+            <p class="label-xs text-driftwood mt-1">per night</p>
+            <p class="text-xs text-cream/40 mt-1">{suite.size} · {suite.view}</p>
+            <a href={`/enquire?suite=${encodeURIComponent(suite.name)}`} class="btn-outline label-xs mt-5">Reserve</a>
+          </div>
         </div>
-      </section>
-    ))}
-  </main>
-  <Footer />
-</Layout>
+      </div>
+    </section>
+  ))}
+</PageLayout>

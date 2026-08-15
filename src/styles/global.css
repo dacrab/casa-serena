@@ -7,7 +7,6 @@
   --color-charcoal: #2A2320;
   --color-warm-white: #FDFAF5;
   --color-gallery-bg: #1a1410;
-  --color-surface: #1e1a17;
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --default-font-family: 'DM Sans', system-ui, sans-serif;
 }
@@ -22,7 +21,6 @@ body {
   background: var(--color-charcoal);
   color: var(--color-cream);
   font-weight: 300;
-  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -33,17 +31,24 @@ body {
   html { scroll-behavior: auto; }
 }
 
-html.js [data-nav="logo"],
-html.js #hero [data-anim],
-html.js #hero video,
+/* Progressive-enhancement reveals: only hidden when JS is active */
 html.js [data-intro],
 html.js [data-reveal] {
   opacity: 0;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+html.js [data-intro],
+html.js [data-reveal]:not([data-reveal="scale"]):not([data-reveal="x"]) {
+  transform: translateY(24px);
+}
+html.js [data-reveal="scale"] { transform: scale(1.03); }
+html.js [data-reveal="x"] { transform: translateX(18px); }
+html.js [data-intro].revealed,
+html.js [data-reveal].revealed {
+  opacity: 1;
+  transform: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  html.js [data-nav="logo"],
-  html.js #hero [data-anim],
-  html.js #hero video,
   html.js [data-intro],
   html.js [data-reveal] {
     opacity: 1 !important;
@@ -64,11 +69,10 @@ html.js [data-reveal] {
 .heading-lg   { font-size: clamp(2rem, 4vw, 3.5rem); }
 .heading-md   { font-size: clamp(1.75rem, 5vw, 2.25rem); }
 
-a, button, [role="button"], input[type="submit"], select { cursor: pointer; }
+a, button, select { cursor: pointer; }
 
 @media (pointer: coarse) {
-  a, button { min-height: 44px; }
-  nav a, footer a { display: inline-flex; align-items: center; }
+  nav a, footer a { min-height: 44px; display: inline-flex; align-items: center; }
 }
 
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
@@ -82,16 +86,69 @@ a, button, [role="button"], input[type="submit"], select { cursor: pointer; }
   border: 0;
   border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 20%, transparent);
   color: var(--color-cream);
+  color-scheme: dark;
   padding: 0.5rem 0;
   outline: none;
   transition: border-color 0.2s;
 }
 .form-input:focus { border-color: var(--color-terracotta); }
-select.form-input { appearance: none; cursor: pointer; }
-select.form-input option { background: #1a1a1a; color: var(--color-cream); }
+select.form-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23F5F0E8' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.25rem center;
+  padding-right: 1.75rem;
+}
 
 .gallery-img { transition: transform 0.5s; }
 .gallery-img:hover { transform: scale(1.05); }
+
+@layer components {
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.75rem 2rem;
+    border: 1px solid color-mix(in srgb, var(--color-cream) 30%, transparent);
+    color: var(--color-cream);
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+  .btn-outline:hover {
+    background-color: var(--color-terracotta);
+    border-color: var(--color-terracotta);
+  }
+}
+
+/* Fullscreen lightbox dialog */
+dialog#lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-gallery-bg);
+}
+dialog#lightbox::backdrop { background: var(--color-gallery-bg); }
+
+/* Native mobile nav dialog */
+dialog#nav-overlay {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-charcoal);
+}
+dialog#nav-overlay::backdrop { background: var(--color-charcoal); }
+
+details summary { list-style: none; }
+details summary::-webkit-details-marker { display: none; }
 
 .prose-cs h1 { font-family: var(--font-serif); font-style: italic; font-weight: 300; color: var(--color-charcoal); font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 1.5rem; }
 .prose-cs h2 { font-family: var(--font-serif); font-size: 1.25rem; color: var(--color-charcoal); margin-top: 2.5rem; margin-bottom: 0.75rem; }

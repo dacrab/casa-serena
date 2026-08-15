@@ -1,22 +1,25 @@
 ---
-const social = [
-  { href: 'https://instagram.com', label: 'Instagram' },
-  { href: 'https://facebook.com', label: 'Facebook' },
+import { site, socialLinks } from '../lib/site';
+import { suites } from '../data/suites';
+
+const suiteOptions = [
+  { value: '', label: 'No preference' },
+  ...suites.map(({ name, index }) => ({ value: name, label: `${index} — ${name}` })),
 ];
 ---
 
-<section id="enquire" data-nav-theme="dark" class="bg-charcoal py-16 md:py-24 section-px">
+<section id="enquire" class="bg-charcoal py-16 md:py-24 section-px">
   <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_2fr] gap-12 md:gap-20">
-    <div data-anim="info" class="flex flex-col justify-between gap-8">
+    <div data-reveal class="flex flex-col justify-between gap-8">
       <div>
         <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
         <h2 class="font-serif italic font-light text-cream heading-xl leading-none">Stay.</h2>
       </div>
       <address class="not-italic">
-        <a href="mailto:info@casaserena.com" class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">info@casaserena.com</a>
-        <a href="tel:+302286000000" class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">+30 22860 00000</a>
+        <a href={`mailto:${site.email}`} class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">{site.email}</a>
+        <a href={`tel:${site.phoneHref}`} class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">{site.phone}</a>
         <div class="flex gap-4 label-xs text-driftwood mt-4">
-          {social.map(({ href, label }) => (
+          {socialLinks.map(({ href, label }) => (
             <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
               {label}<span class="sr-only"> (opens in new tab)</span>
             </a>
@@ -26,87 +29,42 @@ const social = [
     </div>
 
     <form id="enquire-form" class="space-y-6">
-      <div data-anim="field" id="date-section" class="relative z-20">
-        <p class="label-xs text-driftwood mb-2">Dates</p>
-        <div class="flex gap-px border-b border-cream/20">
-          <button id="btn-arrival" type="button" class="flex-1 text-left py-3 pr-4 min-h-[44px]">
-            <span id="lbl-arrival" class="label-xs text-driftwood/60 block mb-0.5">Arrival</span>
-            <span id="val-arrival" class="text-sm text-cream/40">Select date</span>
-          </button>
-          <div class="w-px bg-cream/10 self-stretch mx-2" aria-hidden="true"></div>
-          <button id="btn-departure" type="button" class="flex-1 text-left py-3 pl-2 min-h-[44px]">
-            <span id="lbl-departure" class="label-xs text-driftwood/60 block mb-0.5">Departure</span>
-            <span id="val-departure" class="text-sm text-cream/40">Select date</span>
-          </button>
-        </div>
-        <input type="hidden" id="arrival" name="arrival" />
-        <input type="hidden" id="departure" name="departure" />
-
-        <div id="cal-wrap" hidden class="absolute top-full left-0 right-0 mt-1 z-50 bg-surface border border-cream/10 p-4 shadow-2xl">
-          <div class="flex justify-between items-center mb-3">
-            <button id="cal-prev" type="button" aria-label="Previous month"
-              class="text-driftwood/60 hover:text-cream transition-colors w-11 h-11 flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
-              </svg>
-            </button>
-            <span id="cal-title" class="label-xs text-cream"></span>
-            <button id="cal-next" type="button" aria-label="Next month"
-              class="text-driftwood/60 hover:text-cream transition-colors w-11 h-11 flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
-              </svg>
-            </button>
-          </div>
-          <div id="cal-grid" aria-live="polite" class="grid grid-cols-7 gap-y-0.5"></div>
-        </div>
+      <div data-reveal class="grid grid-cols-2 gap-6">
+        <label class="block">
+          <span class="label-xs text-driftwood block mb-2">Arrival</span>
+          <input id="arrival" type="date" name="arrival" class="form-input" />
+        </label>
+        <label class="block">
+          <span class="label-xs text-driftwood block mb-2">Departure</span>
+          <input id="departure" type="date" name="departure" class="form-input" />
+        </label>
       </div>
 
-      <div data-anim="field" id="suite-section" class="relative z-10">
-        <p class="label-xs text-driftwood mb-2">Suite</p>
-        <div class="border-b border-cream/20">
-          <button type="button" id="suite-btn"
-            class="w-full flex justify-between items-center py-3 text-left min-h-[44px]">
-            <span id="suite-label" class="text-sm text-cream/40">No preference</span>
-            <svg id="suite-chevron" class="w-3 h-3 text-driftwood shrink-0 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
-            </svg>
-          </button>
-        </div>
-        <div id="suite-wrap" hidden class="absolute top-full left-0 right-0 mt-1 z-50 bg-surface border border-cream/10 shadow-2xl">
-          {[
-            { value: '',               label: 'No preference' },
-            { value: 'Caldera Suite',  label: '01 — Caldera Suite' },
-            { value: 'Aegean Suite',   label: '02 — Aegean Suite' },
-            { value: 'Garden Suite',   label: '03 — Garden Suite' },
-            { value: 'Cliff Studio',   label: '04 — Cliff Studio' },
-          ].map(({ value, label }) => (
-            <div data-value={value}
-              class="suite-option px-4 py-3 text-sm text-cream/50 hover:text-cream hover:bg-cream/5 cursor-pointer transition-colors">
-              {label}
-            </div>
+      <div data-reveal>
+        <label for="suite" class="label-xs text-driftwood block mb-2">Suite</label>
+        <select id="suite" name="suite" class="form-input">
+          {suiteOptions.map(({ value, label }) => (
+            <option value={value}>{label}</option>
           ))}
-        </div>
-        <input type="hidden" id="suite" name="suite" />
+        </select>
       </div>
 
-      <div data-anim="field">
+      <div data-reveal>
         <label for="name" class="label-xs text-driftwood block mb-2">Name</label>
         <input id="name" name="name" required class="form-input" />
       </div>
-      <div data-anim="field">
+      <div data-reveal>
         <label for="email" class="label-xs text-driftwood block mb-2">Email</label>
         <input id="email" type="email" name="email" required class="form-input" />
       </div>
-      <div data-anim="field">
+      <div data-reveal>
         <label for="message" class="label-xs text-driftwood block mb-2">
           Message <span class="opacity-60 italic">(optional)</span>
         </label>
         <textarea id="message" name="message" rows="3" class="form-input resize-none"></textarea>
       </div>
 
-      <button data-anim="field" type="submit"
-        class="w-full py-3 px-8 border border-cream/40 text-cream label-xs min-h-[44px] hover:bg-terracotta hover:border-terracotta transition-colors duration-200">
+      <button data-reveal type="submit" class="btn-outline label-xs w-full">
         Send Enquiry
       </button>
     </form>
@@ -114,41 +72,65 @@ const social = [
 </section>
 
 <script>
-  import gsap from 'gsap';
+  const form = document.getElementById('enquire-form') as HTMLFormElement | null;
+  if (!form) throw new Error('Enquire form missing');
 
-  const btn     = document.getElementById('suite-btn')!;
-  const wrap    = document.getElementById('suite-wrap')!;
-  const lbl     = document.getElementById('suite-label')!;
-  const inp     = document.getElementById('suite') as HTMLInputElement;
-  const chev    = document.getElementById('suite-chevron')!;
-  const section = document.getElementById('suite-section')!;
+  const suite = new URLSearchParams(location.search).get('suite');
+  const select = document.getElementById('suite') as HTMLSelectElement | null;
+  if (suite && select && [...select.options].some(o => o.value === suite)) select.value = suite;
 
-  let isOpen = false;
+  const arrival = document.getElementById('arrival') as HTMLInputElement;
+  const departure = document.getElementById('departure') as HTMLInputElement;
+  const today = new Date().toISOString().slice(0, 10);
+  arrival.min = today;
+  departure.min = today;
+  arrival.addEventListener('change', () => { if (arrival.value) departure.min = arrival.value; });
 
-  const open = () => {
-    isOpen = true;
-    wrap.hidden = false;
-    chev.style.transform = 'rotate(180deg)';
-    gsap.fromTo(wrap, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: 0.18 });
+  const $input = (id: string) => form.querySelector<HTMLInputElement>(`#${id}`)!;
+  const showError = (el: HTMLElement, msg: string) => {
+    el.classList.add('border-red-400');
+    let err = el.nextElementSibling;
+    if (!err?.classList.contains('field-error')) {
+      err = document.createElement('p');
+      err.className = 'field-error text-red-400 text-xs mt-1';
+      el.after(err);
+    }
+    err!.textContent = msg;
   };
-  const close = () => {
-    isOpen = false;
-    chev.style.transform = '';
-    gsap.to(wrap, { opacity: 0, y: -6, duration: 0.15, onComplete: () => { wrap.hidden = true; } });
+  const clearError = (el: HTMLElement) => {
+    el.classList.remove('border-red-400');
+    const err = el.nextElementSibling;
+    if (err?.classList.contains('field-error')) err.remove();
   };
 
-  btn.addEventListener('click', e => { e.stopPropagation(); isOpen ? close() : open(); });
+  form.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach(el =>
+    el.addEventListener('input', () => clearError(el)));
 
-  wrap.querySelectorAll<HTMLElement>('.suite-option').forEach(el => {
-    el.addEventListener('click', () => {
-      inp.value = el.dataset.value!;
-      lbl.textContent = el.textContent!.trim();
-      lbl.className = `text-sm ${el.dataset.value ? 'text-cream' : 'text-cream/40'}`;
-      close();
-    });
-  });
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $input('name'), email = $input('email');
+    [name, email].forEach(clearError);
+    let valid = true;
+    if (!name.value.trim()) { showError(name, 'Please enter your name'); valid = false; }
+    if (!email.value.trim()) { showError(email, 'Please enter your email'); valid = false; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { showError(email, 'Please enter a valid email'); valid = false; }
+    if (arrival.value && departure.value && departure.value < arrival.value) { showError(departure, 'Departure must be after arrival'); valid = false; }
+    if (!valid) return;
 
-  document.addEventListener('click', e => {
-    if (isOpen && !section.contains(e.target as Node)) close();
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    setTimeout(() => {
+      form.innerHTML = `
+        <div class="text-center py-8">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-2 border-terracotta flex items-center justify-center">
+            <svg class="w-6 h-6 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+            </svg>
+          </div>
+          <p class="text-cream text-xl font-serif italic mb-2">Thank you.</p>
+          <p class="text-cream/60 text-sm">We'll respond within 24 hours with availability and next steps.</p>
+        </div>`;
+    }, 800);
   });
 </script>

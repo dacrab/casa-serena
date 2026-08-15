@@ -1,18 +1,20 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import { ClientRouter } from 'astro:transitions';
+import { site } from '../lib/site';
 import '../styles/global.css';
 
 interface Props {
-  title?: string;
-  description?: string;
-  image?: string;
+  title?: string | undefined;
+  description?: string | undefined;
+  image?: string | undefined;
 }
 
 const {
   title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
   description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
-  image = '/images/og.jpg',
+  image = '/images/og.webp',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -21,14 +23,14 @@ const ogImage = new URL(image, Astro.site);
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'LodgingBusiness',
-  name: 'Casa Serena',
+  name: site.name,
   description,
   url: Astro.site?.toString(),
   image: ogImage.toString(),
   address: { '@type': 'PostalAddress', streetAddress: 'Caldera Cliffs', addressLocality: 'Oia', addressRegion: 'Santorini', postalCode: '847 02', addressCountry: 'GR' },
   geo: { '@type': 'GeoCoordinates', latitude: 36.4618, longitude: 25.3753 },
-  telephone: '+30-22860-00000',
-  email: 'info@casaserena.com',
+  telephone: site.phoneHref,
+  email: site.email,
   starRating: { '@type': 'Rating', ratingValue: '5' },
   amenityFeature: ['Infinity Pool', 'Private Beach Access', 'Spa & Steam Suite', 'Wine Cellar'].map(name => ({ '@type': 'LocationFeatureSpecification', name })),
   numberOfRooms: 4,
@@ -69,6 +71,7 @@ const jsonLd = {
     <SpeedInsights />
   </head>
   <body class="flex flex-col min-h-screen">
+    <ClientRouter />
     <slot />
     <script>import '../lib/animations';</script>
   </body>

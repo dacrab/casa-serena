@@ -10,36 +10,35 @@ import gallery5 from '../assets/images/gallery-5.webp';
 
 <section
   id="gallery"
-  data-nav-theme="dark"
   class="bg-gallery-bg py-10 md:py-[8vh] section-px"
 >
   <p class="label-xs text-cream/40 mb-6 md:mb-8">The Property</p>
 
   <div class="grid grid-cols-3 grid-rows-[auto_auto_auto] gap-2 md:gap-3">
 
-    <div data-anim="cell" class="row-span-2 overflow-hidden">
+    <div data-reveal="scale" class="row-span-2 overflow-hidden">
       <Image src={gallery1} alt="Casa Serena exterior at golden hour" loading="lazy"
         class="w-full h-full object-cover gallery-img aspect-[3/4] md:aspect-auto" style="min-height:100%" />
     </div>
-    <div data-anim="hero" class="col-span-2 overflow-hidden">
+    <div data-reveal="scale" class="col-span-2 overflow-hidden">
       <Image src={quote} alt="Infinity pool at sunset" loading="lazy"
         class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
     </div>
 
-    <div data-anim="cell" class="col-span-2 overflow-hidden">
+    <div data-reveal class="col-span-2 overflow-hidden">
       <Image src={gallery2} alt="Beachfront pool" loading="lazy"
         class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
     </div>
 
-    <div data-anim="cell" class="overflow-hidden aspect-square">
+    <div data-reveal class="overflow-hidden aspect-square">
       <Image src={gallery3} alt="Wide exterior view" loading="lazy"
         class="w-full h-full object-cover gallery-img" />
     </div>
-    <div data-anim="cell" class="overflow-hidden aspect-square">
+    <div data-reveal class="overflow-hidden aspect-square">
       <Image src={gallery4} alt="Chef kitchen" loading="lazy"
         class="w-full h-full object-cover gallery-img" />
     </div>
-    <div data-anim="cell" class="overflow-hidden aspect-square">
+    <div data-reveal class="overflow-hidden aspect-square">
       <Image src={gallery5} alt="Master suite" loading="lazy"
         class="w-full h-full object-cover gallery-img" />
     </div>

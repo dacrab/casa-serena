@@ -1,9 +1,5 @@
----
----
-
 <section
   id="hero"
-  data-nav-theme="dark"
   class="relative min-h-svh flex items-end overflow-hidden"
 >
   <video
@@ -16,9 +12,9 @@
   <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/60"></div>
 
   <div class="section-px pb-10 md:pb-20 w-full">
-    <p data-anim="label-top" class="label-xs text-cream mb-3 md:mb-4">BEACHFRONT ESTATE</p>
-    <h1 data-anim="title" class="font-serif italic font-light text-cream leading-none mb-3 heading-hero">Serena</h1>
-    <p data-anim="label-bot" class="label-xs text-cream/70">
+    <p class="label-xs text-cream mb-3 md:mb-4 hero-label">BEACHFRONT ESTATE</p>
+    <h1 class="font-serif italic font-light text-cream leading-none mb-3 heading-hero hero-title">Serena</h1>
+    <p class="label-xs text-cream/70 hero-label">
       Santorini, Greece · 4 Suites · 8 Acres · Caldera View
     </p>
   </div>
@@ -30,3 +26,22 @@
     <span class="label-xs text-cream pr-12 leading-10">PRIVATE ESTATE · SANTORINI GREECE · CALDERA VIEW · 4 SUITES · INFINITY POOL · </span>
   </div>
 </div>
+
+<style>
+  #hero video {
+    opacity: 0;
+    animation: hero-fade 1s ease 0.3s forwards;
+  }
+  .hero-label,
+  .hero-title { opacity: 0; }
+  .hero-label { animation: hero-up 0.6s ease forwards; }
+  .hero-label:last-of-type { animation-delay: 0.7s; }
+  .hero-title { animation: hero-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards; }
+  @keyframes hero-fade { to { opacity: 1; } }
+  @keyframes hero-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: none; }
+  }
+  .marquee { animation: marquee 22s linear infinite; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+</style>

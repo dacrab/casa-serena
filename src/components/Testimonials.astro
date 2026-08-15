@@ -1,0 +1,56 @@
+---
+const testimonials = [
+  { quote: 'We\'ve stayed at estates across the Mediterranean — Amalfi, Côte d\'Azur, Mallorca. Casa Serena is the only one we\'ve returned to three times. It\'s not a place you visit. It\'s a place you miss.', name: 'James & Caroline H.', detail: 'London, UK · Stayed August 2024' },
+  { quote: 'The silence. That\'s what I remember most. No music piped through speakers, no lobby chatter. Just the wind, the sea, and the occasional clink of a wine glass. Absolute perfection.', name: 'Sophie M.', detail: 'Paris, France · Stayed May 2024' },
+  { quote: 'My wife said "I don\'t want to leave" on day two. We extended by a week. Nikos and his team made it feel effortless — as if the extra days had always been part of the plan.', name: 'David & Rachel K.', detail: 'New York, USA · Stayed June 2024' },
+];
+---
+
+<section class="bg-charcoal overflow-hidden">
+  <div class="section-px py-20 md:py-32">
+    <p class="label-xs text-driftwood mb-12 md:mb-16">Guest Voices</p>
+
+    <div id="testimonial-track">
+      {testimonials.map((t, i) => (
+        <blockquote data-testimonial={i} class:list={[i !== 0 && "hidden"]}>
+          <p class="font-serif italic text-cream font-light leading-tight heading-lg max-w-4xl">
+            &ldquo;{t.quote}&rdquo;
+          </p>
+          <footer class="mt-8 md:mt-10">
+            <span class="text-cream/40 text-xs tracking-widest">{t.name}</span>
+            <span class="text-driftwood/50 text-xs ml-4">{t.detail}</span>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-6 mt-12 md:mt-16">
+      <div class="flex gap-2">
+        {testimonials.map((_, i) => (
+          <button data-dot={i} aria-label={`Testimonial ${i + 1}`}
+            class:list={["w-6 h-px transition-all duration-300", i === 0 ? "bg-terracotta" : "bg-cream/20"]} />
+        ))}
+      </div>
+      <span id="testimonial-counter" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  const quotes = document.querySelectorAll<HTMLElement>('[data-testimonial]');
+  const dots = document.querySelectorAll<HTMLButtonElement>('[data-dot]');
+  const counter = document.getElementById('testimonial-counter')!;
+  let current = 0, timer: ReturnType<typeof setInterval>;
+
+  function show(i: number) {
+    quotes[current]!.classList.add('hidden');
+    dots[current]!.classList.replace('bg-terracotta', 'bg-cream/20');
+    current = i;
+    quotes[current]!.classList.remove('hidden');
+    dots[current]!.classList.replace('bg-cream/20', 'bg-terracotta');
+    counter.textContent = `${current + 1} / ${quotes.length}`;
+  }
+  dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(timer); show(i); startTimer(); }));
+  function startTimer() { timer = setInterval(() => show((current + 1) % quotes.length), 6000); }
+  startTimer();
+</script>
