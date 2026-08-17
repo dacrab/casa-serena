@@ -14,8 +14,16 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   );
 
   const intros = Array.from(document.querySelectorAll<HTMLElement>('[data-intro]'));
-  intros.forEach((el, i) => (el.style.transitionDelay = `${i * 120}ms`));
   requestAnimationFrame(() => intros.forEach(reveal));
+
+  // Stagger [data-intro] elements only within their own section, so items far
+  // down the page don't inherit a global delay on first reveal.
+  const sections = new Set<Element>([document.body]);
+  intros.forEach(el => sections.add(el.closest('section, main, footer') ?? document.body));
+  sections.forEach(section => {
+    const group = Array.from(section.querySelectorAll<HTMLElement>('[data-intro]'));
+    group.forEach((el, i) => (el.style.transitionDelay = `${i * 120}ms`));
+  });
 
   document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 }

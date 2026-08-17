@@ -117,20 +117,24 @@ const suiteOptions = [
     if (arrival.value && departure.value && departure.value < arrival.value) { showError(departure, 'Departure must be after arrival'); valid = false; }
     if (!valid) return;
 
+    const arrivalValue = (document.getElementById('arrival') as HTMLInputElement).value;
+    const departureValue = (document.getElementById('departure') as HTMLInputElement).value;
+    const suiteValue = (document.getElementById('suite') as HTMLSelectElement).value;
+    const messageValue = (document.getElementById('message') as HTMLTextAreaElement).value;
+
+    const lines = [
+      `Name: ${name.value.trim()}`,
+      `Email: ${email.value.trim()}`,
+      arrivalValue && `Arrival: ${arrivalValue}`,
+      departureValue && `Departure: ${departureValue}`,
+      suiteValue && `Suite: ${suiteValue}`,
+      messageValue && `Message:\n${messageValue}`,
+    ].filter(Boolean);
+    const body = encodeURIComponent(lines.join('\n'));
+
     const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
     btn.disabled = true;
-    btn.textContent = 'Sending…';
-    setTimeout(() => {
-      form.innerHTML = `
-        <div class="text-center py-8">
-          <div class="w-12 h-12 mx-auto mb-4 rounded-full border-2 border-terracotta flex items-center justify-center">
-            <svg class="w-6 h-6 text-terracotta" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-            </svg>
-          </div>
-          <p class="text-cream text-xl font-serif italic mb-2">Thank you.</p>
-          <p class="text-cream/60 text-sm">We'll respond within 24 hours with availability and next steps.</p>
-        </div>`;
-    }, 800);
+    btn.textContent = 'Opening your email client…';
+    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent('Enquiry — Casa Serena')}&body=${body}`;
   });
 </script>
