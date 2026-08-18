@@ -1,5 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
+import { site } from '../lib/site';
 ---
 
 <LegalLayout title="Terms & Conditions — Casa Serena" description="Booking terms, cancellation policy, and house rules for Casa Serena estate." heading="Terms & Conditions">
@@ -53,5 +54,5 @@ import LegalLayout from '../layouts/LegalLayout.astro';
   <p>These terms are governed by the laws of the Hellenic Republic. Any disputes shall be subject to the exclusive jurisdiction of the courts of Syros, Cyclades.</p>
 
   <h2>8. Contact</h2>
-  <p>Casa Serena Estate<br />Oia, Santorini 847 02, Greece<br /><a href="mailto:info@casaserena.com">info@casaserena.com</a><br />+30 22860 00000</p>
+  <p>Casa Serena Estate<br />Oia, Santorini 847 02, Greece<br /><a href={`mailto:${site.email}`}>{site.email}</a><br />{site.phone}</p>
 </LegalLayout>

@@ -72,6 +72,8 @@ const suiteOptions = [
 </section>
 
 <script>
+  import { site } from '../lib/site';
+
   const form = document.getElementById('enquire-form') as HTMLFormElement | null;
   if (!form) throw new Error('Enquire form missing');
 
@@ -117,8 +119,8 @@ const suiteOptions = [
     if (arrival.value && departure.value && departure.value < arrival.value) { showError(departure, 'Departure must be after arrival'); valid = false; }
     if (!valid) return;
 
-    const arrivalValue = (document.getElementById('arrival') as HTMLInputElement).value;
-    const departureValue = (document.getElementById('departure') as HTMLInputElement).value;
+    const arrivalValue = arrival.value;
+    const departureValue = departure.value;
     const suiteValue = (document.getElementById('suite') as HTMLSelectElement).value;
     const messageValue = (document.getElementById('message') as HTMLTextAreaElement).value;
 
