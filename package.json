@@ -15,7 +15,7 @@
     "leaflet": "1.9.4"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.9",
+    "@astrojs/check": "0.9.10",
     "@astrojs/sitemap": "^3.7.3",
     "@tailwindcss/vite": "^4.3.1",
     "@types/leaflet": "^1.9.21",
