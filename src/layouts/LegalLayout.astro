@@ -1,5 +1,6 @@
 ---
 import PageLayout from './PageLayout.astro';
+import { site } from '../lib/site';
 interface Props { title: string; description: string; heading: string; }
 const { title, description, heading } = Astro.props;
 ---
@@ -8,7 +9,7 @@ const { title, description, heading } = Astro.props;
   <article class="max-w-3xl mx-auto prose-cs">
     <p data-intro class="label-xs text-driftwood mb-4">Legal</p>
     <h1 data-intro>{heading}</h1>
-    <p class="meta">Last updated: January 2025</p>
+    <p class="meta">Last updated: {site.lastUpdated}</p>
     <slot />
   </article>
 </PageLayout>
