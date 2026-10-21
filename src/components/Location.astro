@@ -1,15 +1,28 @@
 ---
+import { site } from '../lib/site';
+
 const distances = [
   { name: 'Fira',             km: '12 km' },
   { name: 'Santorini Airport', km: '8 km' },
   { name: 'Heraklion, Crete', km: '130 km' },
   { name: 'Athens',           km: '280 km' },
 ];
+
+const mapLabel = `Map showing ${site.address.name}, ${site.address.street}, ${site.addressLine}`;
 ---
 
 <section id="location" class="bg-warm-white">
   <div class="grid md:grid-cols-2 min-h-[50vh]">
-    <div id="map" class="w-full h-[50vw] md:h-auto min-h-[300px]"></div>
+    <div id="map" role="region" aria-label={mapLabel} class="w-full h-[50vw] md:h-auto min-h-[300px]">
+      <p data-map-fallback class="sr-only">
+        {site.address.name}<br />{site.address.street}<br />{site.addressLine}
+      </p>
+      <noscript>
+        <p class="h-full flex items-center justify-center p-8 text-center text-sm text-charcoal/60">
+          {site.address.name}<br />{site.address.street}<br />{site.addressLine}
+        </p>
+      </noscript>
+    </div>
     <div data-reveal class="section-px py-10 md:py-16 flex items-center">
       <dl class="w-full">
         {distances.map(({ name, km }) => (
@@ -24,32 +37,5 @@ const distances = [
 </section>
 
 <script>
-  import 'leaflet/dist/leaflet.css';
-
-  const target = document.getElementById('map');
-  if (target) {
-    let started = false;
-    const io = new IntersectionObserver(
-      async entries => {
-        if (started || !entries.some(e => e.isIntersecting)) return;
-        started = true;
-        io.disconnect();
-        const { default: L } = await import('leaflet');
-
-        const map = L.map('map', { scrollWheelZoom: false, zoomControl: false, attributionControl: false }).setView([36.4618, 25.3753], 18);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
-
-        const pin = L.divIcon({
-          className: '',
-          html: `<svg width="36" height="48" viewBox="0 0 36 48" fill="none"><path d="M18 0C8.06 0 0 8.06 0 18c0 13.5 18 30 18 30S36 31.5 36 18C36 8.06 27.94 0 18 0z" fill="#C4714A"/><circle cx="18" cy="18" r="7" fill="#FDFAF5"/></svg>`,
-          iconSize: [36, 48],
-          iconAnchor: [18, 48],
-        });
-        L.marker([36.4618, 25.3753], { icon: pin }).addTo(map);
-        L.control.attribution({ position: 'bottomright', prefix: false }).addAttribution('© <a href="https://carto.com">CARTO</a>').addTo(map);
-      },
-      { rootMargin: '400px' },
-    );
-    io.observe(target);
-  }
+  import '../scripts/location';
 </script>

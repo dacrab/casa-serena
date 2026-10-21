@@ -1,9 +1,28 @@
+const phone = '+30 22860 00000';
+
+const address = {
+  name: 'Casa Serena Estate',
+  street: 'Caldera Cliffs',
+  locality: 'Oia',
+  region: 'Santorini',
+  postalCode: '847 02',
+  country: 'Greece',
+  countryCode: 'GR',
+} as const;
+
 export const site = {
   name: 'Casa Serena',
   email: 'info@casaserena.com',
-  phone: '+30 22860 00000',
-  phoneHref: '+302286000000',
+  phone,
+  phoneHref: phone.replace(/[^\d+]/g, ''),
+  address,
+  addressLine: `${address.locality}, ${address.region} ${address.postalCode}, ${address.country}`,
+  geo: { latitude: 36.4618, longitude: 25.3753 },
+  lastUpdated: 'January 2025',
 };
+
+export const pageTitle = (page?: string) =>
+  page ? `${page} — ${site.name}` : `${site.name} — Beachfront Estate · Santorini, Greece`;
 
 export const navLinks = [
   { href: '/suites', label: 'Suites' },

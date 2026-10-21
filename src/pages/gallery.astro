@@ -96,42 +96,6 @@ const images = [
   </dialog>
 
   <script>
-    interface Img { src: string; alt: string }
-    const imgs: Img[] = [];
-    document.querySelectorAll<HTMLElement>('[data-lightbox-trigger]').forEach(el => {
-      const i = parseInt(el.dataset.lightboxTrigger!);
-      const img = el.querySelector('img')!;
-      imgs[i] = { src: img.currentSrc || img.src, alt: img.alt };
-    });
-
-    const dlg = document.getElementById('lightbox') as HTMLDialogElement;
-    const lbImg = document.getElementById('lb-img') as HTMLImageElement;
-    const lbCap = document.getElementById('lb-caption')!;
-    let cur = 0;
-
-    const show = (i: number) => {
-      cur = (i + imgs.length) % imgs.length;
-      lbImg.src = imgs[cur]!.src;
-      lbImg.alt = imgs[cur]!.alt;
-      lbCap.textContent = imgs[cur]!.alt;
-    };
-    const open = (i: number) => { show(i); dlg.showModal(); };
-    const close = () => dlg.close();
-
-    document.querySelectorAll<HTMLElement>('[data-lightbox-trigger]').forEach(el =>
-      el.addEventListener('click', () => open(parseInt(el.dataset.lightboxTrigger!))));
-    document.getElementById('lb-close')!.addEventListener('click', close);
-    document.getElementById('lb-prev')!.addEventListener('click', () => show(cur - 1));
-    document.getElementById('lb-next')!.addEventListener('click', () => show(cur + 1));
-    document.addEventListener('keydown', e => {
-      if (!dlg.open) return;
-      if (e.key === 'ArrowLeft') show(cur - 1);
-      if (e.key === 'ArrowRight') show(cur + 1);
-    });
-    let tx = 0;
-    dlg.addEventListener('touchstart', e => { tx = e.touches[0]!.clientX; }, { passive: true });
-    dlg.addEventListener('touchend', e => {
-      if (dlg.open) { const d = e.changedTouches[0]!.clientX - tx; if (Math.abs(d) > 50) show(d > 0 ? cur - 1 : cur + 1); }
-    });
+    import '../scripts/gallery';
   </script>
 </PageLayout>

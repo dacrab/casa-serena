@@ -6,7 +6,7 @@ const testimonials = [
 ];
 ---
 
-<section class="bg-charcoal overflow-hidden">
+<section data-testimonials class="bg-charcoal overflow-hidden">
   <div class="section-px py-20 md:py-32">
     <p class="label-xs text-driftwood mb-12 md:mb-16">Guest Voices</p>
 
@@ -25,32 +25,18 @@ const testimonials = [
     </div>
 
     <div class="flex items-center gap-6 mt-12 md:mt-16">
-      <div class="flex gap-2">
+      <div class="flex gap-2" role="group" aria-label="Testimonial navigation">
         {testimonials.map((_, i) => (
-          <button data-dot={i} aria-label={`Testimonial ${i + 1}`}
+          <button type="button" data-dot={i} aria-label={`Show testimonial ${i + 1}`}
+            aria-current={i === 0 ? 'true' : undefined}
             class:list={["w-6 h-px transition-all duration-300", i === 0 ? "bg-terracotta" : "bg-cream/20"]} />
         ))}
       </div>
-      <span id="testimonial-counter" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
+      <span id="testimonial-counter" data-testimonial-counter aria-live="polite" aria-atomic="true" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
     </div>
   </div>
 </section>
 
 <script>
-  const quotes = document.querySelectorAll<HTMLElement>('[data-testimonial]');
-  const dots = document.querySelectorAll<HTMLButtonElement>('[data-dot]');
-  const counter = document.getElementById('testimonial-counter')!;
-  let current = 0, timer: ReturnType<typeof setInterval>;
-
-  function show(i: number) {
-    quotes[current]!.classList.add('hidden');
-    dots[current]!.classList.replace('bg-terracotta', 'bg-cream/20');
-    current = i;
-    quotes[current]!.classList.remove('hidden');
-    dots[current]!.classList.replace('bg-cream/20', 'bg-terracotta');
-    counter.textContent = `${current + 1} / ${quotes.length}`;
-  }
-  dots.forEach((dot, i) => dot.addEventListener('click', () => { clearInterval(timer); show(i); startTimer(); }));
-  function startTimer() { timer = setInterval(() => show((current + 1) % quotes.length), 6000); }
-  startTimer();
+  import '../scripts/testimonials';
 </script>

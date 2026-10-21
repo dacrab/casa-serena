@@ -1,4 +1,8 @@
-if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+import { onPageLoad } from '../scripts/lifecycle';
+
+function init() {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const reveal = (el: Element) => el.classList.add('revealed');
 
   const io = new IntersectionObserver(
@@ -14,7 +18,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   );
 
   const intros = Array.from(document.querySelectorAll<HTMLElement>('[data-intro]'));
-  requestAnimationFrame(() => intros.forEach(reveal));
+  const frame = requestAnimationFrame(() => intros.forEach(reveal));
 
   // Stagger [data-intro] elements only within their own section, so items far
   // down the page don't inherit a global delay on first reveal.
@@ -26,4 +30,11 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
   });
 
   document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+  return () => {
+    cancelAnimationFrame(frame);
+    io.disconnect();
+  };
 }
+
+onPageLoad(init);

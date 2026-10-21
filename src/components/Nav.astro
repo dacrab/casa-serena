@@ -1,16 +1,16 @@
 ---
-import { navLinks } from '../lib/site';
+import { navLinks, site } from '../lib/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => href === path;
 ---
 
 <nav class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
-  <a href="/" data-intro class="nav-logo font-serif text-sm tracking-widest">CASA SERENA</a>
+  <a href="/" data-intro class="nav-logo font-serif text-sm tracking-widest">{site.name.toUpperCase()}</a>
 
   <div class="hidden md:flex gap-8">
     {navLinks.map(({ href, label }) => (
-      <a href={href} class:list={["nav-link label-xs", isActive(href) && "nav-link--active"]}>{label}</a>
+      <a href={href} aria-current={isActive(href) ? 'page' : undefined} class:list={["nav-link label-xs", isActive(href) && "nav-link--active"]}>{label}</a>
     ))}
   </div>
 
@@ -29,12 +29,23 @@ const isActive = (href: string) => href === path;
 
 <dialog
   id="nav-overlay"
+  aria-label="Site navigation"
   class="md:hidden flex-col items-center justify-center"
 >
+  <button
+    type="button"
+    data-nav-close
+    aria-label="Close menu"
+    class="absolute top-4 right-3 flex flex-col items-center justify-center gap-1.5 w-11 h-11"
+  >
+    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
+    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
+  </button>
+
   <ul class="space-y-6 text-center">
     {navLinks.map(({ href, label }) => (
       <li>
-        <a href={href} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", isActive(href) ? "text-terracotta" : "text-cream"]}>
+        <a href={href} aria-current={isActive(href) ? 'page' : undefined} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", isActive(href) ? "text-terracotta" : "text-cream"]}>
           {label}
         </a>
       </li>
@@ -43,23 +54,7 @@ const isActive = (href: string) => href === path;
 </dialog>
 
 <script>
-  const dialog = document.getElementById('nav-overlay') as HTMLDialogElement;
-  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
-  if (!dialog || !toggle) throw new Error('Nav elements missing');
-
-  const setOpen = (open: boolean) => {
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.classList.toggle('is-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-    if (open) dialog.showModal();
-    else {
-      dialog.close();
-      toggle.focus();
-    }
-  };
-
-  toggle.addEventListener('click', () => setOpen(!dialog.open));
-  dialog.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  import '../scripts/nav';
 </script>
 
 <style>
@@ -72,4 +67,7 @@ const isActive = (href: string) => href === path;
   nav .bar { background: #fff; transition: transform 0.2s; }
   [data-nav-toggle].is-open [data-bar]:first-child { transform: rotate(45deg) translateY(4px); }
   [data-nav-toggle].is-open [data-bar]:last-child { transform: rotate(-45deg) translateY(-4px); }
+  [data-nav-close] .bar { background: #fff; transition: transform 0.2s; }
+  [data-nav-close] [data-bar]:first-child { transform: rotate(45deg) translateY(4px); }
+  [data-nav-close] [data-bar]:last-child { transform: rotate(-45deg) translateY(-4px); }
 </style>
