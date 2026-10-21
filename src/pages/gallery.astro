@@ -24,6 +24,69 @@ const images = [
   { src: gallery3, alt: 'Garden pathway' },
   { src: gallery5, alt: 'Suite bathroom detail' },
 ];
+
+type GalleryCell = {
+  /** Index into `images`. */
+  image: number;
+  /** Lightbox trigger index — ordering is intentionally irregular, preserve as-is. */
+  trigger: number;
+  /** Grid span, when the cell is wider than one column. */
+  span?: 2;
+  /** Image aspect ratio; omitted = square (uses `aspect-square` on the cell). */
+  aspect?: '16/9' | '3/4' | '4/3' | '21/9';
+  /** Whether the image gets `h-full` (off only for the lone 21/9 banner). */
+  hFull?: boolean;
+};
+
+type GalleryBlock = {
+  /** Grid wrapper class; omitted = full-width single cell without a wrapper. Kept as a static literal so Tailwind can scan it. */
+  wrap?: string;
+  cells: GalleryCell[];
+};
+
+const blocks: GalleryBlock[] = [
+  {
+    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
+    cells: [
+      { image: 1, trigger: 1, span: 2, aspect: '16/9' },
+      { image: 2, trigger: 2, aspect: '3/4' },
+    ],
+  },
+  {
+    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
+    cells: [
+      { image: 3, trigger: 3 },
+      { image: 4, trigger: 4 },
+      { image: 5, trigger: 5 },
+    ],
+  },
+  {
+    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
+    cells: [
+      { image: 6, trigger: 6, aspect: '3/4' },
+      { image: 7, trigger: 7, span: 2, aspect: '16/9' },
+    ],
+  },
+  {
+    wrap: 'grid grid-cols-2 gap-3 md:gap-4',
+    cells: [
+      { image: 8, trigger: 8, aspect: '4/3' },
+      { image: 9, trigger: 9, aspect: '4/3' },
+    ],
+  },
+  {
+    // Full-width 21/9 banner — no grid wrapper.
+    cells: [{ image: 10, trigger: 10, aspect: '21/9', hFull: false }],
+  },
+  {
+    wrap: 'grid grid-cols-3 gap-3 md:gap-4 pb-4 md:pb-6',
+    cells: [
+      { image: 11, trigger: 11 },
+      { image: 0, trigger: 0, aspect: '3/4' },
+      { image: 4, trigger: 4 },
+    ],
+  },
+];
 ---
 
 <PageLayout title="Gallery — Casa Serena | Santorini" description="Explore Casa Serena through our gallery — the estate, suites, pool, and caldera views." mainClass="bg-gallery-bg min-h-screen">
@@ -36,55 +99,23 @@ const images = [
   />
 
   <section class="section-px py-4 md:py-6 space-y-3 md:space-y-4">
-    <div class="grid grid-cols-3 gap-3 md:gap-4">
-      <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="1">
-        <Image src={images[1]!.src} alt={images[1]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
-      </div>
-      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="2">
-        <Image src={images[2]!.src} alt={images[2]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
-      </div>
-    </div>
-
-    <div class="grid grid-cols-3 gap-3 md:gap-4">
-      {[3,4,5].map(i => (
-        <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger={i}>
-          <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
+    {blocks.map(({ wrap, cells }) =>
+      wrap ? (
+        <div class={wrap}>
+          {cells.map(({ image, trigger, span, aspect, hFull = true }) => (
+            <div data-reveal class={`${span ? 'col-span-2 ' : ''}overflow-hidden${aspect ? '' : ' aspect-square'} cursor-pointer`} data-lightbox-trigger={trigger}>
+              <Image src={images[image]!.src} alt={images[image]!.alt} loading="lazy" class={`w-full${hFull ? ' h-full' : ''} object-cover gallery-img`} style={aspect && `aspect-ratio:${aspect}`} />
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-
-    <div class="grid grid-cols-3 gap-3 md:gap-4">
-      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="6">
-        <Image src={images[6]!.src} alt={images[6]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
-      </div>
-      <div data-reveal class="col-span-2 overflow-hidden cursor-pointer" data-lightbox-trigger="7">
-        <Image src={images[7]!.src} alt={images[7]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:16/9" />
-      </div>
-    </div>
-
-    <div class="grid grid-cols-2 gap-3 md:gap-4">
-      {[8,9].map(i => (
-        <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger={i}>
-          <Image src={images[i]!.src} alt={images[i]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:4/3" />
-        </div>
-      ))}
-    </div>
-
-    <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="10">
-      <Image src={images[10]!.src} alt={images[10]!.alt} loading="lazy" class="w-full object-cover gallery-img" style="aspect-ratio:21/9" />
-    </div>
-
-    <div class="grid grid-cols-3 gap-3 md:gap-4 pb-4 md:pb-6">
-      <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="11">
-        <Image src={images[11]!.src} alt={images[11]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
-      </div>
-      <div data-reveal class="overflow-hidden cursor-pointer" data-lightbox-trigger="0">
-        <Image src={images[0]!.src} alt={images[0]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" style="aspect-ratio:3/4" />
-      </div>
-      <div data-reveal class="overflow-hidden aspect-square cursor-pointer" data-lightbox-trigger="4">
-        <Image src={images[4]!.src} alt={images[4]!.alt} loading="lazy" class="w-full h-full object-cover gallery-img" />
-      </div>
-    </div>
+      ) : (
+        cells.map(({ image, trigger, span, aspect, hFull = true }) => (
+          <div data-reveal class={`${span ? 'col-span-2 ' : ''}overflow-hidden${aspect ? '' : ' aspect-square'} cursor-pointer`} data-lightbox-trigger={trigger}>
+            <Image src={images[image]!.src} alt={images[image]!.alt} loading="lazy" class={`w-full${hFull ? ' h-full' : ''} object-cover gallery-img`} style={aspect && `aspect-ratio:${aspect}`} />
+          </div>
+        ))
+      )
+    )}
   </section>
 
   <dialog id="lightbox" aria-label="Image lightbox">

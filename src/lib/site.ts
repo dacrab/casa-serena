@@ -21,9 +21,6 @@ export const site = {
   lastUpdated: 'January 2025',
 };
 
-export const pageTitle = (page?: string) =>
-  page ? `${page} — ${site.name}` : `${site.name} — Beachfront Estate · Santorini, Greece`;
-
 export const navLinks = [
   { href: '/suites', label: 'Suites' },
   { href: '/experiences', label: 'Experiences' },
