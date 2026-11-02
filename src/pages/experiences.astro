@@ -2,74 +2,149 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { Image } from 'astro:assets';
-import gallery3 from '../assets/images/gallery-3.webp';
-import gallery4 from '../assets/images/gallery-4.webp';
-import quote from '../assets/images/quote.webp';
-import about from '../assets/images/about.webp';
+import boats from '../assets/images/boats.webp';
+import sunset from '../assets/images/sunset.webp';
+import architecture from '../assets/images/architecture.webp';
+import door from '../assets/images/door.webp';
 
 const experiences = [
   {
-    title: 'Private Dining', index: '01', image: gallery4, phrase: 'Farm, sea, table.',
+    title: 'Private Dining',
+    index: '01',
+    image: sunset,
+    imageAlt: 'The caldera at dusk, seen from the terrace',
+    phrase: 'Farm, sea, table.',
     body: "Our resident chef sources daily from Ammoudi Bay fishermen, the estate's herb garden, and volcanic-soil farms. Every meal is a conversation — tell us what you love, and we'll create something unrepeatable.",
-    offerings: ['Daily organic breakfast, served wherever you wish', 'Multi-course tasting dinners with Cycladic wine pairing', 'Sunset aperitivo on the caldera terrace', 'Private wine cellar tastings', 'Hands-on cooking class with market visit'],
+    offerings: [
+      'Daily organic breakfast, served wherever you wish',
+      'Multi-course tasting dinners with Cycladic wine pairing',
+      'Sunset aperitivo on the caldera terrace',
+      'Private wine cellar tastings',
+      'Hands-on cooking class with market visit',
+    ],
     dark: false,
   },
   {
-    title: 'Spa & Wellness', index: '02', image: quote, phrase: 'Stillness as luxury.',
+    title: 'Spa & Wellness',
+    index: '02',
+    image: architecture,
+    imageAlt: 'The sculpted whitewashed volumes of the spa wing',
+    phrase: 'Stillness as luxury.',
     body: 'The spa is carved into the cliff — vaulted chambers where time dissolves. Heated marble underfoot, volcanic stone walls, the distant sound of the Aegean. Every treatment uses what the island gives.',
-    offerings: ['Volcanic stone massage', 'Caldera clay facial', 'Couples hammam ritual', 'Sunrise yoga on the terrace', 'Marble steam room & cold plunge'],
+    offerings: [
+      'Volcanic stone massage',
+      'Caldera clay facial',
+      'Couples hammam ritual',
+      'Sunrise yoga on the terrace',
+      'Marble steam room & cold plunge',
+    ],
     dark: true,
   },
   {
-    title: 'Island & Sea', index: '03', image: gallery3, phrase: 'Beyond the estate.',
+    title: 'Island & Sea',
+    index: '03',
+    image: boats,
+    imageAlt: 'A fishing boat below the caldera cliffs',
+    phrase: 'Beyond the estate.',
     body: 'Santorini is best discovered slowly — by sail, by foot, by taste. We listen to what moves you, then build the day around it. A private catamaran to a beach with no name.',
-    offerings: ['Private catamaran — swim, snorkel, dine on board', 'Volcanic hot springs & crater hike', 'Estate winery tour with vineyard lunch', 'Akrotiri ruins with private archaeologist', 'Helicopter transfer from Athens'],
+    offerings: [
+      'Private catamaran — swim, snorkel, dine on board',
+      'Volcanic hot springs & crater hike',
+      'Estate winery tour with vineyard lunch',
+      'Akrotiri ruins with private archaeologist',
+      'Helicopter transfer from Athens',
+    ],
     dark: false,
   },
   {
-    title: 'Concierge', index: '04', image: about, phrase: 'Before you ask.',
+    title: 'Concierge',
+    index: '04',
+    image: door,
+    imageAlt: 'A blue door set into a whitewashed wall',
+    phrase: 'Before you ask.',
     body: 'The best service is invisible. The car is waiting before you reach the door. The restaurant has your favourite table. The boat is fuelled and the captain knows where the dolphins are today.',
-    offerings: ['Airport transfers', 'Priority restaurant reservations island-wide', 'Event production — proposals, birthdays, celebrations', 'Multilingual childcare on 24h notice', 'Personal shopping from island boutiques'],
-    dark: true,
+    offerings: [
+      'Airport transfers',
+      'Priority restaurant reservations island-wide',
+      'Event production — proposals, birthdays, celebrations',
+      'Multilingual childcare on 24h notice',
+      'Personal shopping from island boutiques',
+    ],
+    dark: false,
   },
 ];
 
-const darkStyles = (dark: boolean) => ({
-  bg: dark ? 'bg-charcoal' : 'bg-warm-white',
-  text: dark ? 'text-cream' : 'text-charcoal',
-  muted: dark ? 'text-cream/50' : 'text-charcoal/50',
-  border: dark ? 'border-cream/10' : 'border-charcoal/10',
-  ghost: dark ? 'text-cream/10' : 'text-charcoal/10',
+const tones = (dark: boolean) => ({
+  section: dark ? 'bg-sea text-paper' : 'bg-paper text-ink',
+  muted: dark ? 'text-paper/60' : 'text-ink-soft',
+  line: dark ? 'border-paper/15' : 'border-line',
 });
 ---
 
-<PageLayout title="Experiences — Casa Serena | Santorini" description="Private dining, cliff-carved spa, island excursions, and anticipatory concierge at Casa Serena.">
-  <PageHero image={quote} alt="Infinity pool at golden hour" label="Experiences" title="Live" size="hero" />
+<PageLayout
+  overHero
+  title="Experiences — Casa Serena | Santorini"
+  description="Private dining, a cliff-carved spa, island excursions, and anticipatory concierge at Casa Serena."
+>
+  <PageHero
+    image={boats}
+    alt="A fishing boat below the caldera cliffs"
+    label="Experiences"
+    title="The Days"
+    subtitle="Dining · Spa · Sea · Concierge"
+    index="01 — 04"
+  />
 
-  {experiences.map((exp) => {
-    const { bg, text, muted, border, ghost } = darkStyles(exp.dark);
+  <section class="section shell">
+    <div class="grid gap-8 md:grid-cols-12">
+      <p data-reveal class="label text-ink-soft md:col-span-3">A day here</p>
+      <div class="md:col-span-7 md:col-start-6">
+        <h2 data-reveal class="display-md">
+          The estate is the beginning,<br class="hidden sm:block" />
+          not the <em>whole story.</em>
+        </h2>
+        <p data-reveal class="body-lg mt-6 max-w-xl text-ink-soft">
+          Nothing is fixed. Breakfast becomes a swim; lunch becomes a boat; dinner moves to the terrace because the light
+          is better there. We plan around the weather, the season, and your mood.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {experiences.map((exp, i) => {
+    const tone = tones(exp.dark);
     return (
-      <section class={bg}>
-        <div data-reveal="scale" class="overflow-hidden">
-          <Image src={exp.image} alt={exp.title} loading="lazy" class="w-full h-[55vh] md:h-[70vh] object-cover" />
-        </div>
-        <div class="section-px py-16 md:py-24 max-w-[1400px] mx-auto grid md:grid-cols-2 gap-12 md:gap-20">
-          <div>
-            <div class="flex items-baseline gap-4 mb-6">
-              <span class={`font-serif text-5xl md:text-7xl font-light ${ghost}`}>{exp.index}</span>
-              <div>
-                <p data-reveal class="label-xs text-terracotta mb-1">{exp.title}</p>
-                <h2 data-reveal class={`font-serif italic font-light heading-md leading-tight ${text}`}>{exp.phrase}</h2>
-              </div>
+      <section class={tone.section}>
+        <div class="shell grid gap-8 py-16 md:grid-cols-12 md:items-center md:gap-10 md:py-24">
+          <figure
+            data-reveal="clip"
+            class:list={[
+              'media aspect-[4/5] md:aspect-[4/3]',
+              'md:col-span-7',
+              i % 2 === 1 ? 'md:col-start-6' : 'md:col-start-1',
+            ]}
+          >
+            <Image src={exp.image} alt={exp.imageAlt} loading="lazy" class="img-grade" />
+          </figure>
+
+          <div
+            class:list={[
+              'md:col-span-4',
+              i % 2 === 1 ? 'md:col-start-1 md:row-start-1' : 'md:col-start-9',
+            ]}
+          >
+            <div data-reveal class="flex items-baseline gap-4">
+              <span class="label text-terracotta">{exp.index}</span>
+              <span class:list={['label', tone.muted]}>{exp.title}</span>
             </div>
-            <p data-reveal class={`${muted} leading-relaxed text-sm max-w-md`}>{exp.body}</p>
-          </div>
-          <div>
-            <p data-reveal class={`label-xs ${muted} mb-6`}>What's included</p>
-            <ul>
-              {exp.offerings.map((o) => (
-                <li data-reveal class={`text-sm ${muted} py-4 border-b ${border} flex items-start gap-3`}>
-                  <span class="text-terracotta mt-0.5 shrink-0">—</span>{o}
+            <h2 data-reveal class="display-md mt-4">{exp.phrase}</h2>
+            <p data-reveal class:list={['mt-5 text-sm leading-relaxed', tone.muted]}>{exp.body}</p>
+
+            <ul data-reveal class:list={['mt-8 border-t', tone.line]}>
+              {exp.offerings.map(offering => (
+                <li class:list={['flex gap-3 border-b py-3 text-[0.8125rem] leading-relaxed', tone.line, tone.muted]}>
+                  <span class="shrink-0 text-terracotta" aria-hidden="true">—</span>
+                  {offering}
                 </li>
               ))}
             </ul>
@@ -78,4 +153,22 @@ const darkStyles = (dark: boolean) => ({
       </section>
     );
   })}
+
+  <section class="section bg-limestone">
+    <div class="shell grid items-end gap-10 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <p data-reveal class="label text-ink-soft">Your stay</p>
+        <h2 data-reveal class="display-md mt-6">
+          Tell us what<br />
+          you <em>imagine.</em>
+        </h2>
+      </div>
+      <div class="md:col-span-4 md:col-start-9">
+        <p data-reveal class="text-sm leading-relaxed text-ink-soft">
+          We will build the days around you — nothing prescribed, nothing performed.
+        </p>
+        <a data-reveal href="/enquire" class="btn mt-7">Enquire</a>
+      </div>
+    </div>
+  </section>
 </PageLayout>

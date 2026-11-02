@@ -1,18 +1,18 @@
 # Casa Serena
 
-> *Serene House* — A luxury beachfront estate website showcasing minimalist design and elegant animations.
+> *Serene House* — A cliffside estate above the caldera in Oia, Santorini.
 
-A multi-page site for a fictional Santorini estate. Built with Astro, styled with Tailwind CSS v4, animated with native CSS + IntersectionObserver (no animation library).
+A multi-page site for a fictional Santorini estate. The art direction — **Quiet Aegean Editorial** — pairs limestone and ink with terracotta, Instrument Serif display type, and full-bleed Cycladic photography. Built with Astro, styled with Tailwind CSS v4, animated with native CSS + IntersectionObserver (no animation library).
 
 ## Features
 
-- Video hero with CSS marquee strip
+- Full-bleed video hero with layered contrast scrims and a staggered title reveal
 - View Transitions for native cross-page navigation
 - Scroll-reveal animations (IntersectionObserver + CSS, respecting `prefers-reduced-motion`)
-- Sections: About, Gallery, Amenities, Location, Contact
+- Sections: Hero, Intro, Suites, Gallery, Amenities, Testimonials, FAQ, Location, Enquire
 - Native elements over custom widgets: `<dialog>` menus/lightbox, `<details>` FAQ, `<input type="date">` + `<select>` booking form
-- Leaflet map (CSS bundled locally, no CDN)
-- Optimized images (WebP via `astro:assets`)
+- Leaflet map with keyless OpenStreetMap tiles, muted in CSS to match the palette
+- Art-directed WebP imagery via `astro:assets`
 - Static site generation with sitemap + structured data
 
 ## Quick Start
@@ -27,18 +27,22 @@ bun build        # outputs to ./dist/
 
 - **Astro** — Static site generator + View Transitions
 - **Tailwind CSS v4** — Utility-first styling
-- **Leaflet** — Location map
+- **Instrument Serif / Manrope** — Editorial display + sans pairing
+- **Leaflet + OpenStreetMap** — Keyless location map
 - **Vercel Analytics / Speed Insights** — Visitor tracking
 
 ## Structure
 
 ```
 src/
-├── components/     # Nav, Hero, PageHero, Gallery, Enquire, etc.
-├── layouts/        # Layout (HTML shell + ClientRouter), LegalLayout
+├── assets/images/  # Art-directed WebP set
+├── components/     # Page sections, nav, footer, enquiry form
+├── data/           # suites.ts (suite copy + imagery)
+├── layouts/        # Layout, PageLayout, LegalLayout
 ├── lib/            # site.ts (shared data), animations.ts (reveals)
-├── pages/          # index, about, suites, experiences, gallery, legal
-└── styles/         # global.css (Tailwind theme + custom styles)
+├── pages/          # Six pages, legal, 404
+├── scripts/        # Nav, gallery, testimonials, map, enquiry
+└── styles/         # global.css (tokens, type, components)
 ```
 
 ## Deployment

@@ -18,15 +18,14 @@ export const site = {
   address,
   addressLine: `${address.locality}, ${address.region} ${address.postalCode}, ${address.country}`,
   geo: { latitude: 36.4618, longitude: 25.3753 },
-  lastUpdated: 'January 2025',
+  lastUpdated: 'January 2026',
 };
 
 export const navLinks = [
   { href: '/suites', label: 'Suites' },
   { href: '/experiences', label: 'Experiences' },
   { href: '/gallery', label: 'Gallery' },
-  { href: '/about', label: 'About' },
-  { href: '/enquire', label: 'Enquire' },
+  { href: '/about', label: 'The Estate' },
 ];
 
 export const socialLinks = [

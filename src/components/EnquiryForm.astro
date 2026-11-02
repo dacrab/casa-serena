@@ -1,0 +1,69 @@
+---
+import { suites } from '../data/suites';
+
+interface Props {
+  theme?: 'light' | 'dark';
+}
+
+const { theme = 'light' } = Astro.props;
+const dark = theme === 'dark';
+
+const suiteOptions = [
+  { value: '', label: 'No preference' },
+  ...suites.map(({ name, index }) => ({ value: name, label: `${index} — ${name}` })),
+];
+
+const fieldClass = dark ? 'field field-dark' : 'field';
+const labelClass = dark ? 'label text-paper/55' : 'label text-ink-soft';
+const buttonClass = dark ? 'btn btn-light w-full' : 'btn btn-solid w-full';
+---
+
+<form id="enquire-form" class="grid gap-7">
+  <div class="grid gap-7 sm:grid-cols-2">
+    <label class="block">
+      <span class:list={[labelClass, 'mb-2 block']}>Arrival</span>
+      <input id="arrival" type="date" name="arrival" class={fieldClass} />
+    </label>
+    <label class="block">
+      <span class:list={[labelClass, 'mb-2 block']}>Departure</span>
+      <input id="departure" type="date" name="departure" class={fieldClass} />
+    </label>
+  </div>
+
+  <label class="block">
+    <span class:list={[labelClass, 'mb-2 block']}>Suite</span>
+    <select id="suite" name="suite" class={fieldClass}>
+      {suiteOptions.map(({ value, label }) => (
+        <option value={value}>{label}</option>
+      ))}
+    </select>
+  </label>
+
+  <div class="grid gap-7 sm:grid-cols-2">
+    <label class="block">
+      <span class:list={[labelClass, 'mb-2 block']}>Name</span>
+      <input id="name" name="name" autocomplete="name" required class={fieldClass} />
+    </label>
+    <label class="block">
+      <span class:list={[labelClass, 'mb-2 block']}>Email</span>
+      <input id="email" type="email" name="email" autocomplete="email" required class={fieldClass} />
+    </label>
+  </div>
+
+  <label class="block">
+    <span class:list={[labelClass, 'mb-2 block']}> Message <span class="italic opacity-60">(optional)</span> </span>
+    <textarea id="message" name="message" rows="3" class:list={[fieldClass, 'resize-none']}></textarea>
+  </label>
+
+  <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+    <p class:list={['max-w-[18rem] text-[0.6875rem] leading-relaxed', dark ? 'text-paper/40' : 'text-ink-soft']}>
+      We reply within one working day. By sending this enquiry you agree to our
+      <a href="/privacy" class="underline underline-offset-2 transition-colors hover:text-terracotta">privacy policy</a>.
+    </p>
+    <button type="submit" class:list={[buttonClass, 'sm:w-auto sm:shrink-0']}>Send enquiry</button>
+  </div>
+</form>
+
+<script>
+  import '../scripts/enquire';
+</script>

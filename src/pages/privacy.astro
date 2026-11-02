@@ -1,5 +1,6 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
+import { site } from '../lib/site';
 ---
 
 <LegalLayout title="Privacy Policy — Casa Serena" description="How Casa Serena collects, uses, and protects your personal information." heading="Privacy Policy">
@@ -50,5 +51,5 @@ import LegalLayout from '../layouts/LegalLayout.astro';
   <p>All data is transmitted over HTTPS. Payment data is handled by PCI-DSS compliant processors and never stored on our servers.</p>
 
   <h2>8. Contact</h2>
-  <p>Casa Serena Estate<br />Oia, Santorini 847 02, Greece<br /><a href="mailto:privacy@casaserena.com">privacy@casaserena.com</a></p>
+  <p>{site.address.name}<br />{site.addressLine}<br /><a href="mailto:privacy@casaserena.com">privacy@casaserena.com</a></p>
 </LegalLayout>

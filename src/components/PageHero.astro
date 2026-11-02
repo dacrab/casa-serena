@@ -8,23 +8,29 @@ interface Props {
   label: string;
   title: string;
   subtitle?: string;
-  caption?: string;
-  size?: 'hero' | 'xl';
+  index?: string;
 }
 
-const { image, alt, label, title, subtitle, caption, size = 'xl' } = Astro.props;
+const { image, alt, label, title, subtitle, index } = Astro.props;
 ---
 
-<section class="relative h-svh flex items-end overflow-hidden">
-  <Image data-intro src={image} alt={alt} loading="eager"
-    class="absolute inset-0 w-full h-full object-cover" />
-  <div class="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent"></div>
-  <div class="relative section-px pb-16 md:pb-24 w-full">
-    <p data-intro class="label-xs text-cream/50 mb-3">{label}</p>
-    <h1 data-intro class:list={["font-serif italic font-light text-cream leading-none", size === 'hero' ? 'heading-hero' : 'heading-xl']}>
-      {title}
-    </h1>
-    {subtitle && <p data-intro class="label-xs text-cream/40 mt-4">{subtitle}</p>}
+<section data-hero class="relative flex min-h-[72svh] items-end overflow-hidden bg-ink text-paper">
+  <Image
+    data-intro
+    src={image}
+    alt={alt}
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full object-cover img-grade"
+  />
+  <div class="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/15 to-ink/90"></div>
+
+  <div class="shell relative w-full pb-10 pt-32 md:pb-14">
+    <div data-intro class="flex items-center justify-between border-t border-paper/25 pt-5">
+      <p class="label text-paper/60">{label}</p>
+      {index && <p class="label text-paper/40">{index}</p>}
+    </div>
+    <h1 data-intro class="display-lg mt-7 md:mt-9">{title}</h1>
+    {subtitle && <p data-intro class="label mt-5 text-paper/55">{subtitle}</p>}
   </div>
-  {caption && <p class="absolute bottom-6 right-6 label-xs text-cream/30 hidden md:block">{caption}</p>}
 </section>

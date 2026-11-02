@@ -1,25 +1,49 @@
 ---
+import { Image } from 'astro:assets';
+import detail from '../assets/images/detail.webp';
+
 const amenities = [
-  { n: '01', title: 'Infinity Pool',        detail: 'Saltwater heated year-round' },
+  { n: '01', title: 'Infinity Pool', detail: 'Saltwater, heated year-round' },
   { n: '02', title: 'Private Beach Access', detail: 'Direct pathway to sand' },
-  { n: '03', title: "Chef's Kitchen",       detail: 'Gaggenau appliances, island seating' },
-  { n: '04', title: 'Spa & Steam Suite',    detail: 'Marble sauna and treatment rooms' },
-  { n: '05', title: 'Wine Cellar',          detail: '2,000 bottle capacity, climate controlled' },
-  { n: '06', title: 'Media Room',           detail: 'Dolby Atmos, projection system' },
-  { n: '07', title: 'Tennis Court',         detail: 'Professional grade, night lighting' },
-  { n: '08', title: 'Guest House',          detail: 'Independent 2-bedroom residence' },
+  { n: '03', title: "Chef's Kitchen", detail: 'Gaggenau appliances' },
+  { n: '04', title: 'Spa & Steam Suite', detail: 'Marble sauna and treatment rooms' },
+  { n: '05', title: 'Wine Cellar', detail: '2,000 bottles, climate controlled' },
+  { n: '06', title: 'Media Room', detail: 'Dolby Atmos projection' },
+  { n: '07', title: 'Tennis Court', detail: 'Professional grade, night lighting' },
+  { n: '08', title: 'Guest House', detail: 'Independent two-bedroom residence' },
 ];
 ---
 
-<section class="bg-cream section-px py-16 md:py-24">
-  <div class="max-w-[1400px] mx-auto">
-    <p class="label-xs text-driftwood mb-10">Amenities</p>
-    {amenities.map(({ n, title, detail }) => (
-      <div data-reveal="x" class="grid grid-cols-[3rem_1fr_auto] md:grid-cols-[4rem_1fr_auto] items-baseline gap-4 py-5 border-t border-driftwood/15 last:border-b">
-        <span class="font-serif text-terracotta/40 text-sm font-light">{n}</span>
-        <span class="font-serif italic font-light text-charcoal text-lg md:text-xl">{title}</span>
-        <span class="label-xs text-driftwood text-right hidden sm:block">{detail}</span>
-      </div>
-    ))}
+<section class="section bg-paper">
+  <div class="shell grid gap-12 md:grid-cols-12">
+    <div class="self-start md:sticky md:top-28 md:col-span-4">
+      <p data-reveal class="label text-ink-soft">In residence</p>
+      <h2 data-reveal class="display-md mt-6">
+        Everything,<br />
+        <em>quietly.</em>
+      </h2>
+      <p data-reveal class="mt-6 max-w-xs text-sm leading-relaxed text-ink-soft">
+        The estate is fully staffed but never formal. Breakfast appears when you wake; the pool is warm before you reach
+        it; the boat is ready when the mood takes you.
+      </p>
+      <figure data-reveal="clip" class="media mt-10 aspect-[4/5]">
+        <Image src={detail} alt="Handmade ceramics and plants in the morning light" loading="lazy" class="img-grade" />
+      </figure>
+    </div>
+
+    <div class="md:col-span-7 md:col-start-6 md:pt-2">
+      {amenities.map(({ n, title, detail }) => (
+        <div
+          data-reveal
+          class="group grid grid-cols-[2.5rem_1fr] gap-x-4 gap-y-1 border-t border-line py-6 last:border-b md:grid-cols-[3rem_1fr_auto] md:items-baseline md:gap-6"
+        >
+          <span class="label text-terracotta/70">{n}</span>
+          <h3 class="font-serif text-2xl leading-none transition-transform duration-500 group-hover:translate-x-1 md:text-3xl">
+            {title}
+          </h3>
+          <p class="label col-start-2 text-ink-soft/80 md:col-start-auto md:text-right">{detail}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </section>

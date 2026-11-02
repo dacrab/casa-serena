@@ -8,17 +8,15 @@ import '../styles/global.css';
 interface Props {
   title?: string | undefined;
   description?: string | undefined;
-  image?: string | undefined;
 }
 
 const {
-  title = 'Casa Serena | Beachfront Estate · Santorini, Greece',
-  description = 'A private estate perched on the caldera cliffs of Santorini. Four suites, infinity pool, direct Aegean access.',
-  image = '/images/og.webp',
+  title = 'Casa Serena — A Private Estate in Santorini',
+  description = 'Four suites suspended between the caldera and the Aegean. A private estate in Oia, Santorini, made for slow days and long evenings.',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL(image, Astro.site);
+const ogImage = new URL('/images/og.webp', Astro.site);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -52,11 +50,12 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#C4714A" />
+    <meta name="theme-color" content="#f1ece3" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -71,11 +70,20 @@ const jsonLd = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <Analytics />
     <SpeedInsights />
   </head>
   <body class="flex flex-col min-h-screen">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-4 focus:py-3 focus:text-[0.625rem] focus:uppercase focus:tracking-[0.22em] focus:text-paper"
+    >
+      Skip to content
+    </a>
     <ClientRouter />
     <slot />
     <script>import '../lib/animations';</script>

@@ -1,76 +1,46 @@
 ---
 import { site, socialLinks } from '../lib/site';
-import { suites } from '../data/suites';
-
-const suiteOptions = [
-  { value: '', label: 'No preference' },
-  ...suites.map(({ name, index }) => ({ value: name, label: `${index} — ${name}` })),
-];
+import EnquiryForm from './EnquiryForm.astro';
 ---
 
-<section id="enquire" class="bg-charcoal py-16 md:py-24 section-px">
-  <div class="max-w-5xl mx-auto grid md:grid-cols-[1fr_2fr] gap-12 md:gap-20">
-    <div data-reveal class="flex flex-col justify-between gap-8">
+<section id="enquire" class="section bg-ink text-paper">
+  <div class="shell grid gap-14 md:grid-cols-12 md:gap-8">
+    <div class="flex flex-col justify-between gap-12 md:col-span-5">
       <div>
-        <p class="label-xs text-driftwood mb-4">Private Estate · Santorini</p>
-        <h2 class="font-serif italic font-light text-cream heading-xl leading-none">Stay.</h2>
+        <p data-reveal class="label text-paper/45">Private estate · Santorini</p>
+        <h2 data-reveal class="display-lg mt-6">
+          Stay<br />
+          <em>with us.</em>
+        </h2>
+        <p data-reveal class="body-lg mt-8 max-w-sm text-paper/65">
+          Tell us when you would like to arrive. We will take care of the rest — transfers, tables, boats, and the
+          particular kind of quiet you are looking for.
+        </p>
       </div>
+
       <address class="not-italic">
-        <a href={`mailto:${site.email}`} class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">{site.email}</a>
-        <a href={`tel:${site.phoneHref}`} class="block text-cream/70 hover:text-terracotta transition-colors text-sm py-1">{site.phone}</a>
-        <div class="flex gap-4 label-xs text-driftwood mt-4">
+        <div class="flex flex-col gap-1 border-t border-paper/15 pt-6">
+          <a href={`mailto:${site.email}`} class="w-fit text-sm text-paper/75 transition-colors hover:text-paper">{site.email}</a>
+          <a href={`tel:${site.phoneHref}`} class="w-fit text-sm text-paper/75 transition-colors hover:text-paper">{site.phone}</a>
+        </div>
+        <div class="mt-5 flex gap-5">
           {socialLinks.map(({ href, label }) => (
-            <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="label text-paper/45 transition-colors hover:text-paper"
+            >
               {label}<span class="sr-only"> (opens in new tab)</span>
             </a>
           ))}
         </div>
+        <p class="label mt-8 text-paper/35">{site.addressLine}</p>
       </address>
     </div>
 
-    <form id="enquire-form" class="space-y-6">
-      <div data-reveal class="grid grid-cols-2 gap-6">
-        <label class="block">
-          <span class="label-xs text-driftwood block mb-2">Arrival</span>
-          <input id="arrival" type="date" name="arrival" class="form-input" />
-        </label>
-        <label class="block">
-          <span class="label-xs text-driftwood block mb-2">Departure</span>
-          <input id="departure" type="date" name="departure" class="form-input" />
-        </label>
-      </div>
-
-      <div data-reveal>
-        <label for="suite" class="label-xs text-driftwood block mb-2">Suite</label>
-        <select id="suite" name="suite" class="form-input">
-          {suiteOptions.map(({ value, label }) => (
-            <option value={value}>{label}</option>
-          ))}
-        </select>
-      </div>
-
-      <div data-reveal>
-        <label for="name" class="label-xs text-driftwood block mb-2">Name</label>
-        <input id="name" name="name" required class="form-input" />
-      </div>
-      <div data-reveal>
-        <label for="email" class="label-xs text-driftwood block mb-2">Email</label>
-        <input id="email" type="email" name="email" required class="form-input" />
-      </div>
-      <div data-reveal>
-        <label for="message" class="label-xs text-driftwood block mb-2">
-          Message <span class="opacity-60 italic">(optional)</span>
-        </label>
-        <textarea id="message" name="message" rows="3" class="form-input resize-none"></textarea>
-      </div>
-
-      <button data-reveal type="submit" class="btn-outline label-xs w-full">
-        Send Enquiry
-      </button>
-    </form>
+    <div data-reveal class="md:col-span-6 md:col-start-7 md:pt-4">
+      <EnquiryForm theme="dark" />
+    </div>
   </div>
 </section>
-
-<script>
-  import '../scripts/enquire';
-</script>

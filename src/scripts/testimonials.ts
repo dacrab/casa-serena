@@ -4,80 +4,53 @@ function init() {
   const section = document.querySelector<HTMLElement>('[data-testimonials]');
   if (!section) return;
 
-  const quotes = section.querySelectorAll<HTMLElement>('[data-testimonial]');
-  const dots = section.querySelectorAll<HTMLButtonElement>('[data-dot]');
+  const quotes = Array.from(section.querySelectorAll<HTMLElement>('[data-testimonial]'));
+  const dots = Array.from(section.querySelectorAll<HTMLButtonElement>('[data-dot]'));
   const counter = section.querySelector<HTMLElement>('[data-testimonial-counter]');
-  if (!quotes.length || !dots.length || !counter) return;
+  if (!quotes.length || dots.length !== quotes.length || !counter) return;
 
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let current = 0;
   let timer: ReturnType<typeof setInterval> | undefined;
-  let paused = false;
 
-  function show(i: number) {
-    quotes[current]!.classList.add('hidden');
-    dots[current]!.classList.remove('bg-terracotta');
-    dots[current]!.classList.add('bg-cream/20');
+  const show = (index: number) => {
+    quotes[current]!.hidden = true;
     dots[current]!.removeAttribute('aria-current');
 
-    current = i;
-    quotes[current]!.classList.remove('hidden');
-    dots[current]!.classList.remove('bg-cream/20');
-    dots[current]!.classList.add('bg-terracotta');
+    current = (index + quotes.length) % quotes.length;
+
+    quotes[current]!.hidden = false;
     dots[current]!.setAttribute('aria-current', 'true');
-    counter!.textContent = `${current + 1} / ${quotes.length}`;
-  }
-
-  const stopTimer = () => {
-    if (timer !== undefined) {
-      clearInterval(timer);
-      timer = undefined;
-    }
+    counter.textContent = `${current + 1} / ${quotes.length}`;
   };
 
-  const startTimer = () => {
-    stopTimer();
-    if (reducedMotion || paused) return;
-    timer = setInterval(() => show((current + 1) % quotes.length), 6000);
+  const stop = () => {
+    if (timer !== undefined) clearInterval(timer);
+    timer = undefined;
   };
 
-  const pause = () => {
-    paused = true;
-    stopTimer();
-  };
-
-  const resume = () => {
-    paused = false;
-    startTimer();
+  const start = () => {
+    stop();
+    if (!reducedMotion) timer = setInterval(() => show(current + 1), 6000);
   };
 
   const onDotClick = (event: Event) => {
     const index = Number((event.currentTarget as HTMLElement).dataset.dot);
-    if (!Number.isNaN(index)) {
-      show(index);
-      startTimer();
-    }
+    if (!Number.isNaN(index)) show(index);
   };
 
   const onFocusOut = (event: FocusEvent) => {
-    if (!section.contains(event.relatedTarget as Node | null)) resume();
+    if (!section.contains(event.relatedTarget as Node | null)) start();
   };
 
   dots.forEach(dot => dot.addEventListener('click', onDotClick));
-  section.addEventListener('mouseenter', pause);
-  section.addEventListener('mouseleave', resume);
-  section.addEventListener('focusin', pause);
+  section.addEventListener('mouseenter', stop);
+  section.addEventListener('mouseleave', start);
+  section.addEventListener('focusin', stop);
   section.addEventListener('focusout', onFocusOut);
-  startTimer();
+  start();
 
-  return () => {
-    stopTimer();
-    dots.forEach(dot => dot.removeEventListener('click', onDotClick));
-    section.removeEventListener('mouseenter', pause);
-    section.removeEventListener('mouseleave', resume);
-    section.removeEventListener('focusin', pause);
-    section.removeEventListener('focusout', onFocusOut);
-  };
+  return () => stop();
 }
 
 onPageLoad(init);

@@ -2,128 +2,119 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { Image } from 'astro:assets';
-import gallery1 from '../assets/images/gallery-1.webp';
-import gallery2 from '../assets/images/gallery-2.webp';
-import gallery3 from '../assets/images/gallery-3.webp';
-import gallery4 from '../assets/images/gallery-4.webp';
-import gallery5 from '../assets/images/gallery-5.webp';
-import quote from '../assets/images/quote.webp';
-import about from '../assets/images/about.webp';
+import caldera from '../assets/images/caldera.webp';
+import pool from '../assets/images/pool.webp';
+import estate from '../assets/images/estate.webp';
+import architecture from '../assets/images/architecture.webp';
+import terrace from '../assets/images/terrace.webp';
+import garden from '../assets/images/garden.webp';
+import door from '../assets/images/door.webp';
+import sunset from '../assets/images/sunset.webp';
+import boats from '../assets/images/boats.webp';
+import detail from '../assets/images/detail.webp';
+import sea from '../assets/images/sea.webp';
+import heroPoster from '../assets/images/hero-poster.webp';
 
 const images = [
-  { src: gallery1, alt: 'Estate exterior at golden hour' },
-  { src: quote,    alt: 'Infinity pool at sunset' },
-  { src: gallery2, alt: 'Beachfront pool terrace' },
-  { src: about,    alt: 'Living space with caldera views' },
-  { src: gallery3, alt: 'Panoramic hillside view' },
-  { src: gallery4, alt: "Chef's kitchen" },
-  { src: gallery5, alt: 'Master suite at dusk' },
-  { src: gallery1, alt: 'Private terrace morning light' },
-  { src: gallery2, alt: 'Spa treatment room' },
-  { src: quote,    alt: 'Pool at twilight' },
-  { src: gallery3, alt: 'Garden pathway' },
-  { src: gallery5, alt: 'Suite bathroom detail' },
+  { src: caldera, alt: 'The caldera and the village of Oia from above', caption: 'Oia and the caldera' },
+  { src: estate, alt: 'The pool terrace, shaded by whitewashed walls', caption: 'The pool terrace' },
+  { src: terrace, alt: 'A whitewashed dome against the Aegean', caption: 'The dome, at noon' },
+  { src: pool, alt: 'A plunge pool above the caldera', caption: 'The plunge pool' },
+  { src: architecture, alt: 'Sculpted whitewashed Cycladic architecture', caption: 'White on white' },
+  { src: garden, alt: 'Succulents on a wall above the caldera', caption: 'The garden wall' },
+  { src: door, alt: 'A blue door set into a whitewashed wall', caption: 'The blue door' },
+  { src: detail, alt: 'Pots and succulents on a sunlit wall', caption: 'Morning, on the wall' },
+  { src: sunset, alt: 'The caldera at sunset', caption: 'Sunset, from the terrace' },
+  { src: boats, alt: 'A fishing boat below the caldera cliffs', caption: 'Below the cliffs' },
+  { src: sea, alt: 'The open Aegean', caption: 'The open Aegean' },
+  { src: heroPoster, alt: 'The estate seen from above', caption: 'The estate, from the west' },
 ];
 
-type GalleryCell = {
-  /** Index into `images`. */
-  image: number;
-  /** Lightbox trigger index — ordering is intentionally irregular, preserve as-is. */
-  trigger: number;
-  /** Grid span, when the cell is wider than one column. */
-  span?: 2;
-  /** Image aspect ratio; omitted = square (uses `aspect-square` on the cell). */
-  aspect?: '16/9' | '3/4' | '4/3' | '21/9';
-  /** Whether the image gets `h-full` (off only for the lone 21/9 banner). */
-  hFull?: boolean;
-};
-
-type GalleryBlock = {
-  /** Grid wrapper class; omitted = full-width single cell without a wrapper. Kept as a static literal so Tailwind can scan it. */
-  wrap?: string;
-  cells: GalleryCell[];
-};
-
-const blocks: GalleryBlock[] = [
-  {
-    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
-    cells: [
-      { image: 1, trigger: 1, span: 2, aspect: '16/9' },
-      { image: 2, trigger: 2, aspect: '3/4' },
-    ],
-  },
-  {
-    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
-    cells: [
-      { image: 3, trigger: 3 },
-      { image: 4, trigger: 4 },
-      { image: 5, trigger: 5 },
-    ],
-  },
-  {
-    wrap: 'grid grid-cols-3 gap-3 md:gap-4',
-    cells: [
-      { image: 6, trigger: 6, aspect: '3/4' },
-      { image: 7, trigger: 7, span: 2, aspect: '16/9' },
-    ],
-  },
-  {
-    wrap: 'grid grid-cols-2 gap-3 md:gap-4',
-    cells: [
-      { image: 8, trigger: 8, aspect: '4/3' },
-      { image: 9, trigger: 9, aspect: '4/3' },
-    ],
-  },
-  {
-    // Full-width 21/9 banner — no grid wrapper.
-    cells: [{ image: 10, trigger: 10, aspect: '21/9', hFull: false }],
-  },
-  {
-    wrap: 'grid grid-cols-3 gap-3 md:gap-4 pb-4 md:pb-6',
-    cells: [
-      { image: 11, trigger: 11 },
-      { image: 0, trigger: 0, aspect: '3/4' },
-      { image: 4, trigger: 4 },
-    ],
-  },
+const aspects = [
+  'aspect-[4/3]',
+  'aspect-[3/4]',
+  'aspect-[4/5]',
+  'aspect-[3/4]',
+  'aspect-square',
+  'aspect-square',
+  'aspect-[4/3]',
+  'aspect-[3/4]',
+  'aspect-[4/5]',
+  'aspect-square',
+  'aspect-[16/9]',
+  'aspect-[16/10]',
 ];
 ---
 
-<PageLayout title="Gallery — Casa Serena | Santorini" description="Explore Casa Serena through our gallery — the estate, suites, pool, and caldera views." mainClass="bg-gallery-bg min-h-screen">
+<PageLayout
+  overHero
+  title="Gallery — Casa Serena | Santorini"
+  description="Explore Casa Serena through the estate, the suites, the pool, and the caldera."
+>
   <PageHero
-    image={about}
-    alt="Casa Serena interior living space"
+    image={caldera}
+    alt="The caldera and the village of Oia"
     label="Gallery"
     title="The Estate"
-    caption={images[0]!.alt}
+    subtitle="Twelve frames · Oia, Santorini"
+    index="01 — 12"
   />
 
-  <section class="section-px py-4 md:py-6 space-y-3 md:space-y-4">
-    {blocks.map(({ wrap, cells }) =>
-      wrap ? (
-        <div class={wrap}>
-          {cells.map(({ image, trigger, span, aspect, hFull = true }) => (
-            <div data-reveal class={`${span ? 'col-span-2 ' : ''}overflow-hidden${aspect ? '' : ' aspect-square'} cursor-pointer`} data-lightbox-trigger={trigger}>
-              <Image src={images[image]!.src} alt={images[image]!.alt} loading="lazy" class={`w-full${hFull ? ' h-full' : ''} object-cover gallery-img`} style={aspect && `aspect-ratio:${aspect}`} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        cells.map(({ image, trigger, span, aspect, hFull = true }) => (
-          <div data-reveal class={`${span ? 'col-span-2 ' : ''}overflow-hidden${aspect ? '' : ' aspect-square'} cursor-pointer`} data-lightbox-trigger={trigger}>
-            <Image src={images[image]!.src} alt={images[image]!.alt} loading="lazy" class={`w-full${hFull ? ' h-full' : ''} object-cover gallery-img`} style={aspect && `aspect-ratio:${aspect}`} />
-          </div>
-        ))
-      )
-    )}
+  <section class="section shell">
+    <div class="mb-12 flex flex-col gap-4 border-b border-line pb-5 sm:flex-row sm:items-end sm:justify-between md:mb-16">
+      <p data-reveal class="label text-ink-soft">Selected frames</p>
+      <p data-reveal class="max-w-sm text-sm leading-relaxed text-ink-soft">
+        The house, the island, and the light at different hours. Click any frame to view it full-screen.
+      </p>
+    </div>
+
+    <div class="columns-2 gap-3 md:columns-3 md:gap-4">
+      {images.map((item, i) => (
+        <figure data-reveal class="mb-3 break-inside-avoid md:mb-4">
+          <button
+            type="button"
+            data-lightbox-trigger={i}
+            data-lightbox-caption={item.caption}
+            aria-label={`View image: ${item.alt}`}
+            aria-haspopup="dialog"
+            class:list={['media block w-full overflow-hidden', aspects[i]]}
+          >
+            <Image src={item.src} alt={item.alt} loading="lazy" class="img-grade" />
+          </button>
+          <figcaption class="caption mt-2 flex items-baseline justify-between gap-3">
+            <span>{item.caption}</span>
+            <span class="text-ink-soft/50">{String(i + 1).padStart(2, '0')}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
   </section>
 
   <dialog id="lightbox" aria-label="Image lightbox">
-    <button id="lb-close" class="absolute top-5 right-6 label-xs text-cream/50 hover:text-cream z-10" aria-label="Close">✕ Close</button>
-    <button id="lb-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream text-3xl z-10 w-12 h-12 flex items-center justify-center" aria-label="Previous">&#8592;</button>
-    <button id="lb-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-cream/40 hover:text-cream text-3xl z-10 w-12 h-12 flex items-center justify-center" aria-label="Next">&#8594;</button>
-    <img id="lb-img" class="max-h-[88vh] max-w-[88vw] object-contain" alt="" />
-    <p id="lb-caption" class="absolute bottom-6 left-1/2 -translate-x-1/2 label-xs text-cream/40"></p>
+    <div class="flex h-full flex-col">
+      <div class="flex items-center justify-between border-b border-paper/10 px-5 py-4">
+        <p class="label text-paper/45">Casa Serena · Gallery</p>
+        <button id="lb-close" class="label flex h-11 items-center gap-2 text-paper/60 transition-colors hover:text-paper" aria-label="Close">
+          Close <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+
+      <div class="relative flex flex-1 items-center justify-center p-4 md:p-8">
+        <button
+          id="lb-prev"
+          class="absolute left-3 z-10 flex h-12 w-12 items-center justify-center border border-paper/15 text-xl text-paper/60 transition-colors hover:border-paper/40 hover:text-paper md:left-8"
+          aria-label="Previous image">←</button
+        >
+        <img id="lb-img" class="max-h-[76vh] max-w-[86vw] object-contain" alt="" />
+        <button
+          id="lb-next"
+          class="absolute right-3 z-10 flex h-12 w-12 items-center justify-center border border-paper/15 text-xl text-paper/60 transition-colors hover:border-paper/40 hover:text-paper md:right-8"
+          aria-label="Next image">→</button
+        >
+      </div>
+
+      <p id="lb-caption" class="label pb-6 text-center text-paper/45"></p>
+    </div>
   </dialog>
 
   <script>

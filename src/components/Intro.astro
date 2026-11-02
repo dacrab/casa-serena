@@ -1,38 +1,64 @@
 ---
 import { Image } from 'astro:assets';
-import aboutImg from '../assets/images/about.webp';
+import { site } from '../lib/site';
+import door from '../assets/images/door.webp';
+import detail from '../assets/images/detail.webp';
 
 const stats = [
-  { n: '8',    label: 'Acres' },
-  { n: '180°', label: 'Caldera View' },
-  { n: '4',    label: 'Suites' },
+  { value: '1987', label: 'The original villa' },
+  { value: '2019', label: 'Reimagined' },
+  { value: '08', label: 'Acres of garden' },
 ];
 ---
 
-<section id="intro" class="bg-warm-white">
-  <div class="relative overflow-hidden">
-    <div data-reveal="scale" class="overflow-hidden">
-      <Image src={aboutImg} alt="Casa Serena living space" loading="lazy"
-        class="w-full h-[70vh] md:h-[85vh] object-cover" />
+<section id="intro" class="section shell">
+  <div class="grid gap-14 md:grid-cols-12 md:gap-8">
+    <div class="relative md:col-span-7">
+      <figure data-reveal="clip" class="media aspect-[4/5] md:aspect-[5/6]">
+        <Image
+          src={door}
+          alt="A blue door set into a whitewashed wall"
+          loading="lazy"
+          class="img-grade"
+        />
+      </figure>
+      <figure
+        data-reveal
+        class="media absolute bottom-24 -right-4 hidden aspect-[3/4] w-[32%] border-[10px] border-limestone md:block lg:-right-10"
+      >
+        <Image src={detail} alt="Handmade pots and succulents on a sunlit terrace" loading="lazy" class="img-grade" />
+      </figure>
+      <p class="caption mt-4 flex items-center justify-between gap-4">
+        <span>The blue door, at midday</span>
+        <span class="hidden sm:inline">{site.geo.latitude}° N, {site.geo.longitude}° E</span>
+      </p>
     </div>
-    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-warm-white via-warm-white/60 to-transparent pt-24 pb-10 md:pb-14 section-px">
-      <p class="label-xs text-driftwood mb-4">Est. 1987 · Reimagined 2019</p>
-      <h2 class="font-serif italic font-light text-charcoal leading-tight heading-lg max-w-xl">A house that breathes.</h2>
-    </div>
-  </div>
 
-  <div class="section-px py-10 md:py-16 grid md:grid-cols-[1fr_auto] gap-10 md:gap-20 items-end max-w-[1400px] mx-auto">
-    <p data-reveal class="text-charcoal/70 leading-relaxed max-w-lg border-l-2 border-terracotta pl-5">
-      Designed to dissolve boundaries between interior and ocean,
-      Casa Serena is where architecture whispers rather than shouts.
-    </p>
-    <div class="flex gap-10 md:gap-14">
-      {stats.map(({ n, label }) => (
-        <div data-reveal class="text-center md:text-right">
-          <div class="font-serif text-4xl md:text-5xl font-light text-terracotta">{n}</div>
-          <div class="label-xs text-driftwood mt-1">{label}</div>
-        </div>
-      ))}
+    <div class="flex flex-col justify-end md:col-span-4 md:col-start-9 md:pb-16">
+      <p data-reveal class="label text-ink-soft">The estate</p>
+      <h2 data-reveal class="display-md mt-6">
+        A house that<br />
+        <em>breathes</em> with<br />
+        the sea.
+      </h2>
+      <p data-reveal class="body-lg mt-8 text-ink-soft">
+        Carved into the caldera cliffs above Oia, Casa Serena is a private estate of four suites, an infinity pool, and
+        eight acres of terraced gardens.
+      </p>
+      <p data-reveal class="mt-5 max-w-sm text-sm leading-relaxed text-ink-soft/85">
+        There is no lobby, no reception desk, no key card. The house keeps its own rhythm — whitewashed walls, cool stone
+        underfoot, the Aegean always somewhere in the frame.
+      </p>
+      <a data-reveal href="/about" class="link-line mt-9 self-start">Our story</a>
+
+      <dl data-reveal class="mt-12 grid grid-cols-3 gap-5 border-t border-line pt-6">
+        {stats.map(({ value, label }) => (
+          <div>
+            <dt class="font-serif text-2xl leading-none text-terracotta">{value}</dt>
+            <dd class="label mt-2 text-ink-soft/80">{label}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   </div>
 </section>

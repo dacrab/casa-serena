@@ -1,73 +1,111 @@
 ---
 import { navLinks, site } from '../lib/site';
 
+interface Props {
+  overHero?: boolean;
+}
+
+const { overHero = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isActive = (href: string) => href === path;
 ---
 
-<nav class="fixed top-0 inset-x-0 z-50 flex justify-between items-center section-px py-4 md:py-5">
-  <a href="/" data-intro class="nav-logo font-serif text-sm tracking-widest">{site.name.toUpperCase()}</a>
-
-  <div class="hidden md:flex gap-8">
-    {navLinks.map(({ href, label }) => (
-      <a href={href} aria-current={isActive(href) ? 'page' : undefined} class:list={["nav-link label-xs", isActive(href) && "nav-link--active"]}>{label}</a>
-    ))}
-  </div>
-
-  <button
-    type="button"
-    data-nav-toggle
-    aria-label="Toggle menu"
-    aria-controls="nav-overlay"
-    aria-expanded="false"
-    class="md:hidden relative flex flex-col items-center justify-center gap-1.5 w-11 h-11 -mr-2"
-  >
-    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
-    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
-  </button>
-</nav>
-
-<dialog
-  id="nav-overlay"
-  aria-label="Site navigation"
-  class="md:hidden flex-col items-center justify-center"
+<nav
+  data-nav
+  data-solid={overHero ? 'false' : 'true'}
+  class="site-nav fixed top-0 inset-x-0 z-50"
 >
-  <button
-    type="button"
-    data-nav-close
-    aria-label="Close menu"
-    class="absolute top-4 right-3 flex flex-col items-center justify-center gap-1.5 w-11 h-11"
-  >
-    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
-    <span data-bar class="bar block w-6 h-0.5 origin-center"></span>
-  </button>
+  <div class="shell flex h-16 items-center justify-between md:h-20">
+    <a href="/" class="flex items-baseline gap-3" aria-label="Casa Serena — home">
+      <span class="font-serif text-[1.65rem] leading-none tracking-[-0.01em]">Casa Serena</span>
+      <span class="label hidden opacity-55 sm:block">Oia · Santorini</span>
+    </a>
 
-  <ul class="space-y-6 text-center">
-    {navLinks.map(({ href, label }) => (
-      <li>
-        <a href={href} aria-current={isActive(href) ? 'page' : undefined} class:list={["font-serif italic text-4xl sm:text-5xl hover:text-terracotta", isActive(href) ? "text-terracotta" : "text-cream"]}>
+    <div class="hidden items-center gap-7 lg:flex">
+      {navLinks.map(({ href, label }) => (
+        <a
+          href={href}
+          aria-current={isActive(href) ? 'page' : undefined}
+          class:list={[
+            'label py-2 transition-opacity hover:opacity-60',
+            isActive(href) && 'opacity-60',
+          ]}
+        >
           {label}
         </a>
+      ))}
+      <a href="/enquire" class="label ml-2 border px-5 py-3 transition-opacity hover:opacity-60">
+        Enquire
+      </a>
+    </div>
+
+    <button
+      type="button"
+      data-nav-toggle
+      aria-label="Open menu"
+      aria-controls="nav-overlay"
+      aria-expanded="false"
+      class="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-[7px] lg:hidden"
+    >
+      <span class="block h-px w-7 bg-current"></span>
+      <span class="block h-px w-7 bg-current"></span>
+    </button>
+  </div>
+</nav>
+
+<dialog id="nav-overlay" aria-label="Site navigation" class="lg:hidden">
+  <div class="shell flex min-h-svh flex-col justify-between py-6">
+    <div class="flex items-center justify-between">
+      <a href="/" class="font-serif text-[1.65rem] leading-none">Casa Serena</a>
+      <button
+        type="button"
+        data-nav-close
+        aria-label="Close menu"
+        class="flex h-11 w-11 items-center justify-center text-2xl"
+      >
+        <span aria-hidden="true">✕</span>
+      </button>
+    </div>
+
+    <ul class="space-y-1 py-10">
+      {navLinks.map(({ href, label }, i) => (
+        <li>
+          <a
+            href={href}
+            aria-current={isActive(href) ? 'page' : undefined}
+            class:list={[
+              'group flex items-baseline gap-5 border-b border-paper/15 py-4',
+              isActive(href) ? 'text-terracotta' : 'text-paper',
+            ]}
+          >
+            <span class="label w-6 shrink-0 opacity-50">0{i + 1}</span>
+            <span class="font-serif text-[2.6rem] leading-none tracking-[-0.02em]">{label}</span>
+          </a>
+        </li>
+      ))}
+      <li>
+        <a
+          href="/enquire"
+          aria-current={isActive('/enquire') ? 'page' : undefined}
+          class:list={[
+            'group flex items-baseline gap-5 border-b border-paper/15 py-4',
+            isActive('/enquire') ? 'text-terracotta' : 'text-paper',
+          ]}
+        >
+          <span class="label w-6 shrink-0 opacity-50">05</span>
+          <span class="font-serif text-[2.6rem] leading-none tracking-[-0.02em]">Enquire</span>
+        </a>
       </li>
-    ))}
-  </ul>
+    </ul>
+
+    <div class="flex flex-col gap-1 border-t border-paper/15 pt-6">
+      <a href={`mailto:${site.email}`} class="text-sm text-paper/70 transition-colors hover:text-paper">{site.email}</a>
+      <a href={`tel:${site.phoneHref}`} class="text-sm text-paper/70 transition-colors hover:text-paper">{site.phone}</a>
+      <p class="label mt-4 text-paper/40">{site.addressLine}</p>
+    </div>
+  </div>
 </dialog>
 
 <script>
   import '../scripts/nav';
 </script>
-
-<style>
-  nav { mix-blend-mode: difference; }
-  nav .nav-logo,
-  nav .nav-link { color: #fff; }
-  nav .nav-link { opacity: 0.8; transition: opacity 0.3s; }
-  nav .nav-link:hover { opacity: 1; }
-  nav .nav-link--active { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
-  nav .bar { background: #fff; transition: transform 0.2s; }
-  [data-nav-toggle].is-open [data-bar]:first-child { transform: rotate(45deg) translateY(4px); }
-  [data-nav-toggle].is-open [data-bar]:last-child { transform: rotate(-45deg) translateY(-4px); }
-  [data-nav-close] .bar { background: #fff; transition: transform 0.2s; }
-  [data-nav-close] [data-bar]:first-child { transform: rotate(45deg) translateY(4px); }
-  [data-nav-close] [data-bar]:last-child { transform: rotate(-45deg) translateY(-4px); }
-</style>

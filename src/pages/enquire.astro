@@ -1,9 +1,67 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Enquire from '../components/Enquire.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { Image } from 'astro:assets';
+import estate from '../assets/images/estate.webp';
+import { site } from '../lib/site';
 ---
 
-<PageLayout title="Enquire — Casa Serena | Santorini" description="Reserve your stay at Casa Serena. Contact us to check availability and book your suite." mainClass="flex-1 pt-20 md:pt-24">
-  <h1 class="sr-only">Enquire about a stay at Casa Serena</h1>
-  <Enquire />
+<PageLayout
+  title="Enquire — Casa Serena | Santorini"
+  description="Reserve your stay at Casa Serena. Contact us to check availability and book your suite."
+  mainClass="flex-1 bg-paper"
+>
+  <section class="shell pb-14 pt-32 md:pb-20 md:pt-40">
+    <div class="grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <p data-intro class="label text-ink-soft">Enquiries</p>
+        <h1 data-intro class="display-lg mt-5">
+          Begin your<br />
+          <em>stay.</em>
+        </h1>
+        <p data-intro class="body-lg mt-8 max-w-lg text-ink-soft">
+          Tell us when you would like to arrive and who is coming with you. We will reply personally with availability,
+          a suggested suite, and the details that make the days feel effortless.
+        </p>
+      </div>
+
+      <div class="flex flex-col justify-end gap-3 md:col-span-4 md:col-start-9">
+        <p data-intro class="label text-ink-soft">Direct</p>
+        <a
+          data-intro
+          href={`mailto:${site.email}`}
+          class="w-fit font-serif text-2xl leading-tight transition-colors hover:text-terracotta md:text-3xl">{site.email}</a
+        >
+        <a
+          data-intro
+          href={`tel:${site.phoneHref}`}
+          class="w-fit font-serif text-2xl leading-tight transition-colors hover:text-terracotta md:text-3xl">{site.phone}</a
+        >
+        <p data-intro class="caption mt-3 max-w-[15rem]">We reply within one working day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell pb-20 md:pb-28">
+    <div class="grid gap-10 md:grid-cols-12">
+      <figure data-reveal="clip" class="md:col-span-5">
+        <div class="media aspect-[4/5]">
+          <Image src={estate} alt="Whitewashed terraces and a plunge pool above the caldera" loading="lazy" class="img-grade" />
+        </div>
+        <figcaption class="caption mt-3 flex items-center justify-between gap-4">
+          <span>The west terrace, late afternoon</span>
+          <span class="hidden sm:inline">Oia · Santorini</span>
+        </figcaption>
+      </figure>
+
+      <div class="md:col-span-6 md:col-start-7">
+        <div class="border-t border-line pt-6">
+          <p class="label text-ink-soft">Your details</p>
+          <div class="mt-7">
+            <EnquiryForm theme="light" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </PageLayout>

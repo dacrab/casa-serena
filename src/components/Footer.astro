@@ -1,20 +1,62 @@
 ---
-import { site, socialLinks } from '../lib/site';
+import { navLinks, site, socialLinks } from '../lib/site';
+
+const year = new Date().getFullYear();
 ---
 
-<footer class="bg-charcoal border-t border-cream/10 section-px py-8 mt-auto">
-  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-    <a href="/" class="font-serif text-sm tracking-widest text-cream shrink-0">CASA SERENA</a>
-    <nav class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-cream/40">
-      <a href={`mailto:${site.email}`} class="hover:text-cream transition-colors">{site.email}</a>
-      <a href="/privacy" class="hover:text-cream transition-colors">Privacy</a>
-      <a href="/terms" class="hover:text-cream transition-colors">Terms</a>
-      {socialLinks.map(({ href, label }) => (
-        <a href={href} target="_blank" rel="noopener noreferrer" class="hover:text-cream transition-colors">
-          {label}<span class="sr-only"> (opens in new tab)</span>
-        </a>
-      ))}
-    </nav>
-    <span class="text-xs text-driftwood/40 shrink-0">© {new Date().getFullYear()}</span>
+<footer class="mt-auto overflow-hidden bg-ink text-paper">
+  <div class="shell pt-16 md:pt-24">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <p class="label text-paper/45">Casa Serena</p>
+        <p class="display-md mt-6">
+          A private estate<br /><em>in Oia.</em>
+        </p>
+        <address class="mt-8 max-w-xs text-sm not-italic leading-relaxed text-paper/55">
+          {site.address.street}<br />
+          {site.address.locality}, {site.address.region} {site.address.postalCode}<br />
+          {site.address.country}
+        </address>
+      </div>
+
+      <div class="md:col-span-3 md:col-start-7">
+        <p class="label text-paper/45">Explore</p>
+        <nav class="mt-6 flex flex-col gap-1" aria-label="Footer navigation">
+          {navLinks.map(({ href, label }) => (
+            <a href={href} class="w-fit text-sm text-paper/70 transition-colors hover:text-paper">{label}</a>
+          ))}
+        </nav>
+      </div>
+
+      <div class="md:col-span-3">
+        <p class="label text-paper/45">Contact</p>
+        <div class="mt-6 flex flex-col gap-1 text-sm text-paper/70">
+          <a href={`mailto:${site.email}`} class="w-fit transition-colors hover:text-paper">{site.email}</a>
+          <a href={`tel:${site.phoneHref}`} class="w-fit transition-colors hover:text-paper">{site.phone}</a>
+          {socialLinks.map(({ href, label }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer" class="w-fit transition-colors hover:text-paper">
+              {label}<span class="sr-only"> (opens in new tab)</span>
+            </a>
+          ))}
+        </div>
+        <a href="/enquire" class="link-line mt-8 text-paper">Enquire</a>
+      </div>
+    </div>
+
+    <div class="mt-16 flex flex-col gap-3 border-t border-paper/15 pt-6 text-[0.625rem] uppercase tracking-[0.18em] text-paper/40 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} Casa Serena</p>
+      <div class="flex flex-wrap gap-x-5 gap-y-1">
+        <a href="/privacy" class="transition-colors hover:text-paper">Privacy</a>
+        <a href="/terms" class="transition-colors hover:text-paper">Terms</a>
+        <span>Santorini, Greece</span>
+      </div>
+    </div>
+
+    <p
+      class="pointer-events-none mt-10 select-none whitespace-nowrap text-center font-serif text-[16.5vw] leading-[0.8] tracking-[-0.045em] text-paper/[0.055]"
+      aria-hidden="true"
+    >
+      Casa Serena
+    </p>
   </div>
 </footer>

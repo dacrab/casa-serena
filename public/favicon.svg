@@ -1,18 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <!-- Charcoal background -->
-  <rect width="32" height="32" fill="#2A2320"/>
-
-  <!-- Thin terracotta horizontal rule — top -->
-  <line x1="8" y1="9" x2="24" y2="9" stroke="#C4714A" stroke-width="0.75"/>
-
-  <!-- "C" — open arc, thin elegant stroke -->
-  <path d="M19 11.5 C17 10 13 10 11 12.5 C9.5 14.5 9.5 17.5 11 19.5 C13 22 17 22 19 20.5"
-        stroke="#F5F0E8" stroke-width="1.25" stroke-linecap="round" fill="none"/>
-
-  <!-- "S" — double curve, sits to the right, slightly overlapping -->
-  <path d="M20 13 C22.5 13 23.5 14 22 15.5 C20.5 17 19.5 17 21 18.5 C22.5 20 23.5 21 21 21"
-        stroke="#C4714A" stroke-width="1.25" stroke-linecap="round" fill="none"/>
-
-  <!-- Thin terracotta horizontal rule — bottom -->
-  <line x1="8" y1="23" x2="24" y2="23" stroke="#C4714A" stroke-width="0.75"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#211c18"/>
+  <path d="M21 50V30a11 11 0 0 1 22 0v20Z" fill="#faf7f1"/>
+  <circle cx="38" cy="38" r="1.7" fill="#a9512c"/>
+  <path d="M17 53h30" stroke="#a9512c" stroke-width="2" stroke-linecap="round"/>
 </svg>

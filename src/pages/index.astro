@@ -2,42 +2,77 @@
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/Hero.astro';
 import Intro from '../components/Intro.astro';
-import Gallery from '../components/Gallery.astro';
+import SuitesPreview from '../components/SuitesPreview.astro';
+import GalleryPreview from '../components/GalleryPreview.astro';
 import Amenities from '../components/Amenities.astro';
+import Testimonials from '../components/Testimonials.astro';
 import Location from '../components/Location.astro';
 import Enquire from '../components/Enquire.astro';
-import Testimonials from '../components/Testimonials.astro';
 
 const faqs = [
-  { q: 'What is the minimum stay?', a: '3 nights year-round, with a 5-night minimum during July and August. We find this allows guests to truly settle into the rhythm of the estate.' },
-  { q: 'Is the estate suitable for children?', a: 'Absolutely. We welcome families and can arrange childproofing, high chairs, cots, and vetted childcare. Please note the property has unfenced cliff edges and an infinity pool — supervision is required for young children.' },
-  { q: 'How do I get to the estate from the airport?', a: 'We provide complimentary private transfers in our Mercedes V-Class for all guests. The drive from Santorini Airport takes approximately 25 minutes. Helicopter transfers from Athens or Mykonos can also be arranged.' },
-  { q: 'Can I book the entire estate exclusively?', a: 'Yes. Full estate buyouts are available for up to 16 guests across all four suites. This is popular for celebrations, retreats, and family gatherings. Contact us for exclusive-use pricing.' },
-  { q: 'What is your cancellation policy?', a: 'Cancellations 60+ days before arrival receive a full refund minus a €200 fee. 30–59 days: 50% retained. Less than 30 days: no refund. We strongly recommend travel insurance.' },
-  { q: 'Is Wi-Fi available?', a: 'Yes — high-speed fibre Wi-Fi is available throughout the estate, including all outdoor terraces and the pool area. We also offer a "digital detox" option where we can disable connectivity in your suite on request.' },
+  {
+    q: 'What is the minimum stay?',
+    a: 'Three nights year-round, with a five-night minimum during July and August. We find this allows guests to truly settle into the rhythm of the estate.',
+  },
+  {
+    q: 'Is the estate suitable for children?',
+    a: 'Absolutely. We welcome families and can arrange childproofing, high chairs, cots, and vetted childcare. Please note the property has unfenced cliff edges and an infinity pool — supervision is required for young children.',
+  },
+  {
+    q: 'How do I get to the estate from the airport?',
+    a: 'We provide complimentary private transfers in our Mercedes V-Class for all guests. The drive from Santorini Airport takes approximately 25 minutes. Helicopter transfers from Athens or Mykonos can also be arranged.',
+  },
+  {
+    q: 'Can I book the entire estate exclusively?',
+    a: 'Yes. Full estate buyouts are available for up to 16 guests across all four suites. This is popular for celebrations, retreats, and family gatherings. Contact us for exclusive-use pricing.',
+  },
+  {
+    q: 'What is your cancellation policy?',
+    a: 'Cancellations 60+ days before arrival receive a full refund minus a €200 fee. 30–59 days: 50% retained. Less than 30 days: no refund. We strongly recommend travel insurance.',
+  },
+  {
+    q: 'Is Wi-Fi available?',
+    a: 'Yes — high-speed fibre Wi-Fi is available throughout the estate, including all outdoor terraces and the pool area. We also offer a “digital detox” option where we can disable connectivity in your suite on request.',
+  },
 ];
 ---
 
-<PageLayout>
+<PageLayout overHero>
   <Hero />
   <Intro />
-  <Gallery />
+  <SuitesPreview />
+  <GalleryPreview />
   <Amenities />
   <Testimonials />
 
-  <section class="bg-warm-white py-20 md:py-32 section-px">
-    <div class="max-w-3xl mx-auto">
-      <p class="label-xs text-driftwood mb-12">Common Questions</p>
-      {faqs.map(({ q, a }) => (
-        <details class="border-t border-charcoal/10 group">
-          <summary class="flex w-full justify-between items-start gap-6 py-7 text-left cursor-pointer">
-            <span class="font-serif italic font-light text-charcoal text-xl md:text-2xl leading-snug">{q}</span>
-            <span class="text-terracotta text-2xl leading-none shrink-0 mt-1 transition-transform duration-300 group-open:rotate-45">+</span>
-          </summary>
-          <p class="text-charcoal/55 text-sm leading-relaxed pb-7 max-w-2xl">{a}</p>
-        </details>
-      ))}
-      <div class="border-t border-charcoal/10"></div>
+  <section class="section bg-limestone">
+    <div class="shell grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-4">
+        <p data-reveal class="label text-ink-soft">Good to know</p>
+        <h2 data-reveal class="display-md mt-6">
+          A few<br />
+          <em>questions.</em>
+        </h2>
+        <p data-reveal class="mt-6 max-w-xs text-sm leading-relaxed text-ink-soft">
+          Everything else, we are happy to answer directly. There is always someone at the estate.
+        </p>
+        <a data-reveal href="/enquire" class="link-line mt-8 self-start">Ask us anything</a>
+      </div>
+
+      <div class="md:col-span-7 md:col-start-6">
+        {faqs.map(({ q, a }) => (
+          <details class="group border-t border-line last:border-b">
+            <summary class="flex cursor-pointer items-start justify-between gap-6 py-6">
+              <span class="font-serif text-xl leading-snug md:text-2xl">{q}</span>
+              <span
+                class="faq-icon mt-1 shrink-0 text-xl leading-none text-terracotta transition-transform duration-300"
+                aria-hidden="true">+</span
+              >
+            </summary>
+            <p class="max-w-xl pb-6 text-sm leading-relaxed text-ink-soft">{a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 

@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import caldera from '../assets/images/caldera.webp';
+import estate from '../assets/images/estate.webp';
+import terrace from '../assets/images/terrace.webp';
+import architecture from '../assets/images/architecture.webp';
+import door from '../assets/images/door.webp';
+import boats from '../assets/images/boats.webp';
+---
+
+<section class="section bg-limestone">
+  <div class="shell">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p data-reveal class="label text-ink-soft">The property</p>
+        <h2 data-reveal class="display-lg mt-6 max-w-2xl">
+          Light, stone,<br />
+          <em>water.</em>
+        </h2>
+      </div>
+      <a data-reveal href="/gallery" class="link-line self-start md:self-auto">View the gallery</a>
+    </div>
+
+    <div class="mt-14 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-12 md:gap-4">
+      <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/3] md:col-span-7">
+        <Image src={caldera} alt="The caldera and the village of Oia from above" loading="lazy" class="img-grade" />
+      </a>
+      <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/5] md:col-span-5 md:mt-16">
+        <Image src={estate} alt="The pool terrace, shaded by whitewashed walls" loading="lazy" class="img-grade" />
+      </a>
+      <a data-reveal="clip" href="/gallery" class="media aspect-square md:col-span-4">
+        <Image src={terrace} alt="A whitewashed dome against the Aegean" loading="lazy" class="img-grade" />
+      </a>
+      <a data-reveal="clip" href="/gallery" class="media aspect-square md:col-span-4">
+        <Image src={architecture} alt="Sculpted Cycladic architecture" loading="lazy" class="img-grade" />
+      </a>
+      <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/3] md:col-span-4 md:aspect-square">
+        <Image src={door} alt="A blue door set into a whitewashed wall" loading="lazy" class="img-grade" />
+      </a>
+      <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[16/9] md:col-span-12 md:aspect-[21/9]">
+        <Image src={boats} alt="A fishing boat below the caldera cliffs" loading="lazy" class="img-grade" />
+      </a>
+    </div>
+  </div>
+</section>

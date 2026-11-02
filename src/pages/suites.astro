@@ -3,47 +3,113 @@ import PageLayout from '../layouts/PageLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { Image } from 'astro:assets';
 import { suites } from '../data/suites';
-import gallery5 from '../assets/images/gallery-5.webp';
+import estate from '../assets/images/estate.webp';
 ---
 
-<PageLayout title="Suites — Casa Serena | Santorini" description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio.">
+<PageLayout
+  overHero
+  title="The Suites — Casa Serena | Santorini"
+  description="Four distinct suites perched on the caldera cliffs. From the signature Caldera Suite to the intimate Cliff Studio."
+>
   <PageHero
-    image={gallery5}
-    alt="Suite interior at dusk"
+    image={estate}
+    alt="The pool terrace above the caldera"
     label="Accommodations"
-    title="Our Suites"
-    subtitle="Four distinct retreats · From €1,200/night"
+    title="The Suites"
+    subtitle="Four retreats · From €1,200 / night"
+    index="01 — 04"
   />
 
-  {suites.map((suite) => (
-    <section class="relative h-svh overflow-hidden flex items-end">
-      <Image data-reveal="scale" src={suite.image} alt={`${suite.name} interior`} loading="lazy" class="absolute inset-0 w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/30 to-transparent"></div>
-      <div class="relative w-full section-px pb-10 md:pb-16">
-        <div class="grid md:grid-cols-[1fr_auto] gap-6 md:gap-16 items-end">
-          <div data-reveal>
-            <div class="flex items-baseline gap-4 mb-3">
-              <span class="font-serif text-terracotta/60 text-6xl md:text-8xl font-light leading-none">{suite.index}</span>
-              <div>
-                <p class="label-xs text-cream/40 mb-1">{suite.tagline}</p>
-                <h2 class="font-serif italic font-light text-cream heading-md leading-tight">{suite.name}</h2>
-              </div>
-            </div>
-            <p class="text-cream/60 text-sm leading-relaxed max-w-lg mb-6">{suite.description}</p>
-            <div class="flex flex-wrap gap-2 mb-6">
-              {suite.features.map(f => (
-                <span class="text-xs text-cream/40 border border-cream/10 px-3 py-1">{f}</span>
-              ))}
-            </div>
+  <section class="section shell">
+    <div class="grid gap-8 md:grid-cols-12">
+      <p data-reveal class="label text-ink-soft md:col-span-3">A place to retreat</p>
+      <div class="md:col-span-7 md:col-start-6">
+        <h2 data-reveal class="display-md">
+          Each suite has its own<br class="hidden sm:block" />
+          relationship with the <em>sea.</em>
+        </h2>
+        <p data-reveal class="body-lg mt-6 max-w-xl text-ink-soft">
+          Some open directly onto the water; others turn inward to a walled garden. All share the same whitewashed calm,
+          the same linen, the same silence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {suites.map((suite, i) => (
+    <section class="shell border-t border-line py-14 md:py-24">
+      <div class="grid gap-8 md:grid-cols-12 md:items-center md:gap-10">
+        <figure
+          data-reveal="clip"
+          class:list={[
+            'media aspect-[4/5] md:aspect-[4/3]',
+            i % 2 === 0 ? 'md:col-span-7 md:col-start-1' : 'md:col-span-7 md:col-start-6',
+          ]}
+        >
+          <Image src={suite.image} alt={suite.imageAlt} loading="lazy" class="img-grade" />
+        </figure>
+
+        <div
+          class:list={[
+            'md:col-span-4',
+            i % 2 === 0 ? 'md:col-start-9' : 'md:col-start-1 md:row-start-1',
+          ]}
+        >
+          <div data-reveal class="flex items-baseline gap-4">
+            <span class="label text-terracotta">{suite.index}</span>
+            <span class="label text-ink-soft">{suite.tagline}</span>
           </div>
-          <div data-reveal class="text-right shrink-0">
-            <p class="font-serif text-cream text-3xl md:text-4xl font-light">{suite.price}</p>
-            <p class="label-xs text-driftwood mt-1">per night</p>
-            <p class="text-xs text-cream/40 mt-1">{suite.size} · {suite.view}</p>
-            <a href={`/enquire?suite=${encodeURIComponent(suite.name)}`} class="btn-outline label-xs mt-5">Reserve</a>
+          <h2 data-reveal class="display-md mt-4">{suite.name}</h2>
+          <p data-reveal class="mt-5 text-sm leading-relaxed text-ink-soft">{suite.description}</p>
+
+          <dl data-reveal class="mt-8 grid grid-cols-2 gap-5 border-t border-line pt-5">
+            <div>
+              <dt class="label text-ink-soft/70">Size</dt>
+              <dd class="mt-1 font-serif text-xl">{suite.size}</dd>
+            </div>
+            <div>
+              <dt class="label text-ink-soft/70">View</dt>
+              <dd class="mt-1 font-serif text-xl">{suite.view}</dd>
+            </div>
+          </dl>
+
+          <ul data-reveal class="mt-7 grid gap-x-6 gap-y-2 sm:grid-cols-2">
+            {suite.features.map(feature => (
+              <li class="flex gap-2 text-[0.8125rem] leading-relaxed text-ink-soft">
+                <span class="text-terracotta" aria-hidden="true">—</span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <div data-reveal class="mt-9 flex items-center justify-between gap-4 border-t border-line pt-5">
+            <p class="flex items-baseline gap-2">
+              <span class="font-serif text-2xl leading-none">{suite.price}</span>
+              <span class="label text-ink-soft">/ night</span>
+            </p>
+            <a href={`/enquire?suite=${encodeURIComponent(suite.name)}`} class="link-line">Reserve</a>
           </div>
         </div>
       </div>
     </section>
   ))}
+
+  <section class="section bg-ink text-paper">
+    <div class="shell grid items-end gap-10 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <p data-reveal class="label text-paper/45">Not sure which suite?</p>
+        <h2 data-reveal class="display-md mt-6">
+          We will help<br />
+          you <em>choose.</em>
+        </h2>
+      </div>
+      <div class="md:col-span-4 md:col-start-9">
+        <p data-reveal class="text-sm leading-relaxed text-paper/60">
+          Tell us how you like to travel and who is coming with you. We will suggest the suite — and the season — that
+          fits.
+        </p>
+        <a data-reveal href="/enquire" class="btn btn-light mt-7">Enquire</a>
+      </div>
+    </div>
+  </section>
 </PageLayout>

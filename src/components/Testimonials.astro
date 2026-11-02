@@ -1,38 +1,70 @@
 ---
 const testimonials = [
-  { quote: 'We\'ve stayed at estates across the Mediterranean — Amalfi, Côte d\'Azur, Mallorca. Casa Serena is the only one we\'ve returned to three times. It\'s not a place you visit. It\'s a place you miss.', name: 'James & Caroline H.', detail: 'London, UK · Stayed August 2024' },
-  { quote: 'The silence. That\'s what I remember most. No music piped through speakers, no lobby chatter. Just the wind, the sea, and the occasional clink of a wine glass. Absolute perfection.', name: 'Sophie M.', detail: 'Paris, France · Stayed May 2024' },
-  { quote: 'My wife said "I don\'t want to leave" on day two. We extended by a week. Nikos and his team made it feel effortless — as if the extra days had always been part of the plan.', name: 'David & Rachel K.', detail: 'New York, USA · Stayed June 2024' },
+  {
+    quote:
+      "We've stayed at estates across the Mediterranean — Amalfi, Côte d'Azur, Mallorca. Casa Serena is the only one we've returned to three times. It's not a place you visit. It's a place you miss.",
+    name: 'James & Caroline H.',
+    detail: 'London · August 2024',
+  },
+  {
+    quote:
+      "The silence. That's what I remember most. No music piped through speakers, no lobby chatter. Just the wind, the sea, and the occasional clink of a wine glass. Absolute perfection.",
+    name: 'Sophie M.',
+    detail: 'Paris · May 2024',
+  },
+  {
+    quote:
+      'My wife said ‘I don’t want to leave’ on day two. We extended by a week. Nikos and his team made it feel effortless — as if the extra days had always been part of the plan.',
+    name: 'David & Rachel K.',
+    detail: 'New York · June 2024',
+  },
 ];
 ---
 
-<section data-testimonials class="bg-charcoal overflow-hidden">
-  <div class="section-px py-20 md:py-32">
-    <p class="label-xs text-driftwood mb-12 md:mb-16">Guest Voices</p>
+<section data-testimonials class="section overflow-hidden bg-sea text-paper">
+  <div class="shell">
+    <div class="flex items-center justify-between gap-6 border-t border-paper/20 pt-5">
+      <p class="label text-paper/50">Guest book</p>
+      <p class="label text-paper/35">Voices from the estate</p>
+    </div>
 
-    <div id="testimonial-track">
+    <div class="relative mt-16 md:mt-24">
+      <span
+        class="pointer-events-none absolute -left-2 -top-14 select-none font-serif text-[11rem] leading-none text-paper/[0.06] md:-top-20 md:text-[16rem]"
+        aria-hidden="true">“</span
+      >
+
       {testimonials.map((t, i) => (
-        <blockquote data-testimonial={i} class:list={[i !== 0 && "hidden"]}>
-          <p class="font-serif italic text-cream font-light leading-tight heading-lg max-w-4xl">
+        <blockquote data-testimonial={i} hidden={i !== 0} class="quote relative">
+          <p class="font-serif text-[clamp(2rem,4.2vw,4.5rem)] font-normal leading-[1.06] tracking-[-0.02em]">
             &ldquo;{t.quote}&rdquo;
           </p>
-          <footer class="mt-8 md:mt-10">
-            <span class="text-cream/40 text-xs tracking-widest">{t.name}</span>
-            <span class="text-driftwood/50 text-xs ml-4">{t.detail}</span>
+          <footer class="mt-10 flex flex-wrap items-baseline gap-x-4 gap-y-1 md:mt-12">
+            <span class="label text-paper/80">{t.name}</span>
+            <span class="label text-paper/35">{t.detail}</span>
           </footer>
         </blockquote>
       ))}
     </div>
 
-    <div class="flex items-center gap-6 mt-12 md:mt-16">
-      <div class="flex gap-2" role="group" aria-label="Testimonial navigation">
-        {testimonials.map((_, i) => (
-          <button type="button" data-dot={i} aria-label={`Show testimonial ${i + 1}`}
-            aria-current={i === 0 ? 'true' : undefined}
-            class:list={["w-6 h-px transition-all duration-300", i === 0 ? "bg-terracotta" : "bg-cream/20"]} />
-        ))}
+    <div class="mt-14 flex items-end justify-between gap-6 md:mt-20">
+      <div class="flex items-center gap-6">
+        <div class="flex gap-2" role="group" aria-label="Testimonial navigation">
+          {testimonials.map((_, i) => (
+            <button
+              type="button"
+              data-dot={i}
+              aria-label={`Show testimonial ${i + 1}`}
+              aria-current={i === 0 ? 'true' : undefined}
+              class="h-px w-8 bg-paper/20 transition-all duration-300 hover:bg-paper/50 md:w-12"
+            />
+          ))}
+        </div>
+        <span data-testimonial-counter aria-live="polite" aria-atomic="true" class="label text-paper/35">
+          1 / {testimonials.length}
+        </span>
       </div>
-      <span id="testimonial-counter" data-testimonial-counter aria-live="polite" aria-atomic="true" class="label-xs text-driftwood/50">1 / {testimonials.length}</span>
+      <p class="label hidden text-paper/30 sm:block">Santorini · Greece</p>
     </div>
   </div>
 </section>
@@ -40,3 +72,24 @@ const testimonials = [
 <script>
   import '../scripts/testimonials';
 </script>
+
+<style>
+  [data-dot][aria-current="true"] {
+    background-color: var(--color-terracotta);
+  }
+
+  .quote {
+    animation: quote-in 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes quote-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

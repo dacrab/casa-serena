@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import { suites } from '../data/suites';
+---
+
+<section class="section bg-paper">
+  <div class="shell">
+    <div class="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <div>
+        <p data-reveal class="label text-ink-soft">Stay</p>
+        <h2 data-reveal class="display-lg mt-6 max-w-2xl">
+          Four ways<br />
+          to <em>disappear.</em>
+        </h2>
+      </div>
+      <div class="flex flex-col gap-4 md:items-end">
+        <p data-reveal class="label text-ink-soft">From €1,200 / night</p>
+        <a data-reveal href="/suites" class="link-line self-start md:self-auto">All suites</a>
+      </div>
+    </div>
+
+    <div class="mt-14 grid gap-x-8 gap-y-14 md:mt-20 md:grid-cols-12 md:gap-y-0">
+      {suites.map((suite, i) => (
+        <a
+          href="/suites"
+          data-reveal
+          class:list={[
+            'group block',
+            i % 2 === 0 ? 'md:col-span-6' : 'md:col-span-5 md:col-start-8 md:mt-24',
+            i > 1 && i % 2 === 0 && 'md:mt-20',
+          ]}
+        >
+          <div class="media aspect-[4/5]">
+            <Image src={suite.image} alt={suite.imageAlt} loading="lazy" class="img-grade" />
+          </div>
+          <div class="mt-5 flex items-start justify-between gap-4 border-t border-line pt-4">
+            <div>
+              <p class="label text-terracotta">{suite.index}</p>
+              <h3 class="display-sm mt-2 transition-colors group-hover:text-terracotta">{suite.name}</h3>
+              <p class="caption mt-1">{suite.tagline}</p>
+            </div>
+            <p class="label whitespace-nowrap pt-1 text-ink-soft">{suite.price}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

@@ -2,36 +2,64 @@
 import { site } from '../lib/site';
 
 const distances = [
-  { name: 'Fira',             km: '12 km' },
-  { name: 'Santorini Airport', km: '8 km' },
-  { name: 'Heraklion, Crete', km: '130 km' },
-  { name: 'Athens',           km: '280 km' },
+  { name: 'Oia village', km: '4 km' },
+  { name: 'Santorini Airport', km: '18 km' },
+  { name: 'Fira', km: '12 km' },
+  { name: 'Athens', km: '45 min by air' },
 ];
 
 const mapLabel = `Map showing ${site.address.name}, ${site.address.street}, ${site.addressLine}`;
 ---
 
-<section id="location" class="bg-warm-white">
-  <div class="grid md:grid-cols-2 min-h-[50vh]">
-    <div id="map" role="region" aria-label={mapLabel} class="w-full h-[50vw] md:h-auto min-h-[300px]">
-      <p data-map-fallback class="sr-only">
-        {site.address.name}<br />{site.address.street}<br />{site.addressLine}
+<section id="location" class="section bg-paper">
+  <div class="shell grid gap-10 md:grid-cols-12 md:gap-8">
+    <div class="md:col-span-4">
+      <p data-reveal class="label text-ink-soft">Getting here</p>
+      <h2 data-reveal class="display-md mt-6">
+        At the edge<br />
+        of the <em>caldera.</em>
+      </h2>
+      <p data-reveal class="mt-6 max-w-xs text-sm leading-relaxed text-ink-soft">
+        The estate sits on the cliffs just north of Oia, reached by a private lane. Transfers from Santorini Airport take
+        about twenty-five minutes.
       </p>
-      <noscript>
-        <p class="h-full flex items-center justify-center p-8 text-center text-sm text-charcoal/60">
-          {site.address.name}<br />{site.address.street}<br />{site.addressLine}
-        </p>
-      </noscript>
-    </div>
-    <div data-reveal class="section-px py-10 md:py-16 flex items-center">
-      <dl class="w-full">
+
+      <dl data-reveal class="mt-10 border-t border-line">
         {distances.map(({ name, km }) => (
-          <div data-reveal="x" class="flex justify-between py-4 border-t border-driftwood/20">
-            <dt class="font-medium text-charcoal">{name}</dt>
-            <dd class="text-terracotta font-medium">{km}</dd>
+          <div class="flex items-baseline justify-between gap-4 border-b border-line py-4">
+            <dt class="text-sm text-ink">{name}</dt>
+            <dd class="label text-ink-soft">{km}</dd>
           </div>
         ))}
       </dl>
+
+      <p data-reveal class="label mt-8 max-w-[16rem] leading-relaxed text-ink-soft/80">
+        Complimentary private transfers for all guests
+      </p>
+    </div>
+
+    <div data-reveal="clip" class="md:col-span-7 md:col-start-6">
+      <div
+        id="map"
+        role="region"
+        aria-label={mapLabel}
+        class="h-[420px] w-full bg-sand md:h-[600px]"
+      >
+        <div data-map-fallback class="flex h-full items-center justify-center p-8 text-center text-sm leading-relaxed text-ink-soft">
+          {site.address.name}<br />{site.address.street}<br />{site.addressLine}
+        </div>
+      </div>
+      <p class="caption mt-3 flex items-center justify-between gap-4">
+        <span>{site.address.street}, {site.address.locality}</span>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${site.geo.latitude},${site.geo.longitude}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="transition-colors hover:text-ink"
+        >
+          Open in maps <span class="sr-only">(opens in new tab)</span>
+        </a>
+      </p>
     </div>
   </div>
 </section>

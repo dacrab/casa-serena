@@ -7,14 +7,15 @@ interface Props {
   title?: string | undefined;
   description?: string | undefined;
   mainClass?: string | undefined;
+  overHero?: boolean | undefined;
 }
 
-const { title, description, mainClass = '' } = Astro.props;
+const { title, description, mainClass = 'flex-1', overHero = false } = Astro.props;
 ---
 
 <Layout {title} {description}>
-  <Nav />
-  <main class:list={[mainClass]}>
+  <Nav overHero={overHero} />
+  <main id="main" class:list={[mainClass]}>
     <slot />
   </main>
   <Footer />

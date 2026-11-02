@@ -1,51 +1,79 @@
 import { onPageLoad } from './lifecycle';
 
 function init() {
+  const cleanups: Array<() => void> = [];
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
   const dialog = document.getElementById('nav-overlay') as HTMLDialogElement | null;
   const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
   const closeButton = dialog?.querySelector<HTMLButtonElement>('[data-nav-close]');
-  if (!dialog || !toggle || !closeButton) return;
 
-  const syncState = (open: boolean) => {
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.classList.toggle('is-open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  };
+  if (nav) {
+    const hero = document.querySelector<HTMLElement>('[data-hero]');
 
-  const setOpen = (open: boolean) => {
-    syncState(open);
-    if (open) {
-      if (!dialog.open) dialog.showModal();
-    } else if (dialog.open) {
-      dialog.close();
+    if (!hero) {
+      nav.dataset.solid = 'true';
+    } else {
+      let frame = 0;
+
+      const update = () => {
+        frame = 0;
+        const threshold = Math.max(0, hero.offsetHeight - 88);
+        nav.dataset.solid = String(window.scrollY > threshold);
+      };
+
+      const request = () => {
+        if (frame) return;
+        frame = requestAnimationFrame(update);
+      };
+
+      update();
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request, { passive: true });
+
+      cleanups.push(() => {
+        window.removeEventListener('scroll', request);
+        window.removeEventListener('resize', request);
+        if (frame) cancelAnimationFrame(frame);
+      });
     }
-  };
+  }
 
-  const onToggle = () => setOpen(!dialog.open);
-  const onCloseClick = () => setOpen(false);
-  const onDialogClick = (event: MouseEvent) => {
-    if ((event.target as Element | null)?.closest('a')) setOpen(false);
-  };
-  const onClose = () => syncState(false);
-  const onCancel = (event: Event) => {
-    event.preventDefault();
-    setOpen(false);
-  };
+  if (dialog && toggle && closeButton) {
+    const open = () => {
+      dialog.showModal();
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
 
-  toggle.addEventListener('click', onToggle);
-  closeButton.addEventListener('click', onCloseClick);
-  dialog.addEventListener('click', onDialogClick);
-  dialog.addEventListener('close', onClose);
-  dialog.addEventListener('cancel', onCancel);
+    const close = () => dialog.close();
+
+    toggle.addEventListener('click', open);
+    closeButton.addEventListener('click', close);
+
+    const onDialogClick = (event: MouseEvent) => {
+      if ((event.target as Element | null)?.closest('a')) close();
+    };
+
+    const onClose = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    dialog.addEventListener('click', onDialogClick);
+    dialog.addEventListener('close', onClose);
+
+    cleanups.push(() => {
+      toggle.removeEventListener('click', open);
+      closeButton.removeEventListener('click', close);
+      dialog.removeEventListener('click', onDialogClick);
+      dialog.removeEventListener('close', onClose);
+      if (dialog.open) dialog.close();
+      document.body.style.overflow = '';
+    });
+  }
 
   return () => {
-    toggle.removeEventListener('click', onToggle);
-    closeButton.removeEventListener('click', onCloseClick);
-    dialog.removeEventListener('click', onDialogClick);
-    dialog.removeEventListener('close', onClose);
-    dialog.removeEventListener('cancel', onCancel);
-    if (dialog.open) dialog.close();
-    syncState(false);
+    for (const cleanup of cleanups) cleanup();
   };
 }
 
