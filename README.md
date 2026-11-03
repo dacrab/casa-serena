@@ -1,43 +1,31 @@
 # Casa Serena
 
-A quiet, editorial website for a cliffside estate above the caldera in Santorini.
+A website for a make-believe cliffside estate in Oia, Santorini — four suites, eight acres, and a private beach.
 
 **Live demo:** https://casa-serena.vercel.app/
 
-Casa Serena is a fictional private estate with four suites, eight acres of terraced gardens, and a private beach. Visitors can explore the suites, browse the gallery, read about the estate and its experiences, and send an enquiry with their dates.
+The site follows a guest from first impression to enquiry: a looping film on the home page, four suites with rates and views, a gallery that opens full-screen, and pages for experiences and the estate's history. A map places the house above the caldera, and the enquiry form collects dates and a preferred suite.
 
-## Features
+## A look around
 
-- A full-screen film hero and a calm, magazine-like layout
-- Four suites with sizes, views, and nightly rates
-- A gallery with a full-screen photo lightbox
-- Experiences, the estate's story, and guest testimonials
-- A map of the estate's location in Oia
-- An enquiry form with arrival, departure, and suite choice
-- Smooth page transitions and scroll reveals, with reduced motion respected
+- Home page with a full-bleed video and slow reveals
+- Four suites, each with its own page and nightly rate
+- Gallery with a full-screen lightbox
+- Experiences, the estate's story, and guest quotes
+- Enquiry form that pre-fills your email app
+- Page transitions and scroll effects that calm down for reduced motion
 
-## Run it locally
-
-You'll need [Bun](https://bun.sh) installed.
+## Local development
 
 ```bash
 bun install
 bun dev
 ```
 
-Open http://localhost:4321.
+Then open http://localhost:4321.
 
-## Good to know
+## Small print
 
-- The estate is fictional and built as a demo — names, prices, and contact details are placeholders.
-- The enquiry form doesn't store anything; it opens your email app with the details filled in.
-- The map uses OpenStreetMap tiles, and visitor analytics come from Vercel.
-- The site builds to static files, so it can be hosted anywhere.
+Casa Serena doesn't exist; names, prices, and contact details are placeholders. Map tiles come from OpenStreetMap, visitor stats from Vercel Analytics, and enquiries never touch a server.
 
-## Built with
-
-Astro, Tailwind CSS, and Leaflet.
-
-## License
-
-MIT
+Astro, Tailwind CSS, and Leaflet. MIT licensed.
