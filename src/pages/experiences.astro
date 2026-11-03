@@ -124,7 +124,14 @@ const tones = (dark: boolean) => ({
               i % 2 === 1 ? 'md:col-start-6' : 'md:col-start-1',
             ]}
           >
-            <Image src={exp.image} alt={exp.imageAlt} loading="lazy" class="img-grade" />
+            <Image
+              src={exp.image}
+              alt={exp.imageAlt}
+              widths={[480, 960, 1600]}
+              sizes="(min-width: 768px) 58vw, 100vw"
+              loading="lazy"
+              class="img-grade"
+            />
           </figure>
 
           <div

@@ -1,6 +1,7 @@
 ---
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import { Font } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
 import { site } from '../lib/site';
 import '../styles/global.css';
@@ -68,12 +69,8 @@ const jsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <Font cssVariable="--font-serif-src" preload />
+    <Font cssVariable="--font-sans-src" preload />
     <Analytics />
     <SpeedInsights />
   </head>

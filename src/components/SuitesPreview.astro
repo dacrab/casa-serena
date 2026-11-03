@@ -31,7 +31,14 @@ import { suites } from '../data/suites';
           ]}
         >
           <div class="media aspect-[4/5]">
-            <Image src={suite.image} alt={suite.imageAlt} loading="lazy" class="img-grade" />
+            <Image
+              src={suite.image}
+              alt={suite.imageAlt}
+              widths={[480, 960, 1600]}
+              sizes={i % 2 === 0 ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 42vw, 100vw'}
+              loading="lazy"
+              class="img-grade"
+            />
           </div>
           <div class="mt-5 flex items-start justify-between gap-4 border-t border-line pt-4">
             <div>

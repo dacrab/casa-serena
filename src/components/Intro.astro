@@ -18,6 +18,8 @@ const stats = [
         <Image
           src={door}
           alt="A blue door set into a whitewashed wall"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 58vw, 100vw"
           loading="lazy"
           class="img-grade"
         />
@@ -26,7 +28,14 @@ const stats = [
         data-reveal
         class="media absolute bottom-24 -right-4 hidden aspect-[3/4] w-[32%] border-[10px] border-limestone md:block lg:-right-10"
       >
-        <Image src={detail} alt="Handmade pots and succulents on a sunlit terrace" loading="lazy" class="img-grade" />
+        <Image
+          src={detail}
+          alt="Handmade pots and succulents on a sunlit terrace"
+          widths={[320, 640, 960]}
+          sizes="(min-width: 768px) 20vw, 100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </figure>
       <p class="caption mt-4 flex items-center justify-between gap-4">
         <span>The blue door, at midday</span>

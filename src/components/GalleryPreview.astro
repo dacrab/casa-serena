@@ -23,22 +23,64 @@ import boats from '../assets/images/boats.webp';
 
     <div class="mt-14 grid grid-cols-2 gap-3 md:mt-20 md:grid-cols-12 md:gap-4">
       <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/3] md:col-span-7">
-        <Image src={caldera} alt="The caldera and the village of Oia from above" loading="lazy" class="img-grade" />
+        <Image
+          src={caldera}
+          alt="The caldera and the village of Oia from above"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 58vw, 100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
       <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/5] md:col-span-5 md:mt-16">
-        <Image src={estate} alt="The pool terrace, shaded by whitewashed walls" loading="lazy" class="img-grade" />
+        <Image
+          src={estate}
+          alt="The pool terrace, shaded by whitewashed walls"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 42vw, 100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
       <a data-reveal="clip" href="/gallery" class="media aspect-square md:col-span-4">
-        <Image src={terrace} alt="A whitewashed dome against the Aegean" loading="lazy" class="img-grade" />
+        <Image
+          src={terrace}
+          alt="A whitewashed dome against the Aegean"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 33vw, 50vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
       <a data-reveal="clip" href="/gallery" class="media aspect-square md:col-span-4">
-        <Image src={architecture} alt="Sculpted Cycladic architecture" loading="lazy" class="img-grade" />
+        <Image
+          src={architecture}
+          alt="Sculpted Cycladic architecture"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 33vw, 50vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
       <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[4/3] md:col-span-4 md:aspect-square">
-        <Image src={door} alt="A blue door set into a whitewashed wall" loading="lazy" class="img-grade" />
+        <Image
+          src={door}
+          alt="A blue door set into a whitewashed wall"
+          widths={[480, 960, 1600]}
+          sizes="(min-width: 768px) 33vw, 100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
       <a data-reveal="clip" href="/gallery" class="media col-span-2 aspect-[16/9] md:col-span-12 md:aspect-[21/9]">
-        <Image src={boats} alt="A fishing boat below the caldera cliffs" loading="lazy" class="img-grade" />
+        <Image
+          src={boats}
+          alt="A fishing boat below the caldera cliffs"
+          widths={[480, 960, 1600]}
+          sizes="100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </a>
     </div>
   </div>

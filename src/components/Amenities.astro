@@ -27,7 +27,14 @@ const amenities = [
         it; the boat is ready when the mood takes you.
       </p>
       <figure data-reveal="clip" class="media mt-10 aspect-[4/5]">
-        <Image src={detail} alt="Handmade ceramics and plants in the morning light" loading="lazy" class="img-grade" />
+        <Image
+          src={detail}
+          alt="Handmade ceramics and plants in the morning light"
+          widths={[480, 960, 1400]}
+          sizes="(min-width: 768px) 33vw, 100vw"
+          loading="lazy"
+          class="img-grade"
+        />
       </figure>
     </div>
 

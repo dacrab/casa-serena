@@ -23,7 +23,7 @@ function init() {
     const img = trigger.querySelector('img');
     if (Number.isNaN(index) || !img) continue;
     images[index] = {
-      src: img.currentSrc || img.src,
+      src: trigger.dataset.lightboxSrc || img.currentSrc || img.src,
       alt: img.alt,
       caption: trigger.dataset.lightboxCaption || img.alt,
     };

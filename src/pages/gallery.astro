@@ -74,12 +74,20 @@ const aspects = [
           <button
             type="button"
             data-lightbox-trigger={i}
+            data-lightbox-src={item.src.src}
             data-lightbox-caption={item.caption}
             aria-label={`View image: ${item.alt}`}
             aria-haspopup="dialog"
             class:list={['media block w-full overflow-hidden', aspects[i]]}
           >
-            <Image src={item.src} alt={item.alt} loading="lazy" class="img-grade" />
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[480, 960, 1600].filter(width => width <= item.src.width)}
+              sizes="(min-width: 768px) 33vw, 50vw"
+              loading="lazy"
+              class="img-grade"
+            />
           </button>
           <figcaption class="caption mt-2 flex items-baseline justify-between gap-3">
             <span>{item.caption}</span>

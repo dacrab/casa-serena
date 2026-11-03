@@ -46,7 +46,14 @@ import { site } from '../lib/site';
     <div class="grid gap-10 md:grid-cols-12">
       <figure data-reveal="clip" class="md:col-span-5">
         <div class="media aspect-[4/5]">
-          <Image src={estate} alt="Whitewashed terraces and a plunge pool above the caldera" loading="lazy" class="img-grade" />
+          <Image
+            src={estate}
+            alt="Whitewashed terraces and a plunge pool above the caldera"
+            widths={[480, 960, 1600]}
+            sizes="(min-width: 768px) 42vw, 100vw"
+            loading="lazy"
+            class="img-grade"
+          />
         </div>
         <figcaption class="caption mt-3 flex items-center justify-between gap-4">
           <span>The west terrace, late afternoon</span>

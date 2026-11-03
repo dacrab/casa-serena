@@ -46,7 +46,14 @@ import estate from '../assets/images/estate.webp';
             i % 2 === 0 ? 'md:col-span-7 md:col-start-1' : 'md:col-span-7 md:col-start-6',
           ]}
         >
-          <Image src={suite.image} alt={suite.imageAlt} loading="lazy" class="img-grade" />
+          <Image
+            src={suite.image}
+            alt={suite.imageAlt}
+            widths={[480, 960, 1600]}
+            sizes="(min-width: 768px) 58vw, 100vw"
+            loading="lazy"
+            class="img-grade"
+          />
         </figure>
 
         <div

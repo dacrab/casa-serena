@@ -19,6 +19,8 @@ const { image, alt, label, title, subtitle, index } = Astro.props;
     data-intro
     src={image}
     alt={alt}
+    widths={[480, 960, 1600]}
+    sizes="100vw"
     loading="eager"
     fetchpriority="high"
     class="absolute inset-0 h-full w-full object-cover img-grade"

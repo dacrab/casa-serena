@@ -80,7 +80,14 @@ const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural 
 
   <section class="shell grid gap-10 pb-16 md:grid-cols-12 md:items-center md:pb-24">
     <figure data-reveal="clip" class="media aspect-[4/5] md:col-span-6 md:col-start-1">
-      <Image src={door} alt="A blue door set into a whitewashed wall" loading="lazy" class="img-grade" />
+      <Image
+        src={door}
+        alt="A blue door set into a whitewashed wall"
+        widths={[480, 960, 1600]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        loading="lazy"
+        class="img-grade"
+      />
     </figure>
     <div class="md:col-span-5 md:col-start-8">
       <p data-reveal class="label text-ink-soft">Philosophy</p>
@@ -133,6 +140,8 @@ const press = ['Condé Nast Traveller', 'Wallpaper*', 'Monocle', 'Architectural 
       data-reveal="clip"
       src={estate}
       alt="The estate terraces above the caldera"
+      widths={[480, 960, 1600]}
+      sizes="100vw"
       loading="lazy"
       class="absolute inset-0 h-full w-full object-cover img-grade"
     />

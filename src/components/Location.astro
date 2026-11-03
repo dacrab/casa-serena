@@ -9,6 +9,12 @@ const distances = [
 ];
 
 const mapLabel = `Map showing ${site.address.name}, ${site.address.street}, ${site.addressLine}`;
+
+const { latitude, longitude } = site.geo;
+const latSpan = 0.003;
+const lonSpan = 0.005;
+const bbox = [longitude - lonSpan, latitude - latSpan, longitude + lonSpan, latitude + latSpan].join(',');
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${encodeURIComponent(`${latitude},${longitude}`)}`;
 ---
 
 <section id="location" class="section bg-paper">
@@ -39,16 +45,13 @@ const mapLabel = `Map showing ${site.address.name}, ${site.address.street}, ${si
     </div>
 
     <div data-reveal="clip" class="md:col-span-7 md:col-start-6">
-      <div
-        id="map"
-        role="region"
-        aria-label={mapLabel}
-        class="h-[420px] w-full bg-sand md:h-[600px]"
-      >
-        <div data-map-fallback class="flex h-full items-center justify-center p-8 text-center text-sm leading-relaxed text-ink-soft">
-          {site.address.name}<br />{site.address.street}<br />{site.addressLine}
-        </div>
-      </div>
+      <iframe
+        src={mapSrc}
+        title={mapLabel}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        class="location-map h-[420px] w-full md:h-[600px]"
+      ></iframe>
       <p class="caption mt-3 flex items-center justify-between gap-4">
         <span>{site.address.street}, {site.address.locality}</span>
         <a
@@ -63,7 +66,3 @@ const mapLabel = `Map showing ${site.address.name}, ${site.address.street}, ${si
     </div>
   </div>
 </section>
-
-<script>
-  import '../scripts/location';
-</script>

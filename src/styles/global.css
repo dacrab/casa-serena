@@ -10,8 +10,8 @@
   --color-sea: #1c2b2c;
   --color-line: #d8cfc1;
 
-  --font-serif: "Instrument Serif", Georgia, serif;
-  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-serif: var(--font-serif-src), Georgia, serif;
+  --font-sans: var(--font-sans-src), system-ui, sans-serif;
 }
 
 html {
@@ -442,25 +442,10 @@ html.js [data-reveal="clip"].revealed img {
 /* Map                                                                 */
 /* ------------------------------------------------------------------ */
 
-#map.leaflet-container {
+.location-map {
+  border: 0;
   background: var(--color-sand);
-  font-family: var(--font-sans);
-}
-
-#map .leaflet-tile {
   filter: grayscale(0.45) sepia(0.14) saturate(0.8) brightness(1.04) contrast(0.94);
-}
-
-#map .leaflet-control-attribution {
-  background: color-mix(in srgb, var(--color-paper) 82%, transparent) !important;
-  color: var(--color-ink-soft);
-  font-size: 0.5625rem;
-  letter-spacing: 0.04em;
-  padding: 0.15rem 0.4rem;
-}
-
-#map .leaflet-control-attribution a {
-  color: var(--color-ink);
 }
 
 /* ------------------------------------------------------------------ */
