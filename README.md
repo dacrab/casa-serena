@@ -1,54 +1,31 @@
 # Casa Serena
 
-> *Serene House* — A cliffside estate above the caldera in Oia, Santorini.
+A website for a make-believe cliffside estate in Oia, Santorini — four suites, eight acres, and a private beach.
 
-A multi-page site for a fictional Santorini estate. The art direction — **Quiet Aegean Editorial** — pairs limestone and ink with terracotta, Instrument Serif display type, and full-bleed Cycladic photography. Built with Astro, styled with Tailwind CSS v4, animated with native CSS + IntersectionObserver (no animation library).
+**Live demo:** https://casa-serena.vercel.app/
 
-## Features
+The site follows a guest from first impression to enquiry: a looping film on the home page, four suites with rates and views, a gallery that opens full-screen, and pages for experiences and the estate's history. A map places the house above the caldera, and the enquiry form collects dates and a preferred suite.
 
-- Full-bleed video hero with layered contrast scrims and a staggered title reveal
-- View Transitions for native cross-page navigation
-- Scroll-reveal animations (IntersectionObserver + CSS, respecting `prefers-reduced-motion`)
-- Sections: Hero, Intro, Suites, Gallery, Amenities, Testimonials, FAQ, Location, Enquire
-- Native elements over custom widgets: `<dialog>` menus/lightbox, `<details>` FAQ, `<input type="date">` + `<select>` booking form
-- Leaflet map with keyless OpenStreetMap tiles, muted in CSS to match the palette
-- Art-directed WebP imagery via `astro:assets`
-- Static site generation with sitemap + structured data
+## A look around
 
-## Quick Start
+- Home page with a full-bleed video and slow reveals
+- Four suites, each with its own page and nightly rate
+- Gallery with a full-screen lightbox
+- Experiences, the estate's story, and guest quotes
+- Enquiry form that pre-fills your email app
+- Page transitions and scroll effects that calm down for reduced motion
 
-```sh
+## Local development
+
+```bash
 bun install
-bun dev          # http://localhost:4321
-bun build        # outputs to ./dist/
+bun dev
 ```
 
-## Stack
+Then open http://localhost:4321.
 
-- **Astro** — Static site generator + View Transitions
-- **Tailwind CSS v4** — Utility-first styling
-- **Instrument Serif / Manrope** — Editorial display + sans pairing
-- **Leaflet + OpenStreetMap** — Keyless location map
-- **Vercel Analytics / Speed Insights** — Visitor tracking
+## Small print
 
-## Structure
+Casa Serena doesn't exist; names, prices, and contact details are placeholders. Map tiles come from OpenStreetMap, visitor stats from Vercel Analytics, and enquiries never touch a server.
 
-```
-src/
-├── assets/images/  # Art-directed WebP set
-├── components/     # Page sections, nav, footer, enquiry form
-├── data/           # suites.ts (suite copy + imagery)
-├── layouts/        # Layout, PageLayout, LegalLayout
-├── lib/            # site.ts (shared data), animations.ts (reveals)
-├── pages/          # Six pages, legal, 404
-├── scripts/        # Nav, gallery, testimonials, map, enquiry
-└── styles/         # global.css (tokens, type, components)
-```
-
-## Deployment
-
-Deploy the `dist/` folder to any static host (Vercel, Netlify, Cloudflare Pages).
-
----
-
-**License**: MIT
+Astro, Tailwind CSS, and Leaflet. MIT licensed.
