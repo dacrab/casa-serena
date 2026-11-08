@@ -16,9 +16,9 @@
   "devDependencies": {
     "@astrojs/check": "0.9.12",
     "@astrojs/sitemap": "3.7.4",
-    "@tailwindcss/vite": "4.3.3",
-    "astro": "7.4.4",
-    "tailwindcss": "4.3.3",
+    "@tailwindcss/vite": "4.3.4",
+    "astro": "7.4.5",
+    "tailwindcss": "4.3.4",
     "typescript": "6.0.3"
   }
 }
